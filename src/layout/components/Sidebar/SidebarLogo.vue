@@ -17,8 +17,8 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import logo from '@/images/logo.png';
-import logoCollapse from '@/images/logo-collapse.png';
+import logo from '@/assets/logo.png';
+import logoCollapse from '@/assets/logo-collapse.png';
 
 @Component({
   name: 'SidebarLogo'

@@ -8,7 +8,7 @@ export default [
     redirect: '/table/index',
     meta: {
       title: '常用组件',
-      icon: 'carbon:table-of-contents'
+      icon: 'codicon:table'
     },
     children: [
       {
@@ -17,7 +17,7 @@ export default [
         component: () => import(/* webpackChunkName: "WillDoTaskList" */ '@/pages/common/table/index.vue'),
         meta: {
           title: 'Table组件',
-          icon: 'carbon:table-of-contents',
+          icon: 'codicon:table',
           noCache: false
         }
       }

@@ -2,7 +2,7 @@
   <div class="app-container">
     <h1 class="text-center">upload组件</h1>
     <el-button @click="click">点击上传</el-button>
-    <Dialog
+    <YKDialog
       v-model="dialogFlag"
       :dialogFlag="dialogFlag"
       :mode="mode"
@@ -18,7 +18,6 @@
         </el-form-item>
         <el-form-item label="">
           <el-upload
-            class="upload-demo"
             ref="upload"
             drag
             show-file-list
@@ -36,7 +35,7 @@
           </el-upload>
         </el-form-item>
       </el-form>
-    </Dialog>
+    </YKDialog>
     <div class="mt-5">
       <el-upload
         action="#"
@@ -78,12 +77,12 @@
   </div>
 </template>
 <script lang='ts'>
+/* eslint-disable */
 import { Component, Vue, Ref } from 'vue-property-decorator';
-import Dialog from '@/components/Dialog/index.vue';
-// import { UploadApi } from '../../../../api/upload'
+import YKDialog from '@/components/YKdialog/index.vue'
 @Component({
-  name: 'home',
-  components: { Dialog }
+  name: 'upload',
+  components: { YKDialog }
 })
 export default class extends Vue {
   dialogFlag = false; // 控制弹框
@@ -120,6 +119,7 @@ export default class extends Vue {
   click () {
     this.dialogFlag = true;
     this.mode = 'upload';
+    console.log('上传', this.dialogFlag, this.mode);
   }
 
   async closeDone () {

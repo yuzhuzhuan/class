@@ -4,11 +4,9 @@
         :class="[{'is-active': isActive}]"
         @click="toggleClick"
     >
-        <!-- <svg-icon
-            name="hamburger"
-            width="20"
-            height="20"
-        /> -->
+        <SpIcon
+            icon="bi:text-indent-left"
+          />
     </div>
 </template>
 

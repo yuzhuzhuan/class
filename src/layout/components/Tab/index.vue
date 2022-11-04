@@ -19,7 +19,7 @@
     </ul>
     <!-- 更多炒作 -->
     <el-dropdown @command="handleCommand">
-      <el-button type="primary" size="small">
+      <el-button type="primary" >
         更多操作
         <i class="el-icon-arrow-down el-icon--right" />
       </el-button>
@@ -139,7 +139,7 @@ export default class extends Vue {
     overflow: hidden;
     box-sizing: border-box;
     height: 100%;
-    line-height: 46px;
+    line-height: 52px;
 
     &:hover {
       overflow: auto;
@@ -147,10 +147,10 @@ export default class extends Vue {
 
     .tab-li {
       display: inline-block;
-      height: 32px;
+      height: 38px;
       padding: 0 10px;
-      line-height: 30px;
-      font-size: 12px;
+      line-height: 38px;
+      font-size: 14px;
       color: $mainColor;
       background-color: mix(#fff, rgb(49, 46, 46), 90);
       color: mix($subColor, rgb(49, 46, 46), 90);

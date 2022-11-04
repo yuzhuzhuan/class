@@ -1,23 +1,13 @@
-# vue2-ts-template 
-
-> This is a simple background management template for vue2 and typescript. In the process of using Vue, many students like me hope to have a simpler template, don't need too much content, and don't bother to delete those parts that don't conform to our business logic. Because my business needs to be compatible with ie10, so use vue2 and ts to build a management background framework, which only has a login and home page, the home page realizes the menu jump, bread crumbs and so on.（这是一个简单的vue2 和 typescript 的后台管理模板。在使用Vue 的过程中，许多的同学和我一样希望有一个简单一点的模板，不需要太多的内容，懒得去删除那些不符合我们业务逻辑的部分。由于本人业务需求需要兼容ie10，所以使用vue2和ts 来构建一个管理后台的框架，里面只有一个登录和主页，主页实现了菜单的跳转，面包屑等，和一些基本的功能））
-> 
 # 项目简介
-
-> 这是一个简单的vue2 和 typescript 的后台管理模板。在使用Vue 的过程中，许多的同学和我一样希望有一个简单一点的模板，不需要太多的内容，懒得去删除那些不符合我们业务逻辑的部分。由于本人业务需求需要兼容ie10（该项目已经完成了ie10的兼容），所以使用vue2和ts 来构建一个管理后台的框架，里面只有一个登录和主页，主页实现了菜单的跳转，面包屑等，和一些基本的功能。
-> 项目地址[https://github.com/cll123456/vue2-ts-template.git](https://github.com/cll123456/vue2-ts-template.git)
-> 演示地址： [http://chenliangliang.top:9012/Login](http://chenliangliang.top:9012/Login)
-> 账号: 长度大于3小于50的字符串就可以  如： `admin`
-> 密码： 不能为空， 随便啥值
-
-## 获取方式
-- git clone https://github.com/cll123456/vue2-ts-template.git `获取项目`
-- npm install `安装对应的依赖包`
-- npm run dev `启动开发环境`
-- npm run build `打包成生产`
+> 这是一个简单的vue2 和 typescript 的后台管理模板。主页实现了菜单的跳转，面包屑等，和一些基本的功能。
+> 账号: `admin`
+> 密码： 123456
 
 # 项目技术栈
-vue2 + typescript + elementui + router + axios + scss 等
+vue2 + typescript + elementui + router + axios + scss 
+
+# 环境
+nodejs(v14.16.1)+yarn+eslint
 
  ## 包依赖简介
 ### 生成环境包
@@ -25,10 +15,15 @@ vue2 + typescript + elementui + router + axios + scss 等
 ```javascript
 "dependencies": {
     "@babel/polyfill": "^7.12.1",  // 兼容ie10 的关键包，需要在main.ts的第一行导入哦
+    "@iconify/iconify": "^3.0.0", // icon图标
+    "@tinymce/tinymce-vue": "3.0", // tinymce富文本编辑器
+    "@types/mockjs": "^1.0.7", // mockjs的TypeScript定义
     "axios": "^0.21.1", // 获取网络请求
     "core-js": "^3.6.5",  // 核心js库
     "element-ui": "^2.15.1", // elementui 库
     "js-cookie": "^2.2.1", // 使用cookie 进行存储数据
+    "mockjs": "^1.1.0", // mock数据
+    "moment": "^2.29.4",// 日期处理类库
     "normalize.css": "^8.0.1", // css 对项目的基本样式初始化
     "path-to-regexp": "^6.2.0",  // 将路径字符串（如/ user /：name）转换为正则表达式，匹配路由
     "style-resources-loader": "^1.4.1", // 对样式资源的加载器
@@ -46,8 +41,41 @@ vue2 + typescript + elementui + router + axios + scss 等
 
 # 开发注意
 ## 图标
-图标直接去阿里里面复制到对应的svg图标到，src -> icons->svg 即可，然后使用命令 npm run svg(这里已经配置好了对应的脚本启动) 会自动的全局导入图标
+图标直接去iconify官网复制到对应的图标名称，使用<SpIcon icon="图标名称">组件，修改icon的图标名称
 
+### 文件资源目录 📚
+
+```text
+├─ .vscode                # vscode推荐配置
+├─ mock                   # mock文件
+├─ api                    # 配合mock使用的api
+├─ public                 # 静态资源文件（忽略打包）
+├─ src
+│  ├─ api                 # API 接口管理
+│  ├─ assets              # 静态资源文件
+│  ├─ components          # 全局组件
+│  ├─ layout              # 框架布局
+│  ├─ pages               # 项目所有页面
+│  ├─ router              # 路由管理
+│  ├─ store               # vuex store
+│  ├─ styles              # 全局样式
+│  ├─ types               # 全局 ts 声明
+│  ├─ utils               # 工具库
+│  ├─ App.vue             # 入口页面
+│  └─ main.ts             # 入口文件
+├─ .editorconfig          # 编辑器配置（格式化）
+├─ .eslintignore          # 忽略 Eslint 校验
+├─ .eslintrc.js           # Eslint 校验配置
+├─ .gitignore             # git 提交忽略
+├─ .prettierignore        # 忽略 prettier 格式化
+├─ .prettierrc.js         # prettier 配置
+├─ index.html             # 入口 html
+├─ package-lock.json      # 依赖包包版本锁
+├─ package.json           # 依赖包管理
+├─ README.md              # README 介绍
+├─ tsconfig.json          # typescript 全局配置
+└─ vue.config.ts          # vue 配置
+```
 
 ## router
  所有的路由都如果需要在菜单的右侧中显示，必须要要配置在layout组件的`children`中.

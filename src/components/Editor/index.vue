@@ -17,7 +17,7 @@
 import { Component, Emit, Model, Vue } from 'vue-property-decorator';
 import Editor from '@tinymce/tinymce-vue';
 // import * as api from '@/pages/file/service';
-
+/* eslint-disable */
 @Component({ components: { Editor } })
 export default class extends Vue {
   @Model('change', { type: String }) readonly value!: string;
@@ -49,7 +49,7 @@ export default class extends Vue {
     image_list: async function (success: any) {
       success([
         { title: 'dog  ', value: 'dog.jpg' },
-        { title: 'cat', value: 'cat.jpg' },
+        { title: 'cat', value: 'cat.jpg' }
       ]);
     },
     // image_class_list: [
@@ -87,21 +87,21 @@ export default class extends Vue {
         content: 'buhaoyou'
       }
     ],
-    content_security_policy: "script-src *;",
-    extended_valid_elements: "*[*]",
+    content_security_policy: 'script-src *;',
+    extended_valid_elements: '*[*]',
     //
-    template_cdate_format: "[CDATE: %m/%d/%Y : %H:%M:%S]",
-    template_mdate_format: "[MDATE: %m/%d/%Y : %H:%M:%S]",
+    template_cdate_format: '[CDATE: %m/%d/%Y : %H:%M:%S]',
+    template_mdate_format: '[MDATE: %m/%d/%Y : %H:%M:%S]',
     autosave_ask_before_unload: false,
-    toolbar_mode: "wrap",
+    toolbar_mode: 'wrap',
     automatic_uploads: false,
-    images_upload_base_path: "/demo",
+    images_upload_base_path: '/demo',
     // images_upload_handler: function (blobInfo, succFun, failFun) {
     //   succFun("/demo/images/img.jpg");
     // },
     // icons:'ax-color',
     convert_urls: false,
-    toolbar_sticky: true,
+    toolbar_sticky: true
   };
 
   async changeData (data: any) {

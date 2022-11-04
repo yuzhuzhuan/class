@@ -80,10 +80,11 @@ export default class extends Vue {
   border-bottom: 1px solid rgba(201, 211, 213, 0.7);
 
   .hamburger-container {
-    line-height: 46px;
-    height: 100%;
+    line-height: 55px;
+    height: 50px;
     float: left;
     padding: 0 15px;
+    font-size: 24px;
     cursor: pointer;
     transition: background 0.3s;
     -webkit-tap-highlight-color: transparent;

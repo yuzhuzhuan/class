@@ -15,30 +15,11 @@ import '@/styles/element-variables.scss'
 import '@/styles/index.scss'
 import 'windi.css';
 import '@purge-icons/generated';
-// 使用svg图标
-// import SvgIcon from 'vue-svgicon'
-// import '@babel/polyfill'
-// import '@/icons/components/index'
 
 import { mockXHR } from '../mock/index'
 mockXHR()
 
-if (process.env.NODE_ENV === 'development') {
-  // mockXHR();
-}
-
-Vue.use(ElementUI)
-
-// Vue.use(SvgIcon, {
-//   tagName: 'svg-icon',
-//   defaultWidth: '1em',
-//   defaultHeight: '1em'
-// })
-
-// 引入阿里图标库里面的图标
-// import '@/icons/iconfont/iconfont.css';
-// 引入阿里图标库里面含有颜色的图标
-// import '@/icons/iconfont/iconfont.js'
+Vue.use(ElementUI, { size: 'small' })
 Vue.config.productionTip = false
 
 new Vue({

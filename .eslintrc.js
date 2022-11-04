@@ -18,7 +18,7 @@ module.exports = {
     "@typescript-eslint/no-var-requires": 0,
     // 'camelcase': ["error", {properties: 'never'}]
     // 'camelcase': [1, {"properties": 'never'}]
-    'camelcase': "off"
+    'camelcase': "off",
     // "eslint space-before-function-paren": ["never", "never"]
   }
 }
