@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-card shadow="never">
-      <el-form size="mini" :inline="true">
+      <el-form  :inline="true">
         <el-row>
           <el-col :span="14">
             <el-form-item>
@@ -26,74 +26,52 @@
           </el-form-item>
         </el-row>
       </el-form>
-      <Table
+      <YKtable
         :columns="tableColumns"
         :list="list"
         :totalNum="total"
-        :size="size"
-        :currentPage="currentPage"
+        :pageInfo="pageInfo"
         @changeSize="changeSize"
         @changePageIndex="changePageIndex"
         @edit="edit"
         @del="del"
-      ></Table>
-      <Dialog
-        v-model="dialogFlag"
-        :dialogFlag="dialogFlag"
-        :mode="mode"
-        @done="done"
-        @close="closeDone"
-      >
-      <el-form :model="form" label-width="80px" ref="FormRef">
-        <el-form-item  label="用户姓名" prop="name" :rules="FormValidator.checkStringLength(2, 50, '用户姓名', true, 'blur')">
-          <el-input v-model.trim="form.name" placeholder="请输入用户姓名"></el-input>
-        </el-form-item>
-        <el-form-item label="用户性别"  prop="gender" :rules="FormValidator.checkStringLength(1, 1, '用户性别', true, 'blur')">
-        <el-select clearable filterable v-model="form.gender" class="w-full">
-            <el-option value="0" label="女"></el-option>
-            <el-option value="1" label="男"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="联系方式"  prop="phone" :rules="FormValidator.isPhone(true, '手机号','blur')" >
-          <el-input v-model.trim="form.phone" placeholder="请输入用户手机号"></el-input>
-        </el-form-item>
-        <el-form-item label="身份证号"  prop="idCard" :rules="FormValidator.isIDCard(true, 'blur')" >
-          <el-input v-model.trim="form.idCard" placeholder="请输入用户手机号"></el-input>
-        </el-form-item>
-        <el-form-item label="用户地址"  prop="address" :rules="FormValidator.checkStringLength(2, 50, '用户地址', true, 'blur')" >
-          <el-input v-model.trim="form.address" placeholder="请输入用户手机号"></el-input>
-        </el-form-item>
-        <el-form-item label="用户邮箱"  prop="email" :rules="FormValidator.isEmail(true, '邮箱地址', 'blur')" >
-          <el-input v-model.trim="form.email" placeholder="请输入用户手机号"></el-input>
-        </el-form-item>
-      </el-form>
-      </Dialog>
+      ></YKtable>
+      <YKAddDialog
+      v-model="dialogFlag"
+      :dialogFlag="dialogFlag"
+      :mode="mode"
+      :form="form"
+      @close="closeDone"
+      ></YKAddDialog>
     </el-card>
   </div>
 </template>
 
 <script lang='ts'>
 import { Component, Vue, Ref } from 'vue-property-decorator';
-import Table from '@/components/Table/index.vue';
-import Dialog from '@/components/Dialog/index.vue';
+import YKtable from '@/components/YKtable/index.vue';
+import YKAddDialog from './YKAddDialog.vue';
 import { getPage, setPage } from '@/utils/cookies';
 import { FormValidator } from '@/utils/formValidator';
 import { Form } from 'element-ui/types';
-import moment from 'moment';
-import { IForm } from './type'
-import {
-  getProjectListApi,
-  delProjectApi,
-  addProjectApi,
-  updateProjectApi
-} from '../../../../api/project'; // 导入接口
+import { IForm, Params } from './type'
+import { getProjectListApi, delProjectApi } from '../../../../api/project'; // 导入接口
 @Component({
-  name: 'DidTaskList',
-  components: { Table, Dialog }
+  name: 'Table',
+  components: { YKtable, YKAddDialog }
 })
 export default class extends Vue {
-  dialogFlag = false; // 控制打开弹框
-  mode = ''; // 弹框的标题显示内容
+  /**
+   * 控制打开弹框
+   */
+  dialogFlag = false
+  /**
+   * 弹框的标题显示内容
+   */
+  mode = ''
+  /**
+   * form表单显示内容
+   */
   form = {
     name: '',
     gender: '' as any,
@@ -103,21 +81,29 @@ export default class extends Vue {
     email: '',
     id: '',
     createTime: ''
-  }; // form表单显示内容
+  }
 
   /**
    * 表格数据
    */
-  list = [];
+  list = [] as object[]
+  /**
+   * 数据总量
+   */
   total = 0;
+  /**
+   * 接口请求默认数据
+   */
   pageInfo = {
     pageSize: 10,
     pageIndex: 1,
     name: ''
-  };
+  }
 
-  userName = ''// 需要查询的用户姓名
-
+  /**
+   * 需要查询的用户姓名
+   */
+  userName = ''
  /**
    * 表单的ref
    */
@@ -128,29 +114,24 @@ export default class extends Vue {
   public FormValidator = FormValidator;
 
   /**
-   * 每条多少页
-   */
-  public size= 10;
-  /**
-   * 当前页面
-   */
-  public currentPage= 1;
-  /**
    * 表头数据
    */
   get tableColumns () {
     return [
       {
         label: '用户姓名',
-        prop: 'name'
+        prop: 'name',
+        minWidth: '80'
       },
       {
         label: '用户性别',
-        prop: 'gender'
+        prop: 'gender',
+        width: '100'
       },
       {
         label: '联系方式',
-        prop: 'phone'
+        prop: 'phone',
+        width: '120'
       },
       {
         label: '身份证号',
@@ -170,26 +151,25 @@ export default class extends Vue {
       },
 
       {
-        slot: 'action',
-        width: 120
+        slot: 'action'
       }
     ];
   }
 
+  // 获取用户选择的分页显示数量
   created () {
-    if ((getPage() as any) !== undefined) {
-      this.pageInfo = JSON.parse(getPage() as any);
-      this.size = this.pageInfo.pageSize
-      this.currentPage = this.pageInfo.pageIndex
+    if ((getPage() as string) !== undefined) {
+      this.pageInfo = JSON.parse(getPage() as string);
     }
   }
 
+  // 渲染前发请求获取数据
   beforeMount () {
     this.getList(this.pageInfo);
   }
 
   // 获取数据
-  async getList (params: any) {
+  async getList (params: Params) {
     const {
       data: { list, total }
     } = await getProjectListApi(params);
@@ -207,7 +187,7 @@ export default class extends Vue {
   }
 
   // 编辑
-  edit (e = {} as any) {
+  edit (e = {} as IForm) {
     this.mode = 'edit';
     Object.keys(this.form).forEach((key: string) => {
       this.form[key as keyof IForm] = e[key as keyof IForm]
@@ -217,12 +197,13 @@ export default class extends Vue {
 
   // 查询
   async goQuery () {
-    await this.getList({ ...this.pageInfo, name: this.userName });
-    this.userName = '';
+    await this.getList({ pageSize: this.pageInfo.pageSize, pageIndex: 1, name: this.userName });
   }
 
   // 重置
   async goReset () {
+    this.userName = ''
+    this.pageInfo.pageSize = 1;
     this.pageInfo = {
       pageSize: 10,
       pageIndex: 1,
@@ -231,29 +212,9 @@ export default class extends Vue {
     await this.getList(this.pageInfo);
   }
 
-  // 新增和编辑后关闭弹框
+  // 关闭弹框
   closeDone () {
-    // 验证通过再判断是新增还是编辑
-    this.FormRef.validate(async (valide: boolean) => {
-      if (valide) {
-        this.form.gender === '男' ? (this.form.gender = 1) : (this.form.gender = 0);
-        if (this.mode === 'add') {
-          this.form.id = this.form.idCard;
-          this.form.createTime = moment().format('YYYY-MM-DD  HH:mm');
-          await addProjectApi(this.form);
-        } else if (this.mode === 'edit') {
-          await updateProjectApi(this.form);
-        }
-      }
-    })
-    this.done()
-    this.getList(this.pageInfo);
-  }
-
-  // 关闭弹框、清空表单数据及验证规则、重新获取数据
-  done () {
     this.dialogFlag = false;
-    this.FormRef.resetFields()
     this.form = {
       name: '',
       gender: '',
@@ -264,10 +225,12 @@ export default class extends Vue {
       id: '',
       createTime: ''
     }
+    if (this.userName) this.pageInfo.name = this.userName
+    this.getList(this.pageInfo);
   }
 
   // 删除
-  del (e = {} as any) {
+  del (e = {} as IForm) {
     this.$confirm(`确定要删除【${e.name}】用户？`, '提示', {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
@@ -285,32 +248,30 @@ export default class extends Vue {
     });
   }
 
+  // 每页显示条数改变
   changeSize (size: number) {
     this.pageInfo.pageSize = size;
-    this.size = size;
-    this.getList({ pageSize: size, pageIndex: this.currentPage });
+    if (this.userName) {
+      this.getList({ ...this.pageInfo, name: this.userName });
+    } else {
+      this.pageInfo.pageIndex = 1
+      this.getList({ ...this.pageInfo });
+    }
     setPage(this.pageInfo)
   }
 
+  // 当前页数改变
   changePageIndex (pageIndex: number) {
     this.pageInfo.pageIndex = pageIndex;
-    this.currentPage = pageIndex;
-    this.getList({ pageSize: this.size, pageIndex });
+    if (this.userName) {
+      this.getList({ ...this.pageInfo, name: this.userName });
+    } else {
+      this.getList({ ...this.pageInfo });
+    }
     setPage(this.pageInfo)
   }
 }
 
 </script>
 
-<style lang='scss' scoped>
-.page {
-  padding-top: 20px;
-  display: flex;
-  justify-content: flex-end;
-}
-::v-deep {
-  .el-button {
-    margin-left: 0;
-  }
-}
-</style>
+<style lang='scss' scoped></style>

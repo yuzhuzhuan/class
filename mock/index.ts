@@ -2,8 +2,7 @@ import Mock from 'mockjs' // 导入mockjs
 import tableApi from './tableApi' // 导入我们模拟数据的js文件
 import loginApi from './loginApi' // 导入我们模拟数据的js文件
 import uploadApi from './uploadApi' // 导入我们模拟数据的js文件
-import { Options, IPerson } from './dataType'
-
+import { Options, IPerson } from './type'
 const mocks = [
   {
     intercept: true, // 你可能需要一个开关，来使模拟请求与真实请求并存

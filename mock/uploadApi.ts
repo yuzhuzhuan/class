@@ -1,5 +1,5 @@
 import Mock from 'mockjs'
-import { Response } from './dataType'
+import { Response } from './type'
 const projectList = Mock.mock({
   'object|8': {
     nickName: 'admin',
@@ -19,9 +19,6 @@ const projectList = Mock.mock({
   token: '@word(30)' // token
 })
 
-const token = {
-  accessToken: projectList.token
-}
 export default [
   // 登录接口
   {

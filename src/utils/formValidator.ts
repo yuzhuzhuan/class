@@ -1,5 +1,5 @@
-import { isCardID, isPhoneNumber, isEmailNumber } from './validate';
-
+import { isPhoneNumber, isEmailNumber } from './validate';
+/* eslint-disable */
 type cbFunc = (msg?: string | Error) => void;
 export const FormValidator = {
   /**

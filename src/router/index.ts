@@ -3,7 +3,7 @@ import VueRouter, { NavigationGuardNext, Route, RouteConfig } from 'vue-router'
 import { matchRouteMenu } from './../../matchRouteMenu'
 /* Layout */
 import Layout from '@/layout/index.vue'
-
+/* eslint-disable */
 Vue.use(VueRouter)
 export let serviceRoutes: RouteConfig[] = [];
 // if (process.env.NODE_ENV === 'development') {
@@ -19,11 +19,11 @@ routerContext.keys().forEach((route: any) => {
 });
 
 export const routes: Array<RouteConfig> = [
-  // {
-  //   path: '/',
-  //   name: 'Layout',
-  //   redirect: '/home/index'
-  // },
+  {
+    path: '/',
+    name: 'Layout',
+    redirect: '/index',
+  },
   {
     path: '/Login',
     name: 'Login',
@@ -33,12 +33,13 @@ export const routes: Array<RouteConfig> = [
     }
   },
   {
-    path: '/',
+    path: '/index',
     component: Layout,
     name: 'home',
+    redirect: '/index',
     children: [
       {
-        path: 'index',
+        path: '/index',
         name: 'home',
         component: () => import(/* webpackChunkName: "WillDoTaskList" */ '@/pages/home/index.vue'),
         meta: {
@@ -50,37 +51,6 @@ export const routes: Array<RouteConfig> = [
     ]
   },
   ...serviceRoutes
-  // {
-  //   path: '/TaskList',
-  //   component: Layout,
-  //   redirect: '/WillDoTaskList',
-  //   meta: {
-  //     title: '列表页面',
-  //     icon: 'list'
-  //   },
-  //   children: [
-  //     {
-  //       path: '/WillDoTaskList',
-  //       name: 'WillDoTaskList',
-  //       component: () => import(/* webpackChunkName: 'WillDoTaskList' */ '@/pages/taskList/willDoTaskList.vue'),
-  //       meta: {
-  //         title: '代办列表',
-  //         icon: 'willDoTask',
-  //         noCache: false
-  //       }
-  //     },
-  //     {
-  //       path: '/DidTaskList',
-  //       name: 'DidTaskList',
-  //       component: () => import(/* webpackChunkName: 'DidTaskList' */ '@/pages/taskList/didTaskList.vue'),
-  //       meta: {
-  //         title: '已办列表',
-  //         icon: 'didTask',
-  //         noCache: false
-  //       }
-  //     }
-  //   ]
-  // }
 ]
 const router = new VueRouter({
   mode: 'hash',

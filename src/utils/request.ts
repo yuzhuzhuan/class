@@ -1,6 +1,8 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
-import { Message, MessageBox } from 'element-ui'
+// eslint-disable-next-lineeslint下一行不校验
+import axios, { AxiosResponse } from 'axios'
+import { Message } from 'element-ui'
 import { UserModule } from '@/store/modules/user';
+import router from '@/router';
 
 const request = axios.create({
   baseURL: process.env.NODE_ENV === 'development' ? '/api/' : './ncdmz/iamp' // url = base url + request url
@@ -38,6 +40,13 @@ request.interceptors.response.use(function (response: AxiosResponse<ResponseConf
   Message.error('后台接口异常，请联系管理员')
   return Promise.reject(response);
 }, function (error) {
+  Message.error(error.response.data.msg);
+  // ! 当前路由不在login时不弹 401 error，避免连续两个接口都 401 时弹两次
+  if (error.response.data.code === 401 && router.currentRoute.name !== 'Login') {
+    Message.error(error.response.data.msg);
+    UserModule.deltoken();
+    router.push({ path: '/login' });
+  }
   // Do something with request error
   return Promise.reject(error);
 });

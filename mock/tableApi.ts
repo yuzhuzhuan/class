@@ -1,5 +1,5 @@
 import Mock from 'mockjs'
-import { Response } from './dataType'
+import { Response } from './type'
 const projectList = Mock.mock({
   'list|100': [{
     name: '@cname', // 中文名
@@ -25,19 +25,19 @@ export default [
       for (let i = 0; i < res.body.pageSize; i++) {
         newlist[i] = list[i]
       }
-      if (res.body.pageIndex !== 1) {
-        for (let i = 0; i < res.body.pageSize; i++) {
-          const arr = list.slice(res.body.pageSize * res.body.pageIndex - res.body.pageSize)
-          newlist[i] = arr[i]
-        }
+      if (res.body.pageIndex !== 1) { 
+          newlist = list.slice(res.body.pageSize * res.body.pageIndex - res.body.pageSize)
       }
-      if (res.body.pageSize < newlist.length) {
-        newlist.splice(res.body.pageSize)
-      }
-
+      // 根据name查询数据返回
       if (res.body.name) {
         newlist = list.filter((item: any) => item.name === res.body.name)
         total = newlist.length
+      }
+      if (res.body.name && res.body.pageIndex !== 1) { 
+          newlist = newlist.slice(res.body.pageSize * res.body.pageIndex - res.body.pageSize)
+      }
+      if (res.body.pageSize < newlist.length) {
+        newlist.splice(res.body.pageSize)
       }
 
       newlist = newlist.filter(Boolean)
@@ -55,8 +55,6 @@ export default [
     url: '/Api/user/delete',
     type: 'delete',
     response: (res: Response) => {
-      console.log(res.body);
-
       list = list.filter((item: any) => item.id !== res.body.id)
       return {
         msg: '删除成功',
@@ -79,7 +77,6 @@ export default [
     url: '/Api/Project/Add',
     type: 'post',
     response: (res: Response) => {
-      console.log(res.body);
       list.push(res.body)
       return {
         msg: '新增用户成功',
