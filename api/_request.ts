@@ -1,5 +1,7 @@
 import Axios from 'axios';
 import { Message } from 'element-ui';
+import router from '../src/router';
+import { UserModule } from '../src/store/modules/user'
 
 // 定义axios配置
 const http = Axios.create({
@@ -19,6 +21,14 @@ const http = Axios.create({
 // 请求拦截器
 http.interceptors.request.use(
   function (config) {
+    if (UserModule.token.length > 0 && UserModule.token) {
+      config.headers.Authorization = UserModule.token;
+    }
+    if (!config.headers.Authorization && router.currentRoute.name !== 'login') {
+      Message.error('token过期');
+      UserModule.deltoken();
+      router.push({ path: '/login' });
+    }
     return config;
   },
   function (error) {

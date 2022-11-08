@@ -75,7 +75,7 @@
 </template>
 
 <script lang="ts">
-
+/* eslint-disable */
 import { DEF_PAGE_INFO } from '@/assets/js/config';
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 export type PageInfo = Partial<typeof DEF_PAGE_INFO>;
@@ -84,7 +84,7 @@ export default class SpTable extends Vue {
   /**
    * 表格数据
    */
-  @Prop({ type: [Array], required: false })
+  @Prop({ type: [Array], required: true })
   list?: Record<string, any>[];
 
   /**

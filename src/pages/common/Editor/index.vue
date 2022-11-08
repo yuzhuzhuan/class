@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-card shadow="never ">
       <div class="text-2xl text-center mb-6">富文本编辑器</div>
-      <Editor v-model="content"></Editor>
+      <YKeditor v-model="content"></YKeditor>
       <div class="mt-20 w-full">
         <h3>配置项</h3>
         <div class="table">
@@ -20,11 +20,11 @@
 
 <script lang='ts'>
 import { Component, Vue } from 'vue-property-decorator';
-import Editor from '@/components/Editor/index.vue';
+import YKeditor from '@/components/YKeditor/index.vue';
 
 @Component({
   name: 'editor',
-  components: { Editor }
+  components: { YKeditor }
 })
 export default class extends Vue {
   content = '';
@@ -51,18 +51,6 @@ export default class extends Vue {
       value: '富文本最小高度400px'
     }
   ];
-
-  /**
-   * 当前页面
-   */
-  public currentPage = 1;
-
-  //   handleSizeChange(val: number) {
-  //     console.log(`每页 ${val} 条`);
-  //   }
-  //   handleCurrentChange(val: number) {
-  //     console.log(`当前页: ${val}`);
-  //   }
 }
 </script>
 

@@ -25,8 +25,8 @@ export const routes: Array<RouteConfig> = [
     redirect: '/index',
   },
   {
-    path: '/Login',
-    name: 'Login',
+    path: '/login',
+    name: 'login',
     component: () => import(/* webpackChunkName: 'Login' */ '@/pages/login/index.vue'),
     meta: {
       hidden: true
