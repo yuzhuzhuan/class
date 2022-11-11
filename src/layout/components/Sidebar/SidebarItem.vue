@@ -18,10 +18,6 @@
           :index="resolvePath(theOnlyOneChild.path)"
           :class="{ 'submenu-title-noDropdown': isFirstLevel }"
         >
-          <!-- <svg-icon
-            v-if="theOnlyOneChild.meta.icon"
-            :name="theOnlyOneChild.meta.icon"
-          /> -->
            <SpIcon
             v-if="theOnlyOneChild.meta.icon"
             :icon="theOnlyOneChild.meta.icon"
@@ -35,8 +31,10 @@
     </template>
     <el-submenu v-else :index="resolvePath(item.path)" popper-append-to-body>
       <template slot="title">
-        <!-- <svg-icon v-if="item.meta && item.meta.icon" :name="item.meta.icon" /> -->
-         <SpIcon v-if="item.meta && item.meta.icon" :icon="item.meta.icon" />
+         <SpIcon
+         v-if="item.meta && item.meta.icon"
+         :icon="item.meta.icon"
+         class="mr-4 ml-4 mb-0.5 text-2xl" />
         <span v-if="item.meta && item.meta.title" slot="title">{{
           item.meta.title
         }}</span>
@@ -59,7 +57,7 @@
 <script lang="ts">
 import path from 'path';
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { Route, RouteConfig } from 'vue-router';
+import { RouteConfig } from 'vue-router';
 import { isExternal } from '@/utils/validate';
 import SidebarItemLink from './SidebarItemLink.vue';
 import SpIcon from '@/components/global/SpIcon.vue'// svg组件

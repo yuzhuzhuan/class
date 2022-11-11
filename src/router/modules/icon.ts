@@ -3,16 +3,16 @@ import Layout from '@/layout/index.vue'
 
 export default [
   {
-    path: '/editor',
+    path: '/icon',
     component: Layout,
-    redirect: '/editor/index',
+    redirect: '/icon/index',
     children: [
       {
-        path: '/editor/index',
-        name: 'editor',
-        component: () => import(/* webpackChunkName: "WillDoTaskList" */ '@/pages/editor/index.vue'),
+        path: '/icon/index',
+        name: 'icon',
+        component: () => import(/* webpackChunkName: "WillDoTaskList" */ '@/pages/icon/index.vue'),
         meta: {
-          title: 'Editor组件',
+          title: 'Icon组件',
           icon: 'dashicons:editor-kitchensink',
           noCache: false
         }

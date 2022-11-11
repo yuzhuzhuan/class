@@ -7,8 +7,8 @@ export default [
     component: Layout,
     redirect: '/table/index',
     meta: {
-      title: '常用组件',
-      icon: 'codicon:table'
+      title: '常用Table组件',
+      icon: 'fluent:table-edit-24-regular'
     },
     children: [
       {
@@ -16,8 +16,18 @@ export default [
         name: 'table',
         component: () => import(/* webpackChunkName: "WillDoTaskList" */ '@/pages/common/table/index.vue'),
         meta: {
-          title: 'Table组件',
+          title: 'Table',
           icon: 'codicon:table',
+          noCache: false
+        }
+      },
+      {
+        path: '/treeTable/index',
+        name: 'treeTable',
+        component: () => import(/* webpackChunkName: "WillDoTaskList" */ '@/pages/common/treeTable/index.vue'),
+        meta: {
+          title: 'TreeTable',
+          icon: 'vaadin:tree-table',
           noCache: false
         }
       }
