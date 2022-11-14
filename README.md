@@ -80,15 +80,98 @@ nodejs(v14.16.1)+yarn+eslint
 ## router
  所有的路由都如果需要在菜单的右侧中显示，必须要要配置在layout组件的`children`中.
  如：（详细请查看源码）
- ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210310125655718.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxNDk5Nzgy,size_16,color_FFFFFF,t_70)
+
+```JavaScript
+{
+    path: '/table',
+    component: Layout,
+    redirect: '/table/index',
+    meta: {
+      title: '常用组件',
+      icon: 'codicon:table'
+    },
+    // children的内容会自动渲染到对应的管理界面
+    children: [
+      {
+        path: '/table/index',
+        name: 'table',
+        component: () => import('@/pages/common/table/index.vue'),
+        meta: {
+          title: 'Table组件',
+          icon: 'codicon:table',
+          noCache: false
+        }
+      }
+    ]
+  }
+```
+
+ 
+
 ## 颜色变量
 默认我全局导入了两个变量文件，一个是`variable.scss`, 另一个是 `mixin.scss`, 需要啥颜色直接改里面的`$mianColor` 和 `subColor`， 包括可以定义elementui的主题颜色
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210310125831826.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxNDk5Nzgy,size_16,color_FFFFFF,t_70)
+
+```javascript
+ pluginOptions: {
+    'style-resources-loader': {
+      preProcessor: 'scss',
+      // 公共使用的样式
+      patterns: [
+        path.resolve(__dirname, 'src/styles/variables.scss'),
+        path.resolve(__dirname, 'src/styles/mixins.scss')
+      ]
+    }
+  }
+```
+
 ## 表单验证
 我也封装了一个表单验证器，可以直接在`el-form-item ` 中的rule 导入对应的规则，即可，如：
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210310130045604.png)
+
+```javascript
+ <el-form-item
+   prop="username"
+   :rules="
+   FormValidator.checkStringLength(3, 50, '用户名', true, 'blur')
+   "
+>
+```
+
 # 菜单权限控制
 因为没有后台支持，权限控制直接在`matchRouteMenu ` 路由守卫进行匹配和存入数据 即可
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210310130138102.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxNDk5Nzgy,size_16,color_FFFFFF,t_70)
+
+```javascript
+export function matchRouteMenu (to: Route, from: Route, next: NavigationGuardNext<Vue>) {
+
+  // 如果有toke
+  // 判断是否要去登录页
+  if (UserModule.token) {
+    if (to.path === '/login') {
+      next('/')
+    } else {
+      // 如果去的页面非登陆页
+      //     如果有用户信息,不调用接口正常通过
+      //     如果没有用户信息,调用接口获取用户信息，且在对比权限后执行正常通过
+      // if (!UserModule.useData?.id) {
+      //   next()
+      // } else {
+      //   const {
+      //     data: { data },
+      //   } = await ApiGetUserinfo();
+      //   let id = data.menus.map((item: any) => item.id).map(String);
+      //   if (id.includes(to.meta?.id.toLowerCase())) {
+      //     next()
+      //   } else {
+      //     next('/')
+      //   }
+      // }
+      next()
+    }
+  }
+  next()
+}
+```
+
+
+
 # 最后：
 基础的架子已经搭建好，只适合一些需要兼容ie项目的vue应用。毕竟vue3 不兼容ie嘛！

@@ -6,7 +6,7 @@ import {
   getModule
 } from 'vuex-module-decorators';
 import store from '@/store';
-import { getUserData, setToken, setUserData } from '@/utils/cookies';
+import { getUserData, getToken, setToken, removeToken, setUserData } from '@/utils/cookies';
 import { IUserData } from '@/types/dataTypes';
 import { RouteConfig } from 'vue-router';
 
@@ -28,7 +28,8 @@ class User extends VuexModule implements IUserState {
   // 用户数据
   public useData = null as null | IUserData;
   // token
-  public token = localStorage.getItem('token') || '';
+  // public token = localStorage.getItem('token') || '';
+  public token = getToken() || '';
 
   // private permits = [] as { id: number }[]
   public permits = [] as { id: number; name: string }[]
@@ -51,7 +52,8 @@ class User extends VuexModule implements IUserState {
   @Mutation
   DEL_TOKEN () {
     this.token = '';
-    localStorage.removeItem('token');
+    // localStorage.removeItem('token');
+    removeToken();
   }
 
   /**
@@ -91,7 +93,8 @@ class User extends VuexModule implements IUserState {
    */
   @Action
   public setToken (token: string) {
-    localStorage.setItem('token', token);
+    // localStorage.setItem('token', token);
+    setToken(token);
     this.SET_TOKEN(token);
   }
 

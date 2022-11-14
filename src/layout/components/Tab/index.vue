@@ -117,6 +117,11 @@ export default class extends Vue {
       AppModule.closeAll();
     }
   }
+
+  created () {
+    // 一打开页面时只要首页
+    AppModule.closeAll();
+  }
 }
 </script>
 

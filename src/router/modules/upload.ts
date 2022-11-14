@@ -15,7 +15,7 @@ export default [
         path: '/upload/index',
         component: () =>
           import(
-            /* webpackChunkName: 'dashboard' */ '@/pages/common/upload/index.vue'
+            /* webpackChunkName: 'dashboard' */ '@/pages/upload/index.vue'
           ),
         name: 'upload',
         meta: {
