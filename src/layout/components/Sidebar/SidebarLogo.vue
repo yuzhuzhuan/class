@@ -20,10 +20,8 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import logo from '@/assets/logo.png';
 import logoCollapse from '@/assets/logo-collapse.png';
 
-@Component({
-  name: 'SidebarLogo'
-})
-export default class extends Vue {
+@Component({})
+export default class SidebarLogo extends Vue {
   @Prop({ required: true }) public collapse!: boolean;
 
   logo = logo;

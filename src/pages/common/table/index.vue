@@ -1,74 +1,52 @@
 <template>
-  <div class="app-container">
-    <el-card shadow="never">
-      <el-form  :inline="true">
-        <el-row>
-          <el-col :span="14">
-            <el-form-item>
-              <el-button type="primary" @click="goCreate">新增用户</el-button>
-            </el-form-item>
-          </el-col>
-          <el-form-item label="用户姓名" width="520px">
-            <el-input
-              style="width: 260px"
-              v-model.trim="userName"
-              placeholder="请输入用户姓名"
-              @keyup.enter.native="goQuery"
-            ></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="goQuery" icon="el-icon-search"
-              >查询</el-button
-            >
-          </el-form-item>
-          <el-form-item>
-            <el-button @click="goReset" icon="el-icon-refresh">重置</el-button>
-          </el-form-item>
-        </el-row>
-      </el-form>
-      <YKtable
-        :columns="tableColumns"
-        :list="list"
-        :totalNum="total"
-        :pageInfo="pageInfo"
-        @changeSize="changeSize"
-        @changePageIndex="changePageIndex"
-        @edit="edit"
-        @del="del"
-      ></YKtable>
-      <YKAddDialog
-      v-model="dialogFlag"
-      :dialogFlag="dialogFlag"
-      :mode="mode"
-      :form="form"
-      @close="closeDone"
-      ></YKAddDialog>
-    </el-card>
-  </div>
+    <div class="app-container">
+        <el-card shadow="never">
+            <el-form :inline="true">
+                <el-row>
+                    <el-col :span="14">
+                        <el-form-item>
+                            <el-button type="primary" @click="goCreate">新增用户</el-button>
+                        </el-form-item>
+                    </el-col>
+                    <el-form-item label="用户姓名" width="520px">
+                        <el-input style="width: 260px" v-model.trim="userName" placeholder="请输入用户姓名" @keyup.enter.native="goQuery"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" @click="goQuery" icon="el-icon-search">查询</el-button>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button @click="goReset" icon="el-icon-refresh">重置</el-button>
+                    </el-form-item>
+                </el-row>
+            </el-form>
+            <YKtable :columns="tableColumns" :list="list" :totalNum="total" :pageInfo="pageInfo" @changeSize="changeSize" @changePageIndex="changePageIndex"
+                @edit="edit" @del="del"></YKtable>
+            <YKAddDialog v-model="dialogFlag" :dialogFlag="dialogFlag" :mode="mode" :form="form" @close="closeDone"></YKAddDialog>
+        </el-card>
+    </div>
 </template>
 
 <script lang='ts'>
 import { Component, Vue, Ref } from 'vue-property-decorator';
-import YKtable from '@/components/YKtable/index.vue';
+import YKtable from '@/components/YK_Table/index.vue';
 import YKAddDialog from './YKAddDialog.vue';
 import { getPage, setPage } from '@/utils/cookies';
 import { FormValidator } from '@/utils/formValidator';
 import { Form } from 'element-ui/types';
-import { IForm, Params } from './type'
+import { IForm, Params } from './type';
 import { getProjectListApi, delProjectApi } from '../../../../api/project'; // 导入接口
 @Component({
-  name: 'Table',
   components: { YKtable, YKAddDialog }
 })
-export default class extends Vue {
+export default class Table extends Vue {
   /**
    * 控制打开弹框
    */
-  dialogFlag = false
+  dialogFlag = false;
   /**
    * 弹框的标题显示内容
    */
-  mode = ''
+  mode = '';
   /**
    * form表单显示内容
    */
@@ -81,12 +59,12 @@ export default class extends Vue {
     email: '',
     id: '',
     createTime: ''
-  }
+  };
 
   /**
    * 表格数据
    */
-  list = [] as object[]
+  list = [] as object[];
   /**
    * 数据总量
    */
@@ -98,16 +76,16 @@ export default class extends Vue {
     pageSize: 10,
     pageIndex: 1,
     name: ''
-  }
+  };
 
   /**
    * 需要查询的用户姓名
    */
-  userName = ''
- /**
+  userName = '';
+  /**
    * 表单的ref
    */
- @Ref() readonly FormRef!: Form;
+  @Ref() readonly FormRef!: Form;
   /**
    * 验证器
    */
@@ -190,7 +168,7 @@ export default class extends Vue {
   edit (e = {} as IForm) {
     this.mode = 'edit';
     Object.keys(this.form).forEach((key: string) => {
-      this.form[key as keyof IForm] = e[key as keyof IForm]
+      this.form[key as keyof IForm] = e[key as keyof IForm];
     });
     this.dialogFlag = true;
   }
@@ -202,13 +180,13 @@ export default class extends Vue {
 
   // 重置
   async goReset () {
-    this.userName = ''
+    this.userName = '';
     this.pageInfo.pageSize = 1;
     this.pageInfo = {
       pageSize: 10,
       pageIndex: 1,
       name: ''
-    }
+    };
     await this.getList(this.pageInfo);
   }
 
@@ -224,8 +202,8 @@ export default class extends Vue {
       email: '',
       id: '',
       createTime: ''
-    }
-    if (this.userName) this.pageInfo.name = this.userName
+    };
+    if (this.userName) this.pageInfo.name = this.userName;
     this.getList(this.pageInfo);
   }
 
@@ -254,10 +232,10 @@ export default class extends Vue {
     if (this.userName) {
       this.getList({ ...this.pageInfo, name: this.userName });
     } else {
-      this.pageInfo.pageIndex = 1
+      this.pageInfo.pageIndex = 1;
       this.getList({ ...this.pageInfo });
     }
-    setPage(this.pageInfo)
+    setPage(this.pageInfo);
   }
 
   // 当前页数改变
@@ -268,10 +246,9 @@ export default class extends Vue {
     } else {
       this.getList({ ...this.pageInfo });
     }
-    setPage(this.pageInfo)
+    setPage(this.pageInfo);
   }
 }
-
 </script>
 
 <style lang='scss' scoped></style>

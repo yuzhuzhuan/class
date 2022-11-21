@@ -45,12 +45,11 @@ import { Component, Vue } from 'vue-property-decorator';
 import Scroller from '@/components/Scroller/index.vue';
 import { ECloseTab } from './types';
 @Component({
-  name: 'Tab',
   components: {
     Scroller
   }
 })
-export default class extends Vue {
+export default class Tab extends Vue {
   /**
    * 关闭按钮的枚举
    */

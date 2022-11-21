@@ -39,13 +39,12 @@ import Hamburger from '@/components/Hamburger/index.vue';
 import { AppModule } from '@/store/modules/app';
 import { UserModule } from '@/store/modules/user';
 @Component({
-  name: 'Navbar',
   components: {
     Breadcrumb,
     Hamburger
   }
 })
-export default class extends Vue {
+export default class Navbar extends Vue {
   get sidebar () {
     return AppModule.sidebar;
   }

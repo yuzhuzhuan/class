@@ -30,32 +30,30 @@
     </el-dialog>
 </template>
 <script lang='ts'>
-import { Component, Vue, Ref, Prop } from 'vue-property-decorator'
-import { FormValidator } from '@/utils/formValidator'
-import { Form } from 'element-ui/types'
-import { IForm } from './type'
-import moment from 'moment'
-import { addProjectApi, updateProjectApi } from '../../../../api/project' // 导入接口
-@Component({
-  name: 'YKAddDialog'
-})
-export default class extends Vue {
+import { Component, Vue, Ref, Prop } from 'vue-property-decorator';
+import { FormValidator } from '@/utils/formValidator';
+import { Form } from 'element-ui/types';
+import { IForm } from './type';
+import moment from 'moment';
+import { addProjectApi, updateProjectApi } from '../../../../api/project'; // 导入接口
+@Component({})
+export default class YKAddDialog extends Vue {
   /**
    * 表单的ref
    */
-  @Ref() public FormRef!: Form
+  @Ref() public FormRef!: Form;
   /**
    * 验证器
    */
-  public FormValidator = FormValidator
+  public FormValidator = FormValidator;
   /**
    * form表单显示内容
    */
-  @Prop({}) form!: IForm
+  @Prop({}) form!: IForm;
   /**
    * 控制打开弹框
    */
-  @Prop({}) dialogFlag = false
+  @Prop({}) dialogFlag = false;
   /**
    * 弹框标题内容
    */
@@ -74,28 +72,28 @@ export default class extends Vue {
 
   // 关闭弹框、清空表单数据及验证规则、重新获取数据
   handleClose () {
-    this.FormRef.resetFields()
-    this.$emit('close')
+    this.FormRef.resetFields();
+    this.$emit('close');
   }
 
   // 新增和编辑后关闭弹框
   save () {
-    const params = { ...this.form }
+    const params = { ...this.form };
     // 验证通过再判断是新增还是编辑
     this.FormRef.validate(async (valide: boolean) => {
       if (valide) {
-        params.gender === '男' ? (params.gender = 1) : (params.gender = 0)
+        params.gender === '男' ? (params.gender = 1) : (params.gender = 0);
         if (this.mode === 'add') {
-          params.id = params.idCard
-          params.createTime = moment().format('YYYY-MM-DD  HH:mm')
-          await addProjectApi(params)
+          params.id = params.idCard;
+          params.createTime = moment().format('YYYY-MM-DD  HH:mm');
+          await addProjectApi(params);
         } else if (this.mode === 'edit') {
-          await updateProjectApi(params)
+          await updateProjectApi(params);
         }
-        this.handleClose()
-        this.$emit('close')
+        this.handleClose();
+        this.$emit('close');
       }
-    })
+    });
   }
 }
 </script>

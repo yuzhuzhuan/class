@@ -58,10 +58,8 @@ import { UserModule } from '@/store/modules/user';
 import { Form } from 'element-ui/types';
 import { LoginApi, GetUserApi } from '../../../api/login'; // 导入接口
 
-@Component({
-  name: 'Login'
-})
-export default class extends Vue {
+@Component({})
+export default class Login extends Vue {
   // 登录表单数据
   public loginFormData: LoginForm = {
     username: 'admin',

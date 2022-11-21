@@ -63,13 +63,12 @@ import SidebarItemLink from './SidebarItemLink.vue';
 import SpIcon from '@/components/global/SpIcon.vue'// svg组件
 
 @Component({
-  name: 'SidebarItem',
   components: {
     SidebarItemLink,
     SpIcon
   }
 })
-export default class extends Vue {
+export default class SidebarItem extends Vue {
   @Prop({ required: true }) public item!: RouteConfig;
   @Prop({ default: false }) public isCollapse!: boolean;
   @Prop({ default: true }) public isFirstLevel!: boolean;

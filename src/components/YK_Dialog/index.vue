@@ -11,10 +11,8 @@
 <script lang='ts'>
 import { Component, Vue, Prop } from 'vue-property-decorator';
 
-@Component({
-  name: 'YKDialog'
-})
-export default class YKDialog extends Vue {
+@Component({})
+export default class YkDialog extends Vue {
   /**
    * 控制dialog是否打开
    */

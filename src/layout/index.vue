@@ -15,7 +15,6 @@ import { Component, Vue } from 'vue-property-decorator';
 import { AppMain, Navbar, Sidebar, Tab } from './components';
 
 @Component({
-  name: 'Layout',
   components: {
     AppMain,
     Navbar,
@@ -23,7 +22,7 @@ import { AppMain, Navbar, Sidebar, Tab } from './components';
     Tab
   }
 })
-export default class extends Vue {
+export default class Layout extends Vue {
   /**
    * 绑定类名
    */

@@ -61,10 +61,8 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 
-@Component({
-  name: 'Page401'
-})
-export default class extends Vue {
+@Component({})
+export default class Page401 extends Vue {
   public errGif = require('@/assets/401-images/401.gif') + '?' + +new Date()
   public ewizardClap = 'https://wpimg.wallstcn.com/007ef517-bafd-4066-aae4-6883632d9646'
   public dialogVisible = false

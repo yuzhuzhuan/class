@@ -34,13 +34,12 @@ import { AppModule } from '@/store/modules/app';
 // import { getCurrentTab } from '@/utils/cookies';
 
 @Component({
-  name: 'SideBar',
   components: {
     SidebarItem,
     SidebarLogo
   }
 })
-export default class extends Vue {
+export default class SideBar extends Vue {
   /**
    * 获取权限路由
    */
@@ -123,7 +122,7 @@ export default class extends Vue {
 
 .el-menu--popup > div:has(.el-menu-item) :hover {
   background-color: $subColor !important;
-  border-left: 2px solid #ed1c24 !important;
+  // border-left: 2px solid #ed1c24 !important;
   color: $menuActiveText !important;
 }
 
@@ -145,12 +144,12 @@ export default class extends Vue {
     color: $menuText !important;
     &:hover {
       background-color: $subColor !important;
-      border-left: 2px solid #ed1c24 !important;
+      // border-left: 2px solid #ed1c24 !important;
       color: $menuActiveText !important;
     }
     &.is-active {
       background-color: $subColor !important;
-      border-left: 2px solid #ed1c24 !important;
+      // border-left: 2px solid #ed1c24 !important;
       color: $menuActiveText !important;
     }
   }
@@ -161,7 +160,7 @@ export default class extends Vue {
     line-height: 46px;
     &:hover {
       background-color: $subColor !important;
-      border-left: 2px solid #ed1c24;
+      // border-left: 2px solid #ed1c24;
       color: $menuActiveText !important;
     }
   }

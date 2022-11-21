@@ -19,10 +19,8 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { isExternal } from '@/utils/validate'
 
-@Component({
-  name: 'SidebarItemLink'
-})
-export default class extends Vue {
+@Component({})
+export default class SidebarItemLink extends Vue {
   @Prop({ required: true }) public to!: string
 
   public isExternal = isExternal

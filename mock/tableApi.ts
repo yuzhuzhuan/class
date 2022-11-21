@@ -25,16 +25,16 @@ export default [
       for (let i = 0; i < res.body.pageSize; i++) {
         newlist[i] = list[i]
       }
-      if (res.body.pageIndex !== 1) { 
-          newlist = list.slice(res.body.pageSize * res.body.pageIndex - res.body.pageSize)
+      if (res.body.pageIndex !== 1) {
+        newlist = list.slice(res.body.pageSize * res.body.pageIndex - res.body.pageSize)
       }
       // 根据name查询数据返回
       if (res.body.name) {
         newlist = list.filter((item: any) => item.name === res.body.name)
         total = newlist.length
       }
-      if (res.body.name && res.body.pageIndex !== 1) { 
-          newlist = newlist.slice(res.body.pageSize * res.body.pageIndex - res.body.pageSize)
+      if (res.body.name && res.body.pageIndex !== 1) {
+        newlist = newlist.slice(res.body.pageSize * res.body.pageIndex - res.body.pageSize)
       }
       if (res.body.pageSize < newlist.length) {
         newlist.splice(res.body.pageSize)

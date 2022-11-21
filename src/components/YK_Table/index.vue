@@ -80,7 +80,7 @@ import { DEF_PAGE_INFO } from '@/assets/js/config';
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 export type PageInfo = Partial<typeof DEF_PAGE_INFO>;
 @Component({})
-export default class SpTable extends Vue {
+export default class YkTable extends Vue {
   /**
    * 表格数据
    */

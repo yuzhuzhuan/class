@@ -2,11 +2,13 @@ import Mock from 'mockjs' // 导入mockjs
 import tableApi from './tableApi' // 导入我们模拟数据的js文件
 import loginApi from './loginApi' // 导入我们模拟数据的js文件
 import uploadApi from './uploadApi' // 导入我们模拟数据的js文件
+import treeTableApi from './treeTableApi' // 导入我们模拟数据的js文件
+import echartsApi from './echartsApi' // 导入我们模拟数据的js文件
 import { Options, IPerson } from './type'
 const mocks = [
   {
     intercept: true, // 你可能需要一个开关，来使模拟请求与真实请求并存
-    fetchs: [...tableApi, ...loginApi, ...uploadApi]
+    fetchs: [...tableApi, ...loginApi, ...uploadApi, ...treeTableApi, ...echartsApi]
   }]
 
 // 抄来一个解析地址栏参数解析函数
@@ -17,12 +19,12 @@ export function param2Obj (url: string) {
   }
   return JSON.parse(
     '{"' +
-        decodeURIComponent(search)
-          .replace(/"/g, '\\"')
-          .replace(/&/g, '","')
-          .replace(/=/g, '":"')
-          .replace(/\+/g, ' ') +
-        '"}'
+    decodeURIComponent(search)
+      .replace(/"/g, '\\"')
+      .replace(/&/g, '","')
+      .replace(/=/g, '":"')
+      .replace(/\+/g, ' ') +
+    '"}'
   )
 }
 
