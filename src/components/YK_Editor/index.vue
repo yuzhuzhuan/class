@@ -1,7 +1,16 @@
 <template>
-    <div>
-        <Editor :disabled="false" :init="initOpts" initial-value="" plugins="" tag-name="div" toolbar="" :value="value" @input="onChange" />
-    </div>
+  <div>
+    <Editor
+      :disabled="false"
+      :init="initOpts"
+      initial-value=""
+      plugins=""
+      tag-name="div"
+      toolbar=""
+      :value="value"
+      @input="onChange"
+    />
+  </div>
 </template>
 
 <script lang="ts">

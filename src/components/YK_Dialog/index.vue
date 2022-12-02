@@ -1,14 +1,22 @@
+<!--
+ * @Author: yuzhuzhuan yuzhuzhuan@yekertech.com
+ * @Date: 2022-11-21 16:30:11
+ * @LastEditors: yuzhuzhuan yuzhuzhuan@yekertech.com
+ * @LastEditTime: 2022-12-02 17:34:50
+ * @FilePath: \vue2-ts-template\src\components\YK_Dialog\index.vue
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 <template>
-    <el-dialog :title="dialogTitle" class="device-add" :visible.sync="dialogFlag" :before-close="handleClose" width="30%">
-        <slot></slot>
-        <span slot="footer" class="dialog-footer">
-            <el-button @click="handleClose()">取 消</el-button>
-            <el-button type="primary" @click="save()">确 定</el-button>
-        </span>
-    </el-dialog>
+  <el-dialog :title="dialogTitle" class="device-add" :visible.sync="dialogFlag" :before-close="handleClose" width="30%">
+    <slot></slot>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="handleClose()">取 消</el-button>
+      <el-button type="primary" @click="save()">确 定</el-button>
+    </span>
+  </el-dialog>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 
 @Component({})
@@ -28,7 +36,7 @@ export default class YkDialog extends Vue {
   /**
    * 表单的标题显示内容
    */
-  get dialogTitle () {
+  get dialogTitle() {
     const map = {
       add: '新增',
       edit: '编辑',
@@ -37,13 +45,13 @@ export default class YkDialog extends Vue {
     return map[this.mode];
   }
 
-  handleClose () {
+  handleClose() {
     this.$emit('done');
   }
 
-  save () {
+  save() {
     this.$emit('close');
   }
 }
 </script>
-<style lang='less' scoped></style>
+<style lang="less" scoped></style>

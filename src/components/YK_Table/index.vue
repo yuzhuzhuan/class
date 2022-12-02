@@ -1,13 +1,7 @@
 <template>
   <div class="app-container">
     <!-- 表格 -->
-    <el-table
-      :data="tableData"
-      row-key="id"
-      border
-      style="width: 100%"
-      :tree-props="{ children: 'children' }"
-    >
+    <el-table :data="tableData" row-key="id" border style="width: 100%" :tree-props="{ children: 'children' }">
       <template v-for="item in getColumn">
         <el-table-column
           v-if="!!item.slot"
@@ -23,11 +17,7 @@
           :type="item.type"
         >
           <template #default="scope">
-            <slot
-              :name="item.slot"
-              :row="scope.row"
-              :index="scope.index"
-            ></slot>
+            <slot :name="item.slot" :row="scope.row" :index="scope.index"></slot>
           </template>
         </el-table-column>
         <el-table-column
@@ -44,18 +34,10 @@
         >
         </el-table-column>
       </template>
-      <el-table-column
-        label="操作"
-        v-if="columns.some((item) => item.slot === 'action')"
-        min-width="200"
-      >
+      <el-table-column label="操作" v-if="columns.some(item => item.slot === 'action')" min-width="200">
         <template #default="scope">
-          <el-button @click="edit(scope.row)" type="primar"
-            >编辑</el-button
-          >
-          <el-button @click="del(scope.row)" type="danger"
-            >删除</el-button
-          >
+          <el-button @click="edit(scope.row)" type="primar">编辑</el-button>
+          <el-button @click="del(scope.row)" type="danger">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -64,7 +46,7 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="pageInfo.pageIndex"
-        :page-sizes="[1, 2 ,5, 10, 20, 50, 100]"
+        :page-sizes="[1, 2, 5, 10, 20, 50, 100]"
         :page-size="pageInfo.pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="totalNum"
@@ -108,43 +90,39 @@ export default class YkTable extends Vue {
   dataList = [] as Record<string, any>[];
 
   @Watch('list')
-  onListChange () {
+  onListChange() {
     this.dataList = this.list ?? [];
   }
 
-  get tableData () {
+  get tableData() {
     return [...this.dataList];
   }
 
   // 表头数据
-  get getColumn (): Array<any> {
-    const columns = this.columns.filter(
-      (item) => item.label && item.slot !== 'action' /* && item.listeners */
-    );
+  get getColumn(): Array<any> {
+    const columns = this.columns.filter(item => item.label && item.slot !== 'action' /* && item.listeners */);
     return columns;
   }
 
   // 除 action 之外的 slots
-  get columnSlots (): Array<any> {
-    const columns = this.columns.filter(
-      (item) => item.slot && item.slot !== 'action' /* && item.listeners */
-    );
+  get columnSlots(): Array<any> {
+    const columns = this.columns.filter(item => item.slot && item.slot !== 'action' /* && item.listeners */);
     return columns;
   }
 
-  edit (e: {}) {
+  edit(e: {}) {
     this.$emit('edit', e);
   }
 
-  del (e: {}) {
+  del(e: {}) {
     this.$emit('del', e);
   }
 
-  handleSizeChange (val: number) {
+  handleSizeChange(val: number) {
     this.$emit('changeSize', val);
   }
 
-  handleCurrentChange (val: number) {
+  handleCurrentChange(val: number) {
     this.$emit('changePageIndex', val);
   }
 }
