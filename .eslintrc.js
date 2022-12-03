@@ -1,12 +1,23 @@
 module.exports = {
   root: true,
   env: {
-    node: true
+    browser: true,
+    node: true,
+    es6: true
   },
-  extends: ['plugin:vue/essential', '@vue/standard', '@vue/typescript/recommended'],
+  /* 指定如何解析语法 */
+  parser: 'vue-eslint-parser',
+  /* 优先级低于 parse 的语法解析配置 */
   parserOptions: {
-    ecmaVersion: 2020
+    parser: '@typescript-eslint/parser',
+    ecmaVersion: 2020,
+    sourceType: 'module',
+    jsxPragma: 'React',
+    ecmaFeatures: {
+      jsx: true
+    }
   },
+  extends: ['plugin:vue/essential', '@vue/standard', '@vue/typescript/recommended', 'prettier'],
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',

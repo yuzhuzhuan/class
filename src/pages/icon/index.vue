@@ -11,26 +11,19 @@
     </el-card>
   </div>
 </template>
-<script lang='ts'>
+<script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import YkIcon from '@/components/global/YkIcon.vue'; // svg组件
-import { listIcons } from '@iconify/vue2';
-
+const collections = require('@iconify/json/json/ep.json');
 @Component({
   components: { YkIcon }
 })
 export default class Icon extends Vue {
-  iconList = listIcons();
-
+  iconList = [] as string[];
   async created() {
-    console.log(listIcons('', 'mdi'));
-    /*
-    listIcons() 列出可用图标，返回字符串[]
-    函数有两个可选参数
-    provider, string. 仅列出来自一个API提供者的图标.
-    prefix, string. 仅列出具有特定前缀的图标。如果设置了前缀，则还必须设置提供程序（对于iconify公共API提供程序的值为空字符串）.
-
-    */
+    Object.keys(collections.icons).forEach((key: string) => {
+      this.iconList.push('ep:' + key);
+    });
   }
 
   // 单击复制icon名
