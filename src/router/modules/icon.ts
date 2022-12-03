@@ -1,5 +1,5 @@
 import { RouteConfig } from 'vue-router';
-import Layout from '@/layout/index.vue'
+import Layout from '@/layout/index.vue';
 
 export default [
   {
@@ -14,7 +14,8 @@ export default [
         meta: {
           title: 'Icon组件',
           icon: 'dashicons:editor-kitchensink',
-          noCache: false
+          noCache: false,
+          id: '51'
         }
       }
     ]

@@ -1,5 +1,6 @@
-import Mock from 'mockjs'
-import { Response } from './type'
+import Mock from 'mockjs';
+import { Response } from './type';
+import { list as menuList } from './menuApi';
 const projectList = Mock.mock({
   'object|8': {
     nickName: 'admin',
@@ -7,21 +8,14 @@ const projectList = Mock.mock({
     id: 1,
     sysRoleId: 1,
     sysRoleName: 'admin',
-    'menus|10': [{
-      id: '@guid',
-      name: '@cword()',
-      parentId: 3,
-      path: '/cms/article',
-      requestMethod: 'POST',
-      rootId: 3
-    }]
+    menus: menuList
   },
   token: '@word(30)' // token
-})
+});
 
 const token = {
   accessToken: projectList.token
-}
+};
 export default [
   // 登录接口
   {
@@ -33,12 +27,12 @@ export default [
           msg: '登录成功',
           code: 200,
           data: token
-        }
+        };
       } else {
         return {
           msg: '用户名或密码错误',
           code: 500
-        }
+        };
       }
     }
   },
@@ -52,13 +46,13 @@ export default [
           msg: '登录成功',
           code: 200,
           data: projectList.object
-        }
+        };
       } else {
         return {
           msg: '用户名或密码错误',
           code: 500
-        }
+        };
       }
     }
   }
-]
+];

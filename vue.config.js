@@ -1,11 +1,9 @@
 const { resolve } = require('path');
-const path = require('path')
+const path = require('path');
 
-const devServerPort = 10003
-const name = '前端通用模板'
-const {
-  PurgeIcons
-} = require('purge-icons-webpack-plugin');
+const devServerPort = 10003;
+const name = '前端通用模板';
+const { PurgeIcons } = require('purge-icons-webpack-plugin');
 module.exports = {
   devServer: {
     port: devServerPort,
@@ -19,7 +17,8 @@ module.exports = {
         target: 'http://mockjs.com/api',
         changeOrigin: true, // 如果接口跨域，需要进行这个参数配置
         // ws: true,// proxy websockets
-        pathRewrite: { // pathRewrite方法重写url
+        pathRewrite: {
+          // pathRewrite方法重写url
           '^/api': ''
         }
       }
@@ -37,25 +36,21 @@ module.exports = {
       }
     }
   },
-  chainWebpack (config) {
+  chainWebpack(config) {
     // provide the app's title in webpack's name field, so that
     // it can be accessed in index.html to inject the correct title.
-    config.set('name', name)
+    config.set('name', name);
 
-    config.plugin('html').tap((args) => {
+    config.plugin('html').tap(args => {
       args[0].title = name;
       return args;
     });
     // https://webpack.js.org/configuration/devtool/#development
-    config.when(process.env.NODE_ENV === 'development', config =>
-      config.devtool('cheap-source-map')
-    )
+    config.when(process.env.NODE_ENV === 'development', config => config.devtool('cheap-source-map'));
 
     // 不压缩类名, 组件类名同时也是组件的名称
-    config.optimization.minimizer('terser').tap((args) => {
-      const {
-        terserOptions
-      } = args[0];
+    config.optimization.minimizer('terser').tap(args => {
+      const { terserOptions } = args[0];
       // eslint-disable-next-line @typescript-eslint/camelcase
       terserOptions.keep_classnames = true;
       // eslint-disable-next-line @typescript-eslint/camelcase
@@ -85,12 +80,13 @@ module.exports = {
             reuseExistingChunk: true
           }
         }
-      })
-      config.optimization.runtimeChunk('single')
-    })
+      });
+      config.optimization.runtimeChunk('single');
+    });
     config.resolve.alias
       .set('@', path.resolve('src'))
-      .set('@assets', path.resolve('src/assets'))
+      .set('@c', path.resolve('src/components'))
+      .set('@assets', path.resolve('src/assets'));
     return {
       plugins: [new PurgeIcons({})]
     };
@@ -100,10 +96,7 @@ module.exports = {
     'style-resources-loader': {
       preProcessor: 'scss',
       // 公共使用的样式
-      patterns: [
-        path.resolve(__dirname, 'src/styles/variables.scss'),
-        path.resolve(__dirname, 'src/styles/mixins.scss')
-      ]
+      patterns: [path.resolve(__dirname, 'src/styles/variables.scss'), path.resolve(__dirname, 'src/styles/mixins.scss')]
     }
   }
-}
+};

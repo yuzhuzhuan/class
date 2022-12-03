@@ -1,28 +1,28 @@
 <template>
-    <div class="app-container">
-        <el-card shadow="never">
-            <h1 class="text-center">Icon组件</h1>
-            <div class="min-w-300 min-h-140  text-center grid inline-grid grid-cols-8 mt-10">
-                <div v-for="(item,index) in iconList" :key="index" class="mb-10" id="target">
-                    <SpIcon :icon="item" class="text-2xl" />
-                    <p class="text-xl cursor-pointer" @click="copyText(item)">{{item}}</p>
-                </div>
-            </div>
-        </el-card>
-    </div>
+  <div class="app-container">
+    <el-card shadow="never">
+      <h1 class="text-center">Icon组件</h1>
+      <div class="min-w-300 min-h-140 text-center grid inline-grid grid-cols-8 mt-10">
+        <div v-for="(item, index) in iconList" :key="index" class="mb-10" id="target">
+          <YkIcon :icon="item" class="text-2xl" />
+          <p class="text-xl cursor-pointer" @click="copyText(item)">{{ item }}</p>
+        </div>
+      </div>
+    </el-card>
+  </div>
 </template>
 <script lang='ts'>
 import { Component, Vue } from 'vue-property-decorator';
-import SpIcon from '@/components/global/SpIcon.vue'; // svg组件
+import YkIcon from '@/components/global/YkIcon.vue'; // svg组件
 import { listIcons } from '@iconify/vue2';
 
 @Component({
-  components: { SpIcon }
+  components: { YkIcon }
 })
 export default class Icon extends Vue {
   iconList = listIcons();
 
-  async created () {
+  async created() {
     console.log(listIcons('', 'mdi'));
     /*
     listIcons() 列出可用图标，返回字符串[]
@@ -34,7 +34,7 @@ export default class Icon extends Vue {
   }
 
   // 单击复制icon名
-  copyText (text: string) {
+  copyText(text: string) {
     const inputElement = document.createElement('input');
     inputElement.value = text;
     document.body.appendChild(inputElement);

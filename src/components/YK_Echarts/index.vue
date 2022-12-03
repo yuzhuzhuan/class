@@ -29,10 +29,12 @@ export default class YkEcharts extends Vue {
   @Prop({ required: true, default: 'h-120' })
   className!: string;
 
+  myChart = null as null | echarts.ECharts;
   mounted() {
-    const myChart = echarts.init(this.echartsRef);
+    this.myChart = echarts.init(this.echartsRef);
+
     if (this.options) {
-      this.useEcharts(myChart, this.options);
+      this.useEcharts(this.myChart, this.options);
     }
   }
 
@@ -40,15 +42,15 @@ export default class YkEcharts extends Vue {
     window.removeEventListener('resize', this.echartsResize);
   }
 
-  echartsResize: any;
+  echartsResize() {
+    return this.myChart?.resize();
+  }
+
   useEcharts(myChart: echarts.ECharts, options: echarts.EChartsCoreOption) {
     if (options && typeof options === 'object') {
       myChart.setOption(options);
     }
-    this.echartsResize = () => {
-      myChart && myChart.resize();
-    };
-    window.addEventListener('resize', this.echartsResize, false);
+    window.addEventListener('resize', this.echartsResize.bind(this), false);
   }
 }
 </script>

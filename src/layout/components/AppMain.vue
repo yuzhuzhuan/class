@@ -13,7 +13,7 @@ import { Component, Vue } from 'vue-property-decorator';
 
 @Component({})
 export default class AppMain extends Vue {
-  get key () {
+  get key() {
     return this.$route.path;
   }
 }

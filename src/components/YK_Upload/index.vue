@@ -18,7 +18,6 @@
   </el-upload>
 </template>
 <script lang="ts">
-/* eslint-disable */
 import { Component, Vue, Prop, Ref, Watch } from 'vue-property-decorator';
 import YKDialog from '@/components/YK_Dialog/index.vue';
 @Component({
@@ -30,16 +29,19 @@ export default class YkUpload extends Vue {
    */
   @Prop({ type: Boolean, required: false })
   drag!: boolean;
+
   /**
    * 最大允许上传个数
    */
   @Prop({ type: Number, required: false })
   limit!: 1;
+
   /**
    * 文件列表的类型
    */
   @Prop({ type: String, required: false })
   listType!: 'text' | 'picture' | 'picture-card';
+
   /**
    * 是否清空已上传的文件列表
    */
@@ -56,7 +58,7 @@ export default class YkUpload extends Vue {
   fileList = [];
 
   @Watch('clearFiles', { immediate: true })
-  onClearFiles(newVal: any, oldVal: any) {
+  onClearFiles(newVal: any) {
     if (newVal) {
       this.UploadRef.clearFiles();
     }
@@ -74,7 +76,6 @@ export default class YkUpload extends Vue {
       this.$message.error('上传头像图片大小不能超过 2MB!');
     }
     return isJPG && isLt2M;
-    return file;
   }
 
   // 上传成功

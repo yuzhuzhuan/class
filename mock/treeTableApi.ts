@@ -1,10 +1,10 @@
-import Mock from 'mockjs'
-import { Response } from './type'
-import { Message } from 'element-ui'
+import Mock from 'mockjs';
+import { Response } from './type';
+import { Message } from 'element-ui';
 const depList = [
   {
     id: 1,
-    name: '华南分部',
+    departmentName: '华南分部',
     manager: Mock.mock('@cname'),
     introduce: Mock.mock('@ctitle'),
     pid: 0,
@@ -13,46 +13,46 @@ const depList = [
     children: [
       {
         id: 11,
-        name: '研发部',
+        departmentName: '研发部',
         manager: Mock.mock('@cname'),
         introduce: Mock.mock('@ctitle'),
         pid: 1,
 
         email: Mock.mock('@email'),
-        createTime: Mock.mock('@date("yyyy-MM-dd")'),
+        createTime: Mock.mock('@date("yyyy-MM-dd")')
       },
       {
         id: 12,
-        name: '财务部',
+        departmentName: '财务部',
         manager: Mock.mock('@cname'),
         introduce: Mock.mock('@ctitle'),
         pid: 1,
         email: Mock.mock('@email'),
-        createTime: Mock.mock('@date("yyyy-MM-dd")'),
+        createTime: Mock.mock('@date("yyyy-MM-dd")')
       },
       {
         id: 13,
-        name: '商务部',
+        departmentName: '商务部',
         manager: Mock.mock('@cname'),
         introduce: Mock.mock('@ctitle'),
         pid: 1,
         email: Mock.mock('@email'),
-        createTime: Mock.mock('@date("yyyy-MM-dd")'),
+        createTime: Mock.mock('@date("yyyy-MM-dd")')
       },
       {
         id: 14,
-        name: '市场部',
+        departmentName: '市场部',
         manager: Mock.mock('@cname'),
         introduce: Mock.mock('@ctitle'),
         pid: 1,
         email: Mock.mock('@email'),
-        createTime: Mock.mock('@date("yyyy-MM-dd")'),
+        createTime: Mock.mock('@date("yyyy-MM-dd")')
       }
     ]
   },
   {
     id: 2,
-    name: '华北分部',
+    departmentName: '华北分部',
     manager: Mock.mock('@cname'),
     introduce: Mock.mock('@ctitle'),
     pid: 0,
@@ -61,7 +61,7 @@ const depList = [
     children: [
       {
         id: 21,
-        name: '研发部',
+        departmentName: '研发部',
         manager: Mock.mock('@cname'),
         introduce: Mock.mock('@ctitle'),
         pid: 2,
@@ -70,7 +70,7 @@ const depList = [
       },
       {
         id: 22,
-        name: '财务部',
+        departmentName: '财务部',
         manager: Mock.mock('@cname'),
         introduce: Mock.mock('@ctitle'),
         pid: 2,
@@ -79,7 +79,7 @@ const depList = [
       },
       {
         id: 23,
-        name: '商务部',
+        departmentName: '商务部',
         manager: Mock.mock('@cname'),
         introduce: Mock.mock('@ctitle'),
         pid: 2,
@@ -88,7 +88,7 @@ const depList = [
       },
       {
         id: 24,
-        name: '市场部',
+        departmentName: '市场部',
         manager: Mock.mock('@cname'),
         introduce: Mock.mock('@ctitle'),
         pid: 2,
@@ -99,7 +99,7 @@ const depList = [
   },
   {
     id: 3,
-    name: '西北分部',
+    departmentName: '西北分部',
     manager: Mock.mock('@cname'),
     introduce: Mock.mock('@ctitle'),
     pid: 0,
@@ -108,7 +108,7 @@ const depList = [
     children: [
       {
         id: 31,
-        name: '研发部',
+        departmentName: '研发部',
         manager: Mock.mock('@cname'),
         introduce: Mock.mock('@ctitle'),
         pid: 3,
@@ -117,7 +117,7 @@ const depList = [
       },
       {
         id: 32,
-        name: '财务部',
+        departmentName: '财务部',
         manager: Mock.mock('@cname'),
         introduce: Mock.mock('@ctitle'),
         pid: 3,
@@ -126,7 +126,7 @@ const depList = [
       },
       {
         id: 33,
-        name: '商务部',
+        departmentName: '商务部',
         manager: Mock.mock('@cname'),
         introduce: Mock.mock('@ctitle'),
         pid: 3,
@@ -135,7 +135,7 @@ const depList = [
       },
       {
         id: 34,
-        name: '市场部',
+        departmentName: '市场部',
         manager: Mock.mock('@cname'),
         introduce: Mock.mock('@ctitle'),
         pid: 3,
@@ -144,10 +144,84 @@ const depList = [
       }
     ]
   }
-]
-let list = [...depList]
+];
+let list = [...depList];
 
 export default [
+  {
+    url: '/api/department/list',
+    type: 'get',
+    response: (res: Response) => {
+      return {
+        code: 200,
+        message: '操作成功',
+        data: list
+      };
+      // 使用return返回前端需要的数据
+    }
+  },
+  {
+    url: '/api/department/create',
+    type: 'post',
+    response: (res: any) => {
+      if (res.body.params.pid) {
+        list = appendNodeInTree(res.body.params.pid, list, res.body.params);
+      } else {
+        list.push(res.body.params);
+      }
+      return {
+        msg: '新增成功',
+        code: 200
+      };
+    }
+  },
+  {
+    url: '/api/department/delete',
+    type: 'delete',
+    response: (res: any) => {
+      removeNodeInTree(list, +res.query.id);
+      return {
+        msg: '删除成功',
+        code: 200
+      };
+    }
+  },
+  {
+    url: '/api/department/update',
+    type: 'put',
+    response: (res: any) => {
+      updateNodeInTree(list, res.body.params.id, res.body.params.pid, res.body.params);
+
+      return {
+        msg: '编辑成功',
+        code: 200
+      };
+    }
+  },
+  {
+    url: '/api/department/detail',
+    type: 'get',
+    response: (res: any) => {
+      let obj = {};
+      list.forEach((item: any) => {
+        if (+item.id === +res.query.id) {
+          obj = item;
+        }
+        if (item.children) {
+          item.children.forEach((child: any) => {
+            if (+child.id === +res.query.id) {
+              obj = child;
+            }
+          });
+        }
+      });
+      return {
+        msg: '查询成功',
+        code: 200,
+        data: obj
+      };
+    }
+  },
   {
     url: '/Api/department/list',
     type: 'get',
@@ -155,8 +229,8 @@ export default [
       return {
         code: 200,
         message: '操作成功',
-        list
-      }
+        data: list
+      };
       // 使用return返回前端需要的数据
     }
   },
@@ -164,23 +238,23 @@ export default [
     url: '/Api/department/delete',
     type: 'delete',
     response: (res: Response) => {
-      removeNodeInTree(list, res.body.id)
-      return {
-        msg: '删除成功',
-        code: 200
-      }
+      removeNodeInTree(list, res.body.id);
+      // return {
+      //   msg: '删除成功',
+      //   code: 200
+      // };
     }
   },
   {
     url: '/Api/department/update',
     type: 'put',
     response: (res: any) => {
-      // list = list.map((item: any) => item.id === res.body.id ? res.body : item)   
-      updateNodeInTree(list, res.body.id, res.body.pid, res.body)
+      // list = list.map((item: any) => item.id === res.body.id ? res.body : item)
+      updateNodeInTree(list, res.body.id, res.body.pid, res.body);
       return {
         msg: '编辑用户成功',
         code: 200
-      }
+      };
     }
   },
   {
@@ -188,67 +262,67 @@ export default [
     type: 'post',
     response: (res: any) => {
       if (res.body.pid) {
-        list = appendNodeInTree(res.body.pid, list, res.body)
+        list = appendNodeInTree(res.body.pid, list, res.body);
       } else {
-        list.push(res.body)
+        list.push(res.body);
       }
       return {
         msg: '新增用户成功',
         code: 200
-      }
+      };
     }
   }
-]
+];
 // 移除
-const removeNodeInTree = (treeList: any, id: any) => { // 通过id从数组（树结构）中移除元素
+const removeNodeInTree = (treeList: any, id: any) => {
+  // 通过id从数组（树结构）中移除元素
   if (!treeList || !treeList.length) {
-    return
+    return;
   }
   for (let i = 0; i < treeList.length; i++) {
     if (treeList[i].id === id) {
       treeList.splice(i, 1);
-      return treeList
+      return treeList;
     }
-    removeNodeInTree(treeList[i].children, id)
+    removeNodeInTree(treeList[i].children, id);
   }
-}
+};
 // 添加
 const appendNodeInTree = (pid: any, tree: any, obj: any) => {
   tree.forEach((ele: any) => {
     if (ele.id === pid) {
-      ele.children ? ele.children.push(obj) : ele.children = [obj]
+      ele.children ? ele.children.push(obj) : (ele.children = [obj]);
     } else {
       if (ele.children) {
-        appendNodeInTree(pid, ele.children, obj)
+        appendNodeInTree(pid, ele.children, obj);
       }
     }
-  })
-  return tree
-}
+  });
+  return tree;
+};
 // 修改
 const updateNodeInTree = (treeList: any, id: any, pid: any, obj: any) => {
   if (!treeList || !treeList.length) {
     return;
   }
 
-  if (pid == 0 || id.toString().length == 2 && pid.toString().length == 2) {
+  if (pid == 0 && id.toString().length == 2 && pid.toString().length == 2) {
     Message.error('父级栏目不存在');
-    return treeList
+    return treeList;
   } else if (id.toString().length == 1) {
     Message.error('无法修改节点的父级节点');
-    return treeList
+    return treeList;
   }
 
   for (let i = 0; i < treeList.length; i++) {
-    if (treeList[i].id == id) {
+    if (+treeList[i].id == +id) {
       treeList[i] = obj;
       break;
     }
     setTreeListNodeFalse(treeList[i].children, id, pid, obj);
-
   }
-  return treeList
-}
+  return treeList;
+};
 // 修改子级
 const setTreeListNodeFalse = (treeList: any, id: any, pid: any, obj: any) => {
   if (!treeList || !treeList.length) {
@@ -256,16 +330,15 @@ const setTreeListNodeFalse = (treeList: any, id: any, pid: any, obj: any) => {
   }
 
   for (let i = 0; i < treeList.length; i++) {
-    if (treeList[i].id == id && treeList[i].pid == pid) {
+    if (+treeList[i].id == +id && +treeList[i].pid == +pid) {
       treeList[i] = obj;
-    } else if (treeList[i].id == id && treeList[i].pid !== pid) {
+    } else if (+treeList[i].id == id && +treeList[i].pid !== +pid) {
       treeList.splice(i, 1);
-      return treeList
-    } else if (treeList[i].pid == pid) {
+      return treeList;
+    } else if (+treeList[i].pid == +pid && !treeList[i].id.toString().includes(pid.toString())) {
       treeList.push(obj);
-      return treeList
+      return treeList;
     }
-
   }
-  return treeList
-}
+  return treeList;
+};

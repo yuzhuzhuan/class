@@ -1,57 +1,116 @@
-<!--
- * @Author: yuzhuzhuan yuzhuzhuan@yekertech.com
- * @Date: 2022-11-21 16:30:11
- * @LastEditors: yuzhuzhuan yuzhuzhuan@yekertech.com
- * @LastEditTime: 2022-12-02 17:34:50
- * @FilePath: \vue2-ts-template\src\components\YK_Dialog\index.vue
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
--->
 <template>
-  <el-dialog :title="dialogTitle" class="device-add" :visible.sync="dialogFlag" :before-close="handleClose" width="30%">
-    <slot></slot>
-    <span slot="footer" class="dialog-footer">
-      <el-button @click="handleClose()">取 消</el-button>
-      <el-button type="primary" @click="save()">确 定</el-button>
-    </span>
+  <el-dialog
+    v-bind="attrs"
+    v-on="$listeners"
+    @close="$emit('on-cancel')"
+    :custom-class="
+      size !== 'full' && size !== 'h-full'
+        ? `flex flex-col max-w-[80vw] max-h-[80vh] overflow-hidden`
+        : `flex flex-col max-h-hull h-full max-w-[80vw] overflow-hidden !my-0 px-10`
+    "
+  >
+    <template #title>
+      <slot name="title">
+        <div class="flex w-full pb-2 items-center">
+          <div class="flex font-bold space-x-3 flex-1 text-lg text-[#383838] items-center">
+            <div><slot name="icon"></slot></div>
+            <div class="flex-1">
+              {{ title }}
+              <slot name="describe"></slot>
+            </div>
+          </div>
+          <div class="flex-1 text-right" v-if="actionPosition === 'top'">
+            <template v-if="type === 'confirm'">
+              <el-button type="primary" size="mini" :loading="mixinLoading" @click="onSave">
+                {{ okText || '保存' }}
+              </el-button>
+              <el-button size="mini" type="primary" @click="$emit('on-cancel')"> 取消 </el-button>
+            </template>
+            <el-button v-else-if="type === 'alert'" size="mini" type="primary" @click="$emit('on-cancel')"> 关闭 </el-button>
+          </div>
+          <div class="flex-1 text-right" v-else-if="actionPosition === 'bottom'">
+            <el-button size="mini" class="w-22" @click="$emit('on-cancel')" plain round>
+              <YkIcon icon="icon-park-outline:return" label="返回" :size="1" />
+            </el-button>
+          </div>
+        </div>
+      </slot>
+    </template>
+    <div class="h-full py-3 px-5">
+      <slot></slot>
+    </div>
+    <template #footer v-if="actionPosition === 'bottom'">
+      <div class="space-x-5 text-center">
+        <template v-if="type === 'confirm'">
+          <el-button type="primary" size="mini" :loading="mixinLoading" @click="onSave" class="w-23">
+            {{ okText || '保存' }}
+          </el-button>
+          <el-button size="mini" type="info" class="w-23" @click="$emit('on-cancel')"> 取消 </el-button>
+        </template>
+        <el-button v-else-if="type === 'alert'" size="mini" type="primary" @click="$emit('on-cancel')" class="w-23">
+          关闭
+        </el-button>
+      </div>
+    </template>
   </el-dialog>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 
-@Component({})
-export default class YkDialog extends Vue {
-  /**
-   * 控制dialog是否打开
-   */
-  @Prop({ type: Boolean, required: true })
-  dialogFlag!: false;
-
-  /**
-   * dialog标题
-   */
+@Component
+export default class SpDialog extends Vue {
   @Prop({ type: String, required: true })
-  mode!: 'add' | 'edit' | 'upload';
+  title!: string;
 
-  /**
-   * 表单的标题显示内容
-   */
-  get dialogTitle() {
-    const map = {
-      add: '新增',
-      edit: '编辑',
-      upload: '上传'
-    };
-    return map[this.mode];
+  @Prop({ type: String, default: 'confirm' })
+  type!: 'alert' | 'confirm';
+
+  @Prop({ type: String, required: false })
+  size?: 'h-full' | 'w-full' | 'full';
+
+  @Prop({ type: Function, required: true })
+  onOk?: YkFunction;
+
+  @Prop({ type: String })
+  okText?: string;
+
+  @Prop({ type: [String, Boolean], default: 'bottom' })
+  actionPosition?: 'top' | 'bottom' | false;
+
+  private mixinLoading = false;
+  async onSave() {
+    this.mixinLoading = true;
+    try {
+      await this.onOk?.();
+    } finally {
+      this.mixinLoading = false;
+    }
   }
 
-  handleClose() {
-    this.$emit('done');
-  }
-
-  save() {
-    this.$emit('close');
+  private get attrs() {
+    return Object.assign(
+      {
+        width: '800px',
+        'show-close': false,
+        'close-on-click-modal': false,
+        'close-on-press-escape': false,
+        'destroy-on-close': true,
+        'append-to-body': true
+      },
+      this.$attrs
+    );
   }
 }
 </script>
-<style lang="less" scoped></style>
+
+<style scoped lang="scss">
+::v-deep {
+  .el-dialog__body {
+    padding: 0;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+  }
+}
+</style>

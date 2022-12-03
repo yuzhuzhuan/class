@@ -9,30 +9,20 @@
           @click.prevent="goToPage(item)"
         >
           {{ item.title }}
-          <i
-            class="el-icon-close"
-            v-if="item.path !== '/index'"
-            @click.stop="closeCurentTab(item.path)"
-          ></i>
+          <i class="el-icon-close" v-if="item.path !== '/index'" @click.stop="closeCurentTab(item.path)"></i>
         </li>
       </scroller>
     </ul>
     <!-- 更多炒作 -->
     <el-dropdown @command="handleCommand">
-      <el-button type="primary" >
+      <el-button type="primary">
         更多操作
         <i class="el-icon-arrow-down el-icon--right" />
       </el-button>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item :command="ECloseTab.closeCurrent"
-          >关闭当前</el-dropdown-item
-        >
-        <el-dropdown-item :command="ECloseTab.closeOther"
-          >关闭其他</el-dropdown-item
-        >
-        <el-dropdown-item :command="ECloseTab.closeAll"
-          >关闭全部</el-dropdown-item
-        >
+        <el-dropdown-item :command="ECloseTab.closeCurrent">关闭当前</el-dropdown-item>
+        <el-dropdown-item :command="ECloseTab.closeOther">关闭其他</el-dropdown-item>
+        <el-dropdown-item :command="ECloseTab.closeAll">关闭全部</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
   </div>
@@ -42,7 +32,7 @@
 import { AppModule } from '@/store/modules/app';
 import { IRouteObj } from '@/types/routeTypes';
 import { Component, Vue } from 'vue-property-decorator';
-import Scroller from '@/components/Scroller/index.vue';
+import Scroller from '@/layout/components/Scroller/index.vue';
 import { ECloseTab } from './types';
 @Component({
   components: {
@@ -55,21 +45,21 @@ export default class Tab extends Vue {
    */
   public ECloseTab = ECloseTab;
   // 获取TabList
-  get TabList () {
+  get TabList() {
     return AppModule.TabList;
   }
 
   /**
    * 获取当前选中的值，需要使用计算属性
    */
-  get currentTab () {
+  get currentTab() {
     return AppModule.currentTab;
   }
 
   /**
    * 关闭当前tab
    */
-  closeCurentTab (path: string) {
+  closeCurentTab(path: string) {
     if (path === '/index') return;
     let index = -1;
     this.TabList.forEach((it, i) => {
@@ -88,7 +78,7 @@ export default class Tab extends Vue {
   /**
    * 千万选中的tab
    */
-  goToPage (route: IRouteObj) {
+  goToPage(route: IRouteObj) {
     const { path } = route;
     // 如果当前的路由和点击的路由一样，不进行push
     if (this.currentTab === path) {
@@ -100,7 +90,7 @@ export default class Tab extends Vue {
   /**
    * 点击按钮的关闭操作
    */
-  public handleCommand (tip: ECloseTab) {
+  public handleCommand(tip: ECloseTab) {
     if (tip === ECloseTab.closeCurrent) {
       this.closeCurentTab(this.currentTab);
     } else if (tip === ECloseTab.closeOther) {
@@ -117,7 +107,7 @@ export default class Tab extends Vue {
     }
   }
 
-  created () {
+  created() {
     // 一打开页面时只要首页
     AppModule.closeAll();
   }

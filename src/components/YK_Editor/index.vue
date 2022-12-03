@@ -16,7 +16,7 @@
 <script lang="ts">
 import { Component, Emit, Model, Vue } from 'vue-property-decorator';
 import Editor from '@tinymce/tinymce-vue';
-/* eslint-disable */
+
 @Component({ components: { Editor } })
 export default class YkEditor extends Vue {
   @Model('change', { type: String }) readonly value!: string;
@@ -29,22 +29,21 @@ export default class YkEditor extends Vue {
   initOpts = {
     selector: '#sp-tiny', // 富文本编辑器的id
     // skin: "oxide-dark",
-    language: 'zh-Hans', //语言包
+    language: 'zh-Hans', // 语言包
     // 插件
     plugins:
       'print preview searchreplace autolink directionality visualblocks visualchars fullscreen image link media template  codesample table hr pagebreak nonbreaking anchor insertdatetime advlist lists wordcount  help  autosave autoresize formatpainter code  textpattern',
     // 工具条
-    toolbar:
-      ' undo redo restoredraft | cut copy paste pastetext | forecolor backcolor bold italic underline strikethrough link anchor | alignleft aligncenter alignright alignjustify outdent indent | \
+    toolbar: ` undo redo restoredraft | cut copy paste pastetext | forecolor backcolor bold italic underline strikethrough link anchor | alignleft aligncenter alignright alignjustify outdent indent | \n' +
                      styleselect formatselect fontselect fontsizeselect | bullist numlist | blockquote subscript superscript removeformat | \
-                     table image media  hr pagebreak insertdatetime print preview | fullscreen | lineheight formatpainter  code   textpattern',
-    height: 650, //编辑器高度
+                     table image media  hr pagebreak insertdatetime print preview | fullscreen | lineheight formatpainter  code   textpattern`,
+    height: 650, // 编辑器高度
     min_height: 400,
-    /*content_css: [ //可设置编辑区内容展示的css，谨慎使用
+    /* content_css: [ //可设置编辑区内容展示的css，谨慎使用
                         '/static/reset.css',
                         '/static/ax.css',
                         '/static/css.css',
-                    ],*/
+                    ], */
     fontsize_formats: '12px 14px 16px 18px 24px 36px 48px 56px 72px',
     font_formats:
       '微软雅黑=Microsoft YaHei,Helvetica Neue,PingFang SC,sans-serif;苹果苹方=PingFang SC,Microsoft YaHei,sans-serif;宋体=simsun,serif;仿宋体=FangSong,serif;黑体=SimHei,sans-serif;Arial=arial,helvetica,sans-serif;Arial Black=arial black,avant garde;Book Antiqua=book antiqua,palatino;Comic Sans MS=comic sans ms,sans-serif;Courier New=courier new,courier;Georgia=georgia,palatino;Helvetica=helvetica;Impact=impact,chicago;Symbol=symbol;Tahoma=tahoma,arial,helvetica,sans-serif;Terminal=terminal,monaco;Times New Roman=times new roman,times;Verdana=verdana,geneva;Webdings=webdings;Wingdings=wingdings,zapf dingbats;知乎配置=BlinkMacSystemFont, Helvetica Neue, PingFang SC, Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei, sans-serif;小米配置=Helvetica Neue,Helvetica,Arial,Microsoft Yahei,Hiragino Sans GB,Heiti SC,WenQuanYi Micro Hei,sans-serif',
@@ -73,7 +72,7 @@ export default class YkEditor extends Vue {
       { title: 'Some class', value: 'class-name' }
     ],
     importcss_append: true,
-    //自定义文件选择器的回调内容
+    // 自定义文件选择器的回调内容
     // file_picker_callback: function (callback, value, meta) {
     //   if (meta.filetype === "file") {
     //     callback("https://www.baidu.com/img/bd_logo1.png", { text: "My text" });
@@ -90,7 +89,7 @@ export default class YkEditor extends Vue {
     //     });
     //   }
     // },
-    //为内容模板插件提供预置模板
+    // 为内容模板插件提供预置模板
     templates: [
       { title: '模板1', description: '介绍文字1', content: '模板内容' },
       {
@@ -111,7 +110,7 @@ export default class YkEditor extends Vue {
     // images_upload_handler: function (blobInfo, succFun, failFun) {
     //   succFun("/demo/images/img.jpg");
     // },
-    //icons:'ax-color',
+    // icons:'ax-color',
     convert_urls: false,
     toolbar_sticky: true,
     auto_focus: true

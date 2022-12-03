@@ -1,10 +1,10 @@
 <template>
-    <div class="app-container">
-        <el-card shadow="never">
-            折线图
-            <YKEcharts :options="options" className="h-120" v-if='flag'></YKEcharts>
-        </el-card>
-    </div>
+  <div class="app-container">
+    <el-card shadow="never">
+      折线图
+      <YKEcharts :options="options" className="h-120" v-if="flag"></YKEcharts>
+    </el-card>
+  </div>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
@@ -26,7 +26,7 @@ export default class LineChart extends Vue {
    * echarts配置项
    */
   options = {} as echarts.EChartsOption;
-  async created () {
+  async created() {
     await this.getList();
     if (this.object) {
       this.flag = true;
@@ -84,11 +84,9 @@ export default class LineChart extends Vue {
   }
 
   // 获取数据
-  async getList () {
-    const {
-      data: { list }
-    } = await getLineChartApi();
-    this.object = list;
+  async getList() {
+    const { data } = await getLineChartApi();
+    this.object = data;
   }
 }
 </script>

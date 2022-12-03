@@ -8,15 +8,12 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
-export default class SpIcon extends Vue {
+export default class YkIcon extends Vue {
   @Prop({ type: String, required: true })
   icon!: string;
 
   @Prop({ type: [String, Array, Object] })
-  className?:
-    | string
-    | (string | Record<string, boolean>)[]
-    | Record<string, boolean>;
+  className?: string | (string | Record<string, boolean>)[] | Record<string, boolean>;
 }
 </script>
 

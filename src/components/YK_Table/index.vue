@@ -1,137 +1,464 @@
 <template>
-  <div class="app-container">
-    <!-- 表格 -->
-    <el-table :data="tableData" row-key="id" border style="width: 100%" :tree-props="{ children: 'children' }">
-      <template v-for="item in getColumn">
+  <div class="flex flex-col sp-table relative">
+    <el-table
+      :data="dataList"
+      v-loading="!!loading || dataLoading"
+      style="width: 100%"
+      v-bind="$attrs"
+      :max-height="maxHeight"
+      v-on="$listeners"
+      :no-data-text="emptyText"
+      @selection-change="onSelectionChange"
+      ref="table"
+      class="flex-1"
+      size="mini"
+      :reserve-selection="reserveSelection"
+      row-key="id"
+      :tree-props="{ children: 'children' }"
+    >
+      <template v-for="{ slot, ...item } in cols">
         <el-table-column
-          v-if="!!item.slot"
+          v-if="slot === 'action'"
           :key="(item.prop || item.key) + 'slot'"
-          :prop="item.prop"
-          :label="item.label"
-          :width="item.width"
-          :min-width="item.minWidth"
-          :formatter="item.formatter"
-          :align="item.align"
-          :show-overflow-tooltip="item.tooltip"
-          :sortable="item.sortable"
-          :type="item.type"
+          v-bind="actionCol"
+          label="操作"
+          :header-align="actionCol.align"
+          :align="actionCol.align"
         >
           <template #default="scope">
-            <slot :name="item.slot" :row="scope.row" :index="scope.index"></slot>
+            <div class="space-x-3 inline-block">
+              <slot name="action" :row="plainRow(scope.row)" :index="scope.$index"></slot>
+              <template v-if="!!actionCol.listeners">
+                <SpTableButton
+                  text="修改"
+                  v-if="!!actionCol.listeners.edit"
+                  @click="actionCol.listeners.edit(plainRow(scope.row), scope.$index)"
+                />
+                <SpTablePoptip
+                  v-if="!!actionCol.listeners.remove"
+                  :title="actionCol.listeners.removeConfirmTip || '确定删除该条数据吗？该操作无法撤回'"
+                  @click.native.stop
+                  @confirm="actionCol.listeners.remove(plainRow(scope.row), scope.$index)"
+                >
+                  <el-button type="text" size="mini">删除</el-button>
+                </SpTablePoptip>
+                <SpTableButton
+                  text="详情"
+                  v-if="!!actionCol.listeners.detail"
+                  @click="actionCol.listeners.detail(plainRow(scope.row), scope.$index)"
+                />
+              </template>
+            </div>
           </template>
         </el-table-column>
-        <el-table-column
-          v-else
-          :key="item.prop || item.key"
-          :prop="item.prop"
-          :label="item.label"
-          :width="item.width"
-          :min-width="item.minWidth"
-          :formatter="item.formatter"
-          :align="item.align"
-          :show-overflow-tooltip="item.tooltip"
-          :sortable="item.sortable"
-        >
+        <el-table-column v-else-if="!!slot" :key="(item.prop || item.key) + 'slot'" v-bind="item">
+          <template #default="scope">
+            <slot :name="slot" :row="plainRow(scope.row)" :index="scope.$index"></slot>
+          </template>
         </el-table-column>
+        <el-table-column v-else :key="item.prop || item.key" v-bind="item"> </el-table-column>
       </template>
-      <el-table-column label="操作" v-if="columns.some(item => item.slot === 'action')" min-width="200">
-        <template #default="scope">
-          <el-button @click="edit(scope.row)" type="primar">编辑</el-button>
-          <el-button @click="del(scope.row)" type="danger">删除</el-button>
-        </template>
-      </el-table-column>
+      <template slot="empty">
+        <div class="my-10" v-show="!(!!loading || dataLoading)">
+          <!-- TODO 求提供无数据图片 -->
+          <!-- <img class="mx-auto" src="@/assets/images/table-empty.png" /> -->
+          <div class="text-center !leading-8">暂无数据</div>
+        </div>
+      </template>
     </el-table>
-    <div class="page" v-if="totalNum">
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="pageInfo.pageIndex"
-        :page-sizes="[1, 2, 5, 10, 20, 50, 100]"
-        :page-size="pageInfo.pageSize"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="totalNum"
-      >
-      </el-pagination>
+    <div class="py-6 clearfix" v-show="showPagination">
+      <!-- 分页 -->
+      <SpPagination
+        class="pull-right offset-bottom"
+        @change="request(params, $event)"
+        :page-info="pageInfo"
+        :total="pageTotalMixin"
+        v-show="showPagination"
+      />
     </div>
   </div>
 </template>
-
 <script lang="ts">
-/* eslint-disable */
-import { DEF_PAGE_INFO } from '@/assets/js/config';
-import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
-export type PageInfo = Partial<typeof DEF_PAGE_INFO>;
-@Component({})
+import SpPagination, { PageInfo } from './YkPagination.vue';
+import SpTableButton from './YkTableButton.vue';
+import SpTablePoptip from './YkTablePoptip.vue';
+
+import { Vue, Prop, PropSync, Watch, Component, Emit, Ref } from 'vue-property-decorator';
+import { RESPONSE_CONFIG } from '@/utils/request';
+import { Table } from 'element-ui';
+
+export type ColumnItem<T extends Record<string, any>> =
+  | {
+      slot: 'action';
+      fixed?: 'left' | 'right' | boolean;
+      label?: string;
+      minWidth?: number;
+      width?: number;
+      listeners?: {
+        remove?: YkFunction<Promise<void>>;
+        edit?: YkFunction<void>;
+        detail?: YkFunction;
+      };
+      type?: 'selection' | 'index' | 'expand';
+      formatter?: (row: T, column: ColumnItem<T>, cellValue: any, index: number) => any;
+    }
+  | {
+      prop: keyof T;
+      type?: 'selection' | 'index' | 'expand';
+      label: string;
+      slot?: string;
+      align?: 'center' | 'left' | 'right';
+      fixed?: 'left' | 'right' | boolean;
+      minWidth?: number;
+      width?: number;
+      className?: string;
+      formatter?: (row: T, column: ColumnItem<T>, cellValue: any, index: number) => any;
+      showOverflowTooltip?: boolean;
+      selectable?: YkFunction;
+    };
+
+@Component({
+  inheritAttrs: false,
+  components: { SpPagination, SpTablePoptip, SpTableButton }
+})
 export default class YkTable extends Vue {
-  /**
-   * 表格数据
-   */
+  // 请求接口
+  @Prop({ type: [Function, Array], required: true })
+  list!: YkFunction<Promise<any>> | Record<string, any>[];
+
   @Prop({ type: [Array], required: true })
-  list?: Record<string, any>[];
+  columns!: Array<ColumnItem<any>>;
 
-  /**
-   * 表头数据
-   */
-  @Prop({ type: [Array], required: true })
-  columns!: Array<any>;
+  @Prop({ type: Boolean, default: true })
+  autoRequest!: boolean;
 
-  /**
-   * 数据总数量
-   */
-  @Prop({ type: Number || String, required: false })
-  totalNum!: number | string;
+  @Prop({ type: Boolean, default: false })
+  loading!: boolean;
 
-  /**
-   * 页码数据
-   */
-  @Prop({ type: Object, required: false })
-  pageInfo!: Record<string, any>;
+  // 每页显示几条数据
+  @Prop({ type: Number, required: false })
+  pageSize?: number;
 
+  @Prop({ type: [Object], default: () => ({}) })
+  pageOptions!: Record<string, any>;
+
+  // 单选 | 多选
+  @Prop({
+    type: String,
+    default: 'multi',
+    validator(value: 'single' | 'multi' = 'multi') {
+      return ['single', 'multi'].includes(value);
+    }
+  })
+  checkMode!: 'single' | 'multi';
+
+  // 无数据文案
+  @Prop({ type: String, default: '暂无数据', required: false })
+  emptyText?: string;
+
+  // clone row data
+  @PropSync('selection', { type: Array, required: false })
+  private _selection?: Record<string, any>[];
+
+  @Prop({ type: [Boolean, Function], default: true })
+  selectable!: boolean | ((row: any, rowIndex: number) => boolean);
+
+  get selectableFn() {
+    return typeof this.selectable === 'function' ? this.selectable : undefined;
+  }
+
+  get maxHeight() {
+    let value = this.$attrs['max-height'] as string | number | undefined;
+    value = value?.toString().endsWith('vh') ? (+value.toString().slice(0, -2) / 100) * window.innerHeight : value;
+    return value;
+  }
+
+  dataLoading = false;
   dataList = [] as Record<string, any>[];
+  params = {} as Record<string, any>;
 
   @Watch('list')
   onListChange() {
-    this.dataList = this.list ?? [];
+    if (Array.isArray(this.list)) this.request();
   }
 
-  get tableData() {
-    return [...this.dataList];
-  }
-
-  // 表头数据
-  get getColumn(): Array<any> {
-    const columns = this.columns.filter(item => item.label && item.slot !== 'action' /* && item.listeners */);
-    return columns;
-  }
+  @Prop({ type: Boolean, required: false })
+  disableCheck?: boolean;
 
   // 除 action 之外的 slots
   get columnSlots(): Array<any> {
-    const columns = this.columns.filter(item => item.slot && item.slot !== 'action' /* && item.listeners */);
+    const columns = this.cols.filter(item => item.slot && item.slot !== 'action' /* && item.listeners */);
     return columns;
   }
 
-  edit(e: {}) {
-    this.$emit('edit', e);
+  get actionCol() {
+    const { slot, ...action } = this.cols.find(item => item.slot === 'action') ?? {};
+    return slot ? action : null;
   }
 
-  del(e: {}) {
-    this.$emit('del', e);
+  // get actionPermits() {
+  //   const action = this.cols.find((item) => item.slot === 'action')
+  //   return action?.permits || {}
+  // }
+  private get cols(): ColumnItem<any>[] {
+    let cols = this.columns.slice(0).map(item => {
+      let { width, minWidth, label, slot } = item;
+      if (!width && !minWidth && label && slot !== 'action') {
+        minWidth = label.length * 13 + 20;
+      }
+      return { ...item, minWidth };
+    });
+    cols = this.colsWithFixed(cols) as (ColumnItem<any> & {
+      minWidth: number;
+    })[];
+    // cols = this.colsWithPermits(cols)
+    return cols;
   }
 
-  handleSizeChange(val: number) {
-    this.$emit('changeSize', val);
+  colsWithFixed(columns: ColumnItem<any>[]) {
+    // 操作列
+    const action = columns.find(item => item.slot === 'action');
+    if (action) {
+      const defAction = { title: '操作', width: '200px', align: 'center', fixed: 'right' };
+      action.fixed
+        ? columns.splice(columns.indexOf(action), 1, Object.assign(defAction, action))
+        : Reflect.deleteProperty(action, 'fixed');
+    }
+    // 可选列
+    if (this.selectable && this._selection) {
+      const selection = columns.find(item => item.type === 'selection');
+      selection && columns.splice(columns.indexOf(selection), 1);
+      columns.unshift({
+        width: '38',
+        type: 'selection',
+        selectable: this.selectableFn,
+        align: 'center',
+        fixed: 'left',
+        className: this.checkMode === 'single' ? 'sp-table-check-single' : '',
+        ...(selection ?? {})
+      } as ColumnItem<any>);
+    }
+
+    return columns;
   }
 
-  handleCurrentChange(val: number) {
-    this.$emit('changePageIndex', val);
+  colsWithPermits(columns: ColumnItem<any>[]) {
+    const action = columns.find(item => item.slot === 'action');
+    // const innerPermits = Object.values(this.actionPermits) as string[]
+
+    // 操作列权限
+    if (action && /* !this.hasPermit(innerPermits) && */ !this.$scopedSlots?.action) {
+      columns.splice(columns.indexOf(action), 1);
+    }
+
+    // 可选列权限
+    const selection = columns.find(item => item.type === 'selection');
+    if (selection && !this.selectable) {
+      columns.splice(columns.indexOf(selection), 1);
+    }
+
+    return columns;
+  }
+
+  get showPagination() {
+    return (this.pageSize ?? 0) < Number.MAX_SAFE_INTEGER && !Array.isArray(this.list);
+  }
+
+  private plainRow(item: object) {
+    if (item === null || typeof item !== 'object') return item;
+    item = Object.assign({}, item);
+    Object.keys(item).forEach(key => key.startsWith('_') && Reflect.deleteProperty(item, key));
+
+    return item;
+  }
+
+  // 翻页时是否记忆选中的行
+  @Prop({ type: Boolean, default: false })
+  reserveSelection!: boolean;
+
+  onSelectionChange(selection: Array<Record<string, any>>) {
+    selection = selection.map(this.plainRow);
+    this._selection = this.onSelectionCascade(selection, this._selection);
+  }
+
+  private getList(params: YkFunction<Promise<any>> | Record<string, any>) {
+    if (typeof this.list === 'function') {
+      return this.list(params);
+    } else {
+      return Promise.resolve({ data: this.list });
+    }
+  }
+
+  mergePageInfo(pageInfo: PageInfo) {
+    // 详情跳回列表时，定位 pageIndex
+    const curRoute = this.$route.matched[this.$route.matched.length - 1];
+    const curRoutePageIndex = window.sessionStorage.getItem(`${curRoute.path}-pageIndex`) || 0;
+    const curRoutePageSize = window.sessionStorage.getItem(`${curRoute.path}-pageSize`);
+    if (!Reflect.has(pageInfo, 'pageIndex')) pageInfo.pageIndex = +curRoutePageIndex || 1;
+    if (!Reflect.has(pageInfo, 'pageSize') && curRoutePageSize) pageInfo.pageSize = +curRoutePageSize;
+    window.sessionStorage.removeItem(`${curRoute.path}-pageIndex`);
+    window.sessionStorage.removeItem(`${curRoute.path}-pageSize`);
+
+    const { pageSize, pageIndex } = this.pageInfo;
+    return Object.assign({ pageSize, pageIndex }, pageInfo);
+  }
+
+  @Emit('on-success')
+  async request(params = {} as Record<string, any>, pageInfo = {}) {
+    // 翻页时带上次查询的条件
+    Object.keys(params).forEach(key => {
+      let value = params[key];
+      if (value === '') Reflect.deleteProperty(params, key);
+      else if (Array.isArray(value)) {
+        value.length || Reflect.deleteProperty(params, key);
+      } else if (value?.constructor === Object) {
+        params[key] = value = Object.assign({}, value);
+        Object.keys(value).forEach(subkey => value[subkey] === '' && Reflect.deleteProperty(value, subkey));
+        Object.keys(value).length || Reflect.deleteProperty(params, key);
+      }
+    });
+    this.params = params ?? this.params;
+    params = Object.assign({}, this.params, this.pageSize === Number.MAX_SAFE_INTEGER ? {} : this.mergePageInfo(pageInfo));
+    params.page = params.pageIndex;
+    Reflect.deleteProperty(params, 'pageIndex');
+
+    this.dataLoading = true;
+    return this.getList(params)
+      .then((res: any) => {
+        const { page = params?.page, data = [] } = res;
+
+        if ((this.pageSize ?? 0) < Number.MAX_SAFE_INTEGER) {
+          this.pageTotalMixin = res[RESPONSE_CONFIG.TOTAL] ?? 0;
+          this.pageInfo.pageIndex = page || 0;
+          this.pageInfo.pageSize = params?.pageSize || 0;
+        }
+        this.dataList = data;
+        !this.reserveSelection && this.selectable && this.onSelectionChange([]);
+        return data;
+      })
+      .finally(() => {
+        this.dataLoading = false;
+      });
+  }
+
+  // 分组选择时候的级联
+  onSelectionCascade(newValue: any[], oldValue: any[] = []) {
+    if (!('tree-props' in this.$attrs)) return newValue;
+    const { children } = this.$attrs['tree-props'] as unknown as {
+      children: string;
+    };
+    const list = newValue.slice(0);
+    const newSet = new Set(newValue.map(item => item.id));
+    const oldSet = new Set(oldValue.map(item => item.id));
+    // 新选的 rows
+    newValue
+      .filter(item => !oldSet.has(item.id))
+      .forEach(item => {
+        if (children in item) {
+          item[children].forEach((si: any) => {
+            newSet.has(si.id) || list.push(this.plainRow(si));
+          });
+        } else {
+          const itemParent = this.dataList.find(i => i[children].some((si: any) => si.id === item.id));
+          itemParent?.[children].every((si: any) => newSet.has(si.id)) && list.push(this.plainRow(itemParent));
+        }
+      });
+    // 删除的
+    oldValue
+      .filter(item => !newSet.has(item.id))
+      .forEach(item => {
+        if (children in item) {
+          item[children].forEach((si: any) => {
+            if (newSet.has(si.id)) {
+              const index = list.findIndex(i => i.id === si.id);
+              list.splice(index, 1);
+            }
+          });
+        } else {
+          const itemParent = this.dataList.find(i => i[children].some((si: any) => si.id === item.id));
+          if (itemParent?.[children].some((si: any) => !newSet.has(si.id))) {
+            const index = list.findIndex(i => i.id === itemParent.id);
+            list.splice(index, 1);
+          }
+        }
+      });
+    return list.length !== newValue.length ? list : newValue;
+  }
+
+  @Ref('table') refTable?: Table;
+
+  pageInfo = {} as any;
+  pageInfoMixin = {
+    pageIndex: 1,
+    pageSize: 10
+  };
+
+  pageTotalMixin = 0;
+
+  private created() {
+    this.pageInfo = Object.assign({}, this.pageOptions, this.pageInfoMixin);
+    this.pageSize && (this.pageInfo.pageSize = this.pageSize);
+    this.autoRequest && this.request();
   }
 }
 </script>
 
+<style lang="scss">
+.ivu-tooltip,
+.icon-svg,
+.sp-table-poptip,
+.ivu-poptip {
+  & + & {
+    .sp-table .action-bar & {
+      margin-left: 8px;
+    }
+  }
+}
+</style>
 <style lang="scss" scoped>
-.page {
-  padding-top: 20px;
-  display: flex;
-  justify-content: flex-end;
+::v-deep {
+  .el-table th.el-table__cell {
+    @apply font-normal bg-[#E7E7E7];
+    color: #444;
+  }
+  .el-checkbox__input.is-disabled {
+    display: none !important;
+  }
+  .el-table__empty-block {
+    justify-content: start;
+    text-align: left;
+    width: auto !important;
+    left: 0;
+    position: sticky;
+  }
+  .el-table__empty-text {
+    width: 100%;
+  }
+}
+.sp-table {
+  .no-data {
+    line-height: 3em;
+
+    text-align: center;
+  }
+
+  ::v-deep {
+    th.sp-table-check-single {
+      .ivu-table-cell-with-selection {
+        display: none;
+      }
+    }
+    .ivu-table-cell-with-selection {
+      padding-right: 0;
+    }
+  }
+
+  .check-all {
+    margin-top: 20px;
+  }
+}
+.el-table__body-wrapper::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
 </style>

@@ -1,18 +1,9 @@
 <template>
   <div class="navbar">
-    <hamburger
-      id="hamburger-container"
-      :is-active="sidebar.opened"
-      class="hamburger-container"
-      @toggleClick="toggleSideBar"
-    />
+    <hamburger id="hamburger-container" :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
     <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
     <div class="right-menu">
-      <el-dropdown
-        class="avatar-container right-menu-item hover-effect"
-        id="personal-center"
-        trigger="click"
-      >
+      <el-dropdown class="avatar-container right-menu-item hover-effect" id="personal-center" trigger="click">
         <div class="avatar-wrapper">
           <!-- <img :src="avatar" class="user-avatar" /> -->
           <!-- {{userInfo.nickName}} -->
@@ -34,10 +25,11 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import Breadcrumb from '@/components/Breadcrumb/index.vue';
-import Hamburger from '@/components/Hamburger/index.vue';
+import Breadcrumb from '@/layout/components/Breadcrumb/index.vue';
+import Hamburger from '@/layout/components/Hamburger/index.vue';
 import { AppModule } from '@/store/modules/app';
 import { UserModule } from '@/store/modules/user';
+import { GetUserApi } from '../../../../api/login'; // 导入接口
 @Component({
   components: {
     Breadcrumb,
@@ -45,23 +37,30 @@ import { UserModule } from '@/store/modules/user';
   }
 })
 export default class Navbar extends Vue {
-  get sidebar () {
+  get sidebar() {
     return AppModule.sidebar;
   }
 
-  get userInfo () {
+  get userInfo() {
     return UserModule.useData ?? {};
   }
 
-  get avatar () {
+  get avatar() {
     return require('@/assets/avatar.gif');
   }
 
-  public toggleSideBar () {
+  async mounted() {
+    if (UserModule.token && !UserModule.useData?.id) {
+      const { data } = await GetUserApi({ username: 'admin', password: '123456' });
+      UserModule.setUserData(data);
+    }
+  }
+
+  public toggleSideBar() {
     AppModule.ToggleSideBar(false);
   }
 
-  public async logout () {
+  public async logout() {
     // UserModule.ResetToken()
     UserModule.deltoken();
     this.$router.push('/Login');

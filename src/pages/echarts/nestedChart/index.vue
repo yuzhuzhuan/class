@@ -1,10 +1,10 @@
 <template>
-    <div class="app-container">
-        <el-card shadow="never">
-            嵌套环形图
-            <YKEcharts :options="options" className="h-120" v-if='flag'></YKEcharts>
-        </el-card>
-    </div>
+  <div class="app-container">
+    <el-card shadow="never">
+      嵌套环形图
+      <YKEcharts :options="options" className="h-120" v-if="flag"></YKEcharts>
+    </el-card>
+  </div>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
@@ -25,11 +25,9 @@ export default class NestedChart extends Vue {
   /**
    * echarts配置项
    */
-  options = {} as echarts.EChartsOption
-  async created () {
+  options = {} as echarts.EChartsOption;
+  async created() {
     await this.getList();
-    console.log(this.list);
-
     if (this.list.length) {
       this.flag = true;
       this.options = {
@@ -52,12 +50,10 @@ export default class NestedChart extends Vue {
   }
 
   // 获取数据
-  async getList () {
-    const {
-      data: { list }
-    } = await getNestedChartApi();
+  async getList() {
+    const { data } = await getNestedChartApi();
 
-    this.list = list;
+    this.list = data;
   }
 }
 </script>

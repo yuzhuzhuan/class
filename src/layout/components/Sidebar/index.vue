@@ -1,26 +1,37 @@
 <template>
   <div>
     <sidebar-logo :collapse="isCollapse" />
-    <el-scrollbar wrap-class="scrollbar-wrapper">
-      <el-menu
-        :unique-opened="true"
-        :collapse-transition="false"
-        :default-active="activeMenu"
-        :collapse="isCollapse"
-        :background-color="variables.menuBg"
-        :text-color="variables.menuText"
-        :active-text-color="variables.menuActiveText"
-        mode="vertical"
-      >
-        <sidebar-item
-          v-for="route in routes"
-          :key="route.path"
-          :item="route"
-          :base-path="route.path"
-          :is-collapse="isCollapse"
-        />
-      </el-menu>
-    </el-scrollbar>
+    <div class="menu">
+      <el-scrollbar wrap-class="scrollbar-wrapper">
+        <el-menu
+          :unique-opened="true"
+          :collapse-transition="false"
+          :default-active="activeMenu"
+          :collapse="isCollapse"
+          :background-color="variables.menuBg"
+          :text-color="variables.menuText"
+          :active-text-color="variables.menuActiveText"
+          mode="vertical"
+        >
+          <!-- <sidebar-item
+            v-for="route in routes"
+            :key="route.path"
+            :item="route"
+            :base-path="route.path"
+            :is-collapse="isCollapse"
+          /> -->
+          <template v-for="route in routes">
+            <sidebar-item
+              v-if="hasPermit(route.meta && route.meta.id)"
+              :key="route.path"
+              :item="route"
+              :base-path="route.path"
+              :is-collapse="isCollapse"
+            />
+          </template>
+        </el-menu>
+      </el-scrollbar>
+    </div>
   </div>
 </template>
 
@@ -31,6 +42,7 @@ import SidebarLogo from './SidebarLogo.vue';
 import variables from '@/styles/variables.scss';
 import { routes } from '@/router';
 import { AppModule } from '@/store/modules/app';
+import { UserModule } from '@/store/modules/user';
 // import { getCurrentTab } from '@/utils/cookies';
 
 @Component({
@@ -43,32 +55,32 @@ export default class SideBar extends Vue {
   /**
    * 获取权限路由
    */
-  get routes () {
-    console.log(routes);
+  get hasPermit() {
+    return UserModule.hadPermit;
+  }
 
-    // console.log(PermissionModule.routes)
-    // return PermissionModule.routes
+  get routes() {
     return routes;
   }
 
   /**
    * 获取菜单栏状态
    */
-  get sidebar () {
+  get sidebar() {
     return AppModule.sidebar;
   }
 
   /**
    * 获取scss变量
    */
-  get variables () {
+  get variables() {
     return variables;
   }
 
   /**
    * 获取当前激活菜单
    */
-  get activeMenu () {
+  get activeMenu() {
     const route = this.$route;
     const { meta, path, name } = route;
     // if set path, the sidebar will highlight the path you set
@@ -83,18 +95,22 @@ export default class SideBar extends Vue {
   /**
    * 获取当前菜单是否关闭
    */
-  get isCollapse () {
+  get isCollapse() {
     return !this.sidebar.opened;
   }
 }
 </script>
 
-<style lang='scss'>
+<style lang="scss">
+.menu {
+  width: 100%;
+  height: 100%;
+  background-color: $mainColor !important ;
+}
 .sidebar-container {
   // reset element-ui css
   .horizontal-collapse-transition {
-    transition: 0s width ease-in-out, 0s padding-left ease-in-out,
-      0s padding-right ease-in-out;
+    transition: 0s width ease-in-out, 0s padding-left ease-in-out, 0s padding-right ease-in-out;
   }
 
   .scrollbar-wrapper {
@@ -135,6 +151,7 @@ export default class SideBar extends Vue {
   height: 100%;
   width: 100%;
   background-color: $mainColor !important;
+  border-right: 0px !important;
   /**配色 */
 
   .el-menu-item {

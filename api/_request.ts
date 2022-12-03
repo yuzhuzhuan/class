@@ -1,7 +1,7 @@
 import Axios from 'axios';
 import { Message } from 'element-ui';
 import router from '../src/router';
-import { UserModule } from '../src/store/modules/user'
+import { UserModule } from '../src/store/modules/user';
 
 // 定义axios配置
 const http = Axios.create({
@@ -20,7 +20,7 @@ const http = Axios.create({
 
 // 请求拦截器
 http.interceptors.request.use(
-  function (config) {
+  function(config) {
     if (UserModule.token.length > 0 && UserModule.token) {
       config.headers.Authorization = UserModule.token;
     }
@@ -31,20 +31,21 @@ http.interceptors.request.use(
     }
     return config;
   },
-  function (error) {
+  function(error) {
     return Promise.reject(error);
   }
 );
 
 // 响应拦截器
 http.interceptors.response.use(
-  function (res) {
+  function(res) {
     if (res.data.code !== 200) {
       Message.error(res.data.msg);
     }
-    return res;
+
+    return res.data;
   },
-  function (err) {
+  function(err) {
     const config = err.config;
     const errres = err.response;
     const errType = errres ? errres.status : 0;
@@ -119,17 +120,17 @@ http.interceptors.response.use(
     config.__retryCount += 1;
 
     // Create new promise to handle exponential backoff
-    const backoff = new Promise(function (resolve: any) {
-      setTimeout(function () {
+    const backoff = new Promise(function(resolve: any) {
+      setTimeout(function() {
         resolve();
       }, config.retryDelay || 1);
     });
 
     // Return the promise in which recalls axios to retry the request
-    return backoff.then(function () {
+    return backoff.then(function() {
       return http(config);
     });
   }
 );
 
-export default http
+export default http;

@@ -1,5 +1,5 @@
 import { RouteConfig } from 'vue-router';
-import Layout from '@/layout/index.vue'
+import Layout from '@/layout/index.vue';
 
 export default [
   {
@@ -18,7 +18,8 @@ export default [
         meta: {
           title: '柱状图',
           icon: 'fluent-mdl2:bar-chart-4',
-          noCache: false
+          noCache: false,
+          id: '11'
         }
       },
       {
@@ -28,7 +29,8 @@ export default [
         meta: {
           title: '折线图',
           icon: 'raphael:linechart',
-          noCache: false
+          noCache: false,
+          id: '12'
         }
       },
       {
@@ -38,7 +40,8 @@ export default [
         meta: {
           title: '饼图',
           icon: 'raphael:piechart',
-          noCache: false
+          noCache: false,
+          id: '13'
         }
       },
       {
@@ -48,7 +51,8 @@ export default [
         meta: {
           title: '雷达图',
           icon: 'icon-park-twotone:radar-chart',
-          noCache: false
+          noCache: false,
+          id: '14'
         }
       },
       {
@@ -58,7 +62,8 @@ export default [
         meta: {
           title: '嵌套环形图',
           icon: 'mdi:chart-donut-variant',
-          noCache: false
+          noCache: false,
+          id: '15'
         }
       }
     ]

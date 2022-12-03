@@ -1,5 +1,4 @@
 import { isPhoneNumber, isEmailNumber } from './validate';
-/* eslint-disable */
 type cbFunc = (msg?: string | Error) => void;
 export const FormValidator = {
   /**
@@ -14,19 +13,19 @@ export const FormValidator = {
         } else {
           // value = value.trim();
           if (value.length > 11) {
-            return callback(new Error('长度超过11位'))
+            return callback(new Error('长度超过11位'));
           } else if (isPhoneNumber(value)) {
             return callback();
           } else if (!isPhoneNumber(value)) {
             return callback(new Error(`${msg}格式不正确`));
           } else if (value.length !== 0) {
-            return callback(new Error('输入中……'))
+            return callback(new Error('输入中……'));
           }
         }
       },
       trigger: opt || 'change',
       required: isRequired || true
-    }
+    };
   },
   /**
    * 验证手机号码的长度是否符合规范
@@ -40,7 +39,7 @@ export const FormValidator = {
         } else {
           // value = value.trim();
           if (value.length < 0) {
-            return callback(new Error('输入中……'))
+            return callback(new Error('输入中……'));
           } else if (isEmailNumber(value)) {
             return callback();
           } else if (!isEmailNumber(value)) {
@@ -50,7 +49,7 @@ export const FormValidator = {
       },
       trigger: opt || 'change',
       required: isRequired || true
-    }
+    };
   },
   /**
    * 是否为身份证
@@ -64,9 +63,9 @@ export const FormValidator = {
         } else {
           // value = value.trim();
           if (value.length > 18) {
-            return callback(new Error('长度超过18位'))
+            return callback(new Error('长度超过18位'));
           } else if (value.length < 18) {
-            return callback(new Error('输入中……'))
+            return callback(new Error('输入中……'));
           } else {
             return callback();
           }
@@ -74,7 +73,7 @@ export const FormValidator = {
       },
       trigger: opt || 'blur',
       required: isRequired || true
-    }
+    };
   },
   /**
    * 验证输入数字的长度是否符合规范
@@ -103,7 +102,7 @@ export const FormValidator = {
       },
       required: isRequired || true,
       trigger: opt || 'change'
-    }
+    };
   },
   /**
    * 验证字符的长度是否符合规范
@@ -131,7 +130,7 @@ export const FormValidator = {
       },
       required: isRequired || true,
       trigger: opt || 'change'
-    }
+    };
   },
   /**
    * 验证不为空的选项
@@ -151,7 +150,6 @@ export const FormValidator = {
       },
       required: isRequired || true,
       trigger: opt || 'change'
-    }
+    };
   }
-
 };

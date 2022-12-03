@@ -1,38 +1,23 @@
 <template>
-    <div class="app-container">
-        <el-card shadow="never">
-            <h1 class="text-center">upload组件</h1>
-            <el-button @click="click">点击上传</el-button>
-            <YKDialog v-model="dialogFlag" :dialogFlag="dialogFlag" :mode="mode" @done="dialogFlag = false" @close="closeDone">
-                <el-form label-width="80px" :model="form">
-                    <el-form-item label="保存路径">
-                        <el-input v-model.trim="form.name" placeholder="请输入保存路径"></el-input>
-                    </el-form-item>
-                    <el-form-item label="">
-                        <YKUpload :drag="true" @uploadOk="uploadOk" :clearFiles="clearFiles"></YKUpload>
-                        <span>只能上传jpg/png文件，且不超过2MB</span>
-                    </el-form-item>
-                </el-form>
-            </YKDialog>
-
-            <div class="w-50 mt-10">
-                <YKUpload :drag="true" @uploadOk="uploadOk" :clearFiles="clearFiles"></YKUpload>
-            </div>
-            <div class="w-50 mt-10">
-                <YKUpload listType="picture-card" :limit="5">
-                    <i slot="default" class="el-icon-plus"></i>
-                </YKUpload>
-            </div>
-        </el-card>
-    </div>
+  <div class="app-container">
+    <el-card shadow="never">
+      <h1 class="text-center">upload组件</h1>
+      <div class="w-50 mt-10">
+        <YkUpload :drag="true" @uploadOk="uploadOk" :clearFiles="clearFiles"></YkUpload>
+      </div>
+      <div class="w-50 mt-10">
+        <YkUpload listType="picture-card" :limit="5">
+          <i slot="default" class="el-icon-plus"></i>
+        </YkUpload>
+      </div>
+    </el-card>
+  </div>
 </template>
-<script lang='ts'>
-
-import { Component, Vue, Ref } from 'vue-property-decorator';
-import YKDialog from '@/components/YK_Dialog/index.vue';
-import YKUpload from '@/components/YK_Upload/index.vue';
+<script lang="ts">
+import { Component, Vue, Ref, Mixins } from 'vue-property-decorator';
+import YkUpload from '@/components/YK_Upload/index.vue';
 @Component({
-  components: { YKDialog, YKUpload }
+  components: { YkUpload }
 })
 export default class Upload extends Vue {
   /**
@@ -62,7 +47,7 @@ export default class Upload extends Vue {
   fileFormData?: FormData;
 
   // 上传成功
-  uploadOk (val: any) {
+  uploadOk(val: any) {
     const fd = new FormData();
     fd.append('file', val.file);
     this.fileFormData = fd;
@@ -70,13 +55,13 @@ export default class Upload extends Vue {
     this.clearFiles = true;
   }
 
-  click () {
+  click() {
     this.dialogFlag = true;
     this.mode = 'upload';
   }
 
   // 关闭弹框
-  async closeDone () {
+  async closeDone() {
     const formData: FormData = this.fileFormData || new FormData();
     let path = '';
     if (this.form.name) {

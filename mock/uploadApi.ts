@@ -1,5 +1,5 @@
-import Mock from 'mockjs'
-import { Response } from './type'
+import Mock from 'mockjs';
+import { Response } from './type';
 // const projectList = Mock.mock({
 //   'object|8': {
 //     nickName: 'admin',
@@ -39,7 +39,7 @@ export default [
       //   }
       // }
     }
-  },
+  }
   // 获取用户信息接口
   // {
   //   url: '/Api/Project/user',
@@ -59,4 +59,4 @@ export default [
   //     }
   //   }
   // }
-]
+];
