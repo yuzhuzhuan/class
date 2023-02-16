@@ -1,15 +1,8 @@
 <template>
-  <div
-    class="text-center sidebar-logo-container"
-    :class="{ collapse: collapse }"
-  >
+  <div class="text-center sidebar-logo-container" :class="{ collapse: collapse }">
     <transition name="sidebarLogoFade">
       <router-link class="sidebar-logo-link" to="/">
-        <img
-          :src="collapse ? logoCollapse : logo"
-          class="sidebar-logo inline-block"
-          :class="{ '!w-25': !collapse }"
-        />
+        <img :src="collapse ? logoCollapse : logo" class="sidebar-logo inline-block" :class="{ '!w-25': !collapse }" />
       </router-link>
     </transition>
   </div>
@@ -20,10 +13,8 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import logo from '@/assets/logo.png';
 import logoCollapse from '@/assets/logo-collapse.png';
 
-@Component({
-  name: 'SidebarLogo'
-})
-export default class extends Vue {
+@Component({})
+export default class SidebarLogo extends Vue {
   @Prop({ required: true }) public collapse!: boolean;
 
   logo = logo;

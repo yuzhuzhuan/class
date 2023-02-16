@@ -30,7 +30,8 @@ export type IUserData = {
   // 用户名称
   username: string;
   menus: any;
-}
+  id: number;
+};
 /**
  * 部门类型
  */
@@ -64,4 +65,4 @@ export enum EHrType {
 export type IPage = {
   pageSize: number;
   pageIndex: number;
-}
+};

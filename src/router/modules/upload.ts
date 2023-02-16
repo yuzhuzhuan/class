@@ -6,24 +6,17 @@ export default [
     path: '/upload',
     component: Layout,
     redirect: '/upload/index',
-    meta: {
-      title: '常用组件',
-      icon: 'bxs:cloud-upload'
-    },
     children: [
       {
         path: '/upload/index',
-        component: () =>
-          import(
-            /* webpackChunkName: 'dashboard' */ '@/pages/upload/index.vue'
-          ),
+        component: () => import(/* webpackChunkName: 'dashboard' */ '@/pages/upload/index.vue'),
         name: 'upload',
         meta: {
           title: 'Upload组件',
-          icon: 'bxs:cloud-upload'
+          icon: 'bxs:cloud-upload',
+          id: '23'
         }
       }
-
     ]
   }
 ] as RouteConfig[];

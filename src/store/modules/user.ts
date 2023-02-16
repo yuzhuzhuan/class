@@ -1,10 +1,4 @@
-import {
-  VuexModule,
-  Module,
-  Mutation,
-  Action,
-  getModule
-} from 'vuex-module-decorators';
+import { VuexModule, Module, Mutation, Action, getModule } from 'vuex-module-decorators';
 import store from '@/store';
 import { getUserData, getToken, setToken, removeToken, setUserData } from '@/utils/cookies';
 import { IUserData } from '@/types/dataTypes';
@@ -19,7 +13,7 @@ export type IUserState = {
    * 路由列表
    */
   routeList: RouteConfig[];
-}
+};
 
 @Module({ dynamic: true, store, name: 'user' })
 class User extends VuexModule implements IUserState {
@@ -32,14 +26,14 @@ class User extends VuexModule implements IUserState {
   public token = getToken() || '';
 
   // private permits = [] as { id: number }[]
-  public permits = [] as { id: number; name: string }[]
+  public permits = [] as { id: number; name: string; childList: { id: number; name: string }[] }[];
 
   /**
    * 存入用户数据
    * @param userData
    */
   @Mutation
-  public SET_USER_DATA (userData: any) {
+  public SET_USER_DATA(userData: any) {
     // 存入数据
     this.useData = userData;
     // 存入数据进入cookie
@@ -50,7 +44,7 @@ class User extends VuexModule implements IUserState {
    * 移除token
    */
   @Mutation
-  DEL_TOKEN () {
+  DEL_TOKEN() {
     this.token = '';
     // localStorage.removeItem('token');
     removeToken();
@@ -61,18 +55,18 @@ class User extends VuexModule implements IUserState {
    * @param token
    */
   @Mutation
-  public SET_TOKEN (token: string) {
+  public SET_TOKEN(token: string) {
     this.token = token;
     setToken(token);
   }
 
   @Mutation
-  public SET_MENU (routeList: RouteConfig[]) {
+  public SET_MENU(routeList: RouteConfig[]) {
     this.routeList = routeList;
   }
 
   @Mutation
-  public SET_PERMITS (list: any[]) {
+  public SET_PERMITS(list: any[]) {
     this.permits = list;
   }
 
@@ -81,9 +75,9 @@ class User extends VuexModule implements IUserState {
    * @param userData
    */
   @Action
-  public setUserData (userData: IUserData) {
+  public setUserData(userData: IUserData) {
     this.SET_USER_DATA(userData);
-    this.SET_PERMITS(userData.menus)
+    this.SET_PERMITS(userData.menus);
     // setMenus(userData.menus)
   }
 
@@ -92,7 +86,7 @@ class User extends VuexModule implements IUserState {
    * @param token
    */
   @Action
-  public setToken (token: string) {
+  public setToken(token: string) {
     // localStorage.setItem('token', token);
     setToken(token);
     this.SET_TOKEN(token);
@@ -103,7 +97,7 @@ class User extends VuexModule implements IUserState {
    * @returns
    */
   @Action
-  public getToken () {
+  public getToken() {
     return this.token;
   }
 
@@ -112,7 +106,7 @@ class User extends VuexModule implements IUserState {
    * @returns
    */
   @Action
-  public async getMenu () {
+  public async getMenu() {
     const userData: IUserData = JSON.parse(getUserData() as string);
     // return await APIGetMenu({
     //   phone: userData.phone,
@@ -123,7 +117,7 @@ class User extends VuexModule implements IUserState {
    * 存入路由数据
    * @param routeList
    */
-  @Action setMenu (routeList: RouteConfig[]) {
+  @Action setMenu(routeList: RouteConfig[]) {
     this.SET_MENU(routeList);
   }
 
@@ -131,19 +125,26 @@ class User extends VuexModule implements IUserState {
    * 移除token
    */
   @Action
-  deltoken () {
+  deltoken() {
     this.DEL_TOKEN();
   }
 
-  // get hadPermit () {
-  //   return (id?: number) => {
-  //     if (id === undefined) return true
-  //     return this.permits.some(item => item.id === id)
-  //   }
-  // }
-  // get Menus () {
-  //   return this.permits
-  // }
+  get hadPermit() {
+    return (id?: number) => {
+      if (id === undefined) return true;
+      return this.permits.some(item => item.id === id);
+    };
+  }
+
+  get Menus() {
+    return this.permits;
+  }
+
+  get permission() {
+    return (code: any) => {
+      return this.permits.some(item => item.name === code);
+    };
+  }
 }
 
 export const UserModule = getModule(User);

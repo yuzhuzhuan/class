@@ -11,11 +11,9 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 
-@Component({
-  name: 'AppMain'
-})
-export default class extends Vue {
-  get key () {
+@Component({})
+export default class AppMain extends Vue {
+  get key() {
     return this.$route.path;
   }
 }

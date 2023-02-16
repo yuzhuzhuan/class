@@ -1,21 +1,21 @@
 /**
  * 用户登录数据接口
  */
-export interface IRUserData {
+export type IRUserData = {
   // 账号
-  username: string,
+  username: string;
   // 密码
-  password: string
-}
+  password: string;
+};
 /**
  * 获取菜单的参数
  */
-export interface IRMenuParam {
+export type IRMenuParam = {
   // page limit 历史遗留原因，分页参数，
-  page?: string,
-  limit?: string,
+  page?: string;
+  limit?: string;
   // 用户电话号码
-  phone:string,
+  phone: string;
   // 用户所属部门
-  comcode: string
-}
+  comcode: string;
+};

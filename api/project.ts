@@ -1,17 +1,17 @@
 import request from './_request';
-import { ParamsList, ParamsAdd, ParamsDel } from './type'
+import { ParamsList, ParamsAdd, ParamsDel } from './type';
 
 // 获取列表接口
-function getProjectListApi (data: ParamsList) {
+function getProjectListApi(data: ParamsList) {
   return request({
-    url: '/Api/user/list',
+    url: '/Api/Project/list',
     method: 'get',
     data
   });
 }
 
 // 2添加数据接口
-function addProjectApi (data: ParamsAdd) {
+function addProjectApi(data: ParamsAdd) {
   return request({
     url: '/Api/Project/Add',
     method: 'post',
@@ -19,17 +19,17 @@ function addProjectApi (data: ParamsAdd) {
   });
 }
 // 3更新数据接口
-function updateProjectApi (data: ParamsAdd) {
+function updateProjectApi(data: ParamsAdd) {
   return request({
-    url: '/Api/user/update',
+    url: '/Api/Project/update',
     method: 'put',
     data
   });
 }
 // 4删除数据接口
-function delProjectApi (data: ParamsDel) {
+function delProjectApi(data: ParamsDel) {
   return request({
-    url: '/Api/user/delete',
+    url: '/Api/Project/delete',
     method: 'delete',
     data
   });
@@ -40,4 +40,4 @@ export {
   addProjectApi, // 2添加数据接口
   updateProjectApi, // 3更新数据接口
   delProjectApi // 4删除数据接口
-}
+};

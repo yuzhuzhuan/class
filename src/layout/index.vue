@@ -11,11 +11,10 @@
 
 <script lang='ts'>
 import { AppModule } from '@/store/modules/app';
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import { AppMain, Navbar, Sidebar, Tab } from './components';
 
 @Component({
-  name: 'Layout',
   components: {
     AppMain,
     Navbar,
@@ -23,11 +22,11 @@ import { AppMain, Navbar, Sidebar, Tab } from './components';
     Tab
   }
 })
-export default class extends Vue {
+export default class Layout extends Vue {
   /**
    * 绑定类名
    */
-  get classObj () {
+  get classObj() {
     return {
       hideSidebar: !this.sidebar.opened,
       openSidebar: this.sidebar.opened,
@@ -38,7 +37,7 @@ export default class extends Vue {
   /**
    * 获取侧边栏状态
    */
-  get sidebar () {
+  get sidebar() {
     return AppModule.sidebar;
   }
 }
