@@ -4,7 +4,7 @@ import { getUserData, getToken, setToken, removeToken, setUserData } from '@/uti
 import { IUserData } from '@/types/dataTypes';
 import { RouteConfig } from 'vue-router';
 
-export type IUserState = {
+export interface IUserState {
   // 用户数据
   useData: IUserData | null;
   // 令牌
@@ -13,27 +13,27 @@ export type IUserState = {
    * 路由列表
    */
   routeList: RouteConfig[];
-};
+}
 
 @Module({ dynamic: true, store, name: 'user' })
 class User extends VuexModule implements IUserState {
   // 路由列表
-  public routeList!: RouteConfig[];
+  routeList!: RouteConfig[];
   // 用户数据
-  public useData = null as null | IUserData;
+  useData = null as null | IUserData;
   // token
   // public token = localStorage.getItem('token') || '';
-  public token = getToken() || '';
+  token = getToken() || '';
 
   // private permits = [] as { id: number }[]
-  public permits = [] as { id: number; name: string; childList: { id: number; name: string }[] }[];
+  permits = [] as Array<{ id: number; name: string; childList: Array<{ id: number; name: string }> }>;
 
   /**
    * 存入用户数据
    * @param userData
    */
   @Mutation
-  public SET_USER_DATA(userData: any) {
+  SET_USER_DATA(userData: any) {
     // 存入数据
     this.useData = userData;
     // 存入数据进入cookie
@@ -55,18 +55,18 @@ class User extends VuexModule implements IUserState {
    * @param token
    */
   @Mutation
-  public SET_TOKEN(token: string) {
+  SET_TOKEN(token: string) {
     this.token = token;
     setToken(token);
   }
 
   @Mutation
-  public SET_MENU(routeList: RouteConfig[]) {
+  SET_MENU(routeList: RouteConfig[]) {
     this.routeList = routeList;
   }
 
   @Mutation
-  public SET_PERMITS(list: any[]) {
+  SET_PERMITS(list: any[]) {
     this.permits = list;
   }
 
@@ -75,7 +75,7 @@ class User extends VuexModule implements IUserState {
    * @param userData
    */
   @Action
-  public setUserData(userData: IUserData) {
+  setUserData(userData: IUserData) {
     this.SET_USER_DATA(userData);
     this.SET_PERMITS(userData.menus);
     // setMenus(userData.menus)
@@ -86,7 +86,7 @@ class User extends VuexModule implements IUserState {
    * @param token
    */
   @Action
-  public setToken(token: string) {
+  setToken(token: string) {
     // localStorage.setItem('token', token);
     setToken(token);
     this.SET_TOKEN(token);
@@ -97,7 +97,7 @@ class User extends VuexModule implements IUserState {
    * @returns
    */
   @Action
-  public getToken() {
+  getToken() {
     return this.token;
   }
 
@@ -106,7 +106,7 @@ class User extends VuexModule implements IUserState {
    * @returns
    */
   @Action
-  public async getMenu() {
+  async getMenu() {
     const userData: IUserData = JSON.parse(getUserData() as string);
     // return await APIGetMenu({
     //   phone: userData.phone,

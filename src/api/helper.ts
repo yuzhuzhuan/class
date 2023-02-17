@@ -7,7 +7,7 @@ export class RequestDataHelper {
   static formatDataToFormData(data: any) {
     let result = '';
     for (const it in data) {
-      result += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&';
+      result += `${encodeURIComponent(it)  }=${  encodeURIComponent(data[it])  }&`;
     }
     return result;
   }

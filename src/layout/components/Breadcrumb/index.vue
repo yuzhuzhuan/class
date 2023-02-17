@@ -22,10 +22,10 @@ import { RouteRecord, Route } from 'vue-router';
   name: 'Breadcrumb'
 })
 export default class extends Vue {
-  public breadcrumbs: RouteRecord[] = [];
+  breadcrumbs: RouteRecord[] = [];
 
   @Watch('$route')
-  public onRouteChange(route: Route) {
+  onRouteChange(route: Route) {
     // if you go to the redirect page, do not update the breadcrumbs
 
     if (route.path.startsWith('/redirect/')) {
@@ -38,7 +38,7 @@ export default class extends Vue {
     this.getBreadcrumb();
   }
 
-  public getBreadcrumb() {
+  getBreadcrumb() {
     const matched = this.$route.matched.filter(item => item.meta && item.meta.title);
     // const first = matched[0];
     // if (!this.isDashboard(first)) {
@@ -59,7 +59,7 @@ export default class extends Vue {
   //   return name.trim().toLocaleLowerCase() === "Dashboard".toLocaleLowerCase();
   // }
 
-  public pathCompile(path: string) {
+  pathCompile(path: string) {
     // To solve this problem https://github.com/PanJiaChen/vue-element-admin/issues/561
     const { params } = this.$route;
     console.log(pathToRegexp);
@@ -67,7 +67,7 @@ export default class extends Vue {
     return toPath(params);
   }
 
-  public handleLink(item: any) {
+  handleLink(item: any) {
     console.log(item, this.$route, '--=====');
 
     const { redirect, path } = item;

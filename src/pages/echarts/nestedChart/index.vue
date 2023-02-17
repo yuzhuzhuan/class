@@ -10,8 +10,10 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { getNestedChartApi } from '../../../../api/echarts'; // 导入接口
 import YKEcharts from '@/components/YK_Echarts/index.vue';
+import { EChartsOption } from 'echarts';
+
 @Component({
-  components: { YKEcharts }
+  components: { YKEcharts },
 })
 export default class NestedChart extends Vue {
   /**
@@ -25,7 +27,7 @@ export default class NestedChart extends Vue {
   /**
    * echarts配置项
    */
-  options = {} as echarts.EChartsOption;
+  options: EChartsOption = {};
   async created() {
     await this.getList();
     if (this.list.length) {
@@ -35,16 +37,27 @@ export default class NestedChart extends Vue {
           // 数据项图形触发，主要在散点图，饼图等无类目轴的图表中使用。
           trigger: 'item',
           // 字符串模板 {a}（系列名称），{b}（数据项名称），{c}（数值）, {d}（百分比）
-          formatter: '{a} <br/>{b}: {c} ({d}%)'
+          formatter: '{a} <br/>{b}: {c} ({d}%)',
         },
         legend: {
           // 图例的数据数组。数组项通常为一个字符串，每一项代表一个系列的 name
-          data: ['Direct', 'Marketing', 'Search Engine', 'Email', 'Union Ads', 'Video Ads', 'Baidu', 'Google', 'Bing', 'Others'],
+          data: [
+            'Direct',
+            'Marketing',
+            'Search Engine',
+            'Email',
+            'Union Ads',
+            'Video Ads',
+            'Baidu',
+            'Google',
+            'Bing',
+            'Others',
+          ],
           textStyle: {
-            color: '#a1a1a1'
-          }
+            color: '#a1a1a1',
+          },
         },
-        series: [...this.list]
+        series: [...this.list],
       };
     }
   }

@@ -36,7 +36,7 @@ import { LoginApi, GetUserApi } from '../../../api/login'; // 导入接口
 @Component({})
 export default class Login extends Vue {
   // 登录表单数据
-  public loginFormData: LoginForm = {
+  loginFormData: LoginForm = {
     username: 'admin',
     password: '123456'
   };
@@ -44,15 +44,15 @@ export default class Login extends Vue {
   /**
    * 验证器
    */
-  public FormValidator = FormValidator;
+  FormValidator = FormValidator;
   /**
    * 密码框是否睁开眼
    */
-  public hasOpenEye = false;
+  hasOpenEye = false;
   /**
    * 登录按钮是否需要loding
    */
-  public loading = false;
+  loading = false;
   /**
    * 表单的ref
    */
@@ -60,7 +60,7 @@ export default class Login extends Vue {
   /**
    * 登录
    */
-  public login() {
+  login() {
     this.loginFormRef.validate(async (valide: boolean) => {
       this.loading = true;
       if (valide) {

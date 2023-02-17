@@ -9,9 +9,9 @@ const http = Axios.create({
   withCredentials: true, // 开启跨域身份凭证
   method: 'post',
   headers: {
-    'Content-Type': 'application/json;charset=UTF-8'
+    'Content-Type': 'application/json;charset=UTF-8',
   },
-  timeout: 5000 // request timeout
+  timeout: 5000, // request timeout
 });
 
 // 设置全局的请求次数，请求的间隙，用于自动再次请求
@@ -20,7 +20,7 @@ const http = Axios.create({
 
 // 请求拦截器
 http.interceptors.request.use(
-  function(config) {
+  (config) => {
     if (UserModule.token.length > 0 && UserModule.token) {
       config.headers.Authorization = UserModule.token;
     }
@@ -31,22 +31,22 @@ http.interceptors.request.use(
     }
     return config;
   },
-  function(error) {
+  (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 // 响应拦截器
 http.interceptors.response.use(
-  function(res) {
+  (res) => {
     if (res.data.code !== 200) {
       Message.error(res.data.msg);
     }
 
     return res.data;
   },
-  function(err) {
-    const config = err.config;
+  (err) => {
+    const { config } = err;
     const errres = err.response;
     const errType = errres ? errres.status : 0;
     // 收集错误信息
@@ -120,17 +120,17 @@ http.interceptors.response.use(
     config.__retryCount += 1;
 
     // Create new promise to handle exponential backoff
-    const backoff = new Promise(function(resolve: any) {
-      setTimeout(function() {
+    const backoff = new Promise((resolve: any) => {
+      setTimeout(() => {
         resolve();
       }, config.retryDelay || 1);
     });
 
     // Return the promise in which recalls axios to retry the request
-    return backoff.then(function() {
+    return backoff.then(() => {
       return http(config);
     });
-  }
+  },
 );
 
 export default http;

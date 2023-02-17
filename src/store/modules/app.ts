@@ -14,7 +14,7 @@ import {
 import store from '@/store'
 import { IRouteObj } from '@/types/routeTypes';
 
-export type IAppState = {
+export interface IAppState {
   // 侧边栏的状态
   sidebar: {
     opened: boolean;
@@ -31,15 +31,15 @@ export type IAppState = {
 @Module({ dynamic: true, store, name: 'app' })
 class App extends VuexModule implements IAppState {
   // 左边侧边栏的状态
-  public sidebar = {
+  sidebar = {
     opened: getSidebarStatus() !== 'closed',
     withoutAnimation: false
   }
 
   // 当前选中的tab
-  public currentTab = '/';
+  currentTab = '/';
   // tab列表
-  public TabList: IRouteObj[] = [
+  TabList: IRouteObj[] = [
     {
       name: 'Index',
       path: '/index',
@@ -48,7 +48,7 @@ class App extends VuexModule implements IAppState {
   ]
 
   @Mutation
-  public TOGGLE_SIDEBAR (withoutAnimation: boolean) {
+  TOGGLE_SIDEBAR (withoutAnimation: boolean) {
     this.sidebar.opened = !this.sidebar.opened
     this.sidebar.withoutAnimation = withoutAnimation
     if (this.sidebar.opened) {
@@ -59,7 +59,7 @@ class App extends VuexModule implements IAppState {
   }
 
   @Mutation
-  public CLOSE_SIDEBAR (withoutAnimation: boolean) {
+  CLOSE_SIDEBAR (withoutAnimation: boolean) {
     this.sidebar.opened = false
     this.sidebar.withoutAnimation = withoutAnimation
     setSidebarStatus('closed')
@@ -70,7 +70,7 @@ class App extends VuexModule implements IAppState {
    * @param obj
    */
   @Mutation
-  public SET_TAB (obj: IRouteObj) {
+  SET_TAB (obj: IRouteObj) {
     const { path } = obj;
     // store 和 cookie 都需要存入数据
     this.currentTab = path;
@@ -86,7 +86,7 @@ class App extends VuexModule implements IAppState {
    * @param path 1
    */
   @Mutation
-  public CLOSE_TAB (path: string) {
+  CLOSE_TAB (path: string) {
     // 路由列表筛选不匹配的
     this.TabList = this.TabList.filter((it: IRouteObj) => it.path !== path);
   }
@@ -95,7 +95,7 @@ class App extends VuexModule implements IAppState {
  * 关闭其他
  */
   @Mutation
-  public CLOSE_OTHER () {
+  CLOSE_OTHER () {
     const currentObj: IRouteObj = JSON.parse(getCurrentTab() as string);
     this.TabList = [{
       name: 'Index',
@@ -108,7 +108,7 @@ class App extends VuexModule implements IAppState {
  * 关闭全部
  */
   @Mutation
-  public CLOSE_ALL () {
+  CLOSE_ALL () {
     const obj = {
       name: 'Index',
       path: '/index',
@@ -120,12 +120,12 @@ class App extends VuexModule implements IAppState {
   }
 
   @Action
-  public ToggleSideBar (withoutAnimation: boolean) {
+  ToggleSideBar (withoutAnimation: boolean) {
     this.TOGGLE_SIDEBAR(withoutAnimation)
   }
 
   @Action
-  public CloseSideBar (withoutAnimation: boolean) {
+  CloseSideBar (withoutAnimation: boolean) {
     this.CLOSE_SIDEBAR(withoutAnimation)
   }
 
@@ -134,7 +134,7 @@ class App extends VuexModule implements IAppState {
    * @param obj
    */
   @Action
-  public SaveTab (obj: IRouteObj) {
+  SaveTab (obj: IRouteObj) {
     this.SET_TAB(obj)
   }
 
@@ -143,7 +143,7 @@ class App extends VuexModule implements IAppState {
    * @param path
    */
   @Action
-  public closeTab (path: string) {
+  closeTab (path: string) {
     this.CLOSE_TAB(path)
   }
 
@@ -151,7 +151,7 @@ class App extends VuexModule implements IAppState {
    * 关闭其他
    */
   @Action
-  public closeOther () {
+  closeOther () {
     this.CLOSE_OTHER();
   }
 
@@ -159,7 +159,7 @@ class App extends VuexModule implements IAppState {
  * 关闭全部
  */
   @Action
-  public closeAll () {
+  closeAll () {
     this.CLOSE_ALL();
   }
 }

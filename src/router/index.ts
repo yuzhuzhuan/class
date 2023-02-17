@@ -1,8 +1,9 @@
 import Vue from 'vue';
 import VueRouter, { NavigationGuardNext, Route, RouteConfig } from 'vue-router';
-import { matchRouteMenu } from './../../matchRouteMenu';
+import { matchRouteMenu } from './matchRouteMenu';
 /* Layout */
 import Layout from '@/layout/index.vue';
+
 Vue.use(VueRouter);
 export let serviceRoutes: RouteConfig[] = [];
 // if (process.env.NODE_ENV === 'development') {
@@ -13,19 +14,19 @@ routerContext.keys().forEach((route: any) => {
   serviceRoutes = [...serviceRoutes, ...(routerModule.default || routerModule)];
 });
 
-export const routes: Array<RouteConfig> = [
+export const routes: RouteConfig[] = [
   {
     path: '/',
     name: 'Layout',
-    redirect: '/index'
+    redirect: '/index',
   },
   {
     path: '/login',
     name: 'login',
     component: () => import(/* webpackChunkName: 'Login' */ '@/pages/login/index.vue'),
     meta: {
-      hidden: true
-    }
+      hidden: true,
+    },
   },
   {
     path: '/index',
@@ -41,16 +42,16 @@ export const routes: Array<RouteConfig> = [
           title: '首页',
           icon: 'fluent:building-home-20-filled',
           noCache: false,
-          id: '23'
-        }
-      }
-    ]
+          id: '23',
+        },
+      },
+    ],
   },
-  ...serviceRoutes
+  ...serviceRoutes,
 ];
 const router = new VueRouter({
   mode: 'hash',
-  routes
+  routes,
 });
 // 路由守卫
 router.beforeEach((to: Route, from: Route, next: NavigationGuardNext<Vue>) => {

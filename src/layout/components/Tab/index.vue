@@ -38,6 +38,7 @@ import { IRouteObj } from '@/types/routeTypes';
 import { Component, Vue } from 'vue-property-decorator';
 import Scroller from '@/layout/components/Scroller/index.vue';
 import { ECloseTab } from './types';
+
 @Component({
   components: {
     Scroller,
@@ -47,7 +48,7 @@ export default class Tab extends Vue {
   /**
    * 关闭按钮的枚举
    */
-  public ECloseTab = ECloseTab;
+  ECloseTab = ECloseTab;
   // 获取TabList
   get TabList() {
     return AppModule.TabList;
@@ -94,7 +95,7 @@ export default class Tab extends Vue {
   /**
    * 点击按钮的关闭操作
    */
-  public handleCommand(tip: ECloseTab) {
+  handleCommand(tip: ECloseTab) {
     if (tip === ECloseTab.closeCurrent) {
       this.closeCurentTab(this.currentTab);
     } else if (tip === ECloseTab.closeOther) {

@@ -1,4 +1,4 @@
-export type IForm = {
+export interface IForm {
   name: string;
   manager: string;
   introduce: string;
@@ -6,16 +6,16 @@ export type IForm = {
   pid?: number | null;
   email: string;
   createTime: string;
-};
+}
 
-export type IDialogData = {
+export interface IDialogData {
   id: number;
   label: string;
   children?: object[];
   pid?: number;
-};
+}
 
-export type IList = {
+export interface IList {
   children?: IChildren[];
   createTime: string;
   email: string;
@@ -25,9 +25,9 @@ export type IList = {
   manager: string;
   departmentName: string;
   pid: number;
-};
+}
 
-export type IChildren = {
+export interface IChildren {
   createTime: string;
   email: string;
   id: string;
@@ -36,4 +36,4 @@ export type IChildren = {
   manager: string;
   departmentName: string;
   pid: number;
-};
+}

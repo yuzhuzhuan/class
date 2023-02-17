@@ -29,7 +29,8 @@ import Breadcrumb from '@/layout/components/Breadcrumb/index.vue';
 import Hamburger from '@/layout/components/Hamburger/index.vue';
 import { AppModule } from '@/store/modules/app';
 import { UserModule } from '@/store/modules/user';
-import { GetUserApi } from '../../../../api/login'; // 导入接口
+import { GetUserApi } from '../../../../api/login';
+ // 导入接口
 @Component({
   components: {
     Breadcrumb,
@@ -56,11 +57,11 @@ export default class Navbar extends Vue {
     }
   }
 
-  public toggleSideBar() {
+  toggleSideBar() {
     AppModule.ToggleSideBar(false);
   }
 
-  public async logout() {
+  async logout() {
     // UserModule.ResetToken()
     UserModule.deltoken();
     this.$router.push('/Login');

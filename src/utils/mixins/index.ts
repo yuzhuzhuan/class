@@ -8,9 +8,9 @@ import MixinTable from './MixinTable';
 // import { StoreRole } from '@/store'
 export { MixinDialog, MixinTable };
 
-/*********************************
+/** *******************************
  ************ Global *************
- *********************************/
+ ******************************** */
 // 全局注入
 @Component
 class GlobalMixin extends Vue {
@@ -43,7 +43,7 @@ class GlobalMixin extends Vue {
     const selectedFormName = formTypes.find(name => this.$refs[name]) || '';
 
     if (!selectedFormName) {
-      throw new Error('Component ' + selectedFormName + ' cannot be found');
+      throw new Error(`Component ${  selectedFormName  } cannot be found`);
     }
 
     return new Promise<T>((resolve, reject) => {

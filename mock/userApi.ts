@@ -1,5 +1,6 @@
 import Mock from 'mockjs';
 import { Response } from './type';
+
 const userList = Mock.mock({
   'list|3': [
     {
@@ -7,17 +8,17 @@ const userList = Mock.mock({
       phone: /1[3-9][0-9]{9}/,
       gender: '@integer(0, 1)',
       sysRoleId: 1,
-      sysRoleName: 'admin'
-    }
+      sysRoleName: 'admin',
+    },
   ],
   'data|50': [
     {
-      username: '@string("number", 1, 3)' + '@string("upper", 1, 3)',
+      username: '@string("number", 1, 3) @string("upper", 1, 3)',
       name: '@cname',
       usertype: '@integer(0, 1)',
-      enable: '@integer(0, 1)'
-    }
-  ]
+      enable: '@integer(0, 1)',
+    },
+  ],
 });
 let list = userList.list.concat();
 let data = userList.data.concat();
@@ -58,10 +59,10 @@ export default [
       return {
         data: newlist,
         total,
-        code: 200
+        code: 200,
       };
       // 使用return返回前端需要的数据
-    }
+    },
   },
   {
     url: '/api/user/delete',
@@ -70,9 +71,9 @@ export default [
       data = data.filter((item: any) => item.id !== +res.query.id);
       return {
         msg: '删除成功',
-        code: 200
+        code: 200,
       };
-    }
+    },
   },
   {
     url: '/api/user/update',
@@ -81,9 +82,9 @@ export default [
       data = data.map((item: any) => (item.id === res.body.params.id ? res.body.params : item));
       return {
         msg: '编辑用户成功',
-        code: 200
+        code: 200,
       };
-    }
+    },
   },
   {
     url: '/api/user/create',
@@ -93,27 +94,27 @@ export default [
       data.push(res.body.params);
       return {
         msg: '新增用户成功',
-        code: 200
+        code: 200,
       };
-    }
+    },
   },
   {
     url: '/api/user/detail',
     type: 'get',
     response: (res: any) => {
-      let obj = {} as UserItem;
+      let obj: Partial<UserItem> = {};
       data.forEach((item: any) => {
         if (item.id === +res.query.id) {
           obj = item;
-          obj.password = Mock.mock('@string("number", 1, 3)' + '@string("upper", 1, 3)');
+          obj.password = Mock.mock('@string("number", 1, 3) @string("upper", 1, 3)');
         }
       });
       return {
         msg: '查询用户成功',
         code: 200,
-        data: obj
+        data: obj,
       };
-    }
+    },
   },
   {
     url: '/Api/user/list',
@@ -128,26 +129,26 @@ export default [
         code: 200,
         message: '操作成功',
         list,
-        total: total
+        total,
       };
       // 使用return返回前端需要的数据
-    }
+    },
   },
   {
     url: '/Api/user/detail',
     type: 'get',
     response: (res: any) => {
-      let newlist;
+      let newdata;
       if (res.body.id) {
-        newlist = list.filter((item: any) => item.id === +res.body.id);
+        newdata = list.filter((item: any) => item.id === +res.body.id);
       }
       return {
         code: 200,
         message: '操作成功',
-        list: newlist
+        list: newdata,
       };
       // 使用return返回前端需要的数据
-    }
+    },
   },
   {
     url: '/Api/user/delete',
@@ -156,9 +157,9 @@ export default [
       list = list.filter((item: any) => item.id !== res.body.id);
       return {
         msg: '删除成功',
-        code: 200
+        code: 200,
       };
-    }
+    },
   },
   {
     url: '/Api/user/update',
@@ -167,9 +168,9 @@ export default [
       list = list.map((item: any) => (item.id === res.body.id ? res.body : item));
       return {
         msg: '编辑用户成功',
-        code: 200
+        code: 200,
       };
-    }
+    },
   },
   {
     url: '/Api/user/Add',
@@ -179,8 +180,8 @@ export default [
       list.push(res.body);
       return {
         msg: '新增用户成功',
-        code: 200
+        code: 200,
       };
-    }
-  }
+    },
+  },
 ];

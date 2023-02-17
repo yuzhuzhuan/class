@@ -1,7 +1,7 @@
 /**
  * elFile 文件对象
  */
-export type IFileObj = {
+export interface IFileObj {
   name: string;
   percentage: number;
   raw: File;

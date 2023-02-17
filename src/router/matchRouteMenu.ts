@@ -2,7 +2,7 @@
 // import { getUserData } from '@/utils/cookies';
 import { UserModule } from '@/store/modules/user';
 import { NavigationGuardNext, Route } from 'vue-router/types/router';
-import { GetUserApi } from './api/login'; // 导入接口
+import { GetUserApi } from '../../api/login'; // 导入接口
 
 // const whiteList = ['/Login'];
 // 路由守卫

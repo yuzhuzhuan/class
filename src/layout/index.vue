@@ -9,9 +9,9 @@
   </div>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
 import { AppModule } from '@/store/modules/app';
-import { Component, Vue, Watch } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import { AppMain, Navbar, Sidebar, Tab } from './components';
 
 @Component({
@@ -19,8 +19,8 @@ import { AppMain, Navbar, Sidebar, Tab } from './components';
     AppMain,
     Navbar,
     Sidebar,
-    Tab
-  }
+    Tab,
+  },
 })
 export default class Layout extends Vue {
   /**
@@ -30,7 +30,7 @@ export default class Layout extends Vue {
     return {
       hideSidebar: !this.sidebar.opened,
       openSidebar: this.sidebar.opened,
-      withoutAnimation: this.sidebar.withoutAnimation
+      withoutAnimation: this.sidebar.withoutAnimation,
     };
   }
 

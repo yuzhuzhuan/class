@@ -24,16 +24,17 @@ import type { ColumnItem } from '@/components/YK_Table/index.vue';
 import { UserModule } from '@/store/modules/user';
 
 import service, { delRoleApi } from '../../../api/role';
-type Role = {
+
+interface Role {
   name: string;
   actions: string;
-};
+}
 @Component({})
 export default class PageRole extends Mixins(MixinTable) {
   tableRequest = service.query;
   removeRequest = service.remove;
   get tableColumns() {
-    const data: ColumnItem<Role>[] = [
+    const data: Array<ColumnItem<Role>> = [
       { label: '角色名称', prop: 'name' },
       {
         slot: 'actions',

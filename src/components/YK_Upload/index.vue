@@ -20,6 +20,7 @@
 <script lang="ts">
 import { Component, Vue, Prop, Ref, Watch } from 'vue-property-decorator';
 import YKDialog from '@/components/YK_Dialog/index.vue';
+
 @Component({
   components: { YKDialog }
 })

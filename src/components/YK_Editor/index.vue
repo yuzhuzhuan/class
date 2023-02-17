@@ -49,7 +49,7 @@ export default class YkEditor extends Vue {
       '微软雅黑=Microsoft YaHei,Helvetica Neue,PingFang SC,sans-serif;苹果苹方=PingFang SC,Microsoft YaHei,sans-serif;宋体=simsun,serif;仿宋体=FangSong,serif;黑体=SimHei,sans-serif;Arial=arial,helvetica,sans-serif;Arial Black=arial black,avant garde;Book Antiqua=book antiqua,palatino;Comic Sans MS=comic sans ms,sans-serif;Courier New=courier new,courier;Georgia=georgia,palatino;Helvetica=helvetica;Impact=impact,chicago;Symbol=symbol;Tahoma=tahoma,arial,helvetica,sans-serif;Terminal=terminal,monaco;Times New Roman=times new roman,times;Verdana=verdana,geneva;Webdings=webdings;Wingdings=wingdings,zapf dingbats;知乎配置=BlinkMacSystemFont, Helvetica Neue, PingFang SC, Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei, sans-serif;小米配置=Helvetica Neue,Helvetica,Arial,Microsoft Yahei,Hiragino Sans GB,Heiti SC,WenQuanYi Micro Hei,sans-serif',
     link_list: [
       { title: '预置链接1', value: 'http://www.tinymce.com' },
-      { title: '预置链接2', value: 'http://tinymce.ax-z.cn' }
+      { title: '预置链接2', value: 'http://tinymce.ax-z.cn' },
     ],
     // 自定义异步函数
     image_list: async (success: any) => {
@@ -62,14 +62,14 @@ export default class YkEditor extends Vue {
           menu: [
             { title: 'Alaskan Husky', value: 'husky.jpg' },
             { title: 'Dingo', value: 'dingo.png' },
-            { title: 'Swedish Lapphund', value: 'swedish_lapphund.gif' }
-          ]
-        }
+            { title: 'Swedish Lapphund', value: 'swedish_lapphund.gif' },
+          ],
+        },
       ]);
     },
     image_class_list: [
       { title: 'None', value: '' },
-      { title: 'Some class', value: 'class-name' }
+      { title: 'Some class', value: 'class-name' },
     ],
     importcss_append: true,
     // 自定义文件选择器的回调内容
@@ -95,8 +95,9 @@ export default class YkEditor extends Vue {
       {
         title: '模板2',
         description: '介绍文字2',
-        content: '<div class="mceTmpl"><span class="cdate">CDATE</span>，<span class="mdate">MDATE</span>，我的内容</div>'
-      }
+        content:
+          '<div class="mceTmpl"><span class="cdate">CDATE</span>，<span class="mdate">MDATE</span>，我的内容</div>',
+      },
     ],
     // content_security_policy: "script-src *;",
     extended_valid_elements: 'script[*src]',
@@ -113,15 +114,13 @@ export default class YkEditor extends Vue {
     // icons:'ax-color',
     convert_urls: false,
     toolbar_sticky: true,
-    auto_focus: true
+    auto_focus: true,
   };
 
   async changeData(data: any) {
     // 过滤data，如果是文件夹，就放在数组最前面
     const arr = data.filter((item: any) => {
-      if (item.directory) {
-        return item;
-      }
+      return item.directory && item;
     });
     data.splice(data.length - arr.length, arr.length);
     data.unshift(...arr);

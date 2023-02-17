@@ -1,6 +1,6 @@
-/*********************************
+/** *******************************
  ************ Table **************
- *********************************/
+ ******************************** */
 import { Vue, Component, Ref, Provide } from 'vue-property-decorator';
 import { Route, RouteRecord } from 'vue-router';
 import YkTable from '@/components/YK_Table/index.vue';
@@ -15,7 +15,7 @@ import api from '../../../api/department';
 export default class MixinTable<T extends Record<string, any> & { id: any }> extends Vue {
   removeOK = false;
   // query
-  queryForm = {} as Record<string, any>;
+  queryForm: Record<string, any> = {};
   @Ref('queryForm') readonly $refQueryFormM!: ElForm;
 
   onQueryM(params?: Record<string, any>) {
@@ -24,7 +24,7 @@ export default class MixinTable<T extends Record<string, any> & { id: any }> ext
 
   // table
   @Ref('table') readonly $refTableM?: YkTable;
-  tableSelectionM = [] as (T & { id: T['id'] })[];
+  tableSelectionM = [] as Array<T & { id: T['id'] }>;
 
   // dialog Edit
   dialogEditM = new DialogCtrl<T>();
@@ -42,7 +42,7 @@ export default class MixinTable<T extends Record<string, any> & { id: any }> ext
    * @param row
    */
   @SaveBack('删除成功')
-  async removeM(row: T, _index?: number) {
+  async removeM(row: T /* , _index?: number */) {
     const params = { id: row.id };
     if (row.name) {
       await service.remove({ ...params });
@@ -56,15 +56,21 @@ export default class MixinTable<T extends Record<string, any> & { id: any }> ext
 
   // NOTE 跳详情页时，记录当前pageNum
   private beforeRouteLeave(to: Route, from: Route, next: YkFunction) {
-    const sessionStorage = window.sessionStorage;
+    const { sessionStorage } = window;
     if (to.fullPath.includes(from.fullPath)) {
       // /list => /list/:id
       // /list/list => /list/list/:id
       const fromRoute = from.matched[from.matched.length - 1];
 
       if (fromRoute && this.$refTableM) {
-        sessionStorage.setItem(`${fromRoute.path}-pageIndex`, this.$refTableM.pageInfoMixin.pageIndex + '');
-        sessionStorage.setItem(`${fromRoute.path}-pageSize`, this.$refTableM.pageInfoMixin.pageSize + '');
+        sessionStorage.setItem(
+          `${fromRoute.path}-pageIndex`,
+          `${this.$refTableM.pageInfoMixin.pageIndex}`,
+        );
+        sessionStorage.setItem(
+          `${fromRoute.path}-pageSize`,
+          `${this.$refTableM.pageInfoMixin.pageSize}`,
+        );
       }
     } else if (!from.fullPath.includes(to.fullPath)) {
       // /list/:id => /list

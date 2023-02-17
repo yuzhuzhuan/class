@@ -13,11 +13,11 @@ export enum RESPONSE_CONFIG {
   DATA = 'data',
   TOTAL = 'total',
   HEADER_TOKEN = 'accessToken',
-  HEADER_LANG = 'Accept-Language'
+  HEADER_LANG = 'Accept-Language',
 }
 
 const request = axios.create({
-  baseURL: process.env.NODE_ENV === 'development' ? '/api/' : './ncdmz/iamp' // url = base url + request url
+  baseURL: process.env.NODE_ENV === 'development' ? '/api/' : './ncdmz/iamp', // url = base url + request url
   // timeout: 5000
   // withCredentials: true // send cookies when cross-domain requests
 });
@@ -26,17 +26,18 @@ const request = axios.create({
  * 请求拦截
  */
 request.interceptors.request.use(
-  function (config) {
+  (config) => {
     // Do something before request is sent
+    const headers = { ...config.headers };
     if (UserModule.token.length > 0 && UserModule.token) {
-      config.headers.Authorization = UserModule.token;
+      headers.Authorization = UserModule.token;
     }
-    return config;
+    return { ...config, headers };
   },
-  function (error) {
+  (error) => {
     // Do something with request error
     return Promise.reject(error);
-  }
+  },
 );
 
 interface ResponseConfig {
@@ -48,7 +49,7 @@ interface ResponseConfig {
  */
 // Add a request interceptor
 request.interceptors.response.use(
-  function (response: AxiosResponse<ResponseConfig>) {
+  (response: AxiosResponse<ResponseConfig>) => {
     // Do something before request is sent
     if (response.data.status === 0) {
       return response;
@@ -56,7 +57,7 @@ request.interceptors.response.use(
     Message.error('后台接口异常，请联系管理员');
     return Promise.reject(response);
   },
-  function (error) {
+  (error) => {
     Message.error(error.response.data.msg);
     // ! 当前路由不在login时不弹 401 error，避免连续两个接口都 401 时弹两次
     if (error.response.data.code === 401 && router.currentRoute.name !== 'Login') {
@@ -66,7 +67,7 @@ request.interceptors.response.use(
     }
     // Do something with request error
     return Promise.reject(error);
-  }
+  },
 );
 
 // Response interceptors

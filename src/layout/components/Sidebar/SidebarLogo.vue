@@ -15,11 +15,11 @@ import logoCollapse from '@/assets/logo-collapse.png';
 
 @Component({})
 export default class SidebarLogo extends Vue {
-  @Prop({ required: true }) public collapse!: boolean;
+  @Prop({ required: true }) collapse!: boolean;
 
   logo = logo;
   logoCollapse = logoCollapse;
-  public title = 'VUE2-TS-TEMPLATE';
+  title = 'VUE2-TS-TEMPLATE';
 }
 </script>
 

@@ -16,6 +16,7 @@
 <script lang="ts">
 import { Component, Vue, Ref, Mixins } from 'vue-property-decorator';
 import YkUpload from '@/components/YK_Upload/index.vue';
+
 @Component({
   components: { YkUpload }
 })
@@ -65,7 +66,7 @@ export default class Upload extends Vue {
     const formData: FormData = this.fileFormData || new FormData();
     let path = '';
     if (this.form.name) {
-      path += this.form.name + '/';
+      path += `${this.form.name  }/`;
     }
     formData.append('path', path);
     // await UploadApi(formData);

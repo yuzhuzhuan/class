@@ -1,6 +1,17 @@
 <template>
-  <ElSelect :placeholder="ph" v-bind="$attrs" :value="_value" @change="onChange" :disabled="disabled">
-    <ElOption v-if="!!labelAll" key="sp-select-all-option" :value="blankOptValue" :label="labelAll" />
+  <ElSelect
+    :placeholder="ph"
+    v-bind="$attrs"
+    :value="_value"
+    @change="onChange"
+    :disabled="disabled"
+  >
+    <ElOption
+      v-if="!!labelAll"
+      key="sp-select-all-option"
+      :value="blankOptValue"
+      :label="labelAll"
+    />
     <slot>
       <ElOption v-for="item in options" :key="item.value" :value="item.value" :label="item.label" />
     </slot>
@@ -19,7 +30,7 @@ export default class YkFormSelect extends Vue {
   placeholder?: string;
 
   @Prop({ type: Array, default: () => [] })
-  options?: { value: string | number; label: string }[];
+  options?: Array<{ value: string | number; label: string }>;
 
   get ph() {
     if (this.disabled) return '';
@@ -68,7 +79,8 @@ export default class YkFormSelect extends Vue {
     if (!this.keepListen) return this.keepListen;
 
     if (!this.selectOnlyOne || (this.$attrs.value ?? '') !== '' || this.optionsCount > 1) {
-      return (this.keepListen = false);
+      this.keepListen = false;
+      return this.keepListen;
     }
 
     if (this.optionsCount === 1) {
@@ -80,7 +92,8 @@ export default class YkFormSelect extends Vue {
         this.onChange(propsData?.value ?? '');
       }
 
-      return (this.keepListen = false);
+      this.keepListen = false;
+      return this.keepListen;
     }
   }
 

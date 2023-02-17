@@ -21,6 +21,7 @@ import '@purge-icons/generated';
 import { mockXHR } from '../mock/index';
 
 import Component from 'vue-class-component';
+
 mockXHR();
 
 Vue.use(ElementUI, { size: 'small' });

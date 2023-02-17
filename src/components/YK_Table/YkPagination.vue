@@ -19,6 +19,7 @@
 <script lang="ts">
 import { omit } from 'lodash-es';
 import { Vue, Prop, Component } from 'vue-property-decorator';
+
 const DEF_PAGE_INFO = {
   pageSizes: [2, 10, 20, 40, 60, 80, 100],
   pageIndex: 1,
