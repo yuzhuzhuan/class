@@ -9,7 +9,11 @@
           @click.prevent="goToPage(item)"
         >
           {{ item.title }}
-          <i class="el-icon-close" v-if="item.path !== '/index'" @click.stop="closeCurentTab(item.path)"></i>
+          <i
+            class="el-icon-close"
+            v-if="item.path !== '/index'"
+            @click.stop="closeCurentTab(item.path)"
+          ></i>
         </li>
       </scroller>
     </ul>
@@ -36,8 +40,8 @@ import Scroller from '@/layout/components/Scroller/index.vue';
 import { ECloseTab } from './types';
 @Component({
   components: {
-    Scroller
-  }
+    Scroller,
+  },
 })
 export default class Tab extends Vue {
   /**
@@ -146,9 +150,9 @@ export default class Tab extends Vue {
       line-height: 38px;
       font-size: 14px;
       color: $mainColor;
-      background-color: mix(#fff, rgb(49, 46, 46), 90);
-      color: mix($subColor, rgb(49, 46, 46), 90);
-      border: 1px solid mix(#fff, rgb(49, 46, 46), 90);
+      background-color: mix(#fff, rgb(49, 46, 46), 90%);
+      color: mix($subColor, rgb(49, 46, 46), 90%);
+      border: 1px solid mix(#fff, rgb(49, 46, 46), 90%);
       border-radius: 4px;
       box-sizing: border-box;
       white-space: nowrap;
@@ -161,7 +165,7 @@ export default class Tab extends Vue {
       &:hover {
         transition: all 0.3s linear;
         background-color: $mainColor;
-        border-color: mix($mainColor, #fff, 90);
+        border-color: mix($mainColor, #fff, 90%);
         color: #fff;
       }
       &:first-child {
