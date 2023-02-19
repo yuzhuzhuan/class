@@ -8,7 +8,13 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "f2elint-scan": "f2elint scan",
-    "f2elint-fix": "f2elint fix"
+    "f2elint-fix": "f2elint fix",
+    "preinstall": "npx only-allow npm",
+    "predev": "npm run check:node",
+    "prebuild": "npm run check:node",
+    "check:node": "node ./misc/checkNode",
+    "xxx": "f2elint commit-msg-scan",
+    "check:lockfile": "node ./scripts/checkLockfile"
   },
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
@@ -68,9 +74,13 @@
     "@typescript-eslint/parser": "^5.0.0",
     "eslint-plugin-prettier": "^3.3.0"
   },
+  "engines": {
+    "node": "16.18.0",
+    "npm": "8.19.2"
+  },
   "husky": {
     "hooks": {
-      "pre-commit": "f2elint commit-file-scan",
+      "pre-commit": "npm run check:lockfile && f2elint commit-file-scan",
       "commit-msg": "f2elint commit-msg-scan"
     }
   }
