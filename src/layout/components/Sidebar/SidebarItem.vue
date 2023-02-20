@@ -46,10 +46,10 @@ import YkIcon from '@/components/global/YkIcon.vue'; // svg组件
   }
 })
 export default class SidebarItem extends Vue {
-  @Prop({ required: true }) public item!: RouteConfig;
-  @Prop({ default: false }) public isCollapse!: boolean;
-  @Prop({ default: true }) public isFirstLevel!: boolean;
-  @Prop({ default: '' }) public basePath!: string;
+  @Prop({ required: true }) item!: RouteConfig;
+  @Prop({ default: false }) isCollapse!: boolean;
+  @Prop({ default: true }) isFirstLevel!: boolean;
+  @Prop({ default: '' }) basePath!: string;
 
   get alwaysShowRootMenu() {
     if (this.item.meta && this.item.meta.alwaysShow) {
@@ -88,7 +88,7 @@ export default class SidebarItem extends Vue {
     return { ...this.item, path: '' };
   }
 
-  public resolvePath(routePath: string) {
+  resolvePath(routePath: string) {
     if (isExternal(routePath)) {
       return routePath;
     }

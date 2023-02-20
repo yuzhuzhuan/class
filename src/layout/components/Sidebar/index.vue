@@ -88,7 +88,7 @@ export default class SideBar extends Vue {
       return meta.activeMenu;
     }
     // 切换菜单的时候存入tab
-    AppModule.SaveTab({ name: name as string, path: path, title: meta?.title });
+    AppModule.SaveTab({ name: name as string, path, title: meta?.title });
     return path;
   }
 

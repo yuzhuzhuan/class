@@ -1,5 +1,6 @@
 import Mock from 'mockjs';
 import { Response } from './type';
+
 const projectList = Mock.mock({
   'list|100': [
     {
@@ -10,9 +11,9 @@ const projectList = Mock.mock({
       address: '@city(true)', // 地址
       createTime: '@datetime("yyyy-MM-dd  HH:mm")', // 创建时间
       phone: /1[3-9][0-9]{9}/, // 正则模式
-      id: '@guid' // guid
-    }
-  ]
+      id: '@guid', // guid
+    },
+  ],
 });
 let list = projectList.list.concat();
 let newlist = projectList.list.concat();
@@ -48,10 +49,10 @@ export default [
         code: 200,
         message: '操作成功',
         data: newlist,
-        total: total
+        total,
       };
       // 使用return返回前端需要的数据
-    }
+    },
   },
   {
     url: '/Api/Project/delete',
@@ -60,9 +61,9 @@ export default [
       list = list.filter((item: any) => item.id !== res.body.id);
       return {
         msg: '删除成功',
-        code: 200
+        code: 200,
       };
-    }
+    },
   },
   {
     url: '/Api/Project/update',
@@ -71,9 +72,9 @@ export default [
       list = list.map((item: any) => (item.id === res.body.id ? res.body : item));
       return {
         msg: '编辑用户成功',
-        code: 200
+        code: 200,
       };
-    }
+    },
   },
   {
     url: '/Api/Project/Add',
@@ -82,8 +83,8 @@ export default [
       list.push(res.body);
       return {
         msg: '新增用户成功',
-        code: 200
+        code: 200,
       };
-    }
-  }
+    },
+  },
 ];

@@ -4,7 +4,7 @@ import { CreateElement } from 'vue';
 
 // 保存后弹消息,然后返回
 export const SaveBack = function (message: string | [string, string] = '保存成功', path: string | boolean = false, query?: any) {
-  return createDecorator(function (componentOptions, handler) {
+  return createDecorator((componentOptions, handler) => {
     const methods = componentOptions.methods as any;
     const originalMethod = methods[handler] as YkFunction;
     methods[handler] = async function (...args: any[]) {
@@ -33,7 +33,7 @@ export const SaveBack = function (message: string | [string, string] = '保存�
 
 // 为了弹多个 getForm(false) 的错误消息
 export const MessageCatchError = function (message?: string) {
-  return createDecorator(function (componentOptions, handler) {
+  return createDecorator((componentOptions, handler) => {
     const methods = componentOptions.methods as any;
     const originalMethod = methods[handler] as YkFunction;
     methods[handler] = async function (...args: any[]) {
@@ -53,7 +53,7 @@ export const MessageCatchError = function (message?: string) {
 
 // 执行前进行确认
 export const ConfirmBefore = function (message: string, title?: string) {
-  return createDecorator(function (componentOptions, handler) {
+  return createDecorator((componentOptions, handler) => {
     const methods = componentOptions.methods as any;
     const originalMethod = methods[handler] as YkFunction;
     methods[handler] = async function (...args: any[]) {
@@ -70,7 +70,7 @@ export const ConfirmBefore = function (message: string, title?: string) {
 
 // 全屏 loading
 export const ScreenLoading = function (loadingText?: string) {
-  return createDecorator(function (componentOptions, handler) {
+  return createDecorator((componentOptions, handler) => {
     const methods = componentOptions.methods as any;
     const originalMethod = methods[handler] as YkFunction;
     methods[handler] = async function (...args: any[]) {
@@ -102,7 +102,7 @@ export const ScreenLoading = function (loadingText?: string) {
 
 // request loading
 export const RequestLoading = function (loadingProp = 'loading') {
-  return createDecorator(function (componentOptions, handler) {
+  return createDecorator((componentOptions, handler) => {
     const methods = componentOptions.methods as any;
     const originalMethod = methods[handler] as YkFunction;
 
@@ -131,7 +131,7 @@ export const RequestLoading = function (loadingProp = 'loading') {
 // 循环调用
 export const LoopExcute = function (timeout = 3000) {
   let flag = true;
-  return createDecorator(function (componentOptions, handler) {
+  return createDecorator((componentOptions, handler) => {
     const methods = componentOptions.methods as any;
     const originalMethod = methods[handler] as YkFunction<boolean>;
     methods[handler] = async function (...args: any[]) {

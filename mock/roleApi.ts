@@ -1,22 +1,23 @@
 import Mock from 'mockjs';
 import { Response } from './type';
 import { list as menuList } from './menuApi';
+
 let data = [
   {
     id: 1,
     name: 'admin',
-    menus: menuList
+    menus: menuList,
   },
   {
     id: 2,
     name: 'aaa',
-    menus: menuList
+    menus: menuList,
   },
   {
     id: 3,
     name: 'ccc',
-    menus: menuList
-  }
+    menus: menuList,
+  },
 ];
 
 let total = 0 as number;
@@ -31,9 +32,9 @@ export default [
         code: 200,
         message: '操作成功',
         data,
-        total: total
+        total,
       };
-    }
+    },
   },
   {
     url: '/Api/role/detail',
@@ -48,9 +49,9 @@ export default [
       return {
         code: 200,
         message: '操作成功',
-        data: obj
+        data: obj,
       };
-    }
+    },
   },
   {
     url: '/Api/role/delete',
@@ -59,9 +60,9 @@ export default [
       data = data.filter((item: any) => item.id !== res.body.id);
       return {
         msg: '删除成功',
-        code: 200
+        code: 200,
       };
-    }
+    },
   },
   {
     url: '/Api/role/update',
@@ -70,9 +71,9 @@ export default [
       data = data.map((item: any) => (item.id === +res.body.id ? res.body : item));
       return {
         msg: '编辑角色成功',
-        code: 200
+        code: 200,
       };
-    }
+    },
   },
   {
     url: '/Api/role/add',
@@ -82,8 +83,8 @@ export default [
       data.push(res.body);
       return {
         msg: '新增角色成功',
-        code: 200
+        code: 200,
       };
-    }
-  }
+    },
+  },
 ];

@@ -1,6 +1,7 @@
 import Mock from 'mockjs';
 import { Response } from './type';
 import { Message } from 'element-ui';
+
 const depList = [
   {
     id: 1,
@@ -19,7 +20,7 @@ const depList = [
         pid: 1,
 
         email: Mock.mock('@email'),
-        createTime: Mock.mock('@date("yyyy-MM-dd")')
+        createTime: Mock.mock('@date("yyyy-MM-dd")'),
       },
       {
         id: 12,
@@ -28,7 +29,7 @@ const depList = [
         introduce: Mock.mock('@ctitle'),
         pid: 1,
         email: Mock.mock('@email'),
-        createTime: Mock.mock('@date("yyyy-MM-dd")')
+        createTime: Mock.mock('@date("yyyy-MM-dd")'),
       },
       {
         id: 13,
@@ -37,7 +38,7 @@ const depList = [
         introduce: Mock.mock('@ctitle'),
         pid: 1,
         email: Mock.mock('@email'),
-        createTime: Mock.mock('@date("yyyy-MM-dd")')
+        createTime: Mock.mock('@date("yyyy-MM-dd")'),
       },
       {
         id: 14,
@@ -46,9 +47,9 @@ const depList = [
         introduce: Mock.mock('@ctitle'),
         pid: 1,
         email: Mock.mock('@email'),
-        createTime: Mock.mock('@date("yyyy-MM-dd")')
-      }
-    ]
+        createTime: Mock.mock('@date("yyyy-MM-dd")'),
+      },
+    ],
   },
   {
     id: 2,
@@ -66,7 +67,7 @@ const depList = [
         introduce: Mock.mock('@ctitle'),
         pid: 2,
         email: Mock.mock('@email'),
-        createTime: Mock.mock('@date("yyyy-MM-dd")')
+        createTime: Mock.mock('@date("yyyy-MM-dd")'),
       },
       {
         id: 22,
@@ -75,7 +76,7 @@ const depList = [
         introduce: Mock.mock('@ctitle'),
         pid: 2,
         email: Mock.mock('@email'),
-        createTime: Mock.mock('@date("yyyy-MM-dd")')
+        createTime: Mock.mock('@date("yyyy-MM-dd")'),
       },
       {
         id: 23,
@@ -84,7 +85,7 @@ const depList = [
         introduce: Mock.mock('@ctitle'),
         pid: 2,
         email: Mock.mock('@email'),
-        createTime: Mock.mock('@date("yyyy-MM-dd")')
+        createTime: Mock.mock('@date("yyyy-MM-dd")'),
       },
       {
         id: 24,
@@ -93,9 +94,9 @@ const depList = [
         introduce: Mock.mock('@ctitle'),
         pid: 2,
         email: Mock.mock('@email'),
-        createTime: Mock.mock('@date("yyyy-MM-dd")')
-      }
-    ]
+        createTime: Mock.mock('@date("yyyy-MM-dd")'),
+      },
+    ],
   },
   {
     id: 3,
@@ -113,7 +114,7 @@ const depList = [
         introduce: Mock.mock('@ctitle'),
         pid: 3,
         email: Mock.mock('@email'),
-        createTime: Mock.mock('@date("yyyy-MM-dd")')
+        createTime: Mock.mock('@date("yyyy-MM-dd")'),
       },
       {
         id: 32,
@@ -122,7 +123,7 @@ const depList = [
         introduce: Mock.mock('@ctitle'),
         pid: 3,
         email: Mock.mock('@email'),
-        createTime: Mock.mock('@date("yyyy-MM-dd")')
+        createTime: Mock.mock('@date("yyyy-MM-dd")'),
       },
       {
         id: 33,
@@ -131,7 +132,7 @@ const depList = [
         introduce: Mock.mock('@ctitle'),
         pid: 3,
         email: Mock.mock('@email'),
-        createTime: Mock.mock('@date("yyyy-MM-dd")')
+        createTime: Mock.mock('@date("yyyy-MM-dd")'),
       },
       {
         id: 34,
@@ -140,10 +141,10 @@ const depList = [
         introduce: Mock.mock('@ctitle'),
         pid: 3,
         email: Mock.mock('@email'),
-        createTime: Mock.mock('@date("yyyy-MM-dd")')
-      }
-    ]
-  }
+        createTime: Mock.mock('@date("yyyy-MM-dd")'),
+      },
+    ],
+  },
 ];
 let list = [...depList];
 
@@ -155,10 +156,10 @@ export default [
       return {
         code: 200,
         message: '操作成功',
-        data: list
+        data: list,
       };
       // 使用return返回前端需要的数据
-    }
+    },
   },
   {
     url: '/api/department/create',
@@ -171,9 +172,9 @@ export default [
       }
       return {
         msg: '新增成功',
-        code: 200
+        code: 200,
       };
-    }
+    },
   },
   {
     url: '/api/department/delete',
@@ -182,9 +183,9 @@ export default [
       removeNodeInTree(list, +res.query.id);
       return {
         msg: '删除成功',
-        code: 200
+        code: 200,
       };
-    }
+    },
   },
   {
     url: '/api/department/update',
@@ -194,9 +195,9 @@ export default [
 
       return {
         msg: '编辑成功',
-        code: 200
+        code: 200,
       };
-    }
+    },
   },
   {
     url: '/api/department/detail',
@@ -218,9 +219,9 @@ export default [
       return {
         msg: '查询成功',
         code: 200,
-        data: obj
+        data: obj,
       };
-    }
+    },
   },
   {
     url: '/Api/department/list',
@@ -229,10 +230,10 @@ export default [
       return {
         code: 200,
         message: '操作成功',
-        data: list
+        data: list,
       };
       // 使用return返回前端需要的数据
-    }
+    },
   },
   {
     url: '/Api/department/delete',
@@ -243,7 +244,7 @@ export default [
       //   msg: '删除成功',
       //   code: 200
       // };
-    }
+    },
   },
   {
     url: '/Api/department/update',
@@ -253,9 +254,9 @@ export default [
       updateNodeInTree(list, res.body.id, res.body.pid, res.body);
       return {
         msg: '编辑用户成功',
-        code: 200
+        code: 200,
       };
-    }
+    },
   },
   {
     url: '/Api/department/add',
@@ -268,10 +269,10 @@ export default [
       }
       return {
         msg: '新增用户成功',
-        code: 200
+        code: 200,
       };
-    }
-  }
+    },
+  },
 ];
 // 移除
 const removeNodeInTree = (treeList: any, id: any) => {
@@ -292,10 +293,8 @@ const appendNodeInTree = (pid: any, tree: any, obj: any) => {
   tree.forEach((ele: any) => {
     if (ele.id === pid) {
       ele.children ? ele.children.push(obj) : (ele.children = [obj]);
-    } else {
-      if (ele.children) {
-        appendNodeInTree(pid, ele.children, obj);
-      }
+    } else if (ele.children) {
+      appendNodeInTree(pid, ele.children, obj);
     }
   });
   return tree;

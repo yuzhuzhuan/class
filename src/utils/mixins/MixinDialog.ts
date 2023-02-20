@@ -1,6 +1,6 @@
-/*********************************
+/** *******************************
  ************ Dialog *************
- *********************************/
+ ******************************** */
 import { Vue, Component, Prop, Model, Emit } from 'vue-property-decorator';
 import YkDialog from '@c/YK_Dialog/index.vue';
 
@@ -14,9 +14,9 @@ export default class MixinDialog<T = Record<string, never>, D = T> extends Vue {
       {
         ref: 'dialog',
         onOk: this.okM,
-        visible: this.value
+        visible: this.value,
       },
-      this.$attrs
+      this.$attrs,
     );
   }
 
@@ -24,9 +24,9 @@ export default class MixinDialog<T = Record<string, never>, D = T> extends Vue {
     return Object.assign(
       {
         'on-cancel': this.closeM,
-        open: this.open
+        open: this.open,
       },
-      this.$listeners
+      this.$listeners,
     );
   }
 
@@ -37,7 +37,7 @@ export default class MixinDialog<T = Record<string, never>, D = T> extends Vue {
   @Prop({ type: Object, required: false })
   data?: D;
 
-  dialogForm = {} as FormInit<T>;
+  dialogForm: FormInit<T> = {};
   open() {
     if (this.data && this.dialogForm) Object.assign(this.dialogForm, this.data);
   }

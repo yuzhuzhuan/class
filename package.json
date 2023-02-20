@@ -1,18 +1,28 @@
 {
-  "name": "VE2-TS-TEMPLATE",
-  "version": "0.1.0",
+  "name": "VUE2-TS-TEMPLATE",
+  "version": "0.2.0",
   "private": true,
   "homepage": "./",
   "scripts": {
-    "dev": "vue-cli-service serve",
+    "prebuild": "npm run check:node",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "prepare": "husky install",
-    "lint:lint-staged": "lint-staged"
+    "check:lockfile": "node ./scripts/checkLockfile",
+    "check:node": "node ./scripts/checkNode",
+    "predev": "npm run check:node",
+    "dev": "vue-cli-service serve",
+    "f2elint-fix": "f2elint fix",
+    "f2elint-scan": "f2elint scan",
+    "preinstall": "npx only-allow npm",
+    "lint": "vue-cli-service lint"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run check:lockfile && f2elint commit-file-scan",
+      "commit-msg": "f2elint commit-msg-scan"
+    }
   },
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
-    "@commitlint/cli": "^17.3.0",
     "@iconify/iconify": "^3.0.0",
     "@purge-icons/generated": "^0.9.0",
     "@riophae/vue-treeselect": "^0.4.0",
@@ -23,9 +33,7 @@
     "core-js": "^3.6.5",
     "echarts": "^5.4.0",
     "element-ui": "^2.15.1",
-    "husky": "^8.0.2",
     "js-cookie": "^2.2.1",
-    "lint-staged": "^13.0.4",
     "lodash-es": "^4.17.21",
     "mockjs": "^1.1.0",
     "moment": "^2.29.4",
@@ -44,7 +52,6 @@
     "windicss": "^3.5.6"
   },
   "devDependencies": {
-    "@commitlint/config-conventional": "^17.3.0",
     "@iconify/json": "^2.1.129",
     "@iconify/vue2": "^2.0.0",
     "@types/js-cookie": "^2.2.6",
@@ -52,31 +59,29 @@
     "@types/node": "^14.18.33",
     "@types/path-to-regexp": "^1.7.0",
     "@types/webpack-env": "^1.18.0",
-    "@typescript-eslint/eslint-plugin": "^2.33.0",
-    "@typescript-eslint/parser": "^2.33.0",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-typescript": "~4.5.0",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
-    "@vue/eslint-config-standard": "^5.1.2",
-    "@vue/eslint-config-typescript": "^5.0.2",
-    "eslint": "^6.7.2",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.0",
-    "eslint-plugin-vue": "^6.2.2",
-    "prettier": "^2.8.0",
-    "prettier-eslint-cli": "^7.1.0",
+    "eslint": "^7.15.0",
+    "eslint-config-prettier": "^7.1.0",
+    "eslint-plugin-prettier": "^3.3.0",
+    "f2elint": "^2.2.1",
+    "prettier": "^2.2.1",
     "purge-icons-webpack-plugin": "^0.9.1",
     "sass": "^1.56.1",
     "sass-loader": "^8.0.2",
+    "semver": "^7.3.8",
     "tslib": "^2.4.1",
     "typescript": "~3.9.3",
     "vue-template-compiler": "^2.6.11"
+  },
+  "engines": {
+    "node": "16.18.0",
+    "npm": "8.19.2"
   }
 }

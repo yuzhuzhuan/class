@@ -23,7 +23,7 @@ import { Form, FormItem } from 'element-ui';
 
 const actionMap = {
   select: '选择',
-  input: '输入'
+  input: '输入',
 } as any;
 
 @Component
@@ -39,7 +39,10 @@ export default class YkFormItem extends Vue {
   label?: string;
 
   get hideLabel() {
-    return this.$attrs['label-width'] === '0' || (!this.$attrs['label-width'] && this.FormInstance.labelWidth === '0');
+    return (
+      this.$attrs['label-width'] === '0' ||
+      (!this.$attrs['label-width'] && this.FormInstance.labelWidth === '0')
+    );
   }
 
   @Prop({ type: String, required: false })
@@ -64,18 +67,20 @@ export default class YkFormItem extends Vue {
       ruleList[0] = { ...item, message, required };
     }
     if (this.ruleType) {
-      const rule = {
+      const rule: RuleItem = {
         type: this.ruleType,
-        message: this.placeholder
-      } as RuleItem;
+        message: this.placeholder,
+      };
       if (this.ruleType === 'number') {
-        rule.validator = function(rule, value) {
-          return typeof value === 'number' || value === '' ? [] : [new Error((rule as RuleItem).message)];
+        rule.validator = function (_rule, value) {
+          return typeof value === 'number' || value === ''
+            ? []
+            : [new Error((_rule as RuleItem).message)];
         };
       }
       ruleList.unshift();
     }
-    return ruleList.map((item = {} as RuleItem) => {
+    return ruleList.map((item: RuleItem = {}) => {
       const { trigger = 'change', message: msg, ...other } = item;
       const message = msg ?? (item.required !== undefined ? this.placeholder : msg);
       return { ...other, trigger, message };
@@ -97,10 +102,12 @@ export default class YkFormItem extends Vue {
     const requiredMessage = ruleList[0]?.required && ruleList[0]?.message;
     if (requiredMessage) return requiredMessage;
 
-    const tagType = this.action ?? ((this.$slots as any)?.default[0] as VNode).componentOptions?.tag?.toLowerCase();
-    const actionType = tagType && Object.keys(actionMap).find(item => tagType.includes(item));
+    const tagType =
+      this.action ??
+      ((this.$slots as any)?.default[0] as VNode).componentOptions?.tag?.toLowerCase();
+    const actionType = tagType && Object.keys(actionMap).find((item) => tagType.includes(item));
 
-    return `请${actionMap[actionType ?? 'select']}` + (this.label ?? '');
+    return `请${actionMap[actionType ?? 'select']}${this.label ?? ''}`;
   }
 }
 </script>

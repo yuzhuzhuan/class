@@ -8,6 +8,7 @@
 <script lang="ts">
 import { Component, Vue, Ref, Prop } from 'vue-property-decorator';
 import * as echarts from 'echarts';
+
 @Component({
   name: 'echarts'
 })

@@ -23,7 +23,9 @@ export default class YkButton extends Vue {
       if (this.loading) {
         if (promise instanceof Promise) {
           this.pending = true;
-          promise.finally(() => (this.pending = false));
+          promise.finally(() => {
+            this.pending = false;
+          });
         } else {
           console.warn('YkButton 是异步提交组件，同步组件请使用 Button 组件');
         }

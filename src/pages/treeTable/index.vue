@@ -44,13 +44,13 @@ import service, { getDepListApi } from '../../../api/department';
 @Component({ components: { DialogUserEdit } })
 export default class TreeTable extends Mixins(MixinDialog, MixinTable) {
   queryForm = {
-    name: ''
+    name: '',
   };
 
   // table
   removeRequest = service.remove;
   get tableColumns() {
-    const data: ColumnItem<TreeItem>[] = [
+    const data: Array<ColumnItem<TreeItem>> = [
       { label: '部门名称', prop: 'departmentName' },
       { label: '主管名称', prop: 'manager' },
       { label: '部门介绍', prop: 'introduce' },
@@ -59,8 +59,8 @@ export default class TreeTable extends Mixins(MixinDialog, MixinTable) {
       {
         slot: 'actions',
         prop: 'actions',
-        label: '操作'
-      }
+        label: '操作',
+      },
     ];
     return data;
   }
@@ -87,14 +87,14 @@ export default class TreeTable extends Mixins(MixinDialog, MixinTable) {
       {
         id: 0,
         label: '顶级栏目',
-        pid: 0
-      }
+        pid: 0,
+      },
     ];
     if (data) {
-      data.map((item: IList) => {
+      data.forEach((item: IList) => {
         item.label = item.departmentName;
         if (item.children) {
-          item.children.map((child: IList) => {
+          item.children.forEach((child: IList) => {
             child.label = child.departmentName;
           });
         }
@@ -106,8 +106,8 @@ export default class TreeTable extends Mixins(MixinDialog, MixinTable) {
           id: 0,
           label: '顶级部门',
           children: [...this.list],
-          pid: 0
-        }
+          pid: 0,
+        },
       ];
     }
   }

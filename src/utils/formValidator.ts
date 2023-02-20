@@ -1,4 +1,5 @@
 import { isPhoneNumber, isEmailNumber } from './validate';
+
 type cbFunc = (msg?: string | Error) => void;
 export const FormValidator = {
   /**
@@ -10,21 +11,18 @@ export const FormValidator = {
       validator: (rule: any, value: string, callback: cbFunc) => {
         if (!value || value.length === 0) {
           return callback(new Error(`${msg}不能为空`));
-        } else {
-          // value = value.trim();
-          if (value.length > 11) {
-            return callback(new Error('长度超过11位'));
-          } else if (isPhoneNumber(value)) {
-            return callback();
-          } else if (!isPhoneNumber(value)) {
-            return callback(new Error(`${msg}格式不正确`));
-          } else if (value.length !== 0) {
-            return callback(new Error('输入中……'));
-          }
+        } else if (value.length > 11) {
+          return callback(new Error('长度超过11位'));
+        } else if (isPhoneNumber(value)) {
+          return callback();
+        } else if (!isPhoneNumber(value)) {
+          return callback(new Error(`${msg}格式不正确`));
+        } else if (value.length !== 0) {
+          return callback(new Error('输入中……'));
         }
       },
       trigger: opt || 'change',
-      required: isRequired || true
+      required: isRequired || true,
     };
   },
   /**
@@ -36,19 +34,16 @@ export const FormValidator = {
       validator: (rule: any, value: string, callback: cbFunc) => {
         if (!value || value.length === 0) {
           return callback(new Error(`${msg}不能为空`));
-        } else {
-          // value = value.trim();
-          if (value.length < 0) {
-            return callback(new Error('输入中……'));
-          } else if (isEmailNumber(value)) {
-            return callback();
-          } else if (!isEmailNumber(value)) {
-            return callback(new Error(`${msg}格式不正确`));
-          }
+        } else if (value.length < 0) {
+          return callback(new Error('输入中……'));
+        } else if (isEmailNumber(value)) {
+          return callback();
+        } else if (!isEmailNumber(value)) {
+          return callback(new Error(`${msg}格式不正确`));
         }
       },
       trigger: opt || 'change',
-      required: isRequired || true
+      required: isRequired || true,
     };
   },
   /**
@@ -60,19 +55,16 @@ export const FormValidator = {
       validator: (rule: any, value: string, callback: cbFunc) => {
         if (!value || value.length === 0) {
           return callback(new Error('该选项不能为空'));
+        } else if (value.length > 18) {
+          return callback(new Error('长度超过18位'));
+        } else if (value.length < 18) {
+          return callback(new Error('输入中……'));
         } else {
-          // value = value.trim();
-          if (value.length > 18) {
-            return callback(new Error('长度超过18位'));
-          } else if (value.length < 18) {
-            return callback(new Error('输入中……'));
-          } else {
-            return callback();
-          }
+          return callback();
         }
       },
       trigger: opt || 'blur',
-      required: isRequired || true
+      required: isRequired || true,
     };
   },
   /**
@@ -101,7 +93,7 @@ export const FormValidator = {
         }
       },
       required: isRequired || true,
-      trigger: opt || 'change'
+      trigger: opt || 'change',
     };
   },
   /**
@@ -110,26 +102,30 @@ export const FormValidator = {
    * @param end {Number} 字符的最大长度
    * @returns {{validator: validator}}
    */
-  checkStringLength: (begin: number, end: number, msg: string, isRequired: boolean, opt?: string) => {
+  checkStringLength: (
+    begin: number,
+    end: number,
+    msg: string,
+    isRequired: boolean,
+    opt?: string,
+  ) => {
     return {
       validator: (rule: any, value: string, callback: cbFunc) => {
         if (!value || value.length === 0) {
-          return callback(new Error(msg + '不能为空'));
-        } else {
+          return callback(new Error(`${msg}不能为空`));
+        } else if (/^.+$/.test(value)) {
           // value = value.trim();
-          if (/^.+$/.test(value)) {
-            const len = value.length;
-            if (len < begin) {
-              return callback(new Error(msg + '少于1位,等待输入中……'));
-            } else if (end !== null && len > end) {
-              return callback(new Error('输入超出长度'));
-            }
-            return callback();
+          const len = value.length;
+          if (len < begin) {
+            return callback(new Error(`${msg}少于1位,等待输入中……`));
+          } else if (end !== null && len > end) {
+            return callback(new Error('输入超出长度'));
           }
+          return callback();
         }
       },
       required: isRequired || true,
-      trigger: opt || 'change'
+      trigger: opt || 'change',
     };
   },
   /**
@@ -149,7 +145,7 @@ export const FormValidator = {
         return callback();
       },
       required: isRequired || true,
-      trigger: opt || 'change'
+      trigger: opt || 'change',
     };
-  }
+  },
 };

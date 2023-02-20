@@ -1,5 +1,11 @@
-build/*.js
-src/assets
-public
-dist
-/mock/*
+build/
+coverage/
+dist/
+es/
+lib/
+node_modules/
+**/*.min.js
+**/*-min.js
+**/*.bundle.js
+
+public/static/

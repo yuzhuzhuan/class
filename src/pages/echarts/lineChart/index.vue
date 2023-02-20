@@ -9,9 +9,11 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import YKEcharts from '@/components/YK_Echarts/index.vue';
-import { getLineChartApi } from '../../../../api/echarts'; // 导入接口
+import { getLineChartApi } from '../../../../api/echarts';
+import { EChartsOption } from 'echarts';
+// 导入接口
 @Component({
-  components: { YKEcharts }
+  components: { YKEcharts },
 })
 export default class LineChart extends Vue {
   /**
@@ -25,7 +27,7 @@ export default class LineChart extends Vue {
   /**
    * echarts配置项
    */
-  options = {} as echarts.EChartsOption;
+  options: EChartsOption = {};
   async created() {
     await this.getList();
     if (this.object) {
@@ -35,8 +37,8 @@ export default class LineChart extends Vue {
         title: {
           text: 'Stacked Area Chart',
           textStyle: {
-            color: '#a1a1a1'
-          }
+            color: '#a1a1a1',
+          },
         },
         tooltip: {
           // 触发类型
@@ -44,21 +46,21 @@ export default class LineChart extends Vue {
           axisPointer: {
             type: 'cross',
             label: {
-              backgroundColor: '#6a7985'
-            }
-          }
+              backgroundColor: '#6a7985',
+            },
+          },
         },
         legend: { ...this.object.legend },
         toolbox: {
           feature: {
-            saveAsImage: {}
-          }
+            saveAsImage: {},
+          },
         },
         grid: {
           left: '3%',
           right: '4%',
           bottom: '3%',
-          containLabel: true
+          containLabel: true,
         },
         xAxis: [
           {
@@ -66,19 +68,19 @@ export default class LineChart extends Vue {
             boundaryGap: false,
             data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
             axisLabel: {
-              color: '#a1a1a1'
-            }
-          }
+              color: '#a1a1a1',
+            },
+          },
         ],
         yAxis: [
           {
             type: 'value',
             axisLabel: {
-              color: '#a1a1a1'
-            }
-          }
+              color: '#a1a1a1',
+            },
+          },
         ],
-        series: [...this.object.series]
+        series: [...this.object.series],
       };
     }
   }

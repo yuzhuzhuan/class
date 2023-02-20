@@ -36,7 +36,9 @@
                 />
                 <SpTablePoptip
                   v-if="!!actionCol.listeners.remove"
-                  :title="actionCol.listeners.removeConfirmTip || '确定删除该条数据吗？该操作无法撤回'"
+                  :title="
+                    actionCol.listeners.removeConfirmTip || '确定删除该条数据吗？该操作无法撤回'
+                  "
                   @click.native.stop
                   @confirm="actionCol.listeners.remove(plainRow(scope.row), scope.$index)"
                 >
@@ -119,12 +121,12 @@ export type ColumnItem<T extends Record<string, any>> =
 
 @Component({
   inheritAttrs: false,
-  components: { SpPagination, SpTablePoptip, SpTableButton }
+  components: { SpPagination, SpTablePoptip, SpTableButton },
 })
 export default class YkTable extends Vue {
   // 请求接口
   @Prop({ type: [Function, Array], required: true })
-  list!: YkFunction<Promise<any>> | Record<string, any>[];
+  list!: YkFunction<Promise<any>> | Array<Record<string, any>>;
 
   @Prop({ type: [Array], required: true })
   columns!: Array<ColumnItem<any>>;
@@ -148,7 +150,7 @@ export default class YkTable extends Vue {
     default: 'multi',
     validator(value: 'single' | 'multi' = 'multi') {
       return ['single', 'multi'].includes(value);
-    }
+    },
   })
   checkMode!: 'single' | 'multi';
 
@@ -158,7 +160,7 @@ export default class YkTable extends Vue {
 
   // clone row data
   @PropSync('selection', { type: Array, required: false })
-  private _selection?: Record<string, any>[];
+  private _selection?: Array<Record<string, any>>;
 
   @Prop({ type: [Boolean, Function], default: true })
   selectable!: boolean | ((row: any, rowIndex: number) => boolean);
@@ -169,13 +171,15 @@ export default class YkTable extends Vue {
 
   get maxHeight() {
     let value = this.$attrs['max-height'] as string | number | undefined;
-    value = value?.toString().endsWith('vh') ? (+value.toString().slice(0, -2) / 100) * window.innerHeight : value;
+    value = value?.toString().endsWith('vh')
+      ? (+value.toString().slice(0, -2) / 100) * window.innerHeight
+      : value;
     return value;
   }
 
   dataLoading = false;
-  dataList = [] as Record<string, any>[];
-  params = {} as Record<string, any>;
+  dataList = [] as Array<Record<string, any>>;
+  params: Record<string, any> = {};
 
   @Watch('list')
   onListChange() {
@@ -186,13 +190,15 @@ export default class YkTable extends Vue {
   disableCheck?: boolean;
 
   // 除 action 之外的 slots
-  get columnSlots(): Array<any> {
-    const columns = this.cols.filter(item => item.slot && item.slot !== 'action' /* && item.listeners */);
+  get columnSlots(): any[] {
+    const columns = this.cols.filter(
+      (item) => item.slot && item.slot !== 'action' /* && item.listeners */,
+    );
     return columns;
   }
 
   get actionCol() {
-    const { slot, ...action } = this.cols.find(item => item.slot === 'action') ?? {};
+    const { slot, ...action } = this.cols.find((item) => item.slot === 'action') ?? {};
     return slot ? action : null;
   }
 
@@ -200,24 +206,27 @@ export default class YkTable extends Vue {
   //   const action = this.cols.find((item) => item.slot === 'action')
   //   return action?.permits || {}
   // }
-  private get cols(): ColumnItem<any>[] {
-    let cols = this.columns.slice(0).map(item => {
-      let { width, minWidth, label, slot } = item;
+  private get cols(): Array<ColumnItem<any>> {
+    let cols = this.columns.slice(0).map((item) => {
+      const { width, label, slot } = item;
+      let { minWidth } = item;
       if (!width && !minWidth && label && slot !== 'action') {
         minWidth = label.length * 13 + 20;
       }
       return { ...item, minWidth };
     });
-    cols = this.colsWithFixed(cols) as (ColumnItem<any> & {
-      minWidth: number;
-    })[];
+    cols = this.colsWithFixed(cols) as Array<
+      ColumnItem<any> & {
+        minWidth: number;
+      }
+    >;
     // cols = this.colsWithPermits(cols)
     return cols;
   }
 
-  colsWithFixed(columns: ColumnItem<any>[]) {
+  colsWithFixed(columns: Array<ColumnItem<any>>) {
     // 操作列
-    const action = columns.find(item => item.slot === 'action');
+    const action = columns.find((item) => item.slot === 'action');
     if (action) {
       const defAction = { title: '操作', width: '200px', align: 'center', fixed: 'right' };
       action.fixed
@@ -226,24 +235,27 @@ export default class YkTable extends Vue {
     }
     // 可选列
     if (this.selectable && this._selection) {
-      const selection = columns.find(item => item.type === 'selection');
+      const selection = columns.find((item) => item.type === 'selection');
       selection && columns.splice(columns.indexOf(selection), 1);
-      columns.unshift({
-        width: '38',
+      const data: ColumnItem<any> = {
+        width: 38,
         type: 'selection',
+        prop: '_selection',
+        label: '_selection',
         selectable: this.selectableFn,
         align: 'center',
         fixed: 'left',
         className: this.checkMode === 'single' ? 'sp-table-check-single' : '',
-        ...(selection ?? {})
-      } as ColumnItem<any>);
+        ...(selection ?? {}),
+      };
+      columns.unshift(data);
     }
 
     return columns;
   }
 
-  colsWithPermits(columns: ColumnItem<any>[]) {
-    const action = columns.find(item => item.slot === 'action');
+  colsWithPermits(columns: Array<ColumnItem<any>>) {
+    const action = columns.find((item) => item.slot === 'action');
     // const innerPermits = Object.values(this.actionPermits) as string[]
 
     // 操作列权限
@@ -252,7 +264,7 @@ export default class YkTable extends Vue {
     }
 
     // 可选列权限
-    const selection = columns.find(item => item.type === 'selection');
+    const selection = columns.find((item) => item.type === 'selection');
     if (selection && !this.selectable) {
       columns.splice(columns.indexOf(selection), 1);
     }
@@ -267,7 +279,7 @@ export default class YkTable extends Vue {
   private plainRow(item: object) {
     if (item === null || typeof item !== 'object') return item;
     item = Object.assign({}, item);
-    Object.keys(item).forEach(key => key.startsWith('_') && Reflect.deleteProperty(item, key));
+    Object.keys(item).forEach((key) => key.startsWith('_') && Reflect.deleteProperty(item, key));
 
     return item;
   }
@@ -295,7 +307,8 @@ export default class YkTable extends Vue {
     const curRoutePageIndex = window.sessionStorage.getItem(`${curRoute.path}-pageIndex`) || 0;
     const curRoutePageSize = window.sessionStorage.getItem(`${curRoute.path}-pageSize`);
     if (!Reflect.has(pageInfo, 'pageIndex')) pageInfo.pageIndex = +curRoutePageIndex || 1;
-    if (!Reflect.has(pageInfo, 'pageSize') && curRoutePageSize) pageInfo.pageSize = +curRoutePageSize;
+    if (!Reflect.has(pageInfo, 'pageSize') && curRoutePageSize)
+      pageInfo.pageSize = +curRoutePageSize;
     window.sessionStorage.removeItem(`${curRoute.path}-pageIndex`);
     window.sessionStorage.removeItem(`${curRoute.path}-pageSize`);
 
@@ -304,21 +317,28 @@ export default class YkTable extends Vue {
   }
 
   @Emit('on-success')
-  async request(params = {} as Record<string, any>, pageInfo = {}) {
+  async request(params: Record<string, any> = {}, pageInfo = {}) {
     // 翻页时带上次查询的条件
-    Object.keys(params).forEach(key => {
+    Object.keys(params).forEach((key) => {
       let value = params[key];
       if (value === '') Reflect.deleteProperty(params, key);
       else if (Array.isArray(value)) {
         value.length || Reflect.deleteProperty(params, key);
       } else if (value?.constructor === Object) {
-        params[key] = value = Object.assign({}, value);
-        Object.keys(value).forEach(subkey => value[subkey] === '' && Reflect.deleteProperty(value, subkey));
+        value = Object.assign({}, value);
+        params[key] = value;
+        Object.keys(value).forEach(
+          (subkey) => value[subkey] === '' && Reflect.deleteProperty(value, subkey),
+        );
         Object.keys(value).length || Reflect.deleteProperty(params, key);
       }
     });
     this.params = params ?? this.params;
-    params = Object.assign({}, this.params, this.pageSize === Number.MAX_SAFE_INTEGER ? {} : this.mergePageInfo(pageInfo));
+    params = Object.assign(
+      {},
+      this.params,
+      this.pageSize === Number.MAX_SAFE_INTEGER ? {} : this.mergePageInfo(pageInfo),
+    );
     params.page = params.pageIndex;
     Reflect.deleteProperty(params, 'pageIndex');
 
@@ -348,36 +368,41 @@ export default class YkTable extends Vue {
       children: string;
     };
     const list = newValue.slice(0);
-    const newSet = new Set(newValue.map(item => item.id));
-    const oldSet = new Set(oldValue.map(item => item.id));
+    const newSet = new Set(newValue.map((item) => item.id));
+    const oldSet = new Set(oldValue.map((item) => item.id));
     // 新选的 rows
     newValue
-      .filter(item => !oldSet.has(item.id))
-      .forEach(item => {
+      .filter((item) => !oldSet.has(item.id))
+      .forEach((item) => {
         if (children in item) {
           item[children].forEach((si: any) => {
             newSet.has(si.id) || list.push(this.plainRow(si));
           });
         } else {
-          const itemParent = this.dataList.find(i => i[children].some((si: any) => si.id === item.id));
-          itemParent?.[children].every((si: any) => newSet.has(si.id)) && list.push(this.plainRow(itemParent));
+          const itemParent = this.dataList.find((i) =>
+            i[children].some((si: any) => si.id === item.id),
+          );
+          itemParent?.[children].every((si: any) => newSet.has(si.id)) &&
+            list.push(this.plainRow(itemParent));
         }
       });
     // 删除的
     oldValue
-      .filter(item => !newSet.has(item.id))
-      .forEach(item => {
+      .filter((item) => !newSet.has(item.id))
+      .forEach((item) => {
         if (children in item) {
           item[children].forEach((si: any) => {
             if (newSet.has(si.id)) {
-              const index = list.findIndex(i => i.id === si.id);
+              const index = list.findIndex((i) => i.id === si.id);
               list.splice(index, 1);
             }
           });
         } else {
-          const itemParent = this.dataList.find(i => i[children].some((si: any) => si.id === item.id));
+          const itemParent = this.dataList.find((i) =>
+            i[children].some((si: any) => si.id === item.id),
+          );
           if (itemParent?.[children].some((si: any) => !newSet.has(si.id))) {
-            const index = list.findIndex(i => i.id === itemParent.id);
+            const index = list.findIndex((i) => i.id === itemParent.id);
             list.splice(index, 1);
           }
         }
@@ -390,7 +415,7 @@ export default class YkTable extends Vue {
   pageInfo = {} as any;
   pageInfoMixin = {
     pageIndex: 1,
-    pageSize: 10
+    pageSize: 10,
   };
 
   pageTotalMixin = 0;

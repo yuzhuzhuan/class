@@ -39,7 +39,7 @@ export default class PageUser extends Mixins(MixinTable) {
   tableRequest = service.query;
   removeRequest = service.remove;
   get tableColumns() {
-    const data: ColumnItem<UserItem>[] = [
+    const data: Array<ColumnItem<UserItem>> = [
       { label: '用户名', prop: 'username' },
       { label: '用户姓名', prop: 'name' },
       { label: '用户类型', prop: 'usertype' },

@@ -37,6 +37,7 @@ import service from '../../../../api/department';
 import '@riophae/vue-treeselect/dist/vue-treeselect.css';
 import moment from 'moment';
 import Mock from 'mockjs';
+
 @Component({
   components: { TreeSelect }
 })

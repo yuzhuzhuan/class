@@ -1,7 +1,7 @@
 /**
  * 用户接口数据
  */
-export type IUserData = {
+export interface IUserData {
   // 地址
   comaddress: string;
   // 部门编码
@@ -31,7 +31,7 @@ export type IUserData = {
   username: string;
   menus: any;
   id: number;
-};
+}
 /**
  * 部门类型
  */
@@ -62,7 +62,7 @@ export enum EHrType {
   countyLeader = '8'
 }
 
-export type IPage = {
+export interface IPage {
   pageSize: number;
   pageIndex: number;
-};
+}

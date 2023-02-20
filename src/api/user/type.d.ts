@@ -1,12 +1,12 @@
-type UserItem = {
+interface UserItem {
   id: number;
   username: string;
   name: string;
   password: string;
   enable: number;
   usertype: number;
-};
-type TreeItem = {
+}
+interface TreeItem {
   id: number | string;
   manager: string;
   departmentName: string;
@@ -15,4 +15,4 @@ type TreeItem = {
   createTime: string;
   pid: number | null;
   actions: string;
-};
+}

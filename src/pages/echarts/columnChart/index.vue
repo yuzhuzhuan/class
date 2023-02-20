@@ -6,12 +6,14 @@
     </el-card>
   </div>
 </template>
-<script lang='ts'>
+<script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { getColumnChartApi } from '../../../../api/echarts'; // 导入接口
 import YKEcharts from '@/components/YK_Echarts/index.vue';
+import { EChartsOption } from 'echarts';
+
 @Component({
-  components: { YKEcharts }
+  components: { YKEcharts },
 })
 export default class ColumnChart extends Vue {
   /**
@@ -25,7 +27,7 @@ export default class ColumnChart extends Vue {
   /**
    * echarts配置项
    */
-  options = {} as echarts.EChartsOption;
+  options: EChartsOption = {};
 
   async created() {
     await this.getList();
@@ -40,8 +42,8 @@ export default class ColumnChart extends Vue {
         series: [{ type: 'bar' }, { type: 'bar' }, { type: 'bar' }],
         dataset: {
           // 提供一份数据。
-          source: [...this.list]
-        }
+          source: [...this.list],
+        },
       };
     }
   }

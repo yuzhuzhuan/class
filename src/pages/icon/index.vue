@@ -13,8 +13,10 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import YkIcon from '@/components/global/YkIcon.vue'; // svg组件
+import YkIcon from '@/components/global/YkIcon.vue';
+ // svg组件
 const collections = require('@iconify/json/json/ep.json');
+
 @Component({
   components: { YkIcon }
 })
@@ -22,7 +24,7 @@ export default class Icon extends Vue {
   iconList = [] as string[];
   async created() {
     Object.keys(collections.icons).forEach((key: string) => {
-      this.iconList.push('ep:' + key);
+      this.iconList.push(`ep:${  key}`);
     });
   }
 

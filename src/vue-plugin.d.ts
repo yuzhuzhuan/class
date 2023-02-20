@@ -10,7 +10,10 @@ declare module 'vue/types/vue' {
     // $bus: any;
 
     // global mixin
-    getFormDataM<T extends Record<string, any>>(validation?: boolean | string, formRef?: string): Promise<T> | never;
+    getFormDataM<T extends Record<string, any>>(
+      validation?: boolean | string,
+      formRef?: string,
+    ): Promise<T> | never;
     validateM(): any;
     // spOpts: typeof spOpts;
 

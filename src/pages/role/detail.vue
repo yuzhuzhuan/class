@@ -1,14 +1,25 @@
 <template>
   <div class="app-container">
     <el-card shadow="never">
-      <el-form ref="submitForm" :model="submitForm" :rules="rules" label-width="80px" hide-required-asterisk>
+      <el-form
+        ref="submitForm"
+        :model="submitForm"
+        :rules="rules"
+        label-width="80px"
+        hide-required-asterisk
+      >
         <yk-form-item label="角色名称" prop="name" required :rules="rules.name">
           <yk-form-input v-model.trim="submitForm.name" />
         </yk-form-item>
 
         <el-form-item label="角色菜单" prop="menus">
           <el-table :data="initMenus" border align="center" style="width: 100%">
-            <el-table-column :resizable="false" width="55" :render-header="renderHeader" align="center">
+            <el-table-column
+              :resizable="false"
+              width="55"
+              :render-header="renderHeader"
+              align="center"
+            >
               <template slot-scope="scope">
                 <el-checkbox
                   v-model="scope.row.itemCheck"
@@ -18,12 +29,24 @@
               </template>
             </el-table-column>
 
-            <el-table-column prop="name" label="模块标题" width="200" :resizable="false" align="left"> </el-table-column>
+            <el-table-column
+              prop="name"
+              label="模块标题"
+              width="200"
+              :resizable="false"
+              align="left"
+            >
+            </el-table-column>
             <el-table-column label="操作" align="left" :resizable="false">
               <template slot-scope="scope">
                 <el-checkbox-group v-model="list">
                   <template v-for="item in scope.row.childList">
-                    <el-checkbox :label="item.name" :key="item.id" :checked="item.checked" @change="val => select(val, item)">
+                    <el-checkbox
+                      :label="item.name"
+                      :key="item.id"
+                      :checked="item.checked"
+                      @change="(val) => select(val, item)"
+                    >
                     </el-checkbox>
                   </template>
                 </el-checkbox-group>
@@ -45,12 +68,13 @@ import { Component, Ref, Vue } from 'vue-property-decorator';
 import { getMenuListApi } from '../../../api/menu'; // 导入接口
 import { getRoleListApi, getRoleApi, addRoleApi, updateRoleApi } from '../../../api/role'; // 导入接口
 import { Form } from 'element-ui';
+
 @Component({ components: {} })
 export default class RoleDetail extends Vue {
   @Ref('submitForm') readonly $submitForm!: Form;
   submitForm = {
     id: '',
-    name: ''
+    name: '',
   };
 
   initMenus = [] as any; // 所有权限数据
@@ -60,7 +84,7 @@ export default class RoleDetail extends Vue {
   isCheck = false; // 控制全选按钮的全选样式
   indeterminate = false; // 控制全选按钮的半选样式
   rules = {
-    name: [{ required: true, message: '请输入角色名称', trigger: 'blur' }]
+    name: [{ required: true, message: '请输入角色名称', trigger: 'blur' }],
   };
 
   get isEdit() {
@@ -88,6 +112,7 @@ export default class RoleDetail extends Vue {
         item.childList = this.changeData(data, item.id);
         return true;
       }
+      return false;
     });
   }
 
@@ -124,13 +149,13 @@ export default class RoleDetail extends Vue {
     return h('span', [
       h('el-checkbox', {
         on: {
-          change: this.selectBox
+          change: this.selectBox,
         },
         props: {
           value: this.isCheck,
-          indeterminate: this.indeterminate
-        }
-      })
+          indeterminate: this.indeterminate,
+        },
+      }),
     ]);
   }
 
@@ -180,12 +205,12 @@ export default class RoleDetail extends Vue {
         this.menus.push(row, children);
       } else {
         children.itemCheck = false;
-        this.list.map((name: any, index: any) => {
+        this.list.forEach((name: any, index: any) => {
           if (name === children.name) {
             this.list.splice(index, 1);
           }
         });
-        this.menus.map((id: any, index: any) => {
+        this.menus.forEach((id: any, index: any) => {
           if (id === children.id) {
             this.menus.splice(index, 1);
           }
@@ -231,7 +256,7 @@ export default class RoleDetail extends Vue {
             this.menus.push(item);
           } else {
             item3.itemCheck = false;
-            this.menus.map((i: any, index: any) => {
+            this.menus.forEach((i: any, index: any) => {
               if (i === item.id) {
                 this.menus.splice(index, 1);
               }
@@ -265,21 +290,19 @@ export default class RoleDetail extends Vue {
 
       if (this.validatePass()) {
         this.$message.warning('角色名称重复,请重新输入!');
-      } else {
-        if (result && this.menus.length) {
-          if (this.isEdit) {
-            await updateRoleApi({
-              id: this.$route.params.roleId,
-              name: this.submitForm.name,
-              menus: this.menus
-            });
-            this.$message.success('更新用户角色成功');
-          } else {
-            await addRoleApi({ name: this.submitForm.name, menus: this.menus });
-            this.$message.success('新增角色成功');
-          }
-          this.$router.push('/role/index');
+      } else if (result && this.menus.length) {
+        if (this.isEdit) {
+          await updateRoleApi({
+            id: this.$route.params.roleId,
+            name: this.submitForm.name,
+            menus: this.menus,
+          });
+          this.$message.success('更新用户角色成功');
+        } else {
+          await addRoleApi({ name: this.submitForm.name, menus: this.menus });
+          this.$message.success('新增角色成功');
         }
+        this.$router.push('/role/index');
       }
     });
   }

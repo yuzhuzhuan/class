@@ -55,7 +55,7 @@ import { Component, Vue } from 'vue-property-decorator'
 
 @Component({})
 export default class Page404 extends Vue {
-  public message = '404 Page Not Found'
+  message = '404 Page Not Found'
 }
 </script>
 
