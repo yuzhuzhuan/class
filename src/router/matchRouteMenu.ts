@@ -22,7 +22,7 @@ export async function matchRouteMenu(to: Route, from: Route, next: NavigationGua
       } else {
         const { data } = await GetUserApi({ username: 'admin', password: '123456' });
         const id = data.menus.map((item: any) => item.id).map(String);
-        if (to.meta.id && id.includes(to.meta?.id.toString())) {
+        if (to.meta?.id && id.includes(to.meta?.id.toString())) {
           next();
         } else {
           next('/index');
