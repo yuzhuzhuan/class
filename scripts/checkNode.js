@@ -4,7 +4,8 @@ let semver = null;
 try {
   semver = require('semver'); // 校验版本号的一个工具
 } catch (error) {
-  console.log('请安装包 semver')
+  console.error(error);
+  process.exit(1);
 }
 
 const version = engines.node;

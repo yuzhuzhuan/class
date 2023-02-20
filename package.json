@@ -7,7 +7,7 @@
     "prebuild": "npm run check:node",
     "build": "vue-cli-service build",
     "check:lockfile": "node ./scripts/checkLockfile",
-    "check:node": "node ./misc/checkNode",
+    "check:node": "node ./scripts/checkNode",
     "predev": "npm run check:node",
     "dev": "vue-cli-service serve",
     "f2elint-fix": "f2elint fix",
@@ -75,6 +75,7 @@
     "purge-icons-webpack-plugin": "^0.9.1",
     "sass": "^1.56.1",
     "sass-loader": "^8.0.2",
+    "semver": "^7.3.8",
     "tslib": "^2.4.1",
     "typescript": "~3.9.3",
     "vue-template-compiler": "^2.6.11"
