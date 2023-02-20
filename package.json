@@ -4,17 +4,22 @@
   "private": true,
   "homepage": "./",
   "scripts": {
-    "dev": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "f2elint-scan": "f2elint scan",
-    "f2elint-fix": "f2elint fix",
-    "preinstall": "npx only-allow npm",
-    "predev": "npm run check:node",
     "prebuild": "npm run check:node",
+    "build": "vue-cli-service build",
+    "check:lockfile": "node ./scripts/checkLockfile",
     "check:node": "node ./misc/checkNode",
-    "xxx": "f2elint commit-msg-scan",
-    "check:lockfile": "node ./scripts/checkLockfile"
+    "predev": "npm run check:node",
+    "dev": "vue-cli-service serve",
+    "f2elint-fix": "f2elint fix",
+    "f2elint-scan": "f2elint scan",
+    "preinstall": "npx only-allow npm",
+    "lint": "vue-cli-service lint"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run check:lockfile && f2elint commit-file-scan",
+      "commit-msg": "f2elint commit-msg-scan"
+    }
   },
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
@@ -54,34 +59,28 @@
     "@types/node": "^14.18.33",
     "@types/path-to-regexp": "^1.7.0",
     "@types/webpack-env": "^1.18.0",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-typescript": "~4.5.0",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
+    "eslint": "^7.15.0",
+    "eslint-config-prettier": "^7.1.0",
+    "eslint-plugin-prettier": "^3.3.0",
     "f2elint": "^2.2.1",
+    "prettier": "^2.2.1",
     "purge-icons-webpack-plugin": "^0.9.1",
     "sass": "^1.56.1",
     "sass-loader": "^8.0.2",
     "tslib": "^2.4.1",
     "typescript": "~3.9.3",
-    "vue-template-compiler": "^2.6.11",
-    "prettier": "^2.2.1",
-    "eslint-config-prettier": "^7.1.0",
-    "eslint": "^7.15.0",
-    "@typescript-eslint/eslint-plugin": "^5.0.0",
-    "@typescript-eslint/parser": "^5.0.0",
-    "eslint-plugin-prettier": "^3.3.0"
+    "vue-template-compiler": "^2.6.11"
   },
   "engines": {
     "node": "16.18.0",
     "npm": "8.19.2"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run check:lockfile && f2elint commit-file-scan",
-      "commit-msg": "f2elint commit-msg-scan"
-    }
   }
 }
