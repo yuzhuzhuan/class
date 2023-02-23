@@ -3,6 +3,9 @@
     "dbaeumer.vscode-eslint",
     "stylelint.vscode-stylelint",
     "esbenp.prettier-vscode",
-    "davidanson.vscode-markdownlint"
+    "davidanson.vscode-markdownlint",
+    "austenc.tailwind-docs",
+    "wayou.vscode-todo-highlight",
+    "fabiospampinato.vscode-todo-plus"
   ]
 }

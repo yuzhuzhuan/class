@@ -4,20 +4,16 @@
   "private": true,
   "homepage": "./",
   "scripts": {
-    "prebuild": "npm run check:node",
     "build": "vue-cli-service build",
-    "check:lockfile": "node ./scripts/checkLockfile",
-    "check:node": "node ./scripts/checkNode",
-    "predev": "npm run check:node",
     "dev": "vue-cli-service serve",
     "f2elint-fix": "f2elint fix",
     "f2elint-scan": "f2elint scan",
-    "preinstall": "npx only-allow npm",
+    "preinstall": "npx only-allow pnpm",
     "lint": "vue-cli-service lint"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run check:lockfile && f2elint commit-file-scan",
+      "pre-commit": "f2elint commit-file-scan",
       "commit-msg": "f2elint commit-msg-scan"
     }
   },
@@ -81,7 +77,7 @@
     "vue-template-compiler": "^2.6.11"
   },
   "engines": {
-    "node": "16.18.0",
-    "npm": "8.19.2"
+    "node": ">=16 <17",
+    "pnpm": ">=7"
   }
 }

@@ -1,3 +1,4 @@
+// 检查 package-lock.json 文件的版本
 const { lockfileVersion } = require('../package-lock.json');
 const { engines } = require('../package');
 

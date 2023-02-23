@@ -24,5 +24,8 @@
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "tests/**/*.ts", "tests/**/*.tsx"],
-  "exclude": ["node_modules", "static/UEditor"]
+  "exclude": ["node_modules", "static/UEditor"],
+  "vueCompilerOptions": {
+    "target": 2 // For Vue version <= 2.6.14
+  }
 }
