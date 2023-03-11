@@ -4,8 +4,8 @@
     "stylelint.vscode-stylelint",
     "esbenp.prettier-vscode",
     "davidanson.vscode-markdownlint",
-    "austenc.tailwind-docs",
     "wayou.vscode-todo-highlight",
-    "fabiospampinato.vscode-todo-plus"
+    "fabiospampinato.vscode-todo-plus",
+    "voorjaar.windicss-intellisense"
   ]
 }

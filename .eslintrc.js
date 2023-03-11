@@ -12,7 +12,6 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'warn',
     '@typescript-eslint/no-unused-vars': 'warn',
     '@typescript-eslint/method-signature-style': 'warn',
-    // '@typescript-eslint/no-var-requires': 0,
     // 可以使用嵌套的三元表达式
     'no-nested-ternary': 'off',
     'import/no-cycle': 'warn',
