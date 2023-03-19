@@ -74,6 +74,7 @@
     "semver": "^7.3.8",
     "tslib": "^2.4.1",
     "typescript": "~3.9.3",
+    "vti": "^0.1.11",
     "vue-template-compiler": "^2.6.11"
   },
   "engines": {

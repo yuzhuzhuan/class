@@ -6,6 +6,8 @@
     "davidanson.vscode-markdownlint",
     "wayou.vscode-todo-highlight",
     "fabiospampinato.vscode-todo-plus",
-    "voorjaar.windicss-intellisense"
-  ]
+    "voorjaar.windicss-intellisense",
+    "octref.vetur"
+  ],
+  "unwantedRecommendations": ["vue.volar", "vue.vscode-typescript-vue-plugin"]
 }
