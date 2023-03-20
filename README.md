@@ -6,11 +6,11 @@
 
 # 项目技术栈
 
-vue2 + typescript + elementui + router + axios + scss
+vue2 + typescript + elementui + router + axios + SCSS
 
 # 环境
 
-nodejs(v16.14.0)+yarn+eslint
+NodeJS(v16.14.0)+yarn+eslint
 
 ## 包依赖简介
 
@@ -134,7 +134,7 @@ nodejs(v16.14.0)+yarn+eslint
 
 ## 表单验证
 
-我也封装了一个表单验证器，可以直接在`el-form-item ` 中的 rule 导入对应的规则，即可，如：
+我也封装了一个表单验证器，可以直接在`el-form-item` 中的 rule 导入对应的规则，即可，如：
 
 ```javascript
  <el-form-item
@@ -147,7 +147,7 @@ nodejs(v16.14.0)+yarn+eslint
 
 # 菜单权限控制
 
-因为没有后台支持，权限控制直接在`matchRouteMenu ` 路由守卫进行匹配和存入数据 即可
+因为没有后台支持，权限控制直接在`matchRouteMenu` 路由守卫进行匹配和存入数据 即可
 
 ```javascript
 export function matchRouteMenu(to: Route, from: Route, next: NavigationGuardNext<Vue>) {
@@ -180,6 +180,8 @@ export function matchRouteMenu(to: Route, from: Route, next: NavigationGuardNext
 }
 ```
 
-# 最后：
+## issues
 
-基础的架子已经搭建好，只适合一些需要兼容 ie 项目的 vue 应用。毕竟 vue3 不兼容 ie 嘛！
+- [ ] vti 会校验全部 vue 文件，加入 lint-staged 导致速度很慢
+  - 关注项目 [vite-plugin-checker](https://github.com/fi3ework/vite-plugin-checker)
+  - 关注项目 [vetur](https://github.com/vuejs/vetur)， vti@0.1.9~0.1.11 运行会报错，持续关注版本更新
