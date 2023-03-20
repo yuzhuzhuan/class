@@ -1,6 +1,9 @@
 # 项目简介
 
-> 这是一个简单的 vue2 和 typescript 的后台管理模板。主页实现了菜单的跳转，面包屑等，和一些基本的功能。
+> 项目**依赖 Linux 环境**，主要是语法检查包 vue-type-check 依赖
+
+这是一个简单的 vue2 和 typescript 的后台管理模板。主页实现了菜单的跳转，面包屑等，和一些基本的功能。
+
 > 账号: `admin`
 > 密码： 123456
 
@@ -183,5 +186,8 @@ export function matchRouteMenu(to: Route, from: Route, next: NavigationGuardNext
 ## issues
 
 - [ ] vti 会校验全部 vue 文件，加入 lint-staged 导致速度很慢
-  - 关注项目 [vite-plugin-checker](https://github.com/fi3ework/vite-plugin-checker)
-  - 关注项目 [vetur](https://github.com/vuejs/vetur)， vti@0.1.9~0.1.11 运行会报错，持续关注版本更新
+
+> - vti 是 [vetur](https://github.com/vuejs/vetur) 的一个衍生项目， `vti@^0.1.9` 运行会报错，`vti@0.1.8` 只支持校验 template，持续关注版本更新
+> - [vue-type-check](https://juejin.cn/post/6934327537447370765)，依赖 vti，可以校验 scripts，但依赖 Linux 开发环境
+> - [vite-plugin-checker](https://github.com/fi3ework/vite-plugin-checker)，版本不稳定，且需要换到 vite 打包，代价较大，优点是同时支持校验 template 和 scripts
+> - [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin/tree/v6.5.2#vuejs)，支持增量校验，不支持 build 模式（貌似对 vue3 支持友好）
