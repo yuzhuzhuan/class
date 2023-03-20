@@ -8,7 +8,6 @@ module.exports = {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    '@typescript-eslint/member-ordering': 'off',
     '@typescript-eslint/no-explicit-any': 'warn',
     '@typescript-eslint/no-unused-vars': 'warn',
     '@typescript-eslint/method-signature-style': 'warn',
@@ -22,6 +21,13 @@ module.exports = {
       rules: {
         // 由 typescript 验证
         'no-undef': 'off',
+      },
+    },
+    {
+      files: ['*.vue'],
+      rules: {
+        // 业务相关的部分最好写在一起
+        '@typescript-eslint/member-ordering': 'off',
       },
     },
   ],

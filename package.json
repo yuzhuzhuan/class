@@ -73,7 +73,7 @@
     "sass-loader": "^8.0.2",
     "semver": "^7.3.8",
     "tslib": "^2.4.1",
-    "typescript": "^4",
+    "typescript": "~3.9.3",
     "vti": "0.1.8",
     "vue-template-compiler": "^2.6.11"
   },
