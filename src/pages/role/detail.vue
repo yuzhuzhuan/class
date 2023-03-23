@@ -38,9 +38,9 @@
             >
             </el-table-column>
             <el-table-column label="操作" align="left" :resizable="false">
-              <template slot-scope="scope">
+              <template #default="{ row: { childList } }">
                 <el-checkbox-group v-model="list">
-                  <template v-for="item in scope.row.childList">
+                  <template v-for="item in convertList(childList)">
                     <el-checkbox
                       :label="item.name"
                       :key="item.id"
@@ -89,6 +89,10 @@ export default class RoleDetail extends Vue {
 
   get isEdit() {
     return 'roleId' in this.$route.params;
+  }
+
+  convertList(list: any): any[] {
+    return list;
   }
 
   // 获取角色名称列表

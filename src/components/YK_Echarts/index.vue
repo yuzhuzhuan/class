@@ -10,7 +10,7 @@ import { Component, Vue, Ref, Prop } from 'vue-property-decorator';
 import * as echarts from 'echarts';
 
 @Component({
-  name: 'echarts'
+  name: 'echarts',
 })
 export default class YkEcharts extends Vue {
   /**
@@ -27,7 +27,7 @@ export default class YkEcharts extends Vue {
   /**
    * 设置高度 windicss
    */
-  @Prop({ required: true, default: 'h-120' })
+  @Prop({ required: false, default: 'h-120' })
   className!: string;
 
   myChart = null as null | echarts.ECharts;

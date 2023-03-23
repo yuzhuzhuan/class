@@ -6,12 +6,7 @@
     @change="onChange"
     :disabled="disabled"
   >
-    <ElOption
-      v-if="!!labelAll"
-      key="sp-select-all-option"
-      :value="blankOptValue"
-      :label="labelAll"
-    />
+    <ElOption v-if="labelAll" key="sp-select-all-option" :value="blankOptValue" :label="labelAll" />
     <slot>
       <ElOption v-for="item in options" :key="item.value" :value="item.value" :label="item.label" />
     </slot>
@@ -30,7 +25,7 @@ export default class YkFormSelect extends Vue {
   placeholder?: string;
 
   @Prop({ type: Array, default: () => [] })
-  options?: Array<{ value: string | number; label: string }>;
+  options!: Array<{ value: string | number; label: string }>;
 
   get ph() {
     if (this.disabled) return '';

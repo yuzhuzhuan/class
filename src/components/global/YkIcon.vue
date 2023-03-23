@@ -12,7 +12,7 @@ export default class YkIcon extends Vue {
   @Prop({ type: String, required: true })
   icon!: string;
 
-  @Prop({ type: [String, Array, Object] })
+  @Prop({ type: [String, Array, Object], required: false })
   className?: string | Array<string | Record<string, boolean>> | Record<string, boolean>;
 }
 </script>

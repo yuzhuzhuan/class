@@ -1,8 +1,9 @@
 <template>
   <div>
     <template v-for="(letter, index) in label">
-      <span v-if="index" :style="`padding-left: ${offset}em`" :key="letter + index"></span>{{ letter }}</template
-    >
+      <span v-if="index" :style="`padding-left: ${offset}em`" :key="letter + index"></span>
+      {{ letter }}
+    </template>
   </div>
 </template>
 
@@ -14,7 +15,7 @@ export default class YkFormLabel extends Vue {
   @Prop({ type: Number, required: true })
   total!: number;
 
-  get label() {
+  get label(): string[] {
     const text = (this.$slots as any)?.default[0]?.text?.trim() ?? '';
     return text.split('');
   }
@@ -25,5 +26,4 @@ export default class YkFormLabel extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

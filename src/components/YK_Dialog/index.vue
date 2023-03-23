@@ -2,7 +2,7 @@
   <el-dialog
     v-bind="attrs"
     v-on="$listeners"
-    @close="$emit('on-cancel')"
+    @close="onClose"
     :custom-class="
       size !== 'full' && size !== 'h-full'
         ? `flex flex-col max-w-[80vw] max-h-[80vh] overflow-hidden`
@@ -26,7 +26,14 @@
               </el-button>
               <el-button size="mini" type="primary" @click="$emit('on-cancel')"> 取消 </el-button>
             </template>
-            <el-button v-else-if="type === 'alert'" size="mini" type="primary" @click="$emit('on-cancel')"> 关闭 </el-button>
+            <el-button
+              v-else-if="type === 'alert'"
+              size="mini"
+              type="primary"
+              @click="$emit('on-cancel')"
+            >
+              关闭
+            </el-button>
           </div>
           <div class="flex-1 text-right" v-else-if="actionPosition === 'bottom'">
             <el-button size="mini" class="w-22" @click="$emit('on-cancel')" plain round>
@@ -42,12 +49,26 @@
     <template #footer v-if="actionPosition === 'bottom'">
       <div class="space-x-5 text-center">
         <template v-if="type === 'confirm'">
-          <el-button type="primary" size="mini" :loading="mixinLoading" @click="onSave" class="w-23">
+          <el-button
+            type="primary"
+            size="mini"
+            :loading="mixinLoading"
+            @click="onSave"
+            class="w-23"
+          >
             {{ okText || '保存' }}
           </el-button>
-          <el-button size="mini" type="info" class="w-23" @click="$emit('on-cancel')"> 取消 </el-button>
+          <el-button size="mini" type="info" class="w-23" @click="$emit('on-cancel')">
+            取消
+          </el-button>
         </template>
-        <el-button v-else-if="type === 'alert'" size="mini" type="primary" @click="$emit('on-cancel')" class="w-23">
+        <el-button
+          v-else-if="type === 'alert'"
+          size="mini"
+          type="primary"
+          @click="$emit('on-cancel')"
+          class="w-23"
+        >
           关闭
         </el-button>
       </div>
@@ -96,10 +117,14 @@ export default class SpDialog extends Vue {
         'close-on-click-modal': false,
         'close-on-press-escape': false,
         'destroy-on-close': true,
-        'append-to-body': true
+        'append-to-body': true,
       },
-      this.$attrs
+      this.$attrs,
     );
+  }
+
+  onClose(...args: any[]) {
+    this.$emit('on-cancel', ...args);
   }
 }
 </script>

@@ -21,5 +21,6 @@ declare module 'vue/types/vue' {
     // userInfo: UserInfo;
     // permit: typeof Api
     // hasPermit: (data: string | string[]) => boolean
+    $reset(formRef: any, ...excludeFields: any): void;
   }
 }

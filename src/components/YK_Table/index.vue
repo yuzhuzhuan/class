@@ -16,10 +16,10 @@
       row-key="id"
       :tree-props="{ children: 'children' }"
     >
-      <template v-for="{ slot, ...item } in cols">
+      <template v-for="item in cols">
         <el-table-column
-          v-if="slot === 'action'"
-          :key="(item.prop || item.key) + 'slot'"
+          v-if="item.slot === 'action' && actionCol"
+          :key="(item.prop || item.key || '').toString() + 'slot'"
           v-bind="actionCol"
           label="操作"
           :header-align="actionCol.align"
@@ -28,34 +28,53 @@
           <template #default="scope">
             <div class="space-x-3 inline-block">
               <slot name="action" :row="plainRow(scope.row)" :index="scope.$index"></slot>
-              <template v-if="!!actionCol.listeners">
+              <template v-if="actionCol && actionCol.listeners">
                 <SpTableButton
                   text="修改"
-                  v-if="!!actionCol.listeners.edit"
-                  @click="actionCol.listeners.edit(plainRow(scope.row), scope.$index)"
+                  v-if="actionCol.listeners.edit"
+                  @click="
+                    actionCol &&
+                      actionCol.listeners &&
+                      actionCol.listeners.edit &&
+                      actionCol.listeners.edit(plainRow(scope.row), scope.$index)
+                  "
                 />
                 <SpTablePoptip
-                  v-if="!!actionCol.listeners.remove"
+                  v-if="actionCol.listeners.remove"
                   :title="
                     actionCol.listeners.removeConfirmTip || '确定删除该条数据吗？该操作无法撤回'
                   "
                   @click.native.stop
-                  @confirm="actionCol.listeners.remove(plainRow(scope.row), scope.$index)"
+                  @confirm="
+                    actionCol &&
+                      actionCol.listeners &&
+                      actionCol.listeners.remove &&
+                      actionCol.listeners.remove(plainRow(scope.row), scope.$index)
+                  "
                 >
                   <el-button type="text" size="mini">删除</el-button>
                 </SpTablePoptip>
                 <SpTableButton
                   text="详情"
-                  v-if="!!actionCol.listeners.detail"
-                  @click="actionCol.listeners.detail(plainRow(scope.row), scope.$index)"
+                  v-if="actionCol.listeners.detail"
+                  @click="
+                    actionCol &&
+                      actionCol.listeners &&
+                      actionCol.listeners.detail &&
+                      actionCol.listeners.detail(plainRow(scope.row), scope.$index)
+                  "
                 />
               </template>
             </div>
           </template>
         </el-table-column>
-        <el-table-column v-else-if="!!slot" :key="(item.prop || item.key) + 'slot'" v-bind="item">
+        <el-table-column
+          v-else-if="item.slot"
+          :key="(item.prop || item.key || '').toString() + 'slot'"
+          v-bind="omitSlot(item)"
+        >
           <template #default="scope">
-            <slot :name="slot" :row="plainRow(scope.row)" :index="scope.$index"></slot>
+            <slot :name="item.slot" :row="plainRow(scope.row)" :index="scope.$index"></slot>
           </template>
         </el-table-column>
         <el-table-column v-else :key="item.prop || item.key" v-bind="item"> </el-table-column>
@@ -91,7 +110,10 @@ import { Table } from 'element-ui';
 
 export type ColumnItem<T extends Record<string, any>> =
   | {
+      prop: string;
+      key?: string;
       slot: 'action';
+      align?: 'center' | 'left' | 'right';
       fixed?: 'left' | 'right' | boolean;
       label?: string;
       minWidth?: number;
@@ -106,6 +128,7 @@ export type ColumnItem<T extends Record<string, any>> =
     }
   | {
       prop: keyof T;
+      key?: string;
       type?: 'selection' | 'index' | 'expand';
       label: string;
       slot?: string;
@@ -189,23 +212,27 @@ export default class YkTable extends Vue {
   @Prop({ type: Boolean, required: false })
   disableCheck?: boolean;
 
-  // 除 action 之外的 slots
-  get columnSlots(): any[] {
-    const columns = this.cols.filter(
-      (item) => item.slot && item.slot !== 'action' /* && item.listeners */,
-    );
-    return columns;
-  }
-
-  get actionCol() {
-    const { slot, ...action } = this.cols.find((item) => item.slot === 'action') ?? {};
+  get actionCol():
+    | (ColumnItem<any> & {
+        listeners?: {
+          remove?: YkFunction<Promise<void>>;
+          edit?: YkFunction<void>;
+          detail?: YkFunction;
+          removeConfirmTip?: string;
+        };
+      })
+    | null {
+    const { slot, ...action } = this.cols.find((item) => item.slot === 'action') ?? ({} as any);
     return slot ? action : null;
   }
 
-  // get actionPermits() {
-  //   const action = this.cols.find((item) => item.slot === 'action')
-  //   return action?.permits || {}
-  // }
+  private omitSlot(col: Record<string, any>) {
+    if (col.slot) {
+      const { slot, ...other } = col;
+      return other;
+    }
+    return col;
+  }
   private get cols(): Array<ColumnItem<any>> {
     let cols = this.columns.slice(0).map((item) => {
       const { width, label, slot } = item;
@@ -220,7 +247,6 @@ export default class YkTable extends Vue {
         minWidth: number;
       }
     >;
-    // cols = this.colsWithPermits(cols)
     return cols;
   }
 
@@ -240,6 +266,7 @@ export default class YkTable extends Vue {
       const data: ColumnItem<any> = {
         width: 38,
         type: 'selection',
+        // @ts-ignore: 不明所以
         prop: '_selection',
         label: '_selection',
         selectable: this.selectableFn,

@@ -1,5 +1,11 @@
 <template>
-  <YkDialog v-bind="attrsM" v-on="listenersM" title="用户编辑" width="1000px" @close="$reset('dialogForm')">
+  <YkDialog
+    v-bind="attrsM"
+    v-on="listenersM"
+    title="用户编辑"
+    width="1000px"
+    @close="$reset('dialogForm')"
+  >
     <template #icon>
       <i class="text-2xl dw-title-ic iconfont icon-bianji"></i>
     </template>
@@ -41,7 +47,7 @@ import service from '../../../../api/user';
 export default class DialogUserEdit extends Mixins<MixinDialog<UserItem>>(MixinDialog) {
   rules = {
     username: [{ pattern: /^[0-9a-zA-Z]+$/, message: '请输入0-9a-zA-Z的字符' }],
-    password: [{ pattern: /^[0-9a-zA-Z]+$/, message: '请输入0-9a-zA-Z的字符' }]
+    password: [{ pattern: /^[0-9a-zA-Z]+$/, message: '请输入0-9a-zA-Z的字符' }],
   };
 
   dialogForm = {
@@ -49,10 +55,13 @@ export default class DialogUserEdit extends Mixins<MixinDialog<UserItem>>(MixinD
     name: '',
     password: '',
     enable: 1,
-    usertype: 1
+    usertype: 1,
   };
 
-  spOpts = {};
+  spOpts = {
+    enableOpts: [],
+    roletypeOpts: [],
+  };
   detailRequestM = service.detail;
 
   async open() {

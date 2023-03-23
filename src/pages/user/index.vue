@@ -13,9 +13,20 @@
         </el-form-item>
       </el-form>
       <div class="flex-1 min-h-0">
-        <YkTable ref="table" :columns="tableColumns" :list="tableRequest" height="100%" class="h-full"> </YkTable>
+        <YkTable
+          ref="table"
+          :columns="tableColumns"
+          :list="tableRequest"
+          height="100%"
+          class="h-full"
+        >
+        </YkTable>
       </div>
-      <DialogUserEdit :data="dialogEditM.data" v-model="dialogEditM.visible" @done="onQueryM()"></DialogUserEdit>
+      <DialogUserEdit
+        :data="dialogEditM.data"
+        v-model="dialogEditM.visible"
+        @done="onQueryM()"
+      ></DialogUserEdit>
     </div>
   </div>
 </template>
@@ -32,7 +43,7 @@ import service from '../../../api/user';
 @Component({ components: { DialogUserEdit } })
 export default class PageUser extends Mixins(MixinTable) {
   queryForm = {
-    name: ''
+    name: '',
   };
 
   // table
@@ -46,13 +57,14 @@ export default class PageUser extends Mixins(MixinTable) {
       { label: '状态', prop: 'enable' },
       {
         slot: 'action',
+        prop: 'action',
         fixed: 'right',
         // width: 150,
         listeners: {
           remove: this.removeM,
-          edit: this.dialogEditM.show
-        }
-      }
+          edit: this.dialogEditM.show,
+        },
+      },
     ];
     return data;
   }

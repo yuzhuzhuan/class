@@ -1,5 +1,5 @@
 <template>
-  <el-button @click.native.stop :type="type" size="mini" :plain="type !== 'text'" @click="$emit('click')">
+  <el-button :type="type" size="mini" :plain="type !== 'text'" @click.native.stop="$emit('click')">
     <slot>{{ text }}</slot>
   </el-button>
 </template>
