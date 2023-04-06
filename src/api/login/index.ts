@@ -1,30 +1,20 @@
 import request from '@/utils/request';
-import { RequestDataHelper } from '../helper';
-import { IRMenuParam, IRUserData } from './types';
+import { IRUserData } from './types';
 
-/**
- * 登录接口
- * @param userData
- * @returns
- */
-export function ApiLogin(userData: IRUserData) {
+// 登录接口
+export function LoginApi(data: IRUserData) {
   return request({
-    method: 'POST',
-    url: '/sys/login/verifylogin',
-    data: RequestDataHelper.formatDataToFormData(userData)
+    url: '/login',
+    method: 'post',
+    data,
   });
 }
 
-/**
- * 获取菜单
- * @param params
- * @returns
- */
-export function APIGetMenu(params: IRMenuParam) {
-  params = { ...params, page: '1', limit: '999' };
+// 获取登录用户信息
+export function GetUserApi(data: IRUserData) {
   return request({
-    method: 'GET',
-    url: '/wxPurchase/ProcessionList',
-    params
+    url: '/userinfo',
+    method: 'get',
+    data,
   });
 }

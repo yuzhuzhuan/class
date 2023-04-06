@@ -1,5 +1,11 @@
 <template>
-  <YkDialog v-bind="attrsM" v-on="listenersM" title="用户编辑" width="1000px" @close="$reset('dialogForm')">
+  <YkDialog
+    v-bind="attrsM"
+    v-on="listenersM"
+    title="用户编辑"
+    width="1000px"
+    @close="$reset('dialogForm')"
+  >
     <template #icon>
       <i class="text-2xl dw-title-ic iconfont icon-bianji"></i>
     </template>
@@ -17,7 +23,11 @@
         <yk-form-input v-model.trim="dialogForm.manager" />
       </yk-form-item>
       <yk-form-item label="部门位置" :rules="rules.location" required class="w-50">
-        <TreeSelect :options="options" placeholder="请输入部门位置..." v-model="dialogForm.pid"></TreeSelect>
+        <TreeSelect
+          :options="options"
+          placeholder="请输入部门位置..."
+          v-model="dialogForm.pid"
+        ></TreeSelect>
       </yk-form-item>
       <yk-form-item label="部门介绍" prop="introduce" required :rules="rules.introduce">
         <yk-form-input v-model.trim="dialogForm.introduce" />
@@ -33,13 +43,13 @@
 import { Component, Mixins, Prop } from 'vue-property-decorator';
 import { MixinDialog } from '@/utils/mixins';
 import TreeSelect from '@riophae/vue-treeselect';
-import service from '../../../../api/department';
+import service from '@/api/department';
 import '@riophae/vue-treeselect/dist/vue-treeselect.css';
 import moment from 'moment';
 import Mock from 'mockjs';
 
 @Component({
-  components: { TreeSelect }
+  components: { TreeSelect },
 })
 export default class DialogUserEdit extends Mixins<MixinDialog<TreeItem>>(MixinDialog) {
   rules = {
@@ -47,7 +57,9 @@ export default class DialogUserEdit extends Mixins<MixinDialog<TreeItem>>(MixinD
     manager: [{ message: '请输入主管名称' }],
     introduce: [{ message: '请输入部门介绍' }],
     location: [{ message: '请选择部门位置', trigger: 'blur' }],
-    email: [{ pattern: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/, message: '请输入正确的邮箱格式' }]
+    email: [
+      { pattern: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/, message: '请输入正确的邮箱格式' },
+    ],
   };
 
   dialogForm = {
@@ -57,7 +69,7 @@ export default class DialogUserEdit extends Mixins<MixinDialog<TreeItem>>(MixinD
     email: '',
     createTime: '',
     pid: null,
-    id: ''
+    id: '',
   };
 
   @Prop({}) options!: []; // 部门位置数据

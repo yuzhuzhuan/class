@@ -1,16 +1,16 @@
 <template>
   <div class="app-container">
     <div class="h-150">
-      <el-button @click="$router.push('/role/create')">新增角色</el-button>
+      <el-button @click="$router.push('/role/create')" type="primary">新增角色</el-button>
       <div class="flex flex-col h-full mt-5">
         <div class="flex-1 min-h-0">
-          <YkTable ref="table" :columns="tableColumns" :list="tableRequest" height="100%" class="h-full">
-            <template #actions="scope">
-              <div class="actions">
-                <YkTableButton text="修改" @click="roleEdit(scope.row.id)" v-if="permission('更新角色')" />
-                <YkTableButton text="删除" @click="remove(scope.row)" v-if="permission('删除角色')" />
-              </div>
-            </template>
+          <YkTable
+            ref="table"
+            :columns="tableColumns"
+            :list="tableRequest"
+            height="100%"
+            class="h-full"
+          >
           </YkTable>
         </div>
       </div>
@@ -23,7 +23,7 @@ import { MixinTable } from '@/utils/mixins';
 import type { ColumnItem } from '@/components/YK_Table/index.vue';
 import { UserModule } from '@/store/modules/user';
 
-import service, { delRoleApi } from '../../../api/role';
+import service from '@/api/role';
 
 interface Role {
   name: string;
@@ -37,27 +37,31 @@ export default class PageRole extends Mixins(MixinTable) {
     const data: Array<ColumnItem<Role>> = [
       { label: '角色名称', prop: 'name' },
       {
-        slot: 'actions',
-        prop: 'actions',
-        label: '操作'
-      }
+        slot: 'action',
+        prop: 'action',
+        label: '操作',
+        listeners: {
+          remove: this.removeM,
+          detail: this.roleEdit,
+        },
+      },
     ];
     return data;
   }
 
   roleEdit(id: number) {
     this.$router.push({
-      path: `${id}`
+      path: `${id}`,
     });
   }
 
   remove(row = {} as any) {
     this.$confirm('确定要删除该角色吗？', '提示').then(async () => {
-      await delRoleApi({ id: row.id });
+      await service.remove({ id: row.id });
       this.onQueryM();
       this.$message({
         type: 'success',
-        message: '删除成功!'
+        message: '删除成功!',
       });
     });
   }
@@ -69,8 +73,8 @@ export default class PageRole extends Mixins(MixinTable) {
     return UserModule.permission;
   }
 
-  activated() {
-    this.onQueryM();
+  async activated() {
+    // this.onQueryM();
   }
 }
 </script>

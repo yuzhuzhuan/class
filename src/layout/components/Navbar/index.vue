@@ -1,25 +1,48 @@
 <template>
   <div class="navbar">
-    <hamburger id="hamburger-container" :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
-    <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
+    <div class="flex left-menu items-center">
+      <hamburger
+        id="hamburger-container"
+        :is-active="sidebar.opened"
+        class="hamburger-container"
+        @toggleClick="toggleSideBar"
+      />
+      <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
+    </div>
     <div class="right-menu">
-      <el-dropdown class="avatar-container right-menu-item hover-effect" id="personal-center" trigger="click">
+      <el-dropdown
+        class="right-menu-item text-center w-40 avatar-container hover-effect"
+        id="personal-center"
+        size="medium"
+      >
         <div class="avatar-wrapper">
-          <!-- <img :src="avatar" class="user-avatar" /> -->
-          <!-- {{userInfo.nickName}} -->
           nickName
-          <!-- <i class="el-icon-caret-bottom" /> -->
+          <!-- <span>nickName</span> -->
+          <i class="ml-2 el-icon-arrow-down" />
         </div>
-        <el-dropdown-menu slot="dropdown">
-          <router-link to="/profile/">
+        <el-dropdown-menu
+          slot="dropdown"
+          class="dropdownPop"
+          style="width: 160px; margin-top: 0px; overflow: hidden"
+        >
+          <router-link to="/personal/index">
             <el-dropdown-item> 个人中心 </el-dropdown-item>
           </router-link>
           <el-dropdown-item divided>
-            <span style="display: block" @click="logout">退出</span>
+            <span style="display: block" @click="dialogFlag = true">退出系统</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+    <ConfirmDialog
+      v-model="dialogFlag"
+      @close="dialogFlag = false"
+      :dialogFlag="dialogFlag"
+      content="确定要退出当前账号？"
+      details="确定要退出当前账号？"
+      @confirmDone="logout"
+    >
+    </ConfirmDialog>
   </div>
 </template>
 
@@ -29,15 +52,16 @@ import Breadcrumb from '@/layout/components/Breadcrumb/index.vue';
 import Hamburger from '@/layout/components/Hamburger/index.vue';
 import { AppModule } from '@/store/modules/app';
 import { UserModule } from '@/store/modules/user';
-import { GetUserApi } from '../../../../api/login';
- // 导入接口
+import { GetUserApi } from '@/api/login';
+// 导入接口
 @Component({
   components: {
     Breadcrumb,
-    Hamburger
-  }
+    Hamburger,
+  },
 })
 export default class Navbar extends Vue {
+  dialogFlag = false;
   get sidebar() {
     return AppModule.sidebar;
   }
@@ -63,8 +87,11 @@ export default class Navbar extends Vue {
 
   async logout() {
     // UserModule.ResetToken()
+    console.log('this.$route.fullPath', this.$route.fullPath);
+
     UserModule.deltoken();
-    this.$router.push('/Login');
+    this.$router.push(`/login?redirect=${this.$route.fullPath}`);
+    // this.$router.push('/Login');
   }
 }
 </script>
@@ -92,7 +119,9 @@ export default class Navbar extends Vue {
       background: rgba(0, 0, 0, 0.025);
     }
   }
-
+  .left-menu {
+    float: left;
+  }
   .breadcrumb-container {
     float: left;
   }
@@ -139,7 +168,6 @@ export default class Navbar extends Vue {
       margin-right: 30px;
 
       .avatar-wrapper {
-        margin-top: 5px;
         position: relative;
 
         .user-avatar {

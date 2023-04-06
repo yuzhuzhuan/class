@@ -24,6 +24,7 @@ module.exports = {
         },
       },
     },
+    before: require('./mock/mock-server.ts'),
   },
   // lintOnSave: false,
   lintOnSave: process.env.NODE_ENV === 'development',

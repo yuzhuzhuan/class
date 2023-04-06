@@ -31,12 +31,26 @@
               <template v-if="actionCol && actionCol.listeners">
                 <SpTableButton
                   text="修改"
+                  type="primary"
+                  icon="majesticons:edit-pen-2"
                   v-if="actionCol.listeners.edit"
                   @click="
                     actionCol &&
                       actionCol.listeners &&
                       actionCol.listeners.edit &&
                       actionCol.listeners.edit(plainRow(scope.row), scope.$index)
+                  "
+                />
+                <SpTableButton
+                  text="编辑"
+                  type="primary"
+                  icon="majesticons:edit-pen-2"
+                  v-if="actionCol.listeners.detail"
+                  @click="
+                    actionCol &&
+                      actionCol.listeners &&
+                      actionCol.listeners.detail &&
+                      actionCol.listeners.detail(plainRow(scope.row), scope.$index)
                   "
                 />
                 <SpTablePoptip
@@ -49,21 +63,14 @@
                     actionCol &&
                       actionCol.listeners &&
                       actionCol.listeners.remove &&
-                      actionCol.listeners.remove(plainRow(scope.row), scope.$index)
+                      actionCol.listeners.remove(plainRow(scope.row), scope.$index, $route.path)
                   "
                 >
-                  <el-button type="text" size="mini">删除</el-button>
+                  <el-button type="danger" size="mini" plain
+                    ><yk-icon icon="ep:delete-filled" class="mr-1 align-bottom"></yk-icon
+                    >删除</el-button
+                  >
                 </SpTablePoptip>
-                <SpTableButton
-                  text="详情"
-                  v-if="actionCol.listeners.detail"
-                  @click="
-                    actionCol &&
-                      actionCol.listeners &&
-                      actionCol.listeners.detail &&
-                      actionCol.listeners.detail(plainRow(scope.row), scope.$index)
-                  "
-                />
               </template>
             </div>
           </template>
@@ -344,7 +351,7 @@ export default class YkTable extends Vue {
   }
 
   @Emit('on-success')
-  async request(params: Record<string, any> = {}, pageInfo = {}) {
+  async request(params: Record<string, any> = {}, pageInfo = {}, isReset = false) {
     // 翻页时带上次查询的条件
     Object.keys(params).forEach((key) => {
       let value = params[key];
@@ -366,17 +373,16 @@ export default class YkTable extends Vue {
       this.params,
       this.pageSize === Number.MAX_SAFE_INTEGER ? {} : this.mergePageInfo(pageInfo),
     );
-    params.page = params.pageIndex;
+    params.pageNum = params.pageIndex;
     Reflect.deleteProperty(params, 'pageIndex');
 
     this.dataLoading = true;
     return this.getList(params)
       .then((res: any) => {
         const { page = params?.page, data = [] } = res;
-
         if ((this.pageSize ?? 0) < Number.MAX_SAFE_INTEGER) {
           this.pageTotalMixin = res[RESPONSE_CONFIG.TOTAL] ?? 0;
-          this.pageInfo.pageIndex = page || 0;
+          this.pageInfo.pageIndex = params?.pageNum || 0;
           this.pageInfo.pageSize = params?.pageSize || 0;
         }
         this.dataList = data;

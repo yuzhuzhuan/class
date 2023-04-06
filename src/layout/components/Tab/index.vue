@@ -1,6 +1,6 @@
 <template>
   <div class="tab-container">
-    <ul class="tabs-ul" id="tabs">
+    <ul class="tabs-ul overflow-auto" id="tabs">
       <scroller :parentId="`tabs`" :type="`horizontal`">
         <li
           v-for="item in TabList"

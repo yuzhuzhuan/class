@@ -1,5 +1,6 @@
 <template>
   <el-button :type="type" size="mini" :plain="type !== 'text'" @click.native.stop="$emit('click')">
+    <yk-icon :icon="icon" class="mr-1 align-bottom"></yk-icon>
     <slot>{{ text }}</slot>
   </el-button>
 </template>
@@ -15,5 +16,8 @@ export default class YkTableButton extends Vue {
 
   @Prop({ type: String, default: 'text' })
   type?: string;
+
+  @Prop({ type: String, required: false })
+  icon?: string;
 }
 </script>

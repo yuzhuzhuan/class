@@ -2,11 +2,15 @@
   <el-breadcrumb class="app-breadcrumb" separator="/">
     <transition-group name="breadcrumb">
       <el-breadcrumb-item v-for="(item, index) in breadcrumbs" :key="item.path">
-        <span v-if="
+        <span
+          v-if="
             item.redirect === 'noredirect' ||
             index === breadcrumbs.length - 1 ||
             item.redirect === $route.path
-          " class="no-redirect">{{ item.meta.title }}</span>
+          "
+          class="no-redirect"
+          >{{ item.meta.title }}</span
+        >
         <a v-else @click.prevent="handleLink(item)">{{ item.meta.title }}</a>
       </el-breadcrumb-item>
     </transition-group>
@@ -19,7 +23,7 @@ import { Component, Vue, Watch } from 'vue-property-decorator';
 import { RouteRecord, Route } from 'vue-router';
 
 @Component({
-  name: 'Breadcrumb'
+  name: 'Breadcrumb',
 })
 export default class extends Vue {
   breadcrumbs: RouteRecord[] = [];
@@ -39,14 +43,14 @@ export default class extends Vue {
   }
 
   getBreadcrumb() {
-    const matched = this.$route.matched.filter(item => item.meta && item.meta.title);
+    const matched = this.$route.matched.filter((item) => item.meta && item.meta.title);
     // const first = matched[0];
     // if (!this.isDashboard(first)) {
     //   matched = [
     //     { path: "/", meta: { title: "跟节点" } } as RouteRecord,
     //   ].concat(matched);
     // }
-    this.breadcrumbs = matched.filter(item => {
+    this.breadcrumbs = matched.filter((item) => {
       return item.meta && item.meta.title && item.meta.breadcrumb !== false;
     });
   }
@@ -68,10 +72,10 @@ export default class extends Vue {
   }
 
   handleLink(item: any) {
-    console.log(item, this.$route, '--=====');
+    // console.log(item, this.$route, '--=====');
 
     const { redirect, path } = item;
-    // 当前已经是重定向的页面了
+    // // 当前已经是重定向的页面了
     if (redirect === this.$route.path) {
       return;
     }
@@ -94,11 +98,11 @@ export default class extends Vue {
 }
 ::v-deep {
   .el-breadcrumb__inner > a:hover {
-    color: $menuActiveText !important;
+    color: #000 !important;
     transition: all 0.1s linear;
   }
 }
-.app-breadcrumb.el-breadcrumb {
+.app-breadcrumb .el-breadcrumb {
   display: inline-block;
   font-size: 14px;
   line-height: 50px;
@@ -106,8 +110,20 @@ export default class extends Vue {
 
   .no-redirect {
     // color: $menuText !important;
-    cursor: pointer;
+    // cursor: pointer;
     user-select: none;
+  }
+}
+</style>
+
+<style lang="scss">
+.app-breadcrumb {
+  .el-breadcrumb__inner > .no-redirect {
+    color: #696969;
+  }
+  .el-breadcrumb__inner > .stair,
+  .el-breadcrumb__inner > a {
+    color: #999999 !important;
   }
 }
 </style>
