@@ -41,7 +41,7 @@
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
 import { MixinDialog } from '@/utils/mixins';
-import service from '../../../../api/user';
+import service from '@/api/user';
 
 @Component({})
 export default class DialogUserEdit extends Mixins<MixinDialog<UserItem>>(MixinDialog) {

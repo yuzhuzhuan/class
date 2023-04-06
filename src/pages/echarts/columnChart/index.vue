@@ -8,7 +8,7 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { getColumnChartApi } from '../../../../api/echarts'; // 导入接口
+import service from '@/api/echarts';
 import YKEcharts from '@/components/YK_Echarts/index.vue';
 import { EChartsOption } from 'echarts';
 
@@ -50,7 +50,8 @@ export default class ColumnChart extends Vue {
 
   // 获取数据
   async getList() {
-    const { data } = await getColumnChartApi();
+    const { data } = await service.columnChart();
+
     this.list = data;
   }
 }

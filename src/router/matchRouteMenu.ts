@@ -2,9 +2,9 @@
 // import { getUserData } from '@/utils/cookies';
 import { UserModule } from '@/store/modules/user';
 import { NavigationGuardNext, Route } from 'vue-router/types/router';
-import { GetUserApi } from '../../api/login'; // 导入接口
+import { GetUserApi } from '@/api/login'; // 导入接口
 
-// const whiteList = ['/Login'];
+const whiteList = ['/login', '/404'];
 // 路由守卫
 export async function matchRouteMenu(to: Route, from: Route, next: NavigationGuardNext<Vue>) {
   // 如果有toke
@@ -30,6 +30,10 @@ export async function matchRouteMenu(to: Route, from: Route, next: NavigationGua
       }
       next();
     }
+  } else if (whiteList.includes(to.path.toLowerCase())) {
+    next();
+  } else {
+    next(`/login?redirect=${to.fullPath}`);
   }
   next();
 }

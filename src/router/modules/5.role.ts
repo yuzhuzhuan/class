@@ -15,8 +15,8 @@ export default [
           title: 'Role组件',
           icon: 'icon-park-outline:permissions',
           noCache: false,
-          id: '53'
-        }
+          id: '53',
+        },
       },
       {
         name: 'create',
@@ -25,8 +25,8 @@ export default [
         meta: {
           title: '新建角色',
           hidden: true,
-          id: '51'
-        }
+          id: '51',
+        },
       },
       {
         name: 'edit',
@@ -35,9 +35,9 @@ export default [
         meta: {
           title: '编辑角色',
           hidden: true,
-          id: '52'
-        }
-      }
-    ]
-  }
+          id: '52',
+        },
+      },
+    ],
+  },
 ] as RouteConfig[];

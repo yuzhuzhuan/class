@@ -2,10 +2,10 @@
   <div class="app-container">
     <el-card shadow="never">
       <h1 class="text-center">Icon组件</h1>
-      <div class="min-w-300 min-h-140 text-center grid inline-grid grid-cols-8 mt-10">
+      <div class="mt-10 text-center min-w-300 min-h-140 grid grid-cols-8 inline-grid">
         <div v-for="(item, index) in iconList" :key="index" class="mb-10" id="target">
           <YkIcon :icon="item" class="text-2xl" />
-          <p class="text-xl cursor-pointer" @click="copyText(item)">{{ item }}</p>
+          <p class="cursor-pointer text-xl" @click="copyText(item)">{{ item }}</p>
         </div>
       </div>
     </el-card>
@@ -13,18 +13,18 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import YkIcon from '@/components/global/YkIcon.vue';
- // svg组件
+
+// svg组件
 const collections = require('@iconify/json/json/ep.json');
 
 @Component({
-  components: { YkIcon }
+  components: {},
 })
 export default class Icon extends Vue {
   iconList = [] as string[];
   async created() {
     Object.keys(collections.icons).forEach((key: string) => {
-      this.iconList.push(`ep:${  key}`);
+      this.iconList.push(`ep:${key}`);
     });
   }
 

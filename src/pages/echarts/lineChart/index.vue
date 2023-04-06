@@ -9,7 +9,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import YKEcharts from '@/components/YK_Echarts/index.vue';
-import { getLineChartApi } from '../../../../api/echarts';
+import service from '@/api/echarts';
 import { EChartsOption } from 'echarts';
 // 导入接口
 @Component({
@@ -87,7 +87,7 @@ export default class LineChart extends Vue {
 
   // 获取数据
   async getList() {
-    const { data } = await getLineChartApi();
+    const { data } = await service.lineChart();
     this.object = data;
   }
 }

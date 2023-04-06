@@ -1,41 +1,30 @@
-import Mock from 'mockjs'; // 导入mockjs
-import tableApi from './tableApi'; // 导入我们模拟数据的js文件
-import loginApi from './loginApi'; // 导入我们模拟数据的js文件
-import uploadApi from './uploadApi'; // 导入我们模拟数据的js文件
-import treeTableApi from './treeTableApi'; // 导入我们模拟数据的js文件
-import echartsApi from './echartsApi'; // 导入我们模拟数据的js文件
-import userApi from './userApi'; // 导入我们模拟数据的js文件
-import roleApi from './roleApi'; // 导入我们模拟数据的js文件
-import menuApi from './menuApi'; // 导入我们模拟数据的js文件
-import { Options, IPerson } from './type';
-const mocks = [
-  {
-    intercept: true, // 你可能需要一个开关，来使模拟请求与真实请求并存
-    fetchs: [...tableApi, ...loginApi, ...uploadApi, ...treeTableApi, ...echartsApi, ...userApi, ...roleApi, ...menuApi]
-  }
-];
+const Mock = require('mockjs');
+const user = require('./user.ts');
+const { roleDetail: role } = require('./role.ts');
+const login = require('./login.ts');
+const echarts = require('./echarts.ts');
+const table = require('./table.ts');
+const department = require('./department.ts');
 
-// 抄来一个解析地址栏参数解析函数
-export function param2Obj(url: string) {
+function param2Obj(url) {
   const search = url.split('?')[1];
   if (!search) {
     return {};
   }
   return JSON.parse(
-    '{"' +
-      decodeURIComponent(search)
-        .replace(/"/g, '\\"')
-        .replace(/&/g, '","')
-        .replace(/=/g, '":"')
-        .replace(/\+/g, ' ') +
-      '"}'
+    `{"${decodeURIComponent(search)
+      .replace(/"/g, '\\"')
+      .replace(/&/g, '","')
+      .replace(/=/g, '":"')
+      .replace(/\+/g, ' ')}"}`,
   );
 }
 
-// 关键！抄来一个前端模式构建函数（或者你也可以建一个mock server）
-export const mockXHR = () => {
-  Mock.XHR.prototype.proxySend = Mock.XHR.prototype.send;
-  Mock.XHR.prototype.send = function() {
+function mockXHR() {
+  // mock patch
+  // https://github.com/nuysoft/Mock/issues/300
+  Mock.XHR.prototype.proxy_send = Mock.XHR.prototype.send;
+  Mock.XHR.prototype.send = function () {
     if (this.custom.xhr) {
       this.custom.xhr.withCredentials = this.withCredentials || false;
 
@@ -43,11 +32,11 @@ export const mockXHR = () => {
         this.custom.xhr.responseType = this.responseType;
       }
     }
-    this.proxySend(...arguments);
+    this.proxy_send(...arguments);
   };
 
-  function XHR2ExpressReqWrap(respond: IPerson) {
-    return function(options: Options) {
+  function XHR2ExpressReqWrap(respond) {
+    return function (options) {
       let result = null;
       if (respond instanceof Function) {
         const { body, type, url } = options;
@@ -55,7 +44,7 @@ export const mockXHR = () => {
         result = respond({
           method: type,
           body: JSON.parse(body),
-          query: param2Obj(url)
+          query: param2Obj(url),
         });
       } else {
         result = respond;
@@ -65,10 +54,12 @@ export const mockXHR = () => {
   }
 
   for (const i of mocks) {
-    if (i.intercept) {
-      for (const fetch of i.fetchs) {
-        Mock.mock(new RegExp(fetch.url), fetch.type || 'get', XHR2ExpressReqWrap(fetch.response));
-      }
-    }
+    Mock.mock(new RegExp(i.url), i.type || 'get', XHR2ExpressReqWrap(i.response));
   }
+}
+
+const mocks = [...login, ...user, ...role, ...echarts, ...table, ...department];
+module.exports = {
+  mocks,
+  mockXHR,
 };

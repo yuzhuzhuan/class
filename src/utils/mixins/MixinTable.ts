@@ -8,8 +8,7 @@ import YkTableButton from '@/components/YK_Table/YkTableButton.vue';
 import { SaveBack } from '../decorators';
 import { DialogCtrl } from './MixinDialog';
 import { ElForm } from 'element-ui/types/form';
-import service from '../../../api/user';
-import api from '../../../api/department';
+import serviceRole from '@/api/role';
 
 @Component({ components: { YkTable, YkTableButton } })
 export default class MixinTable<T extends Record<string, any> & { id: any }> extends Vue {
@@ -20,6 +19,10 @@ export default class MixinTable<T extends Record<string, any> & { id: any }> ext
 
   onQueryM(params?: Record<string, any>) {
     return this.$refTableM?.request(Object.assign({}, this.queryForm, params));
+  }
+  onResetM(params?: Record<string, any>, pageInfo?: Record<string, any>) {
+    this.$refQueryFormM.resetFields();
+    return this.$refTableM?.request(Object.assign({}, this.queryForm, params), pageInfo);
   }
 
   // table
@@ -42,15 +45,22 @@ export default class MixinTable<T extends Record<string, any> & { id: any }> ext
    * @param row
    */
   @SaveBack('删除成功')
-  async removeM(row: T /* , _index?: number */) {
-    const params = { id: row.id };
-    if (row.name) {
-      await service.remove({ ...params });
-    } else if (row.departmentName) {
-      await api.remove({ ...params });
-    } else {
-      await this.removeRequestM(params);
-    }
+  async removeM(row: T, _index?: number, path?: string) {
+    console.log('row', row, path);
+
+    const { id } = row;
+
+    // if (path?.includes('role')) {
+    //   await serviceRole.remove({ id });
+    // }
+    // if (row.name) {
+    //   await service.remove({ id });
+    // } else if (row.departmentName) {
+    //   await api.remove({ id });
+    // } else {
+    //   await this.removeRequestM({ id });
+    // }
+    this.removeRequestM({ id });
     this.onQueryM();
   }
 

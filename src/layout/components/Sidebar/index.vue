@@ -48,8 +48,8 @@ import { UserModule } from '@/store/modules/user';
 @Component({
   components: {
     SidebarItem,
-    SidebarLogo
-  }
+    SidebarLogo,
+  },
 })
 export default class SideBar extends Vue {
   /**
@@ -206,6 +206,28 @@ export default class SideBar extends Vue {
   // // 二级菜单添加虚线
   // .el-menu--inline > div {
   //   border-bottom: 1px dashed rgba(201, 211, 213, 0.7) !important;
+  // }
+  // .el-submenu__title i {
+  //   //change the icon position
+  //   position: absolute;
+  //   left: -10px;
+  //   top: 50%;
+  //   transform: translateY(-1px); //adjust position
+  //   &:before {
+  //     content: '\e790'; //change icon type
+  //     font-size: 16px;
+  //     color: #979797;
+  //   }
+  // }
+  // /*close menu*/
+  // .el-submenu > .el-submenu__title .el-submenu__icon-arrow {
+  //   transition: transform 0s; //cancel move animation
+  // }
+  // /*open menu*/
+  // .el-submenu.is-opened > .el-submenu__title .el-submenu__icon-arrow {
+  //   -webkit-transform: rotateZ(180deg);
+  //   transform: rotateZ(180deg) translateX(185px); //185px is decided according to menu width
+  //   transition: transform 0s;
   // }
 }
 </style>

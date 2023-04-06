@@ -2,20 +2,20 @@ import request from '@/utils/request';
 
 const service = {
   query(params: any) {
-    return request.post('/Api/user/list', params);
+    return request.get('/user/list', { params });
   },
   remove(params: any) {
-    return request.post('/Api/Project/login', params);
+    return request.delete('/user/delete', { params });
   },
   detail(params: any) {
-    return request.post('/Api/Project/login', params);
+    return request.get('/user/detail', { params });
   },
-  update(params: any) {
-    return request.post('/Api/Project/login', params);
+  update(data: any) {
+    return request.put('/user/update', data);
   },
-  create(params: any) {
-    return request.post('/Api/Project/login', params);
-  }
+  create(data: any) {
+    return request.post('/user/create', data);
+  },
 };
 
 export default service;

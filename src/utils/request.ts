@@ -1,4 +1,3 @@
-// eslint-disable-next-lineeslint下一行不校验
 import axios, { AxiosResponse } from 'axios';
 import { Message } from 'element-ui';
 import { UserModule } from '@/store/modules/user';
@@ -17,8 +16,13 @@ export enum RESPONSE_CONFIG {
 }
 
 const request = axios.create({
-  baseURL: process.env.NODE_ENV === 'development' ? '/api/' : './ncdmz/iamp', // url = base url + request url
-  // timeout: 5000
+  baseURL: process.env.NODE_ENV === 'development' ? '/url' : '', // api的base_url
+  withCredentials: true, // 开启跨域身份凭证
+  // method: 'post',
+  headers: {
+    'Content-Type': 'application/json;charset=UTF-8',
+  },
+  timeout: 5000, // request timeout
   // withCredentials: true // send cookies when cross-domain requests
 });
 
@@ -27,12 +31,21 @@ const request = axios.create({
  */
 request.interceptors.request.use(
   (config) => {
-    // Do something before request is sent
-    const headers = { ...config.headers };
     if (UserModule.token.length > 0 && UserModule.token) {
-      headers.Authorization = UserModule.token;
+      config.headers.Authorization = UserModule.token;
     }
-    return { ...config, headers };
+    if (!config.headers.Authorization && router.currentRoute.name !== 'login') {
+      Message.error('token过期');
+      UserModule.deltoken();
+      router.push({ path: '/login' });
+    }
+    return config;
+    // Do something before request is sent
+    // const headers = { ...config.headers };
+    // if (UserModule.token.length > 0 && UserModule.token) {
+    //   headers.Authorization = UserModule.token;
+    // }
+    // return { ...config, headers };
   },
   (error) => {
     // Do something with request error
@@ -41,8 +54,9 @@ request.interceptors.request.use(
 );
 
 interface ResponseConfig {
-  // 响应结果包含status,0 是成功
-  status: number;
+  code: number;
+  msg: string;
+  data: string;
 }
 /**
  * 响应拦截
@@ -51,11 +65,21 @@ interface ResponseConfig {
 request.interceptors.response.use(
   (response: AxiosResponse<ResponseConfig>) => {
     // Do something before request is sent
-    if (response.data.status === 0) {
-      return response;
+    // if (response.data.code === 200) {
+    //   return response;
+    // }
+
+    // if (response.data && response.data.code !== 200) {
+    //   Message.error(response.data.msg);
+    // }
+
+    if (response.data.code !== 200) {
+      Message.error(response.data.msg);
     }
-    Message.error('后台接口异常，请联系管理员');
-    return Promise.reject(response);
+    // console.log('响应', response);
+
+    return response.data;
+    // return Promise.reject(response);
   },
   (error) => {
     Message.error(error.response.data.msg);
@@ -63,7 +87,8 @@ request.interceptors.response.use(
     if (error.response.data.code === 401 && router.currentRoute.name !== 'Login') {
       Message.error(error.response.data.msg);
       UserModule.deltoken();
-      router.push({ path: '/login' });
+      router.push(`/login?redirect=${location.href.split('#')[1]}`);
+      // router.push({ path: '/login' });
     }
     // Do something with request error
     return Promise.reject(error);

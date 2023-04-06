@@ -65,8 +65,7 @@
 
 <script lang="ts">
 import { Component, Ref, Vue } from 'vue-property-decorator';
-import { getMenuListApi } from '../../../api/menu'; // 导入接口
-import { getRoleListApi, getRoleApi, addRoleApi, updateRoleApi } from '../../../api/role'; // 导入接口
+import service from '@/api/role';
 import { Form } from 'element-ui';
 
 @Component({ components: {} })
@@ -76,6 +75,13 @@ export default class RoleDetail extends Vue {
     id: '',
     name: '',
   };
+  queryForm = {
+    name: '', // 角色名称
+    type: 2, // 类型 1系统 2人工
+    description: '', // 说明
+  };
+  isWarning = false;
+  warnText = '';
 
   initMenus = [] as any; // 所有权限数据
   list = [] as any; // 功能权限列 勾选后显示的内容
@@ -83,6 +89,9 @@ export default class RoleDetail extends Vue {
   name = ''; // 角色名称，用来检测是否和其他角色名重复
   isCheck = false; // 控制全选按钮的全选样式
   indeterminate = false; // 控制全选按钮的半选样式
+  async verifyName() {
+    console.log('校验');
+  }
   rules = {
     name: [{ required: true, message: '请输入角色名称', trigger: 'blur' }],
   };
@@ -97,13 +106,13 @@ export default class RoleDetail extends Vue {
 
   // 获取角色名称列表
   async getRole(params = {} as any) {
-    const { data } = await getRoleListApi({ ...params });
+    const { data } = await service.query({ ...params });
     this.initRoles = data;
   }
 
   // 获取角色菜单列表
   async getMenu() {
-    const { data } = await getMenuListApi();
+    const { data } = await service.queryMenu();
     this.initMenus = this.changeData(data);
   }
 
@@ -122,7 +131,7 @@ export default class RoleDetail extends Vue {
 
   // 获取角色信息
   async getDetail(id: string) {
-    const { data } = await getRoleApi(id);
+    const { data } = await service.detail({ id });
     this.submitForm.name = data.name;
     this.name = data.name;
     data.menus.forEach((item: any) => {
@@ -296,14 +305,14 @@ export default class RoleDetail extends Vue {
         this.$message.warning('角色名称重复,请重新输入!');
       } else if (result && this.menus.length) {
         if (this.isEdit) {
-          await updateRoleApi({
+          await service.update({
             id: this.$route.params.roleId,
             name: this.submitForm.name,
             menus: this.menus,
           });
           this.$message.success('更新用户角色成功');
         } else {
-          await addRoleApi({ name: this.submitForm.name, menus: this.menus });
+          await service.create({ name: this.submitForm.name, menus: this.menus });
           this.$message.success('新增角色成功');
         }
         this.$router.push('/role/index');
@@ -326,9 +335,13 @@ export default class RoleDetail extends Vue {
   justify-content: flex-end;
 }
 .footer {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
   display: flex;
   justify-content: flex-end;
   margin-top: 10px;
+  z-index: 222;
 }
 ::v-ddep .el-table--scrollable-x .el-table__body-wrapper {
   overflow-x: auto;

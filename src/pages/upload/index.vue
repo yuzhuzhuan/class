@@ -2,10 +2,10 @@
   <div class="app-container">
     <el-card shadow="never">
       <h1 class="text-center">upload组件</h1>
-      <div class="w-50 mt-10">
+      <div class="mt-10 w-50">
         <YkUpload :drag="true" @uploadOk="uploadOk" :clearFiles="clearFiles"></YkUpload>
       </div>
-      <div class="w-50 mt-10">
+      <div class="mt-10 w-50">
         <YkUpload listType="picture-card" :limit="5">
           <i slot="default" class="el-icon-plus"></i>
         </YkUpload>
@@ -18,7 +18,7 @@ import { Component, Vue, Ref, Mixins } from 'vue-property-decorator';
 import YkUpload from '@/components/YK_Upload/index.vue';
 
 @Component({
-  components: { YkUpload }
+  components: { YkUpload },
 })
 export default class Upload extends Vue {
   /**
@@ -33,22 +33,20 @@ export default class Upload extends Vue {
    * 路径名
    */
   form = {
-    name: ''
+    name: '',
   };
 
   /**
    * 控制是否清空已上传文件列表
    */
   clearFiles = false;
-  /**
-   * 表单的ref
-   */
-  @Ref() readonly UploadRef!: any;
 
   fileFormData?: FormData;
 
   // 上传成功
   uploadOk(val: any) {
+    console.log('val', val);
+
     const fd = new FormData();
     fd.append('file', val.file);
     this.fileFormData = fd;
@@ -66,7 +64,7 @@ export default class Upload extends Vue {
     const formData: FormData = this.fileFormData || new FormData();
     let path = '';
     if (this.form.name) {
-      path += `${this.form.name  }/`;
+      path += `${this.form.name}/`;
     }
     formData.append('path', path);
     // await UploadApi(formData);

@@ -8,7 +8,7 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { getNestedChartApi } from '../../../../api/echarts'; // 导入接口
+import service from '@/api/echarts';
 import YKEcharts from '@/components/YK_Echarts/index.vue';
 import { EChartsOption } from 'echarts';
 
@@ -78,7 +78,7 @@ export default class RadarChart extends Vue {
 
   // 获取数据
   async getList() {
-    const { data } = await getNestedChartApi();
+    const { data } = await service.nestedChart();
     this.list = data;
   }
 }

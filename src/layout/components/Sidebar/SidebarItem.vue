@@ -1,20 +1,39 @@
 <template>
   <div
     v-if="!item.meta || !item.meta.hidden"
-    :class="['menu-wrapper', isCollapse ? 'simple-mode' : 'full-mode', { 'first-level': isFirstLevel }]"
+    :class="[
+      'menu-wrapper',
+      isCollapse ? 'simple-mode' : 'full-mode',
+      { 'first-level': isFirstLevel },
+    ]"
   >
     <template v-if="!alwaysShowRootMenu && theOnlyOneChild && !theOnlyOneChild.children">
       <sidebar-item-link v-if="theOnlyOneChild.meta" :to="resolvePath(theOnlyOneChild.path)">
-        <el-menu-item :index="resolvePath(theOnlyOneChild.path)" :class="{ 'submenu-title-noDropdown': isFirstLevel }">
-          <YkIcon v-if="theOnlyOneChild.meta.icon" :icon="theOnlyOneChild.meta.icon" class="mr-4 ml-4 mb-0.5 text-2xl" />
-          <span v-if="theOnlyOneChild.meta.title" slot="title">{{ theOnlyOneChild.meta.title }}</span>
+        <el-menu-item
+          :index="resolvePath(theOnlyOneChild.path)"
+          :class="{ 'submenu-title-noDropdown': isFirstLevel }"
+        >
+          <YkIcon
+            v-if="theOnlyOneChild.meta.icon"
+            :icon="theOnlyOneChild.meta.icon"
+            class="mr-4 mb-0.5 ml-4 text-2xl"
+          />
+          <span v-if="theOnlyOneChild.meta.title" slot="title">{{
+            theOnlyOneChild.meta.title
+          }}</span>
         </el-menu-item>
       </sidebar-item-link>
     </template>
-    <el-submenu v-else :index="resolvePath(item.path)" popper-append-to-body>
+    <el-submenu v-else :index="resolvePath(item.path)" popper-append-to-body class="el-submenu">
       <template slot="title">
-        <YkIcon v-if="item.meta && item.meta.icon" :icon="item.meta.icon" class="mr-4 ml-4 mb-0.5 text-2xl" />
-        <span id="title" v-if="item.meta && item.meta.title" slot="title">{{ item.meta.title }}</span>
+        <YkIcon
+          v-if="item.meta && item.meta.icon"
+          :icon="item.meta.icon"
+          class="mr-4 mb-0.5 ml-4 text-2xl"
+        />
+        <span id="title" v-if="item.meta && item.meta.title" slot="title">{{
+          item.meta.title
+        }}</span>
       </template>
       <template v-if="item.children">
         <sidebar-item
@@ -37,13 +56,11 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import { RouteConfig } from 'vue-router';
 import { isExternal } from '@/utils/validate';
 import SidebarItemLink from './SidebarItemLink.vue';
-import YkIcon from '@/components/global/YkIcon.vue'; // svg组件
 
 @Component({
   components: {
     SidebarItemLink,
-    YkIcon
-  }
+  },
 })
 export default class SidebarItem extends Vue {
   @Prop({ required: true }) item!: RouteConfig;
@@ -60,7 +77,7 @@ export default class SidebarItem extends Vue {
 
   get showingChildNumber() {
     if (this.item.children) {
-      const showingChildren = this.item.children.filter(item => {
+      const showingChildren = this.item.children.filter((item) => {
         if (item.meta && item.meta.hidden) {
           return false;
         } else {
@@ -128,6 +145,11 @@ export default class SidebarItem extends Vue {
         }
       }
     }
+  }
+}
+.el-submenu__title i {
+  &:before {
+    color: #fff;
   }
 }
 </style>

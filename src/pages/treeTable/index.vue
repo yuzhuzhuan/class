@@ -14,12 +14,12 @@
       </el-form>
       <div class="flex-1 min-h-0">
         <YkTable ref="table" :columns="tableColumns" :list="list" height="100%" class="h-full">
-          <template #actions="scope">
+          <!-- <template #actions="scope">
             <div class="actions">
               <YkTableButton text="修改" @click="dialogEditM.show(scope.row)" />
               <YkTableButton text="删除" @click="remove(scope.row)" />
             </div>
-          </template>
+          </template> -->
         </YkTable>
       </div>
       <DialogUserEdit
@@ -39,7 +39,7 @@ import { MixinDialog, MixinTable } from '@/utils/mixins';
 import type { ColumnItem } from '@/components/YK_Table/index.vue';
 import DialogUserEdit from './dialog/edit.vue';
 
-import service, { getDepListApi } from '../../../api/department';
+import service from '@/api/department';
 
 @Component({ components: { DialogUserEdit } })
 export default class TreeTable extends Mixins(MixinDialog, MixinTable) {
@@ -57,9 +57,13 @@ export default class TreeTable extends Mixins(MixinDialog, MixinTable) {
       { label: '部门邮箱', prop: 'email' },
       { label: '成立时间', prop: 'createTime' },
       {
-        slot: 'actions',
-        prop: 'actions',
+        slot: 'action',
+        prop: 'action',
         label: '操作',
+        listeners: {
+          remove: this.removeM,
+          edit: this.dialogEditM.show,
+        },
       },
     ];
     return data;
@@ -81,7 +85,8 @@ export default class TreeTable extends Mixins(MixinDialog, MixinTable) {
 
   // 获取数据
   async getList() {
-    const { data } = await getDepListApi();
+    const { data } = await service.query();
+
     //  栏目列表信息
     this.dialogData = [
       {
