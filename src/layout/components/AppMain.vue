@@ -21,16 +21,16 @@ export default class AppMain extends Vue {
 
 <style lang="scss" scoped>
 .app-main {
+  position: relative;
+  width: 100%;
   /* 50= navbar  50  */
   min-height: calc(100vh - 120px);
-  width: 100%;
-  position: relative;
   overflow: hidden;
 }
 
 .fixed-header + .app-main {
-  padding-top: 50px;
   height: 100vh;
+  padding-top: 50px;
   overflow: auto;
 }
 </style>

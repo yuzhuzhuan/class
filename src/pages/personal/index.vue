@@ -133,9 +133,9 @@ export default class PersonalInfo extends Vue {
 
 <style lang="scss" scoped>
 .page {
-  padding-top: 20px;
   display: flex;
   justify-content: flex-end;
+  padding-top: 20px;
 }
 .footer {
   display: flex;

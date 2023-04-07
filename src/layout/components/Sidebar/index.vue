@@ -137,9 +137,9 @@ export default class SideBar extends Vue {
 }
 
 .el-menu--popup > div:has(.el-menu-item) :hover {
-  background-color: $subColor !important;
   // border-left: 2px solid #ed1c24 !important;
   color: $menuActiveText !important;
+  background-color: $subColor !important;
 }
 
 .el-menu--popup > div {
@@ -147,38 +147,38 @@ export default class SideBar extends Vue {
 }
 // 修改element菜单的样式
 .el-menu {
-  border: none;
-  height: 100%;
   width: 100%;
+  height: 100%;
   background-color: $mainColor !important;
+  border: none;
   border-right: 0 !important;
   /** 配色 */
 
   .el-menu-item {
-    background-color: $mainColor !important;
     height: 46px;
-    line-height: 46px;
     color: $menuText !important;
+    line-height: 46px;
+    background-color: $mainColor !important;
     &:hover {
-      background-color: $subColor !important;
       // border-left: 2px solid #ed1c24 !important;
       color: $menuActiveText !important;
+      background-color: $subColor !important;
     }
     &.is-active {
-      background-color: $subColor !important;
       // border-left: 2px solid #ed1c24 !important;
       color: $menuActiveText !important;
+      background-color: $subColor !important;
     }
   }
 
   .el-submenu__title {
-    background-color: $mainColor !important;
     height: 46px;
     line-height: 46px;
+    background-color: $mainColor !important;
     &:hover {
-      background-color: $subColor !important;
       // border-left: 2px solid #ed1c24;
       color: $menuActiveText !important;
+      background-color: $subColor !important;
     }
   }
 

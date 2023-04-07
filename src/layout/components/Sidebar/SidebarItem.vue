@@ -122,8 +122,8 @@ export default class SidebarItem extends Vue {
 .simple-mode {
   &.first-level {
     .submenu-title-noDropdown {
-      padding: 0 !important;
       position: relative;
+      padding: 0 !important;
 
       .el-tooltip {
         padding: 0 !important;

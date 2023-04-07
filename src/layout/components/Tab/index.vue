@@ -121,23 +121,23 @@ export default class Tab extends Vue {
 
 <style lang="scss" scoped>
 .tab-container {
-  height: 52px;
-  background: #fff;
-  width: 100%;
-  box-sizing: border-box;
   position: relative;
   display: flex;
   align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  height: 52px;
+  background: #fff;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
   // padding: 5px 0;
 
   .tabs-ul {
-    width: calc(100% - 114px);
-    padding-right: 5px;
     display: flex;
-    overflow: hidden;
     box-sizing: border-box;
+    width: calc(100% - 114px);
     height: 100%;
+    padding-right: 5px;
+    overflow: hidden;
     line-height: 52px;
 
     &:hover {
@@ -146,27 +146,27 @@ export default class Tab extends Vue {
 
     .tab-li {
       display: inline-block;
+      box-sizing: border-box;
       height: 38px;
+      margin-right: 5px;
       padding: 0 10px;
-      line-height: 38px;
-      font-size: 14px;
-      background-color: Color.mix(#fff, rgb(49, 46, 46), 90%);
       color: Color.mix($subColor, rgb(49, 46, 46), 90%);
+      font-size: 14px;
+      line-height: 38px;
+      white-space: nowrap;
+      background-color: Color.mix(#fff, rgb(49, 46, 46), 90%);
       border: 1px solid Color.mix(#fff, rgb(49, 46, 46), 90%);
       border-radius: 4px;
-      box-sizing: border-box;
-      white-space: nowrap;
-      margin-right: 5px;
       cursor: pointer;
-      user-select: none;
       transition: all 0.3s linear;
+      user-select: none;
 
       &.is-active,
       &:hover {
-        transition: all 0.3s linear;
+        color: #fff;
         background-color: $mainColor;
         border-color: Color.mix($mainColor, #fff, 90%);
-        color: #fff;
+        transition: all 0.3s linear;
       }
       &:first-child {
         margin-left: 15px;
@@ -174,13 +174,13 @@ export default class Tab extends Vue {
       i {
         width: 14px;
         height: 14px;
-        border-radius: 50%;
         line-height: 14px;
+        border-radius: 50%;
         transition: all 0.3s linear;
         &:hover {
-          transition: all 0.3s linear;
-          background: #fff;
           color: #000;
+          background: #fff;
+          transition: all 0.3s linear;
         }
       }
     }
