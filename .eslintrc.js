@@ -15,6 +15,14 @@ module.exports = {
     'no-nested-ternary': 'off',
     'import/no-cycle': 'warn',
   },
+  parserOptions: {
+    // 提升解析速度
+    parser: {
+      js: '@typescript-eslint/parser',
+      ts: '@typescript-eslint/parser',
+      '<template>': 'espree',
+    },
+  },
   overrides: [
     {
       files: ['*.ts', '*.vue'],
