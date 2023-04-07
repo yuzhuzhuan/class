@@ -22,12 +22,12 @@
         <slot name="footer">
           <span class="dialog-footer">
             <el-button
-              @click="handleClose()"
               style="width: 80px"
               class="bg-[#f9f9f9] text-[#999999]"
+              @click="handleClose()"
               >取 消</el-button
             >
-            <el-button type="primary" @click="save()" style="width: 80px">确 定</el-button>
+            <el-button type="primary" style="width: 80px" @click="save()">确 定</el-button>
           </span>
         </slot>
       </template>

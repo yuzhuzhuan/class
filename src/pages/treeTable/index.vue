@@ -1,15 +1,15 @@
 <template>
   <div class="app-container">
     <div class="flex flex-col h-full">
-      <el-form inline :model="queryForm" ref="queryForm">
+      <el-form ref="queryForm" inline :model="queryForm">
         <el-form-item>
-          <el-button @click="dialogEditM.show()" type="primary">新增</el-button>
+          <el-button type="primary" @click="dialogEditM.show()">新增</el-button>
         </el-form-item>
         <yk-form-item prop="name">
           <yk-form-input v-model.trim="queryForm.department" placeholder="请输入部门名称" />
         </yk-form-item>
         <el-form-item>
-          <el-button @click="onQueryM()" type="primary">查询</el-button>
+          <el-button type="primary" @click="onQueryM()">查询</el-button>
         </el-form-item>
         <el-form-item>
           <el-button @click="onReset()">重置</el-button>
@@ -26,10 +26,10 @@
         </YkTable>
       </div>
       <DialogUserEdit
-        :data="dialogEditM.data"
         v-model="dialogEditM.visible"
-        @done="getList"
+        :data="dialogEditM.data"
         :options="dialogData"
+        @done="getList"
       ></DialogUserEdit>
     </div>
   </div>

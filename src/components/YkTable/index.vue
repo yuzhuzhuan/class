@@ -1,15 +1,13 @@
 <template>
   <div class="flex flex-col sp-table relative">
     <el-table
-      :data="dataList"
-      v-loading="!!loading || dataLoading"
-      style="width: 100%"
       v-bind="$attrs"
-      :max-height="maxHeight"
-      v-on="$listeners"
-      :no-data-text="emptyText"
-      @selection-change="onSelectionChange"
       ref="table"
+      v-loading="!!loading || dataLoading"
+      :data="dataList"
+      style="width: 100%"
+      :max-height="maxHeight"
+      :no-data-text="emptyText"
       class="flex-1"
       size="mini"
       :reserve-selection="reserveSelection"
@@ -17,6 +15,8 @@
       :tree-props="{ children: 'children' }"
       element-loading-text="数据加载中"
       element-loading-spinner="el-icon-loading"
+      v-on="$listeners"
+      @selection-change="onSelectionChange"
     >
       <template v-for="item in cols">
         <el-table-column
@@ -33,10 +33,10 @@
               <slot name="action" :row="plainRow(scope.row)" :index="scope.$index"></slot>
               <template v-if="actionCol && actionCol.listeners">
                 <SpTableButton
+                  v-if="actionCol.listeners.edit"
                   text="修改"
                   type="primary"
                   icon="majesticons:edit-pen-2"
-                  v-if="actionCol.listeners.edit"
                   @click="
                     actionCol &&
                       actionCol.listeners &&
@@ -45,10 +45,10 @@
                   "
                 />
                 <SpTableButton
+                  v-if="actionCol.listeners.detail"
                   text="编辑"
                   type="primary"
                   icon="majesticons:edit-pen-2"
-                  v-if="actionCol.listeners.detail"
                   @click="
                     actionCol &&
                       actionCol.listeners &&
@@ -57,10 +57,10 @@
                   "
                 />
                 <SpTableButton
+                  v-if="actionCol.listeners.remove"
                   text="删除"
                   type="danger"
                   icon="ep:delete-filled"
-                  v-if="actionCol.listeners.remove"
                   @click="
                     actionCol &&
                       actionCol.listeners &&
@@ -109,21 +109,21 @@
         </el-table-column>
       </template>
       <template slot="empty">
-        <div class="my-10" v-show="!(!!loading || dataLoading)">
+        <div v-show="!(!!loading || dataLoading)" class="my-10">
           <!-- TODO 求提供无数据图片 -->
           <!-- <img class="mx-auto" src="@/assets/images/table-empty.png" /> -->
           <div class="text-center !leading-8">暂无数据</div>
         </div>
       </template>
     </el-table>
-    <div class="py-6 clearfix" v-show="showPagination">
+    <div v-show="showPagination" class="py-6 clearfix">
       <!-- 分页 -->
       <SpPagination
+        v-show="showPagination"
         class="pull-right offset-bottom"
-        @change="request(params, $event)"
         :page-info="pageInfo"
         :total="pageTotalMixin"
-        v-show="showPagination"
+        @change="request(params, $event)"
       />
     </div>
   </div>

@@ -25,16 +25,16 @@
         </el-form-item>
         <el-form-item prop="sysRoleId" label="角色">
           <el-select
-            disabled
             v-model="submitForm.sysRoleId"
+            disabled
             placeholder="请选择角色"
             style="width: 100%"
           >
             <el-option
-              :value="item.id"
-              :key="item.id"
-              :label="item.name"
               v-for="item in optionsRole"
+              :key="item.id"
+              :value="item.id"
+              :label="item.name"
             ></el-option>
           </el-select>
         </el-form-item>

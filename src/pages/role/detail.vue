@@ -17,7 +17,7 @@
               <YkMessage
                 :text="warnNameText"
                 type="warning"
-                :isShow="!!warnNameText"
+                :is-show="!!warnNameText"
                 class="mx-3 w-60"
               >
               </YkMessage>
@@ -34,8 +34,8 @@
                 <template slot-scope="scope">
                   <el-checkbox
                     v-model="scope.row.itemCheck"
-                    @change="toggleCheck(scope.row)"
                     :indeterminate="scope.row.status"
+                    @change="toggleCheck(scope.row)"
                   ></el-checkbox>
                 </template>
               </el-table-column>
@@ -53,8 +53,8 @@
                   <el-checkbox-group v-model="list">
                     <template v-for="item in convertList(childList)">
                       <el-checkbox
-                        :label="item.name"
                         :key="item.id"
+                        :label="item.name"
                         :checked="item.checked"
                         @change="(val) => select(val, item)"
                       >
@@ -67,7 +67,7 @@
             <YkMessage
               :text="warnMenuText"
               type="warning"
-              :isShow="!!warnMenuText"
+              :is-show="!!warnMenuText"
               class="my-3 w-60"
             >
             </YkMessage>

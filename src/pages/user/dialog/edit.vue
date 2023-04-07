@@ -1,17 +1,17 @@
 <template>
   <YkDialog
     v-bind="attrsM"
-    v-on="listenersM"
     title="用户编辑"
     width="1000px"
+    v-on="listenersM"
     @close="$reset('dialogForm')"
   >
     <template #icon>
       <i class="text-2xl dw-title-ic iconfont icon-bianji"></i>
     </template>
     <el-form
-      inline
       ref="dialogForm"
+      inline
       :model="dialogForm"
       :label-width="5 + 2 + 'em'"
       class="max-w-full auto-rows-auto grid gap-0 grid-cols-[2fr_2fr]"

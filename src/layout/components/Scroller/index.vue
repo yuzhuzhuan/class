@@ -9,7 +9,7 @@
       class="is-horizontal-container"
       @mousedown="movedis"
     />
-    <div :style="getStyle" v-if="type === EType.vertical" class="is-vertical-container" />
+    <div v-if="type === EType.vertical" :style="getStyle" class="is-vertical-container" />
   </div>
 </template>
 

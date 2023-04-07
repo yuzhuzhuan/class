@@ -2,15 +2,15 @@
   <div class="app-container">
     <el-card class="h-full font-600 overflow-auto" header="用户管理">
       <div class="flex flex-col h-150">
-        <el-form inline :model="queryForm" ref="queryForm">
+        <el-form ref="queryForm" inline :model="queryForm">
           <el-form-item>
-            <el-button @click="dialogEditM.show()" type="primary">新增</el-button>
+            <el-button type="primary" @click="dialogEditM.show()">新增</el-button>
           </el-form-item>
           <yk-form-item prop="name">
             <yk-form-input v-model.trim="queryForm.name" placeholder="请输入用户名称" />
           </yk-form-item>
           <el-form-item>
-            <el-button @click="onQueryM()" type="primary">查询</el-button>
+            <el-button type="primary" @click="onQueryM()">查询</el-button>
           </el-form-item>
           <el-form-item>
             <el-button @click="onResetM(pageInfo)">重置</el-button>
@@ -27,13 +27,13 @@
           </YkTable>
         </div>
         <DialogUserEdit
-          :data="dialogEditM.data"
           v-model="dialogEditM.visible"
+          :data="dialogEditM.data"
           @done="onQueryM()"
         ></DialogUserEdit>
       </div>
       <ConfirmDialog
-        :dialogFlag="ConfirmFlag"
+        :dialog-flag="ConfirmFlag"
         content="是否确定删除用户?"
         details="仅删除用户本系统内账号，不影响第三方账号"
         @close="ConfirmFlag = false"

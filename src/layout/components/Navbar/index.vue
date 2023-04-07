@@ -11,8 +11,8 @@
     </div>
     <div class="right-menu">
       <el-dropdown
-        class="right-menu-item text-center w-40 avatar-container hover-effect"
         id="personal-center"
+        class="right-menu-item text-center w-40 avatar-container hover-effect"
         size="medium"
       >
         <div class="avatar-wrapper">
@@ -36,10 +36,10 @@
     </div>
     <ConfirmDialog
       v-model="dialogFlag"
-      @close="dialogFlag = false"
-      :dialogFlag="dialogFlag"
+      :dialog-flag="dialogFlag"
       content="确定要退出当前账号？"
       details="确定要退出当前账号？"
+      @close="dialogFlag = false"
       @confirmDone="logout"
     >
     </ConfirmDialog>

@@ -21,9 +21,19 @@ module.exports = {
       ignoreAtrules: ['apply'],
     },
     // NOTE: 高性能动画设计 https://web.dev/animations-guide/
-    // 'plugin/no-low-performance-animation-properties': true,
+    // 'plugin/no-low-performance-animation-properties': [
+    //   true,
+    //   {
+    //     fix: false,
+    //   },
+    // ],
     // NOTE: 无效的属性 https://github.com/kristerkari/stylelint-declaration-block-no-ignored-properties
-    'plugin/declaration-block-no-ignored-properties': true,
+    'plugin/declaration-block-no-ignored-properties': [
+      true,
+      {
+        fix: false,
+      },
+    ],
   },
   overrides: [
     {

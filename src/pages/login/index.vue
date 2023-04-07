@@ -21,8 +21,8 @@
           >
             <!-- 密码框 -->
             <el-input
-              prefix-icon="el-icon-lock"
               v-model.trim="loginFormData.password"
+              prefix-icon="el-icon-lock"
               :type="`${hasOpenEye ? 'text' : 'password'}`"
               placeholder="请输入密码"
             >

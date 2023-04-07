@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="flex flex-col h-full">
-      <el-form inline :model="queryForm" ref="queryForm">
+      <el-form ref="queryForm" inline :model="queryForm">
         <yk-form-item label="用户名称" prop="name">
           <yk-form-input v-model="queryForm.name" />
         </yk-form-item>

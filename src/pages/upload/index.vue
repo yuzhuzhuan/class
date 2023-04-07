@@ -3,10 +3,10 @@
     <el-card shadow="never">
       <h1 class="text-center">upload组件</h1>
       <div class="mt-10 w-50">
-        <YkUpload :drag="true" @uploadOk="uploadOk" :clearFiles="clearFiles"></YkUpload>
+        <YkUpload :drag="true" :clear-files="clearFiles" @uploadOk="uploadOk"></YkUpload>
       </div>
       <div class="mt-10 w-50">
-        <YkUpload listType="picture-card" :limit="5">
+        <YkUpload list-type="picture-card" :limit="5">
           <i slot="default" class="el-icon-plus"></i>
         </YkUpload>
       </div>

@@ -3,9 +3,9 @@
     ref="formItem"
     class="sp-form-item"
     v-bind="$attrs"
-    v-on="$listeners"
     :rules="rulesLocal"
     :label="!hideLabel ? label : ''"
+    v-on="$listeners"
   >
     <template #label>
       <slot name="label">

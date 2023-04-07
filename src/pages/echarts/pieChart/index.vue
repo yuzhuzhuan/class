@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-card shadow="never">
       饼图
-      <YKEcharts :options="options" className="h-170" v-if="flag"></YKEcharts>
+      <YKEcharts v-if="flag" :options="options" class-name="h-170"></YKEcharts>
     </el-card>
   </div>
 </template>

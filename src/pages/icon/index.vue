@@ -3,7 +3,7 @@
     <el-card shadow="never">
       <h1 class="text-center">Icon组件</h1>
       <div class="mt-10 text-center min-w-300 min-h-140 grid grid-cols-8 inline-grid">
-        <div v-for="(item, index) in iconList" :key="index" class="mb-10" id="target">
+        <div v-for="(item, index) in iconList" id="target" :key="index" class="mb-10">
           <YkIcon :icon="item" class="text-2xl" />
           <p class="cursor-pointer text-xl" @click="copyText(item)">{{ item }}</p>
         </div>

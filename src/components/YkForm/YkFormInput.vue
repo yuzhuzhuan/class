@@ -6,7 +6,7 @@
     v-bind="$attrs"
     v-on="$listeners"
   />
-  <ElInput v-else :placeholder="ph" v-bind="$attrs" v-on="$listeners" :type="type">
+  <ElInput v-else :placeholder="ph" v-bind="$attrs" :type="type" v-on="$listeners">
     <template slot="append">
       <slot name="append"></slot>
     </template>

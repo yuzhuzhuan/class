@@ -1,17 +1,17 @@
 <template>
   <div class="text-left">
     <el-pagination
-      @size-change="tablePageSizeChange"
-      @current-change="tablePageChange"
+      v-show="allowShow"
       :page-sizes="tablePageInfo.pageSizes"
       :page-size="tablePageInfo.pageSize"
       :current-page.sync="tablePageInfo.pageIndex"
       :total="total"
-      v-show="allowShow"
       v-bind="attrs"
       background
       small
       class="!space-x-1"
+      @size-change="tablePageSizeChange"
+      @current-change="tablePageChange"
     >
     </el-pagination>
   </div>

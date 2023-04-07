@@ -1,13 +1,13 @@
 <template>
   <el-dialog
     v-bind="attrs"
-    v-on="$listeners"
-    @close="onClose"
     :custom-class="
       size !== 'full' && size !== 'h-full'
         ? `flex flex-col max-w-[80vw] max-h-[80vh] overflow-hidden`
         : `flex flex-col max-h-hull h-full max-w-[80vw] overflow-hidden !my-0 px-10`
     "
+    v-on="$listeners"
+    @close="onClose"
   >
     <template #title>
       <slot name="title">
@@ -19,7 +19,7 @@
               <slot name="describe"></slot>
             </div>
           </div>
-          <div class="flex-1 text-right" v-if="actionPosition === 'top'">
+          <div v-if="actionPosition === 'top'" class="flex-1 text-right">
             <template v-if="type === 'confirm'">
               <el-button type="primary" size="mini" :loading="mixinLoading" @click="onSave">
                 {{ okText || '保存' }}
@@ -35,8 +35,8 @@
               关闭
             </el-button>
           </div>
-          <div class="flex-1 text-right" v-else-if="actionPosition === 'bottom'">
-            <el-button size="mini" class="w-22" @click="$emit('on-cancel')" plain round>
+          <div v-else-if="actionPosition === 'bottom'" class="flex-1 text-right">
+            <el-button size="mini" class="w-22" plain round @click="$emit('on-cancel')">
               <YkIcon icon="icon-park-outline:return" label="返回" :size="1" />
             </el-button>
           </div>
@@ -46,15 +46,15 @@
     <div class="h-full py-3 px-5">
       <slot></slot>
     </div>
-    <template #footer v-if="actionPosition === 'bottom'">
+    <template v-if="actionPosition === 'bottom'" #footer>
       <div class="space-x-5 text-center">
         <template v-if="type === 'confirm'">
           <el-button
             type="primary"
             size="mini"
             :loading="mixinLoading"
-            @click="onSave"
             class="w-23"
+            @click="onSave"
           >
             {{ okText || '保存' }}
           </el-button>
@@ -66,8 +66,8 @@
           v-else-if="type === 'alert'"
           size="mini"
           type="primary"
-          @click="$emit('on-cancel')"
           class="w-23"
+          @click="$emit('on-cancel')"
         >
           关闭
         </el-button>

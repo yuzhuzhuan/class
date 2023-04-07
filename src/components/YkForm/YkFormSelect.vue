@@ -3,8 +3,8 @@
     :placeholder="ph"
     v-bind="$attrs"
     :value="_value"
-    @change="onChange"
     :disabled="disabled"
+    @change="onChange"
   >
     <ElOption v-if="labelAll" key="sp-select-all-option" :value="blankOptValue" :label="labelAll" />
     <slot>

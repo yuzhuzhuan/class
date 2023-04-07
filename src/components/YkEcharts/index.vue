@@ -1,5 +1,5 @@
 <template>
-  <div ref="echartsRef" :class="className" id="echartsRef"></div>
+  <div id="echartsRef" ref="echartsRef" :class="className"></div>
 </template>
 <script lang="ts">
 import { Component, Vue, Ref, Prop } from 'vue-property-decorator';

@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-card class="h-full font-600 overflow-auto" header="角色管理">
       <div class="h-150">
-        <el-button @click="$router.push('/role/create')" type="primary">新增角色</el-button>
+        <el-button type="primary" @click="$router.push('/role/create')">新增角色</el-button>
         <div class="flex flex-col h-full mt-5">
           <div class="flex-1 min-h-0">
             <YkTable
@@ -17,7 +17,7 @@
         </div>
       </div>
       <ConfirmDialog
-        :dialogFlag="ConfirmFlag"
+        :dialog-flag="ConfirmFlag"
         content="是否确定删除角色?"
         @close="ConfirmFlag = false"
         @confirmDone="confirmDone"

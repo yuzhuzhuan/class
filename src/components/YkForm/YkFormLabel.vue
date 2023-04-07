@@ -1,7 +1,7 @@
 <template>
   <div>
     <template v-for="(letter, index) in label">
-      <span v-if="index" :style="`padding-left: ${offset}em`" :key="letter + index"></span>
+      <span v-if="index" :key="letter + index" :style="`padding-left: ${offset}em`"></span>
       {{ letter }}
     </template>
   </div>

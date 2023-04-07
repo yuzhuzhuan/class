@@ -4,8 +4,8 @@
       v-if="popVisible"
       transfer
       confirm
-      @on-popper-hide="popVisible = false"
       v-bind="$attrs"
+      @on-popper-hide="popVisible = false"
       v-on="$listeners"
     >
       <div slot="reference" ref="pop">
