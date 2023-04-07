@@ -9,3 +9,10 @@ lib/
 **/*-min.css
 **/*.bundle.css
 
+src/assets/custom-theme/
+
+*.*
+!*.css
+!*.less
+!*.scss
+!*.vue
