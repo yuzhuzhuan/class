@@ -1,7 +1,7 @@
 <template>
   <div class="tab-container">
-    <ul class="tabs-ul overflow-auto" id="tabs">
-      <scroller :parentId="`tabs`" :type="`horizontal`">
+    <ul id="tabs" class="tabs-ul overflow-auto">
+      <scroller :parent-id="`tabs`" :type="`horizontal`">
         <li
           v-for="item in TabList"
           :key="item.path"
@@ -10,8 +10,8 @@
         >
           {{ item.title }}
           <i
-            class="el-icon-close"
             v-if="item.path !== '/index'"
+            class="el-icon-close"
             @click.stop="closeCurentTab(item.path)"
           ></i>
         </li>
@@ -120,6 +120,7 @@ export default class Tab extends Vue {
 </script>
 
 <style lang="scss" scoped>
+@use 'sass:color';
 .tab-container {
   position: relative;
   display: flex;
@@ -150,12 +151,12 @@ export default class Tab extends Vue {
       height: 38px;
       margin-right: 5px;
       padding: 0 10px;
-      color: Color.mix($subColor, rgb(49, 46, 46), 90%);
+      color: color.mix($subColor, rgb(49, 46, 46), 90%);
       font-size: 14px;
       line-height: 38px;
       white-space: nowrap;
-      background-color: Color.mix(#fff, rgb(49, 46, 46), 90%);
-      border: 1px solid Color.mix(#fff, rgb(49, 46, 46), 90%);
+      background-color: color.mix(#fff, rgb(49, 46, 46), 90%);
+      border: 1px solid color.mix(#fff, rgb(49, 46, 46), 90%);
       border-radius: 4px;
       cursor: pointer;
       transition: all 0.3s linear;
@@ -165,7 +166,7 @@ export default class Tab extends Vue {
       &:hover {
         color: #fff;
         background-color: $mainColor;
-        border-color: Color.mix($mainColor, #fff, 90%);
+        border-color: color.mix($mainColor, #fff, 90%);
         transition: all 0.3s linear;
       }
       &:first-child {

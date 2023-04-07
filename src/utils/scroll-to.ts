@@ -12,7 +12,7 @@ const easeInOutQuad = (_t: number, b: number, c: number, d: number) => {
 const requestAnimFrame = (function () {
   return (
     window.requestAnimationFrame ||
-    window.webkitRequestAnimationFrame ||
+    (window as any).webkitRequestAnimationFrame ||
     (window as any).mozRequestAnimationFrame ||
     function (callback) {
       window.setTimeout(callback, 1000 / 60);

@@ -26,6 +26,7 @@
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "tests/**/*.ts", "tests/**/*.tsx"],
   "exclude": ["node_modules"],
   "vueCompilerOptions": {
-    "target": 2 // For Vue version <= 2.6.14
+    "target": 2, // For Vue version <= 2.6.14
+    "extensions": [".vue", "..vue"]
   }
 }

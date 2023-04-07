@@ -4,14 +4,17 @@ const path = require('path');
 const devServerPort = 10003;
 const name = '前端通用模板';
 const { PurgeIcons } = require('purge-icons-webpack-plugin');
+const mockServer = require('./mock/mock-server.ts');
 
 module.exports = {
   devServer: {
     port: devServerPort,
     open: false,
-    overlay: {
-      warnings: false,
-      errors: true,
+    client: {
+      overlay: {
+        warnings: false,
+        errors: true,
+      },
     },
     proxy: {
       '/api': {
@@ -24,7 +27,9 @@ module.exports = {
         },
       },
     },
-    before: require('./mock/mock-server.ts'),
+    setupMiddlewares(devServer) {
+      mockServer(devServer.app);
+    },
   },
   // lintOnSave: false,
   lintOnSave: process.env.NODE_ENV === 'development',
@@ -101,6 +106,10 @@ module.exports = {
         sassOptions: {
           quietDeps: true,
         },
+        prependData: `
+        @use "@/assets/styles/variables.scss" as *;
+        @use "@/assets/styles/mixins.scss" as *;
+      `,
       },
     },
   },
@@ -108,10 +117,7 @@ module.exports = {
     'style-resources-loader': {
       preProcessor: 'scss',
       // 公共使用的样式
-      patterns: [
-        path.resolve(__dirname, 'src/assets/styles/variables.scss'),
-        path.resolve(__dirname, 'src/assets/styles/mixins.scss'),
-      ],
+      patterns: [],
     },
   },
 };

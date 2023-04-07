@@ -31,7 +31,7 @@
           :icon="item.meta.icon"
           class="mr-4 mb-0.5 ml-4 text-2xl"
         />
-        <span id="title" v-if="item.meta && item.meta.title" slot="title">{{
+        <span v-if="item.meta && item.meta.title" id="title" slot="title">{{
           item.meta.title
         }}</span>
       </template>
@@ -51,7 +51,7 @@
 </template>
 
 <script lang="ts">
-import path from 'path';
+import path from 'path-browserify';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { RouteConfig } from 'vue-router';
 import { isExternal } from '@/utils/validate';
