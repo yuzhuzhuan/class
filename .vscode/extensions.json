@@ -7,7 +7,8 @@
     "wayou.vscode-todo-highlight",
     "fabiospampinato.vscode-todo-plus",
     "voorjaar.windicss-intellisense",
-    "octref.vetur"
+    "octref.vetur",
+    "vue.vscode-typescript-vue-plugin"
   ],
-  "unwantedRecommendations": ["vue.volar", "vue.vscode-typescript-vue-plugin"]
+  "unwantedRecommendations": ["vue.volar", "vscode.typescript-language-features"]
 }
