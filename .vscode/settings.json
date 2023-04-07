@@ -1,7 +1,8 @@
 {
   "typescript.tsdk": "node_modules\\typescript\\lib",
   "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact", "vue"],
-  "stylelint.validate": ["css", "scss", "less", "acss"],
+  "stylelint.validate": ["css", "postcss", "scss", "less", "acss", "html", "vue"],
+  "stylelint.snippet": ["css", "postcss", "scss", "less", "acss", "html", "vue"],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true,
     "source.fixAll.stylelint": true,
