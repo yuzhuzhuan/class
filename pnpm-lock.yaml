@@ -107,7 +107,7 @@ devDependencies:
   eslint: 6.8.0
   eslint-config-prettier: 6.15.0_eslint@6.8.0
   eslint-plugin-prettier: 3.4.1_ejped62myxgpxj7vsnhouy5t2m
-  f2elint: github.com/uwjiaoxing/f2elint/7bd25465dd51ae469a0aee3396486c627b7a2814_typescript@3.9.10
+  f2elint: github.com/uwjiaoxing/f2elint/188353a521b20adf42b6cc62fd5590020798c07d_typescript@3.9.10
   prettier: 2.8.4
   purge-icons-webpack-plugin: 0.9.1
   sass: 1.58.3
@@ -12529,9 +12529,9 @@ packages:
       tslib: 2.3.0
     dev: false
 
-  github.com/uwjiaoxing/f2elint/7bd25465dd51ae469a0aee3396486c627b7a2814_typescript@3.9.10:
-    resolution: {commit: 7bd25465dd51ae469a0aee3396486c627b7a2814, repo: git+ssh://git@github.com/uwjiaoxing/f2elint.git, type: git}
-    id: github.com/uwjiaoxing/f2elint/7bd25465dd51ae469a0aee3396486c627b7a2814
+  github.com/uwjiaoxing/f2elint/188353a521b20adf42b6cc62fd5590020798c07d_typescript@3.9.10:
+    resolution: {tarball: https://codeload.github.com/uwjiaoxing/f2elint/tar.gz/188353a521b20adf42b6cc62fd5590020798c07d}
+    id: github.com/uwjiaoxing/f2elint/188353a521b20adf42b6cc62fd5590020798c07d
     name: f2elint
     version: 2.2.1
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
