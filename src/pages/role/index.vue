@@ -28,7 +28,7 @@
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
 import { MixinTable } from '@/utils/mixins';
-import type { ColumnItem } from '@/components/YK_Table/index.vue';
+import type { ColumnItem } from '@/components/YkTable/index.vue';
 import { UserModule } from '@/store/modules/user';
 
 import service from '@/api/role';

@@ -36,7 +36,7 @@
 import { Component, Mixins } from 'vue-property-decorator';
 import { IDialogData, IList } from './type';
 import { MixinTable } from '@/utils/mixins';
-import type { ColumnItem } from '@/components/YK_Table/index.vue';
+import type { ColumnItem } from '@/components/YkTable/index.vue';
 import service from '@/api/table';
 import Sortable from 'sortablejs';
 

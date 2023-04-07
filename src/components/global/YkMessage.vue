@@ -55,7 +55,7 @@ export default class YkMessage extends Vue {
   visibility: hidden;
 }
 .visibility {
-  visibility: visible;
   color: #fde3bd;
+  visibility: visible;
 }
 </style>

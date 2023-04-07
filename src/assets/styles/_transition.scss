@@ -19,13 +19,13 @@
 }
 
 .fade-transform-enter {
-  opacity: 0;
   transform: translateX(-30px);
+  opacity: 0;
 }
 
 .fade-transform-leave-to {
-  opacity: 0;
   transform: translateX(30px);
+  opacity: 0;
 }
 
 // breadcrumb
@@ -36,8 +36,8 @@
 
 .breadcrumb-enter,
 .breadcrumb-leave-active {
-  opacity: 0;
   transform: translateX(20px);
+  opacity: 0;
 }
 
 .breadcrumb-move {

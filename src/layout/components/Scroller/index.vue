@@ -211,26 +211,26 @@ export default class extends Vue {
 <style lang="scss" scoped>
 .scroller-wraper {
   position: relative;
+  width: 100%;
+  height: 100%;
   // 去除隐藏原生的滚动条
   overflow: hidden;
-  height: 100%;
-  width: 100%;
   cursor: pointer;
 
   & .scroller-container {
-    white-space: nowrap;
     position: absolute;
+    white-space: nowrap;
   }
 
   & .is-horizontal-container {
     position: absolute;
     bottom: 0;
-    height: 5px;
-    width: 100px;
-    background: rgb(66, 59, 54);
-    opacity: 0.3;
-    border-radius: 10px;
     display: none;
+    width: 100px;
+    height: 5px;
+    background: rgb(66, 59, 54);
+    border-radius: 10px;
+    opacity: 0.3;
   }
 
   &:hover .is-horizontal-container {

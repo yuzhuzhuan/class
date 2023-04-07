@@ -27,10 +27,10 @@ export default class Page404 extends Vue {
 
 <style lang="scss" scoped>
 .wscn-http404-container {
-  transform: translate(-50%, -50%);
   position: absolute;
   top: 40%;
   left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .wscn-http404 {
@@ -53,39 +53,39 @@ export default class Page404 extends Vue {
       position: absolute;
 
       &.left {
-        width: 80px;
         top: 17px;
         left: 220px;
+        width: 80px;
         opacity: 0;
         animation-name: cloudLeft;
         animation-duration: 2s;
         animation-timing-function: linear;
-        animation-fill-mode: forwards;
         animation-delay: 1s;
+        animation-fill-mode: forwards;
       }
 
       &.mid {
-        width: 46px;
         top: 10px;
         left: 420px;
+        width: 46px;
         opacity: 0;
         animation-name: cloudMid;
         animation-duration: 2s;
         animation-timing-function: linear;
-        animation-fill-mode: forwards;
         animation-delay: 1.2s;
+        animation-fill-mode: forwards;
       }
 
       &.right {
-        width: 62px;
         top: 100px;
         left: 500px;
+        width: 62px;
         opacity: 0;
         animation-name: cloudRight;
         animation-duration: 2s;
         animation-timing-function: linear;
-        animation-fill-mode: forwards;
         animation-delay: 1s;
+        animation-fill-mode: forwards;
       }
 
       @keyframes cloudLeft {
@@ -176,24 +176,24 @@ export default class Page404 extends Vue {
     overflow: hidden;
 
     &__oops {
-      font-size: 32px;
-      font-weight: bold;
-      line-height: 40px;
-      color: #1482f0;
-      opacity: 0;
       margin-bottom: 20px;
+      color: #1482f0;
+      font-weight: bold;
+      font-size: 32px;
+      line-height: 40px;
+      opacity: 0;
       animation-name: slideUp;
       animation-duration: 0.5s;
       animation-fill-mode: forwards;
     }
 
     &__headline {
-      font-size: 20px;
-      line-height: 24px;
+      margin-bottom: 10px;
       color: #222;
       font-weight: bold;
+      font-size: 20px;
+      line-height: 24px;
       opacity: 0;
-      margin-bottom: 10px;
       animation-name: slideUp;
       animation-duration: 0.5s;
       animation-delay: 0.1s;
@@ -201,11 +201,11 @@ export default class Page404 extends Vue {
     }
 
     &__info {
+      margin-bottom: 30px;
+      color: grey;
       font-size: 13px;
       line-height: 21px;
-      color: grey;
       opacity: 0;
-      margin-bottom: 30px;
       animation-name: slideUp;
       animation-duration: 0.5s;
       animation-delay: 0.2s;
@@ -217,14 +217,14 @@ export default class Page404 extends Vue {
       float: left;
       width: 110px;
       height: 36px;
-      background: #1482f0;
-      border-radius: 100px;
-      text-align: center;
       color: #fff;
-      opacity: 0;
       font-size: 14px;
       line-height: 36px;
+      text-align: center;
+      background: #1482f0;
+      border-radius: 100px;
       cursor: pointer;
+      opacity: 0;
       animation-name: slideUp;
       animation-duration: 0.5s;
       animation-delay: 0.3s;

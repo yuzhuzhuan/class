@@ -65,16 +65,16 @@ export default class ConfirmDialog extends Vue {
 <style scoped lang="scss">
 .Dialog ::v-deep {
   .el-dialog__footer {
-    border-top-width: 1px;
     border-top-color: #ebebeb;
+    border-top-width: 1px;
   }
   .el-dialog__header {
-    border-radius: 10px 10px 0 0;
-    border-bottom-width: 1px;
-    border-bottom-color: #ebebeb;
     font-weight: 600;
     font-size: 1rem;
     background-color: #f5f5f5;
+    border-bottom-color: #ebebeb;
+    border-bottom-width: 1px;
+    border-radius: 10px 10px 0 0;
   }
 
   .el-dialog {

@@ -94,19 +94,19 @@ export default class Navbar extends Vue {
 
 <style lang="scss" scoped>
 .navbar {
+  position: relative;
   height: 50px;
   overflow: hidden;
-  position: relative;
   // background: #fff;
   // box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
   border-bottom: 1px solid rgba(201, 211, 213, 0.7);
 
   .hamburger-container {
-    line-height: 55px;
-    height: 50px;
     float: left;
+    height: 50px;
     padding: 0 15px;
     font-size: 24px;
+    line-height: 55px;
     cursor: pointer;
     transition: background 0.3s;
     -webkit-tap-highlight-color: transparent;
@@ -128,11 +128,11 @@ export default class Navbar extends Vue {
   }
 
   .right-menu {
+    display: flex;
+    align-items: center;
     float: right;
     height: 100%;
     line-height: 50px;
-    display: flex;
-    align-items: center;
 
     .theme-cnt {
       margin: 12px 10px 0 0;
@@ -144,10 +144,10 @@ export default class Navbar extends Vue {
 
     .right-menu-item {
       display: inline-block;
-      padding: 0 8px;
       height: 100%;
-      font-size: 18px;
+      padding: 0 8px;
       color: #5a5e66;
+      font-size: 18px;
       vertical-align: text-bottom;
 
       &.hover-effect {
@@ -167,18 +167,18 @@ export default class Navbar extends Vue {
         position: relative;
 
         .user-avatar {
-          cursor: pointer;
           width: 40px;
           height: 40px;
           border-radius: 10px;
+          cursor: pointer;
         }
 
         .el-icon-caret-bottom {
-          cursor: pointer;
           position: absolute;
-          right: -20px;
           top: 25px;
+          right: -20px;
           font-size: 12px;
+          cursor: pointer;
         }
       }
     }

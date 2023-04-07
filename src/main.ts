@@ -12,9 +12,9 @@ import './components';
 // 导入样式库
 import ElementUI from 'element-ui';
 // 重置element 样式
-import '@/styles/element-variables.scss';
+import '@/assets/styles/element-variables.scss';
 // 导入样式
-import '@/styles/index.scss';
+import '@/assets/styles/index.scss';
 import 'windi.css';
 import '@purge-icons/generated';
 

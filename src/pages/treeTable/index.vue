@@ -39,7 +39,7 @@
 import { Component, Mixins } from 'vue-property-decorator';
 import { IDialogData, IList } from './type';
 import { MixinDialog, MixinTable } from '@/utils/mixins';
-import type { ColumnItem } from '@/components/YK_Table/index.vue';
+import type { ColumnItem } from '@/components/YkTable/index.vue';
 import DialogUserEdit from './dialog/edit.vue';
 
 import service from '@/api/department';

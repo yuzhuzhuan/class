@@ -115,8 +115,8 @@ export default class YkFormItem extends Vue {
 <style lang="scss">
 .grid {
   .sp-form-item {
-    white-space: nowrap;
     display: flex;
+    white-space: nowrap;
     .el-form-item__label {
       flex-basis: auto;
     }

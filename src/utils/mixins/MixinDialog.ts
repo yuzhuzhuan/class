@@ -2,7 +2,7 @@
  ************ Dialog *************
  ******************************** */
 import { Vue, Component, Prop, Model, Emit } from 'vue-property-decorator';
-import YkDialog from '@c/YK_Dialog/index.vue';
+import YkDialog from '@c/YkDialog/index.vue';
 
 // 之所以使用 mixin 而不是再包裹一层是因为包裹后监听函数还是要手动绑定
 @Component({ inheritAttrs: false, components: { YkDialog } })

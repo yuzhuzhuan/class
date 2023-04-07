@@ -109,8 +109,8 @@ module.exports = {
       preProcessor: 'scss',
       // 公共使用的样式
       patterns: [
-        path.resolve(__dirname, 'src/styles/variables.scss'),
-        path.resolve(__dirname, 'src/styles/mixins.scss'),
+        path.resolve(__dirname, 'src/assets/styles/variables.scss'),
+        path.resolve(__dirname, 'src/assets/styles/mixins.scss'),
       ],
     },
   },

@@ -129,67 +129,6 @@
   </div>
 </template>
 
-<style lang="less">
-.ivu-tooltip,
-.icon-svg,
-.sp-table-poptip,
-.ivu-poptip {
-  & + & {
-    .sp-table .action-bar & {
-      margin-left: 8px;
-    }
-  }
-}
-</style>
-<style lang="less" scoped>
-::v-deep {
-  .el-table th.el-table__cell {
-    @apply font-normal bg-[#E7E7E7];
-    color: hh;
-    height: hh;
-  }
-  .el-checkbox__input.is-disabled {
-    display: none !important1;
-  }
-  .el-table__empty-block {
-    position: sticky;
-    left: 0;
-    justify-content: start;
-    width: auto !important;
-    text-align: left;
-  }
-  .el-table__empty-text {
-    width: 100%;
-  }
-}
-.sp-table {
-  .no-data {
-    line-height: 3em;
-
-    text-align: center;
-  }
-
-  ::v-deep {
-    th.sp-table-check-single {
-      .ivu-table-cell-with-selection {
-        display: none;
-      }
-    }
-    .ivu-table-cell-with-selection {
-      padding-right: 0;
-    }
-  }
-
-  .check-all {
-    margin-top: 20px;
-  }
-}
-.el-table__body-wrapper::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-</style>
-
 <script lang="ts">
 import SpPagination, { PageInfo } from './YkPagination.vue';
 import SpTableButton from './YkTableButton.vue';
@@ -546,3 +485,63 @@ export default class YkTable extends Vue {
   }
 }
 </script>
+
+<style lang="scss">
+.ivu-tooltip,
+.icon-svg,
+.sp-table-poptip,
+.ivu-poptip {
+  & + & {
+    .sp-table .action-bar & {
+      margin-left: 8px;
+    }
+  }
+}
+</style>
+<style lang="scss" scoped>
+::v-deep {
+  .el-table th.el-table__cell {
+    @apply font-normal bg-[#E7E7E7];
+    color: #444;
+  }
+  .el-checkbox__input.is-disabled {
+    display: none !important;
+  }
+  .el-table__empty-block {
+    position: sticky;
+    left: 0;
+    justify-content: start;
+    width: auto !important;
+    text-align: left;
+  }
+  .el-table__empty-text {
+    width: 100%;
+  }
+}
+.sp-table {
+  .no-data {
+    line-height: 3em;
+
+    text-align: center;
+  }
+
+  ::v-deep {
+    th.sp-table-check-single {
+      .ivu-table-cell-with-selection {
+        display: none;
+      }
+    }
+    .ivu-table-cell-with-selection {
+      padding-right: 0;
+    }
+  }
+
+  .check-all {
+    margin-top: 20px;
+  }
+}
+.el-table__body-wrapper::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+</style>

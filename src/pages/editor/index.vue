@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import YKeditor from '@/components/YK_Editor/index.vue';
+import YKeditor from '@/components/YkEditor/index.vue';
 
 @Component({
   components: { YKeditor },

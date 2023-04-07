@@ -105,7 +105,6 @@ request.interceptors.response.use(
 //       UserModule.ResetToken()
 //       location.reload()
 //     }
-//     /* eslint-disable */
 //     if (error.response.data.code == '2000009') {
 //       return Promise.reject(error)
 //     }

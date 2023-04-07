@@ -46,7 +46,7 @@
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
 import { MixinTable } from '@/utils/mixins';
-import type { ColumnItem } from '@/components/YK_Table/index.vue';
+import type { ColumnItem } from '@/components/YkTable/index.vue';
 import DialogUserEdit from './dialog/edit.vue';
 import service from '@/api/user';
 
@@ -116,18 +116,18 @@ export default class PageUser extends Mixins(MixinTable) {
   }
 }
 .el-message-box__header {
-  border-radius: 10px 10px 0 0;
-  border-bottom-width: 1px;
-  border-bottom-color: #ebebeb;
   font-weight: 600;
   background-color: #f9f9f9;
+  border-bottom-color: #ebebeb;
+  border-bottom-width: 1px;
+  border-radius: 10px 10px 0 0;
 
   .el-message-box__title {
     font-size: 16px;
   }
 }
 .el-message-box__btns {
-  border-top-width: 1px;
   border-top-color: #ebebeb;
+  border-top-width: 1px;
 }
 </style>

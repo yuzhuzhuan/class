@@ -7,12 +7,12 @@ module.exports = {
     'stylelint-config-recommended-scss',
     'stylelint-config-recommended-less',
     'stylelint-config-recommended-vue/scss',
-    // 'stylelint-config-rational-order-fix',
+    'stylelint-config-rational-order-fix',
     'stylelint-config-ali',
   ],
   plugins: [
     'stylelint-csstree-validator',
-    'stylelint-high-performance-animation',
+    // 'stylelint-high-performance-animation',
     'stylelint-declaration-block-no-ignored-properties',
   ],
   rules: {

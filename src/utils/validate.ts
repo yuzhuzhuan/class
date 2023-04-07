@@ -1,4 +1,3 @@
-/* eslint-disable */
 export const isValidUsername = (str: string) => ['admin', 'editor'].indexOf(str.trim()) >= 0;
 
 export const isExternal = (path: string) => /^(https?:|mailto:|tel:)/.test(path);
@@ -76,15 +75,11 @@ export const isCardID = (sId: string) => {
   }
 
   // 出生日期验证
-  const sBirthday = (
-    sId.substring(6, 4) +
-    '-' +
-    Number(sId.substring(10, 2)) +
-    '-' +
-    Number(sId.substring(12, 2))
-  ).replace(/-/g, '/');
+  const sBirthday = `${sId.substring(6, 4)}-${Number(sId.substring(10, 2))}-${Number(
+    sId.substring(12, 2),
+  )}`.replace(/-/g, '/');
   const d = new Date(sBirthday);
-  if (sBirthday !== d.getFullYear() + '/' + (d.getMonth() + 1) + '/' + d.getDate()) {
+  if (sBirthday !== `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()}`) {
     alert('身份证上的出生日期非法');
     return false;
   }
@@ -94,7 +89,7 @@ export const isCardID = (sId: string) => {
   const weights = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
   const codes = '10X98765432';
   for (let i = 0; i < sId.length - 1; i++) {
-    sum = sum + Number(sId[i]) * weights[i];
+    sum += Number(sId[i]) * weights[i];
   }
   const last = codes[sum % 11]; // 计算出来的最后一位身份证号码
   if (sId[sId.length - 1] !== last) {

@@ -3,8 +3,8 @@
  ******************************** */
 import { Vue, Component, Ref, Provide } from 'vue-property-decorator';
 import { Route, RouteRecord } from 'vue-router';
-import YkTable from '@/components/YK_Table/index.vue';
-import YkTableButton from '@/components/YK_Table/YkTableButton.vue';
+import YkTable from '@/components/YkTable/index.vue';
+import YkTableButton from '@/components/YkTable/YkTableButton.vue';
 import { SaveBack } from '../decorators';
 import { DialogCtrl } from './MixinDialog';
 import { ElForm } from 'element-ui/types/form';

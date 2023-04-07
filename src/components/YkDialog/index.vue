@@ -132,9 +132,9 @@ export default class SpDialog extends Vue {
 <style scoped lang="scss">
 ::v-deep {
   .el-dialog__body {
-    padding: 0;
     flex: 1;
     min-height: 0;
+    padding: 0;
     overflow-y: auto;
   }
 }

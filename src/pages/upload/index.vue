@@ -15,7 +15,7 @@
 </template>
 <script lang="ts">
 import { Component, Vue, Ref, Mixins } from 'vue-property-decorator';
-import YkUpload from '@/components/YK_Upload/index.vue';
+import YkUpload from '@/components/YkUpload/index.vue';
 
 @Component({
   components: { YkUpload },

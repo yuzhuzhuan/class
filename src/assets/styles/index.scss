@@ -29,8 +29,8 @@ a,
 a:focus,
 a:hover {
   color: inherit;
-  outline: none;
   text-decoration: none;
+  outline: none;
 }
 
 div:focus {
@@ -46,24 +46,24 @@ label {
 }
 
 .app-container {
-  padding: 15px;
+  z-index: 0;
   height: calc(100vh - 102px);
   min-height: 100%;
+  padding: 15px;
   overflow-y: auto;
-  z-index: 0;
   background-color: #eff1f4;
 }
 
 .btn-container {
-  width: 100%;
   display: flex;
-  padding: 20px 0 0 0;
   justify-content: flex-end;
+  width: 100%;
+  padding: 20px 0 0 0;
 }
 
 .components-container {
-  margin: 30px 50px;
   position: relative;
+  margin: 30px 50px;
 }
 
 // Refine element ui upload
@@ -79,14 +79,14 @@ label {
 }
 
 aside {
-  background: #eef1f6;
-  color: #2c3e50;
-  padding: 8px 24px;
-  margin-bottom: 20px;
-  border-radius: 2px;
   display: block;
-  line-height: 32px;
+  margin-bottom: 20px;
+  padding: 8px 24px;
+  color: #2c3e50;
   font-size: 16px;
+  line-height: 32px;
+  background: #eef1f6;
+  border-radius: 2px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
@@ -102,8 +102,8 @@ aside {
 
 .fixed-width {
   .el-button--mini {
-    padding: 7px 10px;
     width: 60px;
+    padding: 7px 10px;
   }
 }
 
@@ -112,8 +112,8 @@ aside {
 
   .filter-item {
     display: inline-block;
-    vertical-align: middle;
     margin-bottom: 10px;
+    vertical-align: middle;
   }
 }
 
@@ -139,13 +139,12 @@ aside {
 }
 
 .sub-navbar {
-  height: 50px;
-  line-height: 50px;
   position: relative;
   width: 100%;
-  text-align: right;
+  height: 50px;
   padding-right: 20px;
-  transition: 600ms ease position;
+  line-height: 50px;
+  text-align: right;
   background: linear-gradient(
     90deg,
     rgba(32, 182, 249, 1) 0%,
@@ -153,10 +152,11 @@ aside {
     rgba(33, 120, 241, 1) 100%,
     rgba(33, 120, 241, 1) 100%
   );
+  transition: 600ms ease position;
 
   .subtitle {
-    font-size: 20px;
     color: #fff;
+    font-size: 20px;
   }
 
   &.draft {
@@ -174,21 +174,21 @@ aside {
 
 ul,
 li {
-  list-style: none;
-  padding: 0;
-  margin: 0;
   display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .icon {
-  font-size: 18px;
   margin-right: 5px;
+  font-size: 18px;
 }
 .detail-header {
-  padding: 18px 20px;
-  border-bottom: 1px solid #e6ebf5;
   box-sizing: border-box;
+  padding: 18px 20px;
   background-color: #f9f9f9;
+  border-bottom: 1px solid #e6ebf5;
 }
 .detail-container {
   margin-bottom: 100px;
@@ -196,13 +196,13 @@ li {
 }
 .detail-footer {
   position: absolute;
+  right: 0;
   bottom: 0;
   left: 0;
-  right: 0;
-  margin-left: 15px;
-  margin-right: 15px;
-  padding: 10px 45%;
-  height: 100px;
-  background: #fff;
   z-index: 1000;
+  height: 100px;
+  margin-right: 15px;
+  margin-left: 15px;
+  padding: 10px 45%;
+  background: #fff;
 }
