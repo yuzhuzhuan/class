@@ -23,7 +23,7 @@
         <el-dropdown-menu
           slot="dropdown"
           class="dropdownPop"
-          style="width: 160px; margin-top: 0px; overflow: hidden"
+          style="width: 160px; margin-top: 0; overflow: hidden"
         >
           <router-link to="/personal">
             <el-dropdown-item> 个人中心 </el-dropdown-item>

@@ -26,7 +26,11 @@ class User extends VuexModule implements IUserState {
   token = getToken() || '';
 
   // private permits = [] as { id: number }[]
-  permits = [] as Array<{ id: number; name: string; childList: Array<{ id: number; name: string }> }>;
+  permits = [] as Array<{
+    id: number;
+    name: string;
+    childList: Array<{ id: number; name: string }>;
+  }>;
 
   /**
    * 存入用户数据
@@ -132,7 +136,7 @@ class User extends VuexModule implements IUserState {
   get hadPermit() {
     return (id?: number) => {
       if (id === undefined) return true;
-      return this.permits.some(item => item.id === id);
+      return this.permits.some((item) => item.id === id);
     };
   }
 
@@ -142,7 +146,7 @@ class User extends VuexModule implements IUserState {
 
   get permission() {
     return (code: any) => {
-      return this.permits.some(item => item.name === code);
+      return this.permits.some((item) => item.name === code);
     };
   }
 }

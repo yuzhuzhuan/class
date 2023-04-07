@@ -12,11 +12,7 @@
         hide-required-asterisk
       >
         <el-form-item label="旧密码" prop="password">
-          <el-input
-            v-model.trim="submitForm.password"
-            type="password"
-            placeholder="请输入旧密码"
-          >
+          <el-input v-model.trim="submitForm.password" type="password" placeholder="请输入旧密码">
           </el-input>
         </el-form-item>
         <el-form-item label="新密码" prop="newPassword">
@@ -45,27 +41,22 @@
 </template>
 
 <script lang="ts">
-import { Component, Ref, Vue } from "vue-property-decorator";
-import api from "./service";
-import { Form } from "element-ui";
-import { FormValidator } from "@/utils/formValidator";
+import { Component, Ref, Vue } from 'vue-property-decorator';
+import api from './service';
+import { Form } from 'element-ui';
+import { FormValidator } from '@/utils/formValidator';
+
 @Component({ components: {} })
 export default class PersonalPassword extends Vue {
-  @Ref("submitForm") readonly $submitForm!: Form;
-  submitForm = { password: "", newPassword: "", newPasswordAgain: "" };
+  @Ref('submitForm') readonly $submitForm!: Form;
+  submitForm = { password: '', newPassword: '', newPasswordAgain: '' };
 
   get rules() {
     return {
-      password: FormValidator.checkStringLength(0, 15, "旧密码", true, "blur"),
-      newPassword: FormValidator.checkStringLength(
-        0,
-        15,
-        "新密码",
-        true,
-        "blur"
-      ),
+      password: FormValidator.checkStringLength(0, 15, '旧密码', true, 'blur'),
+      newPassword: FormValidator.checkStringLength(0, 15, '新密码', true, 'blur'),
       newPasswordAgain: [
-        { required: true, message: "请再次输入新密码", trigger: "input" },
+        { required: true, message: '请再次输入新密码', trigger: 'input' },
         {
           validator: (rule: any, value: string, callback: Function) => {
             if (value !== this.submitForm.newPassword) {
@@ -74,8 +65,8 @@ export default class PersonalPassword extends Vue {
               callback();
             }
           },
-          message: "两次新密码输入不一致",
-          trigger: "blur",
+          message: '两次新密码输入不一致',
+          trigger: 'blur',
         },
       ],
     };

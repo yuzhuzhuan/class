@@ -3,7 +3,11 @@ import { Message } from 'element-ui';
 import { CreateElement } from 'vue';
 
 // 保存后弹消息,然后返回
-export const SaveBack = function (message: string | [string, string] = '保存成功', path: string | boolean = false, query?: any) {
+export const SaveBack = function (
+  message: string | [string, string] = '保存成功',
+  path: string | boolean = false,
+  query?: any,
+) {
   return createDecorator((componentOptions, handler) => {
     const methods = componentOptions.methods as any;
     const originalMethod = methods[handler] as YkFunction;
@@ -11,11 +15,11 @@ export const SaveBack = function (message: string | [string, string] = '保存�
       try {
         const data = await originalMethod.apply(this as any, args);
         const msgSuccess = [message].flat(1)[0];
-        await new Promise(resolve => {
+        await new Promise((resolve) => {
           Message.success({
             message: msgSuccess,
             duration: 1000,
-            onClose: () => resolve(null)
+            onClose: () => resolve(null),
           });
         });
 
@@ -43,7 +47,7 @@ export const MessageCatchError = function (message?: string) {
       } catch (error) {
         Message.error({
           message: message || (error as Error).message,
-          duration: 3000
+          duration: 3000,
         });
         throw error;
       }
@@ -60,7 +64,7 @@ export const ConfirmBefore = function (message: string, title?: string) {
       await this.$confirm(message, {
         title: title ?? '提示',
         type: 'warning',
-        showClose: false
+        showClose: false,
       });
       const data = await originalMethod.apply(this as any, args);
       return data;
@@ -81,12 +85,12 @@ export const ScreenLoading = function (loadingText?: string) {
               class: 'demo-spin-icon-load',
               props: {
                 type: 'ios-loading',
-                size: 18
-              }
+                size: 18,
+              },
             }),
-            h('div', { class: 'offset-top' }, loadingText ?? '加载中')
+            h('div', { class: 'offset-top' }, loadingText ?? '加载中'),
           ]);
-        }
+        },
       });
       try {
         const data = await originalMethod.apply(this as any, args);

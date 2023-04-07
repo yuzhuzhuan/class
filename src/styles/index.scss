@@ -1,9 +1,9 @@
 // @import './variables.scss'; // Already imported in style-resources-loader
 // @import './mixins.scss'; // Already imported in style-resources-loader
-@import './transition.scss';
-@import './svgicon.scss';
-@import './mixins.scss';
-@import './updateScrollerBar.scss';
+@import './transition';
+@import './svgicon';
+@import './mixins';
+@import './updateScrollerBar';
 
 /* Global scss */
 
@@ -16,10 +16,6 @@ body {
 }
 
 html {
-  height: 100%;
-}
-
-#app {
   height: 100%;
 }
 
@@ -61,7 +57,7 @@ label {
 .btn-container {
   width: 100%;
   display: flex;
-  padding: 20px 0 0px 0;
+  padding: 20px 0 0 0;
   justify-content: flex-end;
 }
 
@@ -173,7 +169,7 @@ aside {
 }
 
 .no-padding {
-  padding: 0px !important;
+  padding: 0 !important;
 }
 
 ul,
@@ -181,6 +177,7 @@ li {
   list-style: none;
   padding: 0;
   margin: 0;
+  display: flex;
 }
 
 .icon {

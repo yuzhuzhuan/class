@@ -1,28 +1,20 @@
 <template>
-  <a
-    v-if="isExternal(to)"
-    :href="to"
-    target="_blank"
-    rel="noopener"
-  >
+  <a v-if="isExternal(to)" :href="to" target="_blank" rel="noopener">
     <slot />
   </a>
-  <router-link
-    v-else
-    :to="to"
-  >
+  <router-link v-else :to="to">
     <slot />
   </router-link>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
-import { isExternal } from '@/utils/validate'
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import { isExternal } from '@/utils/validate';
 
 @Component({})
 export default class SidebarItemLink extends Vue {
-  @Prop({ required: true }) to!: string
+  @Prop({ required: true }) to!: string;
 
-  isExternal = isExternal
+  isExternal = isExternal;
 }
 </script>

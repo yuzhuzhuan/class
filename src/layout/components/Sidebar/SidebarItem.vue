@@ -134,12 +134,13 @@ export default class SidebarItem extends Vue {
       overflow: hidden;
 
       & > .el-submenu__title {
-        padding: 0px !important;
+        padding: 0 !important;
 
         .el-submenu__icon-arrow {
           display: none;
         }
 
+        /* stylelint-disable-next-line selector-max-id */
         & > #title {
           display: none;
         }

@@ -37,7 +37,7 @@ export interface IUserData {
  */
 export enum EDepartType {
   isCityCompany = '1',
-  notIsCityCompany = '0'
+  notIsCityCompany = '0',
 }
 /**
  *
@@ -59,7 +59,7 @@ export enum EHrType {
   countyStaff = '5',
   countyDepartLeader = '6',
   countyDepartHouse = '7',
-  countyLeader = '8'
+  countyLeader = '8',
 }
 
 export interface IPage {

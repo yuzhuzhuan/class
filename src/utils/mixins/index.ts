@@ -38,12 +38,15 @@ class GlobalMixin extends Vue {
    * @param  {String}  formRef  el-from[ref] & VNode[formRef]
    * @return {Object}   formData
    */
-  getFormDataM<T extends Record<string, any>>(validation: boolean | string = true, formRef = 'submitForm'): Promise<T> | never {
+  getFormDataM<T extends Record<string, any>>(
+    validation: boolean | string = true,
+    formRef = 'submitForm',
+  ): Promise<T> | never {
     const formTypes = [formRef, 'submitForm', 'dialogForm', 'queryForm'];
-    const selectedFormName = formTypes.find(name => this.$refs[name]) || '';
+    const selectedFormName = formTypes.find((name) => this.$refs[name]) || '';
 
     if (!selectedFormName) {
-      throw new Error(`Component ${  selectedFormName  } cannot be found`);
+      throw new Error(`Component ${selectedFormName} cannot be found`);
     }
 
     return new Promise<T>((resolve, reject) => {
@@ -62,7 +65,7 @@ class GlobalMixin extends Vue {
           validation &&
             this.$message.error({
               duration: 5000,
-              message: errMessage
+              message: errMessage,
             });
           reject(new Error(errMessage));
           // reject(new Error(rest?.length ? JSON.stringify(rest) : errMessage))

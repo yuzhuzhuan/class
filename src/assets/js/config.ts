@@ -12,7 +12,8 @@ export const IS_PRO = process.env.NODE_ENV === 'production';
 // pageTile
 export const BASE_URL =
   process.env.BASE_URL ||
-  (globalThis?.location && `${globalThis.location.protocol}//${globalThis.location.hostname}:${globalThis.location.port}/api`);
+  (globalThis?.location &&
+    `${globalThis.location.protocol}//${globalThis.location.hostname}:${globalThis.location.port}/api`);
 
 // 表格翻页默认值
 export const DEF_PAGE_INFO = {
@@ -23,7 +24,7 @@ export const DEF_PAGE_INFO = {
   'show-elevator': true,
   'show-sizer': true,
   'prev-text': '上一页',
-  'next-text': '下一页'
+  'next-text': '下一页',
 };
 
 // 上传文件默认配置
@@ -33,7 +34,7 @@ export const DEF_UPLOAD = {
   // 默认大小: 8G
   size: 800 * 1024 * 10,
   // 文件字段
-  name: 'file'
+  name: 'file',
 };
 
 // 免登录白名单
@@ -50,7 +51,7 @@ export enum RESPONSE_CONFIG {
   CODE = 'code',
   DATA = 'data',
   TOKEN = 'Authorization',
-  LANG = 'Accept-Language'
+  LANG = 'Accept-Language',
 }
 
 // 联调接口代理前缀
@@ -67,7 +68,7 @@ export const API_PROXY = [
       /^\/interface/,
       /^\$EDC/,
       /^yeker/,
-      /^\/panel/
-    ] as RegExp[]
-  }
+      /^\/panel/,
+    ] as RegExp[],
+  },
 ];

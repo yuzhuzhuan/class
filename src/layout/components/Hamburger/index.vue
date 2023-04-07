@@ -1,6 +1,5 @@
-
 <template>
-  <div :class="[{'is-active': isActive}]" @click="toggleClick">
+  <div :class="[{ 'is-active': isActive }]" @click="toggleClick">
     <YkIcon icon="bi:text-indent-left" />
   </div>
 </template>

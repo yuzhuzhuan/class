@@ -1,7 +1,7 @@
-import request from "@/utils/request";
+import request from '@/utils/request';
 
 class ServicePersonal {
-  prefix = "/user";
+  prefix = '/user';
 
   /**
    * 更新用户文件
@@ -10,19 +10,19 @@ class ServicePersonal {
    */
   update(params: any) {
     return request({
-      method: "PUT",
+      method: 'PUT',
       url: `${this.prefix}`,
-      data: params
+      data: params,
     });
   }
 
   password(params: any) {
     return request({
-      method: "PUT",
+      method: 'PUT',
       url: `${this.prefix}/password`,
-      data: params
+      data: params,
     });
   }
 }
 
-export default new ServicePersonal()
+export default new ServicePersonal();

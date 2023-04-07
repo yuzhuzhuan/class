@@ -17,7 +17,7 @@ declare module 'asyncValidator' {
     validate(
       source: ValidateSource,
       options?: ValidateOption,
-      callback?: (errors: ErrorList, fields: FieldErrorList) => void
+      callback?: (errors: ErrorList, fields: FieldErrorList) => void,
     ): Promise<void>;
   }
 
@@ -57,14 +57,14 @@ declare module 'asyncValidator' {
       value: any,
       callback: (error: string | string[]) => void,
       source: ValidateSource,
-      options: ValidateOption
+      options: ValidateOption,
     ) => void | Promise<void>;
     validator?: (
       rule: Rules,
       value: any,
       callback: (error: string | string[]) => void,
       source: ValidateSource,
-      options: ValidateOption
+      options: ValidateOption,
     ) => void;
   }
 

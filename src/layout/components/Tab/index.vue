@@ -150,10 +150,9 @@ export default class Tab extends Vue {
       padding: 0 10px;
       line-height: 38px;
       font-size: 14px;
-      color: $mainColor;
-      background-color: mix(#fff, rgb(49, 46, 46), 90%);
-      color: mix($subColor, rgb(49, 46, 46), 90%);
-      border: 1px solid mix(#fff, rgb(49, 46, 46), 90%);
+      background-color: Color.mix(#fff, rgb(49, 46, 46), 90%);
+      color: Color.mix($subColor, rgb(49, 46, 46), 90%);
+      border: 1px solid Color.mix(#fff, rgb(49, 46, 46), 90%);
       border-radius: 4px;
       box-sizing: border-box;
       white-space: nowrap;
@@ -166,7 +165,7 @@ export default class Tab extends Vue {
       &:hover {
         transition: all 0.3s linear;
         background-color: $mainColor;
-        border-color: mix($mainColor, #fff, 90%);
+        border-color: Color.mix($mainColor, #fff, 90%);
         color: #fff;
       }
       &:first-child {

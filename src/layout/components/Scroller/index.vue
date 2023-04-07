@@ -224,7 +224,7 @@ export default class extends Vue {
 
   & .is-horizontal-container {
     position: absolute;
-    bottom: 0px;
+    bottom: 0;
     height: 5px;
     width: 100px;
     background: rgb(66, 59, 54);

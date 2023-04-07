@@ -27,7 +27,7 @@ import Component from 'vue-class-component';
 Vue.use(ElementUI, { size: 'small' });
 Vue.config.productionTip = false;
 // 重置表单，formRef为表单的ref值，excludeFields为要排除重新初始化值得属性
-Vue.prototype.$reset = function(formRef: any, ...excludeFields: any) {
+Vue.prototype.$reset = function (formRef: any, ...excludeFields: any) {
   this.$refs[formRef].resetFields();
   const obj1 = this.$data;
   const obj2 = this.$options.data.call(this);
@@ -47,5 +47,5 @@ Component.registerHooks(['beforeRouteEnter', 'beforeRouteLeave', 'beforeRouteUpd
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: (h) => h(App),
 }).$mount('#app');

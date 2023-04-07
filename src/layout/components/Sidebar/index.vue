@@ -123,7 +123,7 @@ export default class SideBar extends Vue {
 
   .el-scrollbar__bar {
     &.is-vertical {
-      right: 0px;
+      right: 0;
     }
 
     &.is-horizontal {
@@ -151,8 +151,8 @@ export default class SideBar extends Vue {
   height: 100%;
   width: 100%;
   background-color: $mainColor !important;
-  border-right: 0px !important;
-  /**配色 */
+  border-right: 0 !important;
+  /** 配色 */
 
   .el-menu-item {
     background-color: $mainColor !important;

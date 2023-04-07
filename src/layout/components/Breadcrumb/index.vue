@@ -123,7 +123,7 @@ export default class extends Vue {
   }
   .el-breadcrumb__inner > .stair,
   .el-breadcrumb__inner > a {
-    color: #999999 !important;
+    color: #999 !important;
   }
 }
 </style>

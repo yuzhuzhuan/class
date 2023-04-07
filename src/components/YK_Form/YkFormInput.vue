@@ -1,5 +1,11 @@
 <template>
-  <ElInputNumber v-if="number" :class="[className, 'w-auto']" :placeholder="ph" v-bind="$attrs" v-on="$listeners" />
+  <ElInputNumber
+    v-if="number"
+    :class="[className, 'w-auto']"
+    :placeholder="ph"
+    v-bind="$attrs"
+    v-on="$listeners"
+  />
   <ElInput v-else :placeholder="ph" v-bind="$attrs" v-on="$listeners" :type="type">
     <template slot="append">
       <slot name="append"></slot>
@@ -19,7 +25,8 @@ export default class YkFormInput extends Vue {
   placeholder?: string;
 
   get ph() {
-    if (this.$attrs?.disabled === '' || this.$attrs?.disabled || this.FormInstance?.disabled) return '';
+    if (this.$attrs?.disabled === '' || this.$attrs?.disabled || this.FormInstance?.disabled)
+      return '';
     return this.placeholder ?? this.placeholderInject;
   }
 

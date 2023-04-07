@@ -1,6 +1,13 @@
 <template>
   <div class="inline-block">
-    <el-popconfirm v-if="popVisible" transfer confirm @on-popper-hide="popVisible = false" v-bind="$attrs" v-on="$listeners">
+    <el-popconfirm
+      v-if="popVisible"
+      transfer
+      confirm
+      @on-popper-hide="popVisible = false"
+      v-bind="$attrs"
+      v-on="$listeners"
+    >
       <div slot="reference" ref="pop">
         <slot></slot>
       </div>

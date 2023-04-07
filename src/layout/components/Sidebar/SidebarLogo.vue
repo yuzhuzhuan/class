@@ -2,7 +2,11 @@
   <div class="text-center sidebar-logo-container" :class="{ collapse: collapse }">
     <transition name="sidebarLogoFade">
       <router-link class="sidebar-logo-link" to="/">
-        <img :src="collapse ? logoCollapse : logo" class="sidebar-logo inline-block" :class="{ '!w-25': !collapse }" />
+        <img
+          :src="collapse ? logoCollapse : logo"
+          class="sidebar-logo inline-block"
+          :class="{ '!w-25': !collapse }"
+        />
       </router-link>
     </transition>
   </div>
@@ -67,7 +71,7 @@ export default class SidebarLogo extends Vue {
 
   &.collapse {
     .sidebar-logo {
-      margin-right: 0px;
+      margin-right: 0;
     }
   }
 }
