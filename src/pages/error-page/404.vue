@@ -2,66 +2,32 @@
   <div class="wscn-http404-container">
     <div class="wscn-http404">
       <div class="pic-404">
-        <img
-          class="pic-404__parent"
-          src="@/assets/404-images/404.png"
-          alt="404"
-        >
-        <img
-          class="pic-404__child left"
-          src="@/assets/404-images/404-cloud.png"
-          alt="404"
-        >
-        <img
-          class="pic-404__child mid"
-          src="@/assets/404-images/404-cloud.png"
-          alt="404"
-        >
-        <img
-          class="pic-404__child right"
-          src="@/assets/404-images/404-cloud.png"
-          alt="404"
-        >
+        <img class="pic-404__parent" src="@/assets/404-images/404.png" alt="404" />
+        <img class="left pic-404__child" src="@/assets/404-images/404-cloud.png" alt="404" />
+        <img class="mid pic-404__child" src="@/assets/404-images/404-cloud.png" alt="404" />
+        <img class="right pic-404__child" src="@/assets/404-images/404-cloud.png" alt="404" />
       </div>
       <div class="text-404">
-        <div class="text-404__oops">
-          OOPS!
-        </div>
-        <div class="text-404__info">
-          All rights reserved
-          <a
-            style="color:#20a0ff"
-            href="https://wallstreetcn.com"
-            target="_blank"
-          >wallstreetcn</a>
-        </div>
-        <div class="text-404__headline">
-          {{ message }}
-        </div>
-        <div class="text-404__info">
-          Please check that the URL you entered is correct, or click the button below to return to the homepage.
-        </div>
-        <a
-          href=""
-          class="text-404__return-home"
-        >Back to home</a>
+        <p class="font-600 text-8xl text-[#666666]">404</p>
+        <p class="my-5 text-xl text-[#a6adba]">非常抱歉，您访问的页面不存在</p>
+        <yk-button type="primary" @click="$router.push('/')">返回首页</yk-button>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator';
 
 @Component({})
 export default class Page404 extends Vue {
-  message = '404 Page Not Found'
+  message = '404 Page Not Found';
 }
 </script>
 
 <style lang="scss" scoped>
 .wscn-http404-container {
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   position: absolute;
   top: 40%;
   left: 50%;

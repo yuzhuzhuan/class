@@ -8,7 +8,6 @@ import YkTableButton from '@/components/YK_Table/YkTableButton.vue';
 import { SaveBack } from '../decorators';
 import { DialogCtrl } from './MixinDialog';
 import { ElForm } from 'element-ui/types/form';
-import serviceRole from '@/api/role';
 
 @Component({ components: { YkTable, YkTableButton } })
 export default class MixinTable<T extends Record<string, any> & { id: any }> extends Vue {
@@ -20,8 +19,10 @@ export default class MixinTable<T extends Record<string, any> & { id: any }> ext
   onQueryM(params?: Record<string, any>) {
     return this.$refTableM?.request(Object.assign({}, this.queryForm, params));
   }
-  onResetM(params?: Record<string, any>, pageInfo?: Record<string, any>) {
-    this.$refQueryFormM.resetFields();
+  onResetM(pageInfo: Record<string, any>, params?: Record<string, any>) {
+    if (this.$refQueryFormM) {
+      this.$refQueryFormM.resetFields();
+    }
     return this.$refTableM?.request(Object.assign({}, this.queryForm, params), pageInfo);
   }
 

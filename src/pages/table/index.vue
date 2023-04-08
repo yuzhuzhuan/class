@@ -16,24 +16,18 @@
         <YkTable
           ref="table"
           :columns="tableColumns"
-          :list="tableRequest"
+          :list="list"
+          :loading="loading"
           height="100%"
           class="h-full"
         >
-          <!-- <template #actions="scope">
-            <div class="actions">
-              <YkTableButton text="修改" @click="dialogEditM.show(scope.row)" />
-              <YkTableButton text="删除" @click="remove(scope.row)" />
+          <template #actions>
+            <div class="actions move">
+              <yk-icon icon="ph:list-bold" class="mr-1"></yk-icon>
             </div>
-          </template> -->
+          </template>
         </YkTable>
       </div>
-      <DialogUserEdit
-        :data="dialogEditM.data"
-        v-model="dialogEditM.visible"
-        @done="onQueryM()"
-        :options="dialogData"
-      ></DialogUserEdit>
     </div>
   </div>
 </template>
@@ -41,35 +35,29 @@
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
 import { IDialogData, IList } from './type';
-import { MixinDialog, MixinTable } from '@/utils/mixins';
+import { MixinTable } from '@/utils/mixins';
 import type { ColumnItem } from '@/components/YK_Table/index.vue';
-import DialogUserEdit from './dialog/edit.vue';
 import service from '@/api/table';
+import Sortable from 'sortablejs';
 
-@Component({ components: { DialogUserEdit } })
-export default class TreeTable extends Mixins(MixinDialog, MixinTable) {
+@Component({ components: {} })
+export default class TreeTable extends Mixins(MixinTable) {
   queryForm = {
     name: '',
   };
 
   // table
   tableRequest = service.query;
-  removeRequest = service.remove;
   get tableColumns() {
-    const data: Array<ColumnItem<TreeItem>> = [
-      { label: '部门名称', prop: 'departmentName' },
-      { label: '主管名称', prop: 'manager' },
-      { label: '部门介绍', prop: 'introduce' },
-      { label: '部门邮箱', prop: 'email' },
-      { label: '成立时间', prop: 'createTime' },
+    const data: Array<ColumnItem<UserItem>> = [
+      { label: '用户名', prop: 'username' },
+      { label: '用户姓名', prop: 'name' },
+      { label: '用户类型', prop: 'usertype' },
+      { label: '状态', prop: 'enable' },
       {
-        slot: 'action',
-        prop: 'action',
+        slot: 'actions',
+        prop: 'actions',
         label: '操作',
-        listeners: {
-          remove: this.removeM,
-          edit: this.dialogEditM.show,
-        },
       },
     ];
     return data;
@@ -84,50 +72,56 @@ export default class TreeTable extends Mixins(MixinDialog, MixinTable) {
    * 表格数据
    */
   list = [] as IList[];
-  // 获取数据
-  created() {
-    // this.getList();
+
+  loading = false;
+
+  async getList() {
+    this.loading = true;
+    const { data } = await service.query(this.queryForm);
+    console.log('data', data);
+    this.list = data;
+    this.loading = false;
   }
 
-  // 获取数据
-  // async getList() {
-  //   const { data } = await service.query();
-  //   //  栏目列表信息
-  //   this.dialogData = [
-  //     {
-  //       id: 0,
-  //       label: '顶级栏目',
-  //       pid: 0,
-  //     },
-  //   ];
-  //   if (data) {
-  //     data.forEach((item: IList) => {
-  //       item.label = item.departmentName;
-  //       if (item.children) {
-  //         item.children.forEach((child: IList) => {
-  //           child.label = child.departmentName;
-  //         });
-  //       }
-  //     });
-  //     this.list = data;
-  //     //  栏目列表信息
-  //     this.dialogData = [
-  //       {
-  //         id: 0,
-  //         label: '顶级部门',
-  //         children: [...this.list],
-  //         pid: 0,
-  //       },
-  //     ];
-  //   }
-  // }
-
-  remove(row = {} as any) {
-    this.$confirm('确定要删除该项吗？', '提示').then(async () => {
-      await service.remove({ id: row.id });
-      this.onQueryM();
-      this.$message.success('删除成功!');
+  // 创建sortable实例
+  initSortable() {
+    const ele = document.querySelector('.el-table__body > tbody') as HTMLElement;
+    // 创建拖拽实例
+    Sortable.create(ele, {
+      animation: 150, // 动画
+      disabled: false, // 拖拽不可用? false 启用（刚刚渲染表格的时候起作用，后面不起作用）
+      handle: '.move', // 指定拖拽目标，点击此目标才可拖拽元素(此例中设置操作按钮拖拽)
+      filter: '.disabled', // 指定不可拖动的类名（el-table中可通过row-class-name设置行的class）
+      dragClass: 'dragClass', // 设置拖拽样式类名
+      ghostClass: 'ghostClass', // 设置拖拽停靠样式类名
+      chosenClass: 'chosenClass', // 设置选中样式类名
+      // 开始拖动事件
+      onStart: () => {
+        // console.log('开始拖动');
+      },
+      onEnd: (event: any) => {
+        const tempTableData = [...this.list]; // 先存一份临时变量表头数据
+        let temp = '' as any;
+        temp = tempTableData[event.oldIndex]; //
+        tempTableData.splice(event.oldIndex, 1);
+        tempTableData.splice(event.newIndex, 0, temp);
+        this.list = [];
+        this.$nextTick(() => {
+          this.list = tempTableData.map((item: any, index: any) => {
+            item.sort = index + 1;
+            return item;
+          });
+        });
+      },
     });
+  }
+
+  mounted() {
+    this.initSortable();
+  }
+
+  activated() {
+    this.getList();
   }
 }
 </script>

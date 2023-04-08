@@ -13,6 +13,7 @@ specifiers:
   '@types/mockjs': ^1.0.7
   '@types/node': ^14.18.33
   '@types/path-to-regexp': ^1.7.0
+  '@types/sortablejs': ^1.15.1
   '@types/webpack-env': ^1.18.0
   '@typescript-eslint/eslint-plugin': ^5.0.0
   '@typescript-eslint/parser': ^5.0.0
@@ -42,6 +43,7 @@ specifiers:
   sass: ^1.56.1
   sass-loader: ^8.0.2
   semver: ^7.3.8
+  sortablejs: ^1.15.0
   style-resources-loader: ^1.4.1
   tslib: ^2.4.1
   typescript: ~3.9.3
@@ -95,6 +97,7 @@ devDependencies:
   '@types/lodash-es': 4.17.6
   '@types/node': 14.18.36
   '@types/path-to-regexp': 1.7.0
+  '@types/sortablejs': 1.15.1
   '@types/webpack-env': 1.18.0
   '@typescript-eslint/eslint-plugin': 5.53.0_32sxcupz6nco6f5psbni4ql7ce
   '@typescript-eslint/parser': 5.53.0_2de3j2mqba4wgeuiaqz2k7syrm
@@ -113,6 +116,7 @@ devDependencies:
   sass: 1.58.3
   sass-loader: 8.0.2_sass@1.58.3
   semver: 7.3.8
+  sortablejs: 1.15.0
   tslib: 2.5.0
   typescript: 3.9.10
   vti-with-exclude: 0.1.2
@@ -1995,6 +1999,10 @@ packages:
     dependencies:
       '@types/mime': 3.0.1
       '@types/node': 14.18.36
+
+  /@types/sortablejs/1.15.1:
+    resolution: {integrity: sha512-g/JwBNToh6oCTAwNS8UGVmjO7NLDKsejVhvE4x1eWiPTC3uCuNsa/TD4ssvX3du+MLiM+SHPNDuijp8y76JzLQ==}
+    dev: true
 
   /@types/source-list-map/0.1.2:
     resolution: {integrity: sha512-K5K+yml8LTo9bWJI/rECfIPrGgxdpeNbj+d53lwN4QjW1MCwlkhUms+gtdzigTeUyBr09+u8BwOIY3MXvHdcsA==}
@@ -10337,6 +10345,10 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       is-plain-obj: 1.1.0
+
+  /sortablejs/1.15.0:
+    resolution: {integrity: sha512-bv9qgVMjUMf89wAvM6AxVvS/4MX3sPeN0+agqShejLU5z5GX4C75ow1O2e5k4L6XItUyAK3gH6AxSbXrOM5e8w==}
+    dev: true
 
   /source-list-map/2.0.1:
     resolution: {integrity: sha512-qnQ7gVMxGNxsiL4lEuJwe/To8UnK7fAnmbGEEH8RpLouuKbeEm0lhbQVFIrNSuB+G7tVrAlVsZgETT5nljf+Iw==}

@@ -25,7 +25,7 @@
           class="dropdownPop"
           style="width: 160px; margin-top: 0px; overflow: hidden"
         >
-          <router-link to="/personal/index">
+          <router-link to="/personal">
             <el-dropdown-item> 个人中心 </el-dropdown-item>
           </router-link>
           <el-dropdown-item divided>
@@ -86,12 +86,8 @@ export default class Navbar extends Vue {
   }
 
   async logout() {
-    // UserModule.ResetToken()
-    console.log('this.$route.fullPath', this.$route.fullPath);
-
     UserModule.deltoken();
     this.$router.push(`/login?redirect=${this.$route.fullPath}`);
-    // this.$router.push('/Login');
   }
 }
 </script>

@@ -5,6 +5,7 @@ interface UserItem {
   password: string;
   enable: number;
   usertype: number;
+  actions: string;
 }
 interface TreeItem {
   id: number | string;

@@ -5,10 +5,9 @@ export default [
   {
     path: '/role',
     component: Layout,
-    redirect: '/role/index',
     children: [
       {
-        path: '/role/index',
+        path: '/role',
         name: 'role',
         component: () => import(/* webpackChunkName: "WillDoTaskList" */ '@/pages/role/index.vue'),
         meta: {
@@ -31,6 +30,16 @@ export default [
       {
         name: 'edit',
         path: ':roleId',
+        component: () => import(/* webpackChunkName: "dashboard" */ '@/pages/role/detail.vue'),
+        meta: {
+          title: '编辑角色',
+          hidden: true,
+          id: '52',
+        },
+      },
+      {
+        name: 'detail',
+        path: 'detail/:roleId',
         component: () => import(/* webpackChunkName: "dashboard" */ '@/pages/role/detail.vue'),
         meta: {
           title: '编辑角色',

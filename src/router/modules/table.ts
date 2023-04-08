@@ -5,14 +5,13 @@ export default [
   {
     path: '/table',
     component: Layout,
-    redirect: '/table/index',
     meta: {
       title: 'Table组件',
       icon: 'fluent:table-edit-24-regular',
     },
     children: [
       {
-        path: '/table/index',
+        path: '/table',
         name: 'table',
         component: () => import(/* webpackChunkName: "WillDoTaskList" */ '@/pages/table/index.vue'),
         meta: {
@@ -23,7 +22,7 @@ export default [
         },
       },
       {
-        path: '/treeTable/index',
+        path: '/tree-table',
         name: 'treeTable',
         component: () =>
           import(/* webpackChunkName: "WillDoTaskList" */ '@/pages/treeTable/index.vue'),

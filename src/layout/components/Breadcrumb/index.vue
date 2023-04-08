@@ -119,7 +119,7 @@ export default class extends Vue {
 <style lang="scss">
 .app-breadcrumb {
   .el-breadcrumb__inner > .no-redirect {
-    color: #696969;
+    color: #000;
   }
   .el-breadcrumb__inner > .stair,
   .el-breadcrumb__inner > a {

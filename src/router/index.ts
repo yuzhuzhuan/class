@@ -47,6 +47,22 @@ export const routes: RouteConfig[] = [
       },
     ],
   },
+  {
+    path: '/403',
+    name: '403',
+    component: () => import(/* webpackChunkName: 'Login' */ '@/pages/error-page/403.vue'),
+    meta: {
+      hidden: true,
+    },
+  },
+  {
+    path: '/404',
+    name: '404',
+    component: () => import(/* webpackChunkName: 'Login' */ '@/pages/error-page/404.vue'),
+    meta: {
+      hidden: true,
+    },
+  },
   ...serviceRoutes,
 ];
 const router = new VueRouter({
