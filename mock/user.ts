@@ -8,6 +8,7 @@ const userList = MOCK.mock({
       gender: '@integer(0, 1)',
       sysRoleId: 1,
       sysRoleName: 'admin',
+      'id|+1': 1,
     },
   ],
   'data|50': [
@@ -17,6 +18,7 @@ const userList = MOCK.mock({
       usertype: '@integer(0, 1)',
       password: '@string("number", 1, 3) @string("upper", 1, 3)',
       enable: '@integer(0, 1)',
+      'id|+1': 1,
     },
   ],
 });
@@ -24,12 +26,12 @@ const list = userList.list.concat();
 let data = userList.data.concat();
 let newlist = userList.data.concat();
 let total = 0;
-for (let i = 0; i < list.length; i++) {
-  list[i].id = i + 1;
-}
-for (let i = 0; i < data.length; i++) {
-  data[i].id = i + 1;
-}
+// for (let i = 0; i < list.length; i++) {
+//   list[i].id = i + 1;
+// }
+// for (let i = 0; i < data.length; i++) {
+//   data[i].id = i + 1;
+// }
 
 module.exports = [
   {
@@ -86,9 +88,10 @@ module.exports = [
     url: '/url/user/delete',
     type: 'delete',
     response: (config) => {
-      data = data.filter((item) => item.id !== config.query.id);
+      data = data.filter((item) => item.id !== +config.query.id);
       return {
         msg: '删除成功',
+        data: '操作成功',
         code: 200,
       };
     },
@@ -97,7 +100,7 @@ module.exports = [
     url: '/url/user/update',
     type: 'put',
     response: (config) => {
-      data = data.map((item) => (item.id === config.body.id ? config.body : item));
+      data = data.map((item) => (item.id === +config.body.id ? config.body : item));
       return {
         msg: '编辑用户成功',
         code: 200,

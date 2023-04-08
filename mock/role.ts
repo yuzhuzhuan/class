@@ -205,12 +205,14 @@ const roleData = MOCKR.mock({
     {
       name: /[a-z][A-Z]/,
       menus: menuList,
+      'id|+1': 1,
     },
   ],
   'data|20': [
     {
       name: /[a-z]+/,
       menus: menuList,
+      'id|+1': 1,
     },
   ],
 });
@@ -218,12 +220,12 @@ const rolelist = roleData.list.concat();
 let roledata = roleData.data.concat();
 let rolenewlist = roleData.data.concat();
 let roletotal = 0;
-for (let i = 0; i < rolelist.length; i++) {
-  rolelist[i].id = i + 1;
-}
-for (let i = 0; i < roledata.length; i++) {
-  roledata[i].id = i + 1;
-}
+// for (let i = 0; i < rolelist.length; i++) {
+//   rolelist[i].id = i + 1;
+// }
+// for (let i = 0; i < roledata.length; i++) {
+//   roledata[i].id = i + 1;
+// }
 const roleDetail = [
   {
     url: '/url/role/list',
@@ -267,11 +269,12 @@ const roleDetail = [
     response: (config) => {
       let newroledata;
       if (config.query.id) {
-        newroledata = roledata.filter((item) => item.id === config.query.id);
+        newroledata = roledata.filter((item) => item.id === +config.query.id);
       }
       return {
         code: 200,
         msg: '操作成功',
+        totle: 12,
         data: newroledata[0],
       };
       // 使用return返回前端需要的数据
@@ -282,9 +285,10 @@ const roleDetail = [
     type: 'delete',
     response: (config) => {
       const { id } = config.query;
-      roledata = roledata.filter((item) => item.id !== id);
+      roledata = roledata.filter((item) => item.id !== +id);
       return {
         msg: '操作成功',
+        data: '操作成功',
         code: 200,
       };
     },
@@ -293,7 +297,7 @@ const roleDetail = [
     url: '/url/role/update',
     type: 'put',
     response: (config) => {
-      roledata = roledata.map((item) => (item.id === config.body.id ? config.body : item));
+      roledata = roledata.map((item) => (item.id === +config.body.id ? config.body : item));
       return {
         msg: '操作成功',
         code: 200,

@@ -1,7 +1,7 @@
 const MOCKTABLE = require('mockjs');
 
-const projectList = MOCKTABLE.mock({
-  'list|100': [
+const sortList = MOCKTABLE.mock({
+  'list|10': [
     {
       name: '@cname', // 中文名
       idCard: '@integer(1000000000000000000)', // 身份证
@@ -10,20 +10,19 @@ const projectList = MOCKTABLE.mock({
       address: '@city(true)', // 地址
       createTime: '@datetime("yyyy-MM-dd  HH:mm")', // 创建时间
       phone: /1[3-9][0-9]{9}/, // 正则模式
-      id: '@guid', // guid
+      id: '@guid', // guid,
+      'sort|+1': 1,
     },
   ],
 });
-let tablelist = projectList.list.concat();
-let newtablelist = projectList.list.concat();
-let tabletotal = 0;
+let tablelist = sortList.list.concat();
+let newtablelist = sortList.list.concat();
 
 module.exports = [
   {
     url: '/url/project/list',
     type: 'get',
     response: (res) => {
-      tabletotal = tablelist.length;
       for (let i = 0; i < res.body.pageSize; i++) {
         newtablelist[i] = tablelist[i];
       }
@@ -33,7 +32,6 @@ module.exports = [
       // 根据name查询数据返回
       if (res.body.name) {
         newtablelist = tablelist.filter((item) => item.name === res.body.name);
-        tabletotal = newtablelist.length;
       }
       if (res.body.name && res.body.pageIndex !== 1) {
         newtablelist = newtablelist.slice(
@@ -50,40 +48,17 @@ module.exports = [
         code: 200,
         message: '操作成功',
         data: newtablelist,
-        total: tabletotal,
       };
       // 使用return返回前端需要的数据
     },
   },
   {
-    url: '/url/project/delete',
-    type: 'delete',
-    response: (res) => {
-      tablelist = tablelist.filter((item) => item.id !== res.body?.id);
-      return {
-        msg: '删除成功',
-        code: 200,
-      };
-    },
-  },
-  {
-    url: '/url/project/update',
-    type: 'put',
-    response: (res) => {
-      tablelist = tablelist.map((item) => (item.id === res.body.id ? res.body : item));
-      return {
-        msg: '编辑用户成功',
-        code: 200,
-      };
-    },
-  },
-  {
-    url: '/url/project/create',
+    url: '/url/project/sort',
     type: 'post',
     response: (res) => {
       tablelist.push(res.body);
       return {
-        msg: '新增用户成功',
+        msg: '操作成功',
         code: 200,
       };
     },

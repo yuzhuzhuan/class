@@ -15,6 +15,8 @@
       :reserve-selection="reserveSelection"
       row-key="id"
       :tree-props="{ children: 'children' }"
+      element-loading-text="数据加载中"
+      element-loading-spinner="el-icon-loading"
     >
       <template v-for="item in cols">
         <el-table-column
@@ -24,6 +26,7 @@
           label="操作"
           :header-align="actionCol.align"
           :align="actionCol.align"
+          :show-overflow-tooltip="item.tooltip"
         >
           <template #default="scope">
             <div class="space-x-3 inline-block">
@@ -53,7 +56,19 @@
                       actionCol.listeners.detail(plainRow(scope.row), scope.$index)
                   "
                 />
-                <SpTablePoptip
+                <SpTableButton
+                  text="删除"
+                  type="danger"
+                  icon="ep:delete-filled"
+                  v-if="actionCol.listeners.remove"
+                  @click="
+                    actionCol &&
+                      actionCol.listeners &&
+                      actionCol.listeners.remove &&
+                      actionCol.listeners.remove(plainRow(scope.row), pageInfo, dataList)
+                  "
+                />
+                <!-- <SpTablePoptip
                   v-if="actionCol.listeners.remove"
                   :title="
                     actionCol.listeners.removeConfirmTip || '确定删除该条数据吗？该操作无法撤回'
@@ -70,7 +85,7 @@
                     ><yk-icon icon="ep:delete-filled" class="mr-1 align-bottom"></yk-icon
                     >删除</el-button
                   >
-                </SpTablePoptip>
+                </SpTablePoptip> -->
               </template>
             </div>
           </template>
@@ -79,12 +94,19 @@
           v-else-if="item.slot"
           :key="(item.prop || item.key || '').toString() + 'slot'"
           v-bind="omitSlot(item)"
+          :show-overflow-tooltip="item.tooltip"
         >
           <template #default="scope">
             <slot :name="item.slot" :row="plainRow(scope.row)" :index="scope.$index"></slot>
           </template>
         </el-table-column>
-        <el-table-column v-else :key="item.prop || item.key" v-bind="item"> </el-table-column>
+        <el-table-column
+          v-else
+          :key="item.prop || item.key"
+          v-bind="item"
+          :show-overflow-tooltip="item.tooltip"
+        >
+        </el-table-column>
       </template>
       <template slot="empty">
         <div class="my-10" v-show="!(!!loading || dataLoading)">
@@ -132,6 +154,7 @@ export type ColumnItem<T extends Record<string, any>> =
       };
       type?: 'selection' | 'index' | 'expand';
       formatter?: (row: T, column: ColumnItem<T>, cellValue: any, index: number) => any;
+      tooltip?: boolean;
     }
   | {
       prop: keyof T;
@@ -147,6 +170,7 @@ export type ColumnItem<T extends Record<string, any>> =
       formatter?: (row: T, column: ColumnItem<T>, cellValue: any, index: number) => any;
       showOverflowTooltip?: boolean;
       selectable?: YkFunction;
+      tooltip?: boolean;
     };
 
 @Component({

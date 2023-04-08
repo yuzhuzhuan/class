@@ -5,14 +5,14 @@ export default [
   {
     path: '/echarts',
     component: Layout,
-    redirect: '/echarts/columnChart',
+    redirect: '/echarts/column-chart',
     meta: {
       title: 'Echarts',
       icon: 'fluent:table-edit-24-regular',
     },
     children: [
       {
-        path: 'columnChart',
+        path: 'column-chart',
         name: 'columnChart',
         component: () =>
           import(/* webpackChunkName: "WillDoTaskList" */ '@/pages/echarts/columnChart/index.vue'),
@@ -24,7 +24,7 @@ export default [
         },
       },
       {
-        path: 'lineChart',
+        path: 'line-chart',
         name: 'lineChart',
         component: () =>
           import(/* webpackChunkName: "WillDoTaskList" */ '@/pages/echarts/lineChart/index.vue'),
@@ -36,7 +36,7 @@ export default [
         },
       },
       {
-        path: 'pieChart',
+        path: 'pie-chart',
         name: 'pieChart',
         component: () =>
           import(/* webpackChunkName: "WillDoTaskList" */ '@/pages/echarts/pieChart/index.vue'),
@@ -48,7 +48,7 @@ export default [
         },
       },
       {
-        path: 'radarChart',
+        path: 'radar-chart',
         name: 'radarChart',
         component: () =>
           import(/* webpackChunkName: "WillDoTaskList" */ '@/pages/echarts/radarChart/index.vue'),
@@ -60,7 +60,7 @@ export default [
         },
       },
       {
-        path: 'nestedChart',
+        path: 'nested-chart',
         name: 'nestedChart',
         component: () =>
           import(/* webpackChunkName: "WillDoTaskList" */ '@/pages/echarts/nestedChart/index.vue'),

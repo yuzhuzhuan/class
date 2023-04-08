@@ -1,9 +1,5 @@
 <template>
-  <div class="app-container">
-    <el-card shadow="never">
-      <div ref="echartsRef" :class="className" id="echartsRef"></div>
-    </el-card>
-  </div>
+  <div ref="echartsRef" :class="className" id="echartsRef"></div>
 </template>
 <script lang="ts">
 import { Component, Vue, Ref, Prop } from 'vue-property-decorator';

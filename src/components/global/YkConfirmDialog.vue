@@ -8,11 +8,11 @@
       </template>
       <slot>
         <div class="flex">
-          <div class="ml-4 mr-2">
+          <div class="mr-2 ml-4">
             <yk-icon icon="mdi:question-mark-circle-outline" class="text-[#ff9900] icon"></yk-icon>
           </div>
           <div>
-            <p class="text-base font-600 text-[#676666]">{{ content }}</p>
+            <p class="font-600 text-base text-[#676666]">{{ content }}</p>
             <p class="text-[#ababab] text-sm">{{ details }}</p>
             <p class="text-[#ababab] text-sm">{{ detailText }}</p>
           </div>
@@ -21,7 +21,12 @@
       <template #footer>
         <slot name="footer">
           <span class="dialog-footer">
-            <el-button @click="handleClose()" style="width: 80px" class="bg-[#f9f9f9] text-[#999999]">取 消</el-button>
+            <el-button
+              @click="handleClose()"
+              style="width: 80px"
+              class="bg-[#f9f9f9] text-[#999999]"
+              >取 消</el-button
+            >
             <el-button type="primary" @click="save()" style="width: 80px">确 定</el-button>
           </span>
         </slot>
@@ -64,16 +69,19 @@ export default class ConfirmDialog extends Vue {
     border-top-color: #ebebeb;
   }
   .el-dialog__header {
-    background-color: #f5f5f5;
     border-radius: 10px 10px 0 0;
     border-bottom-width: 1px;
     border-bottom-color: #ebebeb;
     font-weight: 600;
-    font-size: 0.875rem;
+    font-size: 1rem;
+    background-color: #f5f5f5;
   }
 
   .el-dialog {
     border-radius: 10px;
+  }
+  .icon {
+    font-size: 26px;
   }
 }
 </style>

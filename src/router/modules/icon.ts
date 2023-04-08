@@ -5,19 +5,18 @@ export default [
   {
     path: '/icon',
     component: Layout,
-    redirect: '/icon/index',
     children: [
       {
-        path: '/icon/index',
+        path: '/icon',
         name: 'icon',
         component: () => import(/* webpackChunkName: "WillDoTaskList" */ '@/pages/icon/index.vue'),
         meta: {
           title: 'Icon组件',
           icon: 'dashicons:editor-kitchensink',
           noCache: false,
-          id: '51'
-        }
-      }
-    ]
-  }
+          id: '51',
+        },
+      },
+    ],
+  },
 ] as RouteConfig[];

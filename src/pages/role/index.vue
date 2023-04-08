@@ -1,20 +1,28 @@
 <template>
   <div class="app-container">
-    <div class="h-150">
-      <el-button @click="$router.push('/role/create')" type="primary">新增角色</el-button>
-      <div class="flex flex-col h-full mt-5">
-        <div class="flex-1 min-h-0">
-          <YkTable
-            ref="table"
-            :columns="tableColumns"
-            :list="tableRequest"
-            height="100%"
-            class="h-full"
-          >
-          </YkTable>
+    <el-card class="h-full font-600 overflow-auto" header="角色管理">
+      <div class="h-150">
+        <el-button @click="$router.push('/role/create')" type="primary">新增角色</el-button>
+        <div class="flex flex-col h-full mt-5">
+          <div class="flex-1 min-h-0">
+            <YkTable
+              ref="table"
+              :columns="tableColumns"
+              :list="tableRequest"
+              height="100%"
+              class="h-full"
+            >
+            </YkTable>
+          </div>
         </div>
       </div>
-    </div>
+      <ConfirmDialog
+        :dialogFlag="ConfirmFlag"
+        content="是否确定删除角色?"
+        @close="ConfirmFlag = false"
+        @confirmDone="confirmDone"
+      ></ConfirmDialog>
+    </el-card>
   </div>
 </template>
 <script lang="ts">
@@ -31,39 +39,33 @@ interface Role {
 }
 @Component({})
 export default class PageRole extends Mixins(MixinTable) {
-  tableRequest = service.query;
-  removeRequest = service.remove;
-  get tableColumns() {
-    const data: Array<ColumnItem<Role>> = [
-      { label: '角色名称', prop: 'name' },
-      {
-        slot: 'action',
-        prop: 'action',
-        label: '操作',
-        listeners: {
-          remove: this.removeM,
-          detail: this.roleEdit,
-        },
-      },
-    ];
-    return data;
-  }
+  ConfirmFlag = false;
+  params = {} as any;
 
-  roleEdit(id: number) {
+  roleEdit(row: any) {
     this.$router.push({
-      path: `${id}`,
+      path: `detail/${row.id}`,
     });
   }
 
-  remove(row = {} as any) {
-    this.$confirm('确定要删除该角色吗？', '提示').then(async () => {
-      await service.remove({ id: row.id });
-      this.onQueryM();
+  async remove(row: any, pageInfo: any, list: any) {
+    this.params = { row, pageInfo, list };
+    this.ConfirmFlag = true;
+  }
+  async confirmDone() {
+    const page = { ...this.params.pageInfo };
+    const { data } = await service.remove({ id: this.params.row.id });
+    if (data === '操作成功') {
+      if (page.pageIndex > 1 && this.params.list.length <= 1) {
+        page.pageIndex--;
+      }
+      this.ConfirmFlag = false;
+      this.onResetM(page);
       this.$message({
         type: 'success',
         message: '删除成功!',
       });
-    });
+    }
   }
 
   /**
@@ -76,5 +78,28 @@ export default class PageRole extends Mixins(MixinTable) {
   async activated() {
     // this.onQueryM();
   }
+  tableRequest = service.query;
+  removeRequest = service.remove;
+  get tableColumns() {
+    const data: Array<ColumnItem<Role>> = [
+      { label: '角色名称', prop: 'name' },
+      {
+        slot: 'action',
+        prop: 'action',
+        label: '操作',
+        listeners: {
+          remove: this.remove,
+          detail: this.roleEdit,
+        },
+      },
+    ];
+    return data;
+  }
 }
 </script>
+
+<style lang="scss">
+.el-card__header {
+  background-color: #f9f9f9;
+}
+</style>

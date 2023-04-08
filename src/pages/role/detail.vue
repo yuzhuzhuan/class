@@ -1,65 +1,84 @@
 <template>
   <div class="app-container">
-    <el-card shadow="never">
-      <el-form
-        ref="submitForm"
-        :model="submitForm"
-        :rules="rules"
-        label-width="80px"
-        hide-required-asterisk
-      >
-        <yk-form-item label="角色名称" prop="name" required :rules="rules.name">
-          <yk-form-input v-model.trim="submitForm.name" />
-        </yk-form-item>
+    <div class="bg-[#fff] rounded-lg h-full overflow-auto">
+      <div class="flex detail-header justify-between">
+        <p class="font-600">编辑角色</p>
+        <p><span class="text-[#FF0000]">*</span><span class="text-[#999999]">为必填项</span></p>
+      </div>
+      <div class="detail-container">
+        <el-form ref="submitForm" :model="submitForm" label-width="80px" :show-message="false">
+          <yk-form-item label="角色名称" prop="name" required>
+            <div class="flex">
+              <yk-form-input
+                v-model.trim="submitForm.name"
+                style="width: 300px"
+                @blur="verifyName"
+              />
+              <YkMessage
+                :text="warnNameText"
+                type="warning"
+                :isShow="!!warnNameText"
+                class="mx-3 w-60"
+              >
+              </YkMessage>
+            </div>
+          </yk-form-item>
+          <el-form-item label="角色菜单" prop="menus" required>
+            <el-table :data="initMenus" border align="center" style="width: 100%">
+              <el-table-column
+                :resizable="false"
+                width="55"
+                :render-header="renderHeader"
+                align="center"
+              >
+                <template slot-scope="scope">
+                  <el-checkbox
+                    v-model="scope.row.itemCheck"
+                    @change="toggleCheck(scope.row)"
+                    :indeterminate="scope.row.status"
+                  ></el-checkbox>
+                </template>
+              </el-table-column>
 
-        <el-form-item label="角色菜单" prop="menus">
-          <el-table :data="initMenus" border align="center" style="width: 100%">
-            <el-table-column
-              :resizable="false"
-              width="55"
-              :render-header="renderHeader"
-              align="center"
+              <el-table-column
+                prop="name"
+                label="模块标题"
+                width="200"
+                :resizable="false"
+                align="left"
+              >
+              </el-table-column>
+              <el-table-column label="操作" align="left" :resizable="false">
+                <template #default="{ row: { childList } }">
+                  <el-checkbox-group v-model="list">
+                    <template v-for="item in convertList(childList)">
+                      <el-checkbox
+                        :label="item.name"
+                        :key="item.id"
+                        :checked="item.checked"
+                        @change="(val) => select(val, item)"
+                      >
+                      </el-checkbox>
+                    </template>
+                  </el-checkbox-group>
+                </template>
+              </el-table-column>
+            </el-table>
+            <YkMessage
+              :text="warnMenuText"
+              type="warning"
+              :isShow="!!warnMenuText"
+              class="my-3 w-60"
             >
-              <template slot-scope="scope">
-                <el-checkbox
-                  v-model="scope.row.itemCheck"
-                  @change="toggleCheck(scope.row)"
-                  :indeterminate="scope.row.status"
-                ></el-checkbox>
-              </template>
-            </el-table-column>
-
-            <el-table-column
-              prop="name"
-              label="模块标题"
-              width="200"
-              :resizable="false"
-              align="left"
-            >
-            </el-table-column>
-            <el-table-column label="操作" align="left" :resizable="false">
-              <template #default="{ row: { childList } }">
-                <el-checkbox-group v-model="list">
-                  <template v-for="item in convertList(childList)">
-                    <el-checkbox
-                      :label="item.name"
-                      :key="item.id"
-                      :checked="item.checked"
-                      @change="(val) => select(val, item)"
-                    >
-                    </el-checkbox>
-                  </template>
-                </el-checkbox-group>
-              </template>
-            </el-table-column>
-          </el-table>
-        </el-form-item>
-      </el-form>
-      <div class="footer">
+            </YkMessage>
+          </el-form-item>
+        </el-form>
+      </div>
+      <div class="detail-footer">
         <el-button @click="$router.push('/role/index')">取消</el-button>
         <el-button type="primary" @click="save()">保存</el-button>
       </div>
-    </el-card>
+    </div>
   </div>
 </template>
 
@@ -80,8 +99,9 @@ export default class RoleDetail extends Vue {
     type: 2, // 类型 1系统 2人工
     description: '', // 说明
   };
-  isWarning = false;
-  warnText = '';
+
+  warnMenuText = '';
+  warnNameText = '';
 
   initMenus = [] as any; // 所有权限数据
   list = [] as any; // 功能权限列 勾选后显示的内容
@@ -89,13 +109,6 @@ export default class RoleDetail extends Vue {
   name = ''; // 角色名称，用来检测是否和其他角色名重复
   isCheck = false; // 控制全选按钮的全选样式
   indeterminate = false; // 控制全选按钮的半选样式
-  async verifyName() {
-    console.log('校验');
-  }
-  rules = {
-    name: [{ required: true, message: '请输入角色名称', trigger: 'blur' }],
-  };
-
   get isEdit() {
     return 'roleId' in this.$route.params;
   }
@@ -293,31 +306,37 @@ export default class RoleDetail extends Vue {
     return bol;
   }
 
-  save() {
-    this.$submitForm.validate(async (result: any) => {
-      if (!this.isEdit && !this.menus.length) {
-        setTimeout(() => {
-          this.$message.warning('请选择菜单');
-        }, 200);
-      }
-
-      if (this.validatePass()) {
-        this.$message.warning('角色名称重复,请重新输入!');
-      } else if (result && this.menus.length) {
-        if (this.isEdit) {
-          await service.update({
-            id: this.$route.params.roleId,
-            name: this.submitForm.name,
-            menus: this.menus,
-          });
-          this.$message.success('更新用户角色成功');
-        } else {
-          await service.create({ name: this.submitForm.name, menus: this.menus });
-          this.$message.success('新增角色成功');
-        }
-        this.$router.push('/role/index');
-      }
-    });
+  verifyMenu() {
+    if (!this.menus.length) {
+      this.warnMenuText = '请选择菜单';
+    } else {
+      this.warnMenuText = '';
+    }
+  }
+  verifyName() {
+    if (this.validatePass()) {
+      this.warnNameText = '角色名称重复,请重新输入!';
+    } else if (!this.submitForm.name) {
+      this.warnNameText = '请填写必填项!';
+    } else {
+      this.warnNameText = '';
+    }
+  }
+  async save() {
+    this.verifyMenu();
+    if (!!this.warnNameText || !!this.warnMenuText) return;
+    if (this.isEdit) {
+      await service.update({
+        id: this.$route.params.roleId,
+        name: this.submitForm.name,
+        menus: this.menus,
+      });
+      this.$message.success('更新用户角色成功');
+    } else {
+      await service.create({ name: this.submitForm.name, menus: this.menus });
+      this.$message.success('新增角色成功');
+    }
+    this.$router.go(-1);
   }
 
   async mounted() {
@@ -327,23 +346,4 @@ export default class RoleDetail extends Vue {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.page {
-  padding-top: 20px;
-  display: flex;
-  justify-content: flex-end;
-}
-.footer {
-  position: absolute;
-  bottom: 0px;
-  left: 0px;
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 10px;
-  z-index: 222;
-}
-::v-ddep .el-table--scrollable-x .el-table__body-wrapper {
-  overflow-x: auto;
-}
-</style>
+<style scoped lang="scss"></style>

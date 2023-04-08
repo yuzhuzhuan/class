@@ -177,7 +177,6 @@ export default class Tab extends Vue {
         height: 14px;
         border-radius: 50%;
         line-height: 14px;
-        padding: 0 1px;
         transition: all 0.3s linear;
         &:hover {
           transition: all 0.3s linear;

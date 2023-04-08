@@ -4,7 +4,7 @@ import { UserModule } from '@/store/modules/user';
 import { NavigationGuardNext, Route } from 'vue-router/types/router';
 import { GetUserApi } from '@/api/login'; // 导入接口
 
-const whiteList = ['/login', '/404'];
+const whiteList = ['/login', '/403', '/404'];
 // 路由守卫
 export async function matchRouteMenu(to: Route, from: Route, next: NavigationGuardNext<Vue>) {
   // 如果有toke
@@ -23,6 +23,8 @@ export async function matchRouteMenu(to: Route, from: Route, next: NavigationGua
         const { data } = await GetUserApi({ username: 'admin', password: '123456' });
         const id = data.menus.map((item: any) => item.id).map(String);
         if (to.meta?.id && id.includes(to.meta?.id.toString())) {
+          next();
+        } else if (whiteList.includes(to.path.toLowerCase())) {
           next();
         } else {
           next('/index');

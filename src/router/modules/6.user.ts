@@ -5,10 +5,9 @@ export default [
   {
     path: '/user',
     component: Layout,
-    redirect: '/user/index',
     children: [
       {
-        path: '/user/index',
+        path: '/user',
         name: 'user',
         component: () => import(/* webpackChunkName: "WillDoTaskList" */ '@/pages/user/index.vue'),
         meta: {
@@ -19,7 +18,7 @@ export default [
         },
       },
       {
-        path: '/profile/index',
+        path: '/profile',
         name: 'profile',
         component: () =>
           import(/* webpackChunkName: "WillDoTaskList" */ '@/pages/personal/index.vue'),

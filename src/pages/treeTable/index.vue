@@ -2,14 +2,17 @@
   <div class="app-container">
     <div class="flex flex-col h-full">
       <el-form inline :model="queryForm" ref="queryForm">
-        <yk-form-item label="用户名称" prop="name">
-          <yk-form-input v-model="queryForm.name" />
+        <el-form-item>
+          <el-button @click="dialogEditM.show()" type="primary">新增</el-button>
+        </el-form-item>
+        <yk-form-item prop="name">
+          <yk-form-input v-model.trim="queryForm.department" placeholder="请输入部门名称" />
         </yk-form-item>
         <el-form-item>
-          <el-button @click="onQueryM()">查询</el-button>
+          <el-button @click="onQueryM()" type="primary">查询</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button @click="dialogEditM.show()">新增</el-button>
+          <el-button @click="onReset()">重置</el-button>
         </el-form-item>
       </el-form>
       <div class="flex-1 min-h-0">
@@ -44,22 +47,27 @@ import service from '@/api/department';
 @Component({ components: { DialogUserEdit } })
 export default class TreeTable extends Mixins(MixinDialog, MixinTable) {
   queryForm = {
-    name: '',
+    department: '',
   };
 
+  onReset(params?: Record<string, any>) {
+    this.$refQueryFormM.resetFields();
+    const pageInfo = { pageSize: 10, pageNum: 1 };
+    return this.$refTableM?.request(Object.assign({}, this.queryForm, params), pageInfo);
+  }
   // table
   removeRequest = service.remove;
   get tableColumns() {
     const data: Array<ColumnItem<TreeItem>> = [
-      { label: '部门名称', prop: 'departmentName' },
+      { label: '部门名称', prop: 'departmentName', minWidth: 100 },
       { label: '主管名称', prop: 'manager' },
-      { label: '部门介绍', prop: 'introduce' },
+      { label: '部门介绍', prop: 'introduce', tooltip: true },
       { label: '部门邮箱', prop: 'email' },
-      { label: '成立时间', prop: 'createTime' },
+      { label: '成立时间', prop: 'createTime', width: 160 },
       {
         slot: 'action',
         prop: 'action',
-        label: '操作',
+        fixed: 'right',
         listeners: {
           remove: this.removeM,
           edit: this.dialogEditM.show,

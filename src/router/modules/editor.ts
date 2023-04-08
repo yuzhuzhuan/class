@@ -5,19 +5,19 @@ export default [
   {
     path: '/editor',
     component: Layout,
-    redirect: '/editor/index',
     children: [
       {
-        path: '/editor/index',
+        path: '/editor',
         name: 'editor',
-        component: () => import(/* webpackChunkName: "WillDoTaskList" */ '@/pages/editor/index.vue'),
+        component: () =>
+          import(/* webpackChunkName: "WillDoTaskList" */ '@/pages/editor/index.vue'),
         meta: {
           title: 'Editor组件',
           icon: 'dashicons:editor-kitchensink',
           noCache: false,
-          id: '22'
-        }
-      }
-    ]
-  }
+          id: '22',
+        },
+      },
+    ],
+  },
 ] as RouteConfig[];

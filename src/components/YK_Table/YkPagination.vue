@@ -24,7 +24,7 @@ const DEF_PAGE_INFO = {
   pageSizes: [2, 10, 20, 40, 60, 80, 100],
   pageIndex: 1,
   pageSize: 1,
-  layout: 'total, sizes, prev, pager, next, jumper'
+  layout: 'total, sizes, prev, pager, next, jumper',
 };
 export type PageInfo = Partial<typeof DEF_PAGE_INFO>;
 @Component({ inheritAttrs: false })
