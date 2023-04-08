@@ -32,7 +32,7 @@
             <div class="space-x-3 inline-block">
               <slot name="action" :row="plainRow(scope.row)" :index="scope.$index"></slot>
               <template v-if="actionCol && actionCol.listeners">
-                <SpTableButton
+                <YkTableButton
                   v-if="actionCol.listeners.edit"
                   text="修改"
                   type="primary"
@@ -44,7 +44,7 @@
                       actionCol.listeners.edit(plainRow(scope.row), scope.$index)
                   "
                 />
-                <SpTableButton
+                <YkTableButton
                   v-if="actionCol.listeners.detail"
                   text="编辑"
                   type="primary"
@@ -56,7 +56,7 @@
                       actionCol.listeners.detail(plainRow(scope.row), scope.$index)
                   "
                 />
-                <SpTableButton
+                <YkTableButton
                   v-if="actionCol.listeners.remove"
                   text="删除"
                   type="danger"
@@ -68,7 +68,7 @@
                       actionCol.listeners.remove(plainRow(scope.row), pageInfo, dataList)
                   "
                 />
-                <!-- <SpTablePoptip
+                <!-- <YkTablePoptip
                   v-if="actionCol.listeners.remove"
                   :title="
                     actionCol.listeners.removeConfirmTip || '确定删除该条数据吗？该操作无法撤回'
@@ -85,7 +85,7 @@
                     ><yk-icon icon="ep:delete-filled" class="mr-1 align-bottom"></yk-icon
                     >删除</el-button
                   >
-                </SpTablePoptip> -->
+                </YkTablePoptip> -->
               </template>
             </div>
           </template>
@@ -118,7 +118,7 @@
     </el-table>
     <div v-show="showPagination" class="py-6 clearfix">
       <!-- 分页 -->
-      <SpPagination
+      <YkPagination
         v-show="showPagination"
         class="pull-right offset-bottom"
         :page-info="pageInfo"
@@ -130,9 +130,9 @@
 </template>
 
 <script lang="ts">
-import SpPagination, { PageInfo } from './YkPagination.vue';
-import SpTableButton from './YkTableButton.vue';
-import SpTablePoptip from './YkTablePoptip.vue';
+import YkPagination, { PageInfo } from './YkPagination.vue';
+import YkTableButton from './YkTableButton.vue';
+import YkTablePoptip from './YkTablePoptip.vue';
 
 import { Vue, Prop, PropSync, Watch, Component, Emit, Ref } from 'vue-property-decorator';
 import { RESPONSE_CONFIG } from '@/utils/request';
@@ -176,7 +176,7 @@ export type ColumnItem<T extends Record<string, any>> =
 
 @Component({
   inheritAttrs: false,
-  components: { SpPagination, SpTablePoptip, SpTableButton },
+  components: { YkPagination, YkTablePoptip, YkTableButton },
 })
 export default class YkTable extends Vue {
   // 请求接口

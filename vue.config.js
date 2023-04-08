@@ -27,8 +27,12 @@ module.exports = {
         },
       },
     },
-    setupMiddlewares(devServer) {
+    setupMiddlewares(middlewares, devServer) {
+      if (!devServer) {
+        throw new Error('webpack-dev-server is not defined');
+      }
       mockServer(devServer.app);
+      return middlewares;
     },
   },
   // lintOnSave: false,

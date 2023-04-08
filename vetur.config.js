@@ -16,6 +16,12 @@ module.exports = {
   },
   // **optional** default: `[{ root: './' }]`
   // support monorepos
-  projects: ['./'],
+  projects: [
+    {
+      root: './',
+      package: './package.json',
+      globalComponents: ['./src/components/global/*.vue'],
+    },
+  ],
   // exclude: ['src/pages/user/**'],
 };

@@ -80,7 +80,7 @@
 import { Component, Vue, Prop } from 'vue-property-decorator';
 
 @Component
-export default class SpDialog extends Vue {
+export default class YkDialog extends Vue {
   @Prop({ type: String, required: true })
   title!: string;
 
