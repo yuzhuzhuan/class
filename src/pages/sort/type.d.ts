@@ -1,4 +1,4 @@
-export interface IForm {
+interface IForm {
   name: string;
   manager: string;
   introduce: string;
@@ -8,14 +8,14 @@ export interface IForm {
   createTime: string;
 }
 
-export interface IDialogData {
+interface IDialogData {
   id: number;
   label: string;
   children?: object[];
   pid?: number;
 }
 
-export interface IList {
+interface IList {
   children?: IChildren[];
   createTime: string;
   email: string;
@@ -27,7 +27,7 @@ export interface IList {
   pid: number;
 }
 
-export interface IChildren {
+interface IChildren {
   createTime: string;
   email: string;
   id: string;
@@ -36,4 +36,13 @@ export interface IChildren {
   manager: string;
   departmentName: string;
   pid: number;
+}
+interface SortItem {
+  id: number;
+  name: string;
+  phone: number;
+  email: string;
+  address: string;
+  index: string;
+  actions: string;
 }

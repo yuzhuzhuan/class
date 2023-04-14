@@ -175,6 +175,7 @@ export default class SideBar extends Vue {
     height: 46px;
     line-height: 46px;
     background-color: $mainColor !important;
+    color: $menuText !important;
     &:hover {
       // border-left: 2px solid #ed1c24;
       color: $menuActiveText !important;

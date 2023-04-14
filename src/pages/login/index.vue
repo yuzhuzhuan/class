@@ -99,7 +99,7 @@ export default class Login extends Vue {
         //  登录获取数据
         const { data } = await LoginApi(this.loginFormData);
         UserModule.setToken(data.accessToken);
-        const res = await GetUserApi(this.loginFormData);
+        const res = await GetUserApi();
         UserModule.setUserData(res.data);
         this.$router.push(this.redirect);
         this.loading = false;

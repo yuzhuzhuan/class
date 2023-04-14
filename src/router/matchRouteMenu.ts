@@ -20,14 +20,14 @@ export async function matchRouteMenu(to: Route, from: Route, next: NavigationGua
       if (!UserModule.useData?.id) {
         next();
       } else {
-        const { data } = await GetUserApi({ username: 'admin', password: '123456' });
+        const { data } = await GetUserApi();
         const id = data.menus.map((item: any) => item.id).map(String);
-        if (to.meta?.id && id.includes(to.meta?.id.toString())) {
+        if ((to.meta?.id && id.includes(to.meta?.id.toString())) || to.name === 'personal') {
           next();
-        } else if (whiteList.includes(to.path.toLowerCase())) {
-          next();
-        } else {
-          next('/index');
+        } else if (to.meta?.id && !id.includes(to.meta?.id.toString())) {
+          next('/403');
+        } else if (to.name === null) {
+          next('/404');
         }
       }
       next();

@@ -1,11 +1,17 @@
 <template>
   <div class="app-container">
-    <el-card shadow="never">
-      <h1 class="text-center">Icon组件</h1>
+    <el-card shadow="never" header="Icon图标">
       <div class="mt-10 text-center min-w-300 min-h-140 grid grid-cols-8 inline-grid">
-        <div v-for="(item, index) in iconList" id="target" :key="index" class="mb-10">
-          <YkIcon :icon="item" class="text-2xl" />
-          <p class="cursor-pointer text-xl" @click="copyText(item)">{{ item }}</p>
+        <div
+          v-for="(item, index) in iconList"
+          id="target"
+          :key="index"
+          class="cursor-pointer mb-10"
+          :class="{ 'cursor-not-allowed': item.disabled, 'text-[#999]': item.disabled }"
+          @click="copyText(item.icon, item.disabled)"
+        >
+          <YkIcon :icon="item.icon" class="text-2xl" />
+          <p class="text-xl">{{ item.icon }}</p>
         </div>
       </div>
     </el-card>
@@ -17,19 +23,32 @@ import { Component, Vue } from 'vue-property-decorator';
 // svg组件
 const collections = require('@iconify/json/json/ep.json');
 
+interface IconList {
+  icon: string;
+  disabled: boolean;
+}
+
 @Component({
   components: {},
 })
 export default class Icon extends Vue {
-  iconList = [] as string[];
+  iconList = [] as IconList[];
+  list = [1, 5, 13, 18, 26, 54, 66];
   async created() {
     Object.keys(collections.icons).forEach((key: string) => {
-      this.iconList.push(`ep:${key}`);
+      this.iconList.push({ icon: `ep:${key}`, disabled: false });
+    });
+    this.iconList.forEach((item: any, index: number) => {
+      if (this.list.includes(index)) {
+        item.disabled = true;
+      }
     });
   }
 
   // 单击复制icon名
-  copyText(text: string) {
+  copyText(text: string, disabled: boolean) {
+    if (disabled) return;
+
     const inputElement = document.createElement('input');
     inputElement.value = text;
     document.body.appendChild(inputElement);

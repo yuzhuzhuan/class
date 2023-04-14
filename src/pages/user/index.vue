@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-card class="h-full font-600 overflow-auto" header="用户管理">
+    <el-card class="h-full overflow-y-auto" header="用户管理">
       <div class="flex flex-col h-150">
         <el-form ref="queryForm" inline :model="queryForm">
           <el-form-item>
@@ -21,6 +21,7 @@
             ref="table"
             :columns="tableColumns"
             :list="tableRequest"
+            :page-options="pageInfo"
             height="100%"
             class="h-full"
           >
@@ -56,7 +57,7 @@ export default class PageUser extends Mixins(MixinTable) {
     name: '',
   };
   pageInfo = {
-    pageSize: 10,
+    pageSize: 40,
     pageNum: 1,
   };
   ConfirmFlag = false;
@@ -66,7 +67,7 @@ export default class PageUser extends Mixins(MixinTable) {
   removeRequest = service.remove;
   get tableColumns() {
     const data: Array<ColumnItem<UserItem>> = [
-      { label: '用户名', prop: 'username' },
+      { label: '用户名', prop: 'username', width: 150 },
       { label: '用户姓名', prop: 'name' },
       { label: '用户类型', prop: 'usertype' },
       { label: '状态', prop: 'enable' },

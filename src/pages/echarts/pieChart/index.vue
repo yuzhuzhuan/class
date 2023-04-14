@@ -1,7 +1,6 @@
 <template>
   <div class="app-container">
-    <el-card shadow="never">
-      饼图
+    <el-card class="h-full overflow-auto" header="饼图">
       <YKEcharts v-if="flag" :options="options" class-name="h-170"></YKEcharts>
     </el-card>
   </div>

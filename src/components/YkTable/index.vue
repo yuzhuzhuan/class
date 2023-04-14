@@ -12,6 +12,7 @@
       size="mini"
       :reserve-selection="reserveSelection"
       row-key="id"
+      :cell-style="columnStyle"
       :tree-props="{ children: 'children' }"
       element-loading-text="数据加载中"
       element-loading-spinner="el-icon-loading"
@@ -213,6 +214,9 @@ export default class YkTable extends Vue {
   @Prop({ type: String, default: '暂无数据', required: false })
   emptyText?: string;
 
+  @Prop({ type: Function, required: false })
+  columnStyle!: () => {};
+
   // clone row data
   @PropSync('selection', { type: Array, required: false })
   private _selection?: Array<Record<string, any>>;
@@ -376,7 +380,7 @@ export default class YkTable extends Vue {
   }
 
   @Emit('on-success')
-  async request(params: Record<string, any> = {}, pageInfo = {}, isReset = false) {
+  async request(params: Record<string, any> = {}, pageInfo = {}) {
     // 翻页时带上次查询的条件
     Object.keys(params).forEach((key) => {
       let value = params[key];
@@ -479,7 +483,7 @@ export default class YkTable extends Vue {
   pageTotalMixin = 0;
 
   private created() {
-    this.pageInfo = Object.assign({}, this.pageOptions, this.pageInfoMixin);
+    this.pageInfo = Object.assign({}, this.pageInfoMixin, this.pageOptions);
     this.pageSize && (this.pageInfo.pageSize = this.pageSize);
     this.autoRequest && this.request();
   }

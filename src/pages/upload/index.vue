@@ -1,7 +1,6 @@
 <template>
   <div class="app-container">
-    <el-card shadow="never">
-      <h1 class="text-center">upload组件</h1>
+    <el-card class="h-full overflow-y-auto" header="上传图片">
       <div class="mt-10 w-50">
         <YkUpload :drag="true" :clear-files="clearFiles" @uploadOk="uploadOk"></YkUpload>
       </div>

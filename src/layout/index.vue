@@ -13,6 +13,9 @@
 import { AppModule } from '@/store/modules/app';
 import { Component, Vue } from 'vue-property-decorator';
 import { AppMain, Navbar, Sidebar, Tab } from './components';
+import { UserModule } from '@/store/modules/user';
+import watermark from '@/utils/watermark';
+import { getUserData } from '@/utils/cookies';
 
 @Component({
   components: {
@@ -39,6 +42,15 @@ export default class Layout extends Vue {
    */
   get sidebar() {
     return AppModule.sidebar;
+  }
+  get userInfo() {
+    return UserModule.useData ?? {};
+  }
+  mounted() {
+    if (getUserData()) {
+      const userInfo = JSON.parse(getUserData()!);
+      watermark.set(userInfo.watermark);
+    }
   }
 }
 </script>

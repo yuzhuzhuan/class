@@ -10,6 +10,7 @@
     <template v-if="!alwaysShowRootMenu && theOnlyOneChild && !theOnlyOneChild.children">
       <sidebar-item-link v-if="theOnlyOneChild.meta" :to="resolvePath(theOnlyOneChild.path)">
         <el-menu-item
+          v-if="hasPermit(theOnlyOneChild.meta && theOnlyOneChild.meta.id)"
           :index="resolvePath(theOnlyOneChild.path)"
           :class="{ 'submenu-title-noDropdown': isFirstLevel }"
         >
@@ -36,15 +37,17 @@
         }}</span>
       </template>
       <template v-if="item.children">
-        <sidebar-item
-          v-for="child in item.children"
-          :key="child.path"
-          :item="child"
-          :is-collapse="isCollapse"
-          :is-first-level="false"
-          :base-path="resolvePath(child.path)"
-          class="nest-menu"
-        />
+        <template v-for="child in item.children">
+          <sidebar-item
+            v-if="hasPermit(child.meta && child.meta.id)"
+            :key="child.path"
+            :item="child"
+            :is-collapse="isCollapse"
+            :is-first-level="false"
+            :base-path="resolvePath(child.path)"
+            class="nest-menu"
+          />
+        </template>
       </template>
     </el-submenu>
   </div>
@@ -56,6 +59,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import { RouteConfig } from 'vue-router';
 import { isExternal } from '@/utils/validate';
 import SidebarItemLink from './SidebarItemLink.vue';
+import { UserModule } from '@/store/modules/user';
 
 @Component({
   components: {
@@ -67,7 +71,12 @@ export default class SidebarItem extends Vue {
   @Prop({ default: false }) isCollapse!: boolean;
   @Prop({ default: true }) isFirstLevel!: boolean;
   @Prop({ default: '' }) basePath!: string;
-
+  /**
+   * 获取权限路由
+   */
+  get hasPermit() {
+    return UserModule.hadPermit;
+  }
   get alwaysShowRootMenu() {
     if (this.item.meta && this.item.meta.alwaysShow) {
       return true;

@@ -11,12 +11,12 @@ export default [
     },
     children: [
       {
-        path: '/table',
-        name: 'table',
-        component: () => import(/* webpackChunkName: "WillDoTaskList" */ '@/pages/table/index.vue'),
+        path: '/sort',
+        name: 'sort',
+        component: () => import(/* webpackChunkName: "WillDoTaskList" */ '@/pages/sort/index.vue'),
         meta: {
-          title: 'table',
-          icon: 'vaadin:tree-table',
+          title: 'sort',
+          icon: 'fa-solid:sort',
           noCache: false,
           id: '33',
         },
@@ -28,7 +28,7 @@ export default [
           import(/* webpackChunkName: "WillDoTaskList" */ '@/pages/treeTable/index.vue'),
         meta: {
           title: 'TreeTable',
-          icon: 'vaadin:tree-table',
+          icon: 'clarity:tree-view-solid',
           noCache: false,
           id: '33',
         },

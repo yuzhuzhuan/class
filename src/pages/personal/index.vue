@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-card shadow="never">
+    <el-card class="h-full overflow-y-auto" header="个人中心">
       <el-form
         ref="submitForm"
         label-position="right"
@@ -54,7 +54,7 @@ import api from './service';
 import { Form } from 'element-ui';
 import { FormValidator } from '@/utils/formValidator';
 import { UserModule } from '@/store/modules/user';
-// import { ApiGetUserinfo } from "@/api/login";
+import { GetUserApi, updateUser } from '@/api/login';
 import Cookies from 'js-cookie';
 
 @Component({ components: {} })
@@ -102,22 +102,22 @@ export default class PersonalInfo extends Vue {
   // }
 
   save() {
-    // this.$submitForm.validate(async (result: any) => {
-    //   if (result) {
-    //     const { nickName, gender } = this.submitForm;
-    //     await api.update({ nickName, gender });
-    //     const {
-    //       data: { data },
-    //     } = await ApiGetUserinfo();
-    //     UserModule.setUserData(data);
-    //     if (Cookies.get("path")) {
-    //       this.$router.push("/article");
-    //       Cookies.remove("path");
-    //       return;
-    //     }
-    //     this.$router.back();
-    //   }
-    // });
+    this.$submitForm.validate(async (result: any) => {
+      if (result) {
+        const { nickName, gender } = this.submitForm;
+        await updateUser({ nickName, gender });
+        const {
+          data: { data },
+        } = await GetUserApi();
+        UserModule.setUserData(data);
+        // if (Cookies.get('path')) {
+        //   this.$router.push('/article');
+        //   Cookies.remove('path');
+        //   return;
+        // }
+        this.$router.back();
+      }
+    });
   }
 
   cancel() {
