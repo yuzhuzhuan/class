@@ -53,6 +53,7 @@ import Hamburger from '@/layout/components/Hamburger/index.vue';
 import { AppModule } from '@/store/modules/app';
 import { UserModule } from '@/store/modules/user';
 import { GetUserApi } from '@/api/login';
+import watermark from '@/utils/watermark';
 // 导入接口
 @Component({
   components: {
@@ -76,7 +77,7 @@ export default class Navbar extends Vue {
 
   async mounted() {
     if (UserModule.token && !UserModule.useData?.id) {
-      const { data } = await GetUserApi({ username: 'admin', password: '123456' });
+      const { data } = await GetUserApi();
       UserModule.setUserData(data);
     }
   }
@@ -86,6 +87,7 @@ export default class Navbar extends Vue {
   }
 
   async logout() {
+    watermark.remove();
     UserModule.deltoken();
     this.$router.push(`/login?redirect=${this.$route.fullPath}`);
   }

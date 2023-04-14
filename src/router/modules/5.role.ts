@@ -39,7 +39,7 @@ export default [
       },
       {
         name: 'detail',
-        path: 'detail/:roleId',
+        path: '/role/detail/:roleId',
         component: () => import(/* webpackChunkName: "dashboard" */ '@/pages/role/detail.vue'),
         meta: {
           title: '编辑角色',

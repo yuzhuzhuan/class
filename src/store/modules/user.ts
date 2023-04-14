@@ -136,7 +136,7 @@ class User extends VuexModule implements IUserState {
   get hadPermit() {
     return (id?: number) => {
       if (id === undefined) return true;
-      return this.permits.some((item) => item.id === id);
+      return this.permits.some((item) => item.id === +id);
     };
   }
 

@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-card shadow="never ">
+    <el-card class="h-full overflow-y-auto" header="富文本编辑器">
       <YKeditor v-model="content"></YKeditor>
       <div class="flex mt-5 footer justify-end">
         <el-button @click="cancel()">取 消</el-button>

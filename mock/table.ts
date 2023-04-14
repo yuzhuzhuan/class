@@ -10,7 +10,7 @@ const sortList = MOCKTABLE.mock({
       address: '@city(true)', // 地址
       createTime: '@datetime("yyyy-MM-dd  HH:mm")', // 创建时间
       phone: /1[3-9][0-9]{9}/, // 正则模式
-      id: '@guid', // guid,
+      'id|+1': 1, // guid,
       'sort|+1': 1,
     },
   ],
@@ -23,30 +23,18 @@ module.exports = [
     url: '/url/project/list',
     type: 'get',
     response: (res) => {
-      for (let i = 0; i < res.body.pageSize; i++) {
-        newtablelist[i] = tablelist[i];
-      }
-      if (res.body.pageIndex !== 1) {
-        newtablelist = tablelist.slice(res.body.pageSize * res.body.pageIndex - res.body.pageSize);
-      }
       // 根据name查询数据返回
-      if (res.body.name) {
-        newtablelist = tablelist.filter((item) => item.name === res.body.name);
+      let name;
+      if (res.query.name) {
+        newtablelist = tablelist.filter((item) => item.name === res.query.name);
+      } else {
+        newtablelist = tablelist;
       }
-      if (res.body.name && res.body.pageIndex !== 1) {
-        newtablelist = newtablelist.slice(
-          res.body.pageSize * res.body.pageIndex - res.body.pageSize,
-        );
-      }
-      if (res.body.pageSize < newtablelist.length) {
-        newtablelist.splice(res.body.pageSize);
-      }
-
       newtablelist = newtablelist.filter(Boolean);
       tablelist = tablelist.filter(Boolean);
       return {
         code: 200,
-        message: '操作成功',
+        msg: '操作成功',
         data: newtablelist,
       };
       // 使用return返回前端需要的数据
@@ -56,9 +44,15 @@ module.exports = [
     url: '/url/project/sort',
     type: 'post',
     response: (res) => {
-      tablelist.push(res.body);
+      const curArr = res.body.map((item) => {
+        return item.id;
+      });
+      tablelist.sort((a, b) => {
+        return curArr.indexOf(a.id) - curArr.indexOf(b.id);
+      });
       return {
         msg: '操作成功',
+        data: '操作成功',
         code: 200,
       };
     },

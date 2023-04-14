@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import { Message } from 'element-ui';
 import { UserModule } from '@/store/modules/user';
 import router from '@/router';
+import watermark from '@/utils/watermark';
 
 export enum RESPONSE_CONFIG {
   OK = 200,
@@ -87,6 +88,7 @@ request.interceptors.response.use(
     if (error.response.data.code === 401 && router.currentRoute.name !== 'Login') {
       Message.error(error.response.data.msg);
       UserModule.deltoken();
+      watermark.remove();
       router.push(`/login?redirect=${location.href.split('#')[1]}`);
       // router.push({ path: '/login' });
     }

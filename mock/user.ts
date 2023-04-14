@@ -1,16 +1,6 @@
 const MOCK = require('mockjs');
 
 const userList = MOCK.mock({
-  'list|3': [
-    {
-      nickName: '@cname',
-      phone: /1[3-9][0-9]{9}/,
-      gender: '@integer(0, 1)',
-      sysRoleId: 1,
-      sysRoleName: 'admin',
-      'id|+1': 1,
-    },
-  ],
   'data|50': [
     {
       username: '@string("number", 1, 3) @string("upper", 1, 3)',
@@ -22,7 +12,6 @@ const userList = MOCK.mock({
     },
   ],
 });
-const list = userList.list.concat();
 let data = userList.data.concat();
 let newlist = userList.data.concat();
 let total = 0;

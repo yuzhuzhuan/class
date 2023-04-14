@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-card class="h-full font-600 overflow-auto" header="角色管理">
+    <el-card class="h-full overflow-auto" header="角色管理">
       <div class="h-150">
         <el-button type="primary" @click="$router.push('/role/create')">新增角色</el-button>
         <div class="flex flex-col h-full mt-5">
@@ -41,10 +41,9 @@ interface Role {
 export default class PageRole extends Mixins(MixinTable) {
   ConfirmFlag = false;
   params = {} as any;
-
   roleEdit(row: any) {
     this.$router.push({
-      path: `detail/${row.id}`,
+      path: `/role/detail/${row.id}`,
     });
   }
 
@@ -86,6 +85,7 @@ export default class PageRole extends Mixins(MixinTable) {
       {
         slot: 'action',
         prop: 'action',
+        width: 200,
         label: '操作',
         listeners: {
           remove: this.remove,
@@ -98,8 +98,4 @@ export default class PageRole extends Mixins(MixinTable) {
 }
 </script>
 
-<style lang="scss">
-.el-card__header {
-  background-color: #f9f9f9;
-}
-</style>
+<style lang="scss"></style>

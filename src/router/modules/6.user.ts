@@ -18,8 +18,8 @@ export default [
         },
       },
       {
-        path: '/profile',
-        name: 'profile',
+        path: '/personal',
+        name: 'personal',
         component: () =>
           import(/* webpackChunkName: "WillDoTaskList" */ '@/pages/personal/index.vue'),
         meta: {

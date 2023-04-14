@@ -1,37 +1,39 @@
 <template>
   <div class="app-container">
-    <div class="flex flex-col h-full">
-      <el-form ref="queryForm" inline :model="queryForm">
-        <el-form-item>
-          <el-button type="primary" @click="dialogEditM.show()">新增</el-button>
-        </el-form-item>
-        <yk-form-item prop="name">
-          <yk-form-input v-model.trim="queryForm.department" placeholder="请输入部门名称" />
-        </yk-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="onQueryM()">查询</el-button>
-        </el-form-item>
-        <el-form-item>
-          <el-button @click="onReset()">重置</el-button>
-        </el-form-item>
-      </el-form>
-      <div class="flex-1 min-h-0">
-        <YkTable ref="table" :columns="tableColumns" :list="list" height="100%" class="h-full">
-          <!-- <template #actions="scope">
+    <el-card class="h-full overflow-y-auto" header="树形数据">
+      <div class="flex flex-col h-150">
+        <el-form ref="queryForm" inline :model="queryForm">
+          <el-form-item>
+            <el-button type="primary" @click="dialogEditM.show()">新增</el-button>
+          </el-form-item>
+          <yk-form-item prop="name">
+            <yk-form-input v-model.trim="queryForm.department" placeholder="请输入部门名称" />
+          </yk-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="onQueryM()">查询</el-button>
+          </el-form-item>
+          <el-form-item>
+            <el-button @click="onReset()">重置</el-button>
+          </el-form-item>
+        </el-form>
+        <div class="flex-1 min-h-0">
+          <YkTable ref="table" :columns="tableColumns" :list="list" height="100%" class="h-full">
+            <!-- <template #actions="scope">
             <div class="actions">
               <YkTableButton text="修改" @click="dialogEditM.show(scope.row)" />
               <YkTableButton text="删除" @click="remove(scope.row)" />
             </div>
           </template> -->
-        </YkTable>
+          </YkTable>
+        </div>
+        <DialogUserEdit
+          v-model="dialogEditM.visible"
+          :data="dialogEditM.data"
+          :options="dialogData"
+          @done="getList"
+        ></DialogUserEdit>
       </div>
-      <DialogUserEdit
-        v-model="dialogEditM.visible"
-        :data="dialogEditM.data"
-        :options="dialogData"
-        @done="getList"
-      ></DialogUserEdit>
-    </div>
+    </el-card>
   </div>
 </template>
 
