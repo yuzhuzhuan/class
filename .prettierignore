@@ -1,9 +1,19 @@
-/dist/*
+node_modules/
+dist/
+coverage/
+es/
+lib/
+docs/
 .local
-/node_modules/**
 
 **/*.svg
 **/*.sh
+**/*.min.css
+**/*-min.css
+**/*.bundle.css
+**/*.min.js
+**/*-min.js
+**/*.bundle.js
 
 /public/*
 /src/assets/custom-theme/*
