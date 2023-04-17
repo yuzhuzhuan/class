@@ -1,4 +1,5 @@
 import plugin from 'windicss/plugin';
+import { defineConfig } from 'windicss/helpers';
 import { DeepNestObject } from 'windicss/types/interfaces';
 
 /**
@@ -50,18 +51,23 @@ function createEnterPlugin(maxOutput = 7) {
   };
   return { handler };
 }
-export default {
+export default defineConfig({
   darkMode: 'class',
+  transformCSS: true,
+  attributify: false,
   plugins: [
     createEnterPlugin(),
-    plugin(({ addComponents, theme }) => {
-      const buttons: DeepNestObject = {
-        '.sp-btn-lg': {
-          fontSize: theme('fontSize.xl') as string,
-        },
-      };
-      addComponents(buttons);
-    }),
+    // plugin(({ addComponents }) => {
+    //   const flexs: DeepNestObject = {
+    //     '.yk-flex-col': {
+    //       [`${'@apply'} flex flex-col h-full`]: {},
+    //     },
+    //     '.yk-flex-col-grow': {
+    //       [`${'@apply'} flex-1 min-h-0`]: {},
+    //     },
+    //   };
+    //   addComponents(flexs);
+    // }),
   ],
   // important: '.MuiModal-root',
   theme: {
@@ -98,4 +104,4 @@ export default {
       },
     },
   },
-};
+});

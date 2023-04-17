@@ -37,7 +37,7 @@
 ```javas
 <YKtable
    :columns="tableColumns"
-   :list="list"
+   :data="data"
    :pageOptions="pageInfo"
 ></YKtable>
 ```
@@ -191,4 +191,3 @@ initSortable(docSelect: any, index: any) {
 | selectOnlyOne | InputNumber 计数器 | boolean                                        |
 
 > 其他`el-select` 的属性方法都支持，详情属性见[`el-select`](https://element.eleme.cn/#/zh-CN/component/select)文档。
-

@@ -4,3 +4,35 @@ type YkFunction<R = unknown> = (...args: any[]) => R;
 type FormInit<T> = Partial<{
   [k in keyof T]: T[k] extends number | undefined ? '' | T[k] : T[k];
 }>;
+
+interface ColumnItemProp<T extends Record<string, any>> {
+  prop: keyof T;
+  key?: string;
+  type?: 'selection' | 'index' | 'expand';
+  label: string;
+  slot?: string;
+  align?: 'center' | 'left' | 'right';
+  fixed?: 'left' | 'right' | boolean;
+  minWidth?: number;
+  width?: number;
+  className?: string;
+  formatter?: (row: T, column: ColumnItem<T>, cellValue: any, index: number) => any;
+  showOverflowTooltip?: boolean;
+  selectable?: YkFunction;
+  tooltip?: boolean;
+}
+type ColumnItemSlot<T extends Record<string, any>, S extends string> = Omit<
+  ColumnItemProp<T>,
+  'type'
+> & { prop?: string; slot: S };
+type ColumnItemAction<T extends Record<string, any>> = ColumnItemSlot<T, 'action'> & {
+  listeners?: {
+    remove?: YkFunction<Promise<void>>;
+    edit?: YkFunction<void>;
+    detail?: YkFunction;
+  };
+};
+type ColumnItem<T extends Record<string, any>> =
+  | ColumnItemProp<T>
+  | ColumnItemSlot<T>
+  | ColumnItemAction<T>;

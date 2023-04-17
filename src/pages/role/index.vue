@@ -8,7 +8,7 @@
             <YkTable
               ref="table"
               :columns="tableColumns"
-              :list="tableRequest"
+              :data-request="tableRequest"
               height="100%"
               class="h-full"
             >
@@ -16,19 +16,12 @@
           </div>
         </div>
       </div>
-      <ConfirmDialog
-        :dialog-flag="ConfirmFlag"
-        content="是否确定删除角色?"
-        @close="ConfirmFlag = false"
-        @confirmDone="confirmDone"
-      ></ConfirmDialog>
     </el-card>
   </div>
 </template>
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
 import { MixinTable } from '@/utils/mixins';
-import type { ColumnItem } from '@/components/YkTable/index.vue';
 import { UserModule } from '@/store/modules/user';
 
 import service from '@/api/role';
@@ -40,31 +33,14 @@ interface Role {
 @Component({})
 export default class PageRole extends Mixins(MixinTable) {
   ConfirmFlag = false;
-  params = {} as any;
   roleEdit(row: any) {
     this.$router.push({
       path: `/role/detail/${row.id}`,
     });
   }
 
-  async remove(row: any, pageInfo: any, list: any) {
-    this.params = { row, pageInfo, list };
-    this.ConfirmFlag = true;
-  }
-  async confirmDone() {
-    const page = { ...this.params.pageInfo };
-    const { data } = await service.remove({ id: this.params.row.id });
-    if (data === '操作成功') {
-      if (page.pageIndex > 1 && this.params.list.length <= 1) {
-        page.pageIndex--;
-      }
-      this.ConfirmFlag = false;
-      this.onResetM(page);
-      this.$message({
-        type: 'success',
-        message: '删除成功!',
-      });
-    }
+  async remove(...rest: any[]) {
+    return Reflect.apply(this.removeM, this, [...rest, { message: '是否确定删除角色?' }]);
   }
 
   /**

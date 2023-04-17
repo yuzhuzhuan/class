@@ -20,9 +20,6 @@ export const DEF_PAGE_INFO = {
   pageSizes: [10, 20, 40, 60, 80, 100],
   pageIndex: 1,
   pageSize: 10,
-  'show-total': true,
-  'show-elevator': true,
-  'show-sizer': true,
   'prev-text': '上一页',
   'next-text': '下一页',
 };

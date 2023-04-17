@@ -2,18 +2,18 @@
   <div class="app-container">
     <el-card class="h-full overflow-y-auto" header="树形数据">
       <div class="flex flex-col h-150">
-        <el-form ref="queryForm" inline :model="queryForm">
+        <el-form ref="queryFormM" inline :model="queryFormM">
           <el-form-item>
             <el-button type="primary" @click="dialogEditM.show()">新增</el-button>
           </el-form-item>
           <yk-form-item prop="name">
-            <yk-form-input v-model.trim="queryForm.department" placeholder="请输入部门名称" />
+            <yk-form-input v-model.trim="queryFormM.department" placeholder="请输入部门名称" />
           </yk-form-item>
           <el-form-item>
             <el-button type="primary" @click="onQueryM()">查询</el-button>
           </el-form-item>
           <el-form-item>
-            <el-button @click="onReset()">重置</el-button>
+            <el-button @click="onResetM()">重置</el-button>
           </el-form-item>
         </el-form>
         <div class="flex-1 min-h-0">
@@ -41,22 +41,16 @@
 import { Component, Mixins } from 'vue-property-decorator';
 import { IDialogData, IList } from './type';
 import { MixinDialog, MixinTable } from '@/utils/mixins';
-import type { ColumnItem } from '@/components/YkTable/index.vue';
 import DialogUserEdit from './dialog/edit.vue';
 
 import service from '@/api/department';
 
 @Component({ components: { DialogUserEdit } })
 export default class TreeTable extends Mixins(MixinDialog, MixinTable) {
-  queryForm = {
+  queryFormM = {
     department: '',
   };
 
-  onReset(params?: Record<string, any>) {
-    this.$refQueryFormM.resetFields();
-    const pageInfo = { pageSize: 10, pageNum: 1 };
-    return this.$refTableM?.request(Object.assign({}, this.queryForm, params), pageInfo);
-  }
   // table
   removeRequest = service.remove;
   get tableColumns() {

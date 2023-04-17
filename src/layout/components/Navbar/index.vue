@@ -29,20 +29,11 @@
             <el-dropdown-item> 个人中心 </el-dropdown-item>
           </router-link>
           <el-dropdown-item divided>
-            <span style="display: block" @click="dialogFlag = true">退出系统</span>
+            <span style="display: block" @click="logout">退出系统</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <ConfirmDialog
-      v-model="dialogFlag"
-      :dialog-flag="dialogFlag"
-      content="确定要退出当前账号？"
-      details="确定要退出当前账号？"
-      @close="dialogFlag = false"
-      @confirmDone="logout"
-    >
-    </ConfirmDialog>
   </div>
 </template>
 
@@ -62,7 +53,6 @@ import watermark from '@/utils/watermark';
   },
 })
 export default class Navbar extends Vue {
-  dialogFlag = false;
   get sidebar() {
     return AppModule.sidebar;
   }
@@ -87,6 +77,7 @@ export default class Navbar extends Vue {
   }
 
   async logout() {
+    await this.$ykMsgbox.confirm('确定要退出当前账号？');
     watermark.remove();
     UserModule.deltoken();
     this.$router.push(`/login?redirect=${this.$route.fullPath}`);

@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/member-ordering */
 /** *******************************
  ************ Table **************
  ******************************** */
-import { Vue, Component, Ref, Provide } from 'vue-property-decorator';
-import { Route, RouteRecord } from 'vue-router';
+import { Vue, Component, Ref } from 'vue-property-decorator';
+import { Route } from 'vue-router';
 import YkTable from '@/components/YkTable/index.vue';
 import YkTableButton from '@/components/YkTable/YkTableButton.vue';
 import { SaveBack } from '../decorators';
@@ -11,19 +12,28 @@ import { ElForm } from 'element-ui/types/form';
 
 @Component({ components: { YkTable, YkTableButton } })
 export default class MixinTable<T extends Record<string, any> & { id: any }> extends Vue {
-  removeOK = false;
   // query
-  queryForm: Record<string, any> = {};
-  @Ref('queryForm') readonly $refQueryFormM!: ElForm;
+  queryFormM: Record<string, any> = {};
+  @Ref('queryFormM') readonly $refQueryM?: ElForm;
 
-  onQueryM(params?: Record<string, any>) {
-    return this.$refTableM?.request(Object.assign({}, this.queryForm, params));
-  }
-  onResetM(pageInfo: Record<string, any>, params?: Record<string, any>) {
-    if (this.$refQueryFormM) {
-      this.$refQueryFormM.resetFields();
+  async onQueryM(params?: Record<string, any>) {
+    const res = await this.$refTableM?.request(
+      Object.assign({}, this.pageInfoM, this.queryFormM, params),
+    );
+
+    if (this.rememberM) {
+      const data = { form: this.queryFormM, page: this.$refTableM?.pageInfo };
+      window.sessionStorage.setItem(this.$route.path, JSON.stringify(data));
     }
-    return this.$refTableM?.request(Object.assign({}, this.queryForm, params), pageInfo);
+
+    return res;
+  }
+  onResetM(params?: Record<string, any>) {
+    if (this.$refQueryM) {
+      this.$refQueryM.resetFields();
+      this.pageInfoM = {};
+    }
+    return this.onQueryM(params);
   }
 
   // table
@@ -46,50 +56,45 @@ export default class MixinTable<T extends Record<string, any> & { id: any }> ext
    * @param row
    */
   @SaveBack('删除成功')
-  async removeM(row: T, _index?: number, path?: string) {
-    console.log('row', row, path);
+  async removeM(
+    row: T,
+    _index?: number,
+    confirmOpts: { message: string; descriptions?: string | string[] } = {
+      message: '是否确认删除？',
+      descriptions: [''],
+    },
+  ) {
+    await this.$ykMsgbox.confirm('', confirmOpts);
 
     const { id } = row;
-
-    // if (path?.includes('role')) {
-    //   await serviceRole.remove({ id });
-    // }
-    // if (row.name) {
-    //   await service.remove({ id });
-    // } else if (row.departmentName) {
-    //   await api.remove({ id });
-    // } else {
-    //   await this.removeRequestM({ id });
-    // }
     this.removeRequestM({ id });
-    this.onQueryM();
+
+    const { dataList } = this.$refTableM as YkTable;
+    let {
+      pageInfo: { pageIndex = 1 },
+    } = this.$refTableM as YkTable;
+    if (pageIndex > 1 && dataList.length <= 1) {
+      pageIndex = -1;
+    }
+    this.onQueryM({ pageIndex });
   }
 
-  // NOTE 跳详情页时，记录当前pageNum
-  private beforeRouteLeave(to: Route, from: Route, next: YkFunction) {
-    const { sessionStorage } = window;
-    if (to.fullPath.includes(from.fullPath)) {
-      // /list => /list/:id
-      // /list/list => /list/list/:id
-      const fromRoute = from.matched[from.matched.length - 1];
-
-      if (fromRoute && this.$refTableM) {
-        sessionStorage.setItem(
-          `${fromRoute.path}-pageIndex`,
-          `${this.$refTableM.pageInfoMixin.pageIndex}`,
-        );
-        sessionStorage.setItem(
-          `${fromRoute.path}-pageSize`,
-          `${this.$refTableM.pageInfoMixin.pageSize}`,
-        );
-      }
-    } else if (!from.fullPath.includes(to.fullPath)) {
-      // /list/:id => /list
-      from.matched.forEach((route: RouteRecord) => {
-        sessionStorage.removeItem(`${route.path}-pageIndex`);
-        sessionStorage.removeItem(`${route.path}-pageSize`);
-      });
+  // 记忆查询条件
+  rememberM = true;
+  private pageInfoM: { pageIndex?: number; pageSize?: number } = {};
+  private beforeRouteLeave(to: Route, from: Route, next: Function) {
+    if (this.rememberM && !to.path.startsWith(this.$route.path)) {
+      window.sessionStorage.removeItem(from.path);
     }
     next();
+  }
+  private beforeRouteEnter(to: Route, from: Route, next: Function) {
+    next((vm: MixinTable<T>) => {
+      if (vm.rememberM) {
+        const { query, page } = JSON.parse(window.sessionStorage.getItem(to.path) || '{}');
+        Object.assign(vm.queryFormM, query);
+        Object.assign(vm.pageInfoM, page);
+      }
+    });
   }
 }
