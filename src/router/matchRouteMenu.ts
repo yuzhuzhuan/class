@@ -2,7 +2,8 @@
 // import { getUserData } from '@/utils/cookies';
 import { UserModule } from '@/store/modules/user';
 import { NavigationGuardNext, Route } from 'vue-router/types/router';
-import { GetUserApi } from '@/api/login'; // 导入接口
+import { LoginApi, GetUserApi } from '@/api/login'; // 导入接口
+import Cookies from 'js-cookie';
 
 const whiteList = ['/login', '/403', '/404'];
 // 路由守卫
@@ -34,6 +35,12 @@ export async function matchRouteMenu(to: Route, from: Route, next: NavigationGua
     }
   } else if (whiteList.includes(to.path.toLowerCase())) {
     next();
+  } else if (to.fullPath === '/index' && !UserModule.token) {
+    const { data } = await LoginApi(JSON.parse(Cookies.get('UserInfo')!));
+    UserModule.setToken(data.accessToken);
+    const res = await GetUserApi();
+    UserModule.setUserData(res.data);
+    location.replace(location.href.replace(location.search, ``));
   } else {
     next(`/login?redirect=${to.fullPath}`);
   }
