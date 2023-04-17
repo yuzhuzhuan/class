@@ -2,21 +2,14 @@
   "name": "VUE2-TS-TEMPLATE",
   "version": "0.2.0",
   "private": true,
-  "homepage": "./",
   "scripts": {
     "build": "pnpm run lint:vti && vue-cli-service build",
+    "lint": "vue-cli-service lint",
     "dev": "vue-cli-service serve",
     "f2elint-fix": "f2elint fix",
     "f2elint-scan": "f2elint scan",
-    "preinstall": "npx only-allow pnpm",
-    "lint": "vue-cli-service lint",
-    "lint:vti": "vti diagnostics"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "f2elint commit-file-scan",
-      "commit-msg": "f2elint commit-msg-scan"
-    }
+    "lint:vti": "vti diagnostics",
+    "preinstall": "npx only-allow pnpm"
   },
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
@@ -40,7 +33,6 @@
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
     "vue-cli-plugin-style-resources-loader": "^0.1.4",
-    "vue-cli-plugin-windicss": "^1.1.6",
     "vue-property-decorator": "^9.1.2",
     "vue-router": "^3.2.0",
     "vue-svgicon": "^3.2.9",
@@ -49,6 +41,7 @@
     "windicss": "^3.5.6"
   },
   "devDependencies": {
+    "@vue/runtime-dom": "latest",
     "@iconify/json": "^2.1.129",
     "@iconify/vue2": "^2.0.0",
     "@types/js-cookie": "^2.2.6",
@@ -81,10 +74,18 @@
     "tslib": "^2.4.1",
     "typescript": "^4",
     "vti-with-exclude": "^0.1.2",
+    "vue-cli-plugin-windicss": "^1.1.6",
     "vue-template-compiler": "^2.6.11"
   },
   "engines": {
     "node": ">=16 <17",
     "pnpm": ">=7"
+  },
+  "homepage": "./",
+  "husky": {
+    "hooks": {
+      "pre-commit": "f2elint commit-file-scan",
+      "commit-msg": "f2elint commit-msg-scan"
+    }
   }
 }
