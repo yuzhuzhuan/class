@@ -35,11 +35,7 @@ request.interceptors.request.use(
     if (UserModule.token.length > 0 && UserModule.token) {
       config.headers.Authorization = UserModule.token;
     }
-    if (!config.headers.Authorization && router.currentRoute.name !== 'login') {
-      Message.error('token过期');
-      UserModule.deltoken();
-      router.push({ path: '/login' });
-    }
+
     return config;
     // Do something before request is sent
     // const headers = { ...config.headers };
