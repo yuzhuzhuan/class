@@ -39,7 +39,7 @@
 import { Component, Vue, Prop } from 'vue-property-decorator';
 
 @Component({})
-export default class ConfirmDialog extends Vue {
+export default class YkConfirmDialog extends Vue {
   @Prop({}) dialogFlag!: false;
   @Prop({ type: String, required: false, default: '操作确认' })
   title!: string;

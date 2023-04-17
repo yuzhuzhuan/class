@@ -1,20 +1,20 @@
 <template>
   <div class="app-container">
-    <el-card class="h-full overflow-y-auto" header="列表排序">
-      <div class="flex flex-col h-150">
-        <el-form ref="queryForm" inline :model="queryForm">
+    <yk-card flex header="列表排序">
+      <div class="yk-flex-col">
+        <el-form ref="queryFormM" inline :model="queryFormM">
           <yk-form-item prop="name">
-            <yk-form-input v-model="queryForm.name" placeholder="请输入用户名称" />
+            <yk-form-input v-model="queryFormM.name" placeholder="请输入用户名称" />
           </yk-form-item>
           <el-form-item>
             <el-button type="primary" @click="onQuery()">查询</el-button>
           </el-form-item>
         </el-form>
-        <div class="flex-1 min-h-0">
+        <div class="yk-flex-col-grow">
           <YkTable
             ref="table"
             :columns="tableColumns"
-            :list="list"
+            :data="list"
             :loading="loading"
             :column-style="columnStyle"
             height="100%"
@@ -28,20 +28,19 @@
           </YkTable>
         </div>
       </div>
-    </el-card>
+    </yk-card>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
 import { MixinTable } from '@/utils/mixins';
-import type { ColumnItem } from '@/components/YkTable/index.vue';
 import service from '@/api/sort';
 import Sortable from 'sortablejs';
 
 @Component({ components: {} })
 export default class TreeTable extends Mixins(MixinTable) {
-  queryForm = {
+  queryFormM = {
     name: '',
   };
   params = {
@@ -106,13 +105,13 @@ export default class TreeTable extends Mixins(MixinTable) {
 
   async getList() {
     this.loading = true;
-    const { data } = await service.query(this.queryForm);
+    const { data } = await service.query(this.queryFormM);
     this.list = data;
     this.loading = false;
   }
   async onQuery() {
     this.loading = true;
-    const { data } = await service.query(this.queryForm);
+    const { data } = await service.query(this.queryFormM);
     this.currentData = data;
     this.loading = false;
   }

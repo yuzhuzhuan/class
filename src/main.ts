@@ -18,11 +18,9 @@ import '@/assets/styles/index.scss';
 import 'windi.css';
 import '@purge-icons/generated';
 
-// import { mockXHR } from '../mock/index';
-
 import Component from 'vue-class-component';
 
-// mockXHR();
+import '@/plugins/message-box';
 
 Vue.use(ElementUI, { size: 'small' });
 Vue.config.productionTip = false;

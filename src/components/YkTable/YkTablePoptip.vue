@@ -33,7 +33,7 @@ export default class YkTablePoptip extends Vue {
   }
 }
 </script>
-<style lang="scss">
+<style lang="css">
 .el-popconfirm__action {
   margin-top: 6px;
 }

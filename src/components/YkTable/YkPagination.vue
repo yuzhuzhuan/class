@@ -5,7 +5,7 @@
       :page-sizes="tablePageInfo.pageSizes"
       :page-size="tablePageInfo.pageSize"
       :current-page.sync="tablePageInfo.pageIndex"
-      :total="total"
+      :total="tablePageInfo.total"
       v-bind="attrs"
       background
       small
@@ -17,40 +17,32 @@
   </div>
 </template>
 <script lang="ts">
+import { DEF_PAGE_INFO } from '@/assets/js/config';
 import { omit } from 'lodash-es';
 import { Vue, Prop, Component } from 'vue-property-decorator';
 
-const DEF_PAGE_INFO = {
-  pageSizes: [2, 10, 20, 40, 60, 80, 100],
-  pageIndex: 1,
-  pageSize: 1,
-  layout: 'total, sizes, prev, pager, next, jumper',
-};
 export type PageInfo = Partial<typeof DEF_PAGE_INFO>;
 @Component({ inheritAttrs: false })
 export default class YkPagination extends Vue {
   @Prop({ type: Object, required: true })
   pageInfo!: PageInfo;
 
-  @Prop({ type: Number, required: true })
-  total!: number;
-
   @Prop({ type: Boolean, default: false })
   hideOnSinglePage!: boolean;
 
   get tablePageInfo() {
-    return Object.assign({}, DEF_PAGE_INFO, this.pageInfo, this.$attrs);
+    return Object.assign({ total: 0 }, DEF_PAGE_INFO, this.pageInfo, this.$attrs);
   }
 
   get allowShow() {
     return (
       (this.pageInfo.pageSize ?? 0) < Number.MAX_SAFE_INTEGER &&
-      (!this.hideOnSinglePage || this.total > this.tablePageInfo.pageSize)
+      (!this.hideOnSinglePage || this.tablePageInfo.total > this.tablePageInfo.pageSize)
     );
   }
 
   private get attrs() {
-    const opts = omit(DEF_PAGE_INFO, ['pageSize', 'pageIndex', 'pageSizes']);
+    const opts = omit(this.tablePageInfo, ['pageSize', 'pageIndex', 'pageSizes']);
     if ((this.pageInfo as any).displaySize === 'small') {
       opts.layout.replace('prev,', '');
       opts.layout.replace('next,', '');
@@ -70,8 +62,8 @@ export default class YkPagination extends Vue {
 
   // 触发表格刷新
   change(newPageInfo: PageInfo) {
-    newPageInfo.pageSize = newPageInfo.pageSize || this.tablePageInfo.pageSize;
-    this.$emit('change', Object.assign({}, this.pageInfo, newPageInfo));
+    const pageSize = newPageInfo.pageSize || this.tablePageInfo.pageSize;
+    this.$emit('change', Object.assign({}, this.pageInfo, newPageInfo, { pageSize }));
   }
 }
 </script>

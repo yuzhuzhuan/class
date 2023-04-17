@@ -1,12 +1,12 @@
 <template>
   <div class="app-container">
-    <el-card shadow="never" header="Icon图标">
-      <div class="mt-10 text-center min-w-300 min-h-140 grid grid-cols-8 inline-grid">
+    <yk-card flex scroll shadow="never" header="Icon图标">
+      <div class="mt-5 text-center min-w-300 grid gap-6 grid-cols-8">
         <div
           v-for="(item, index) in iconList"
           id="target"
           :key="index"
-          class="cursor-pointer mb-10"
+          class="cursor-pointer"
           :class="{ 'cursor-not-allowed': item.disabled, 'text-[#999]': item.disabled }"
           @click="copyText(item.icon, item.disabled)"
         >
@@ -14,7 +14,7 @@
           <p class="text-xl">{{ item.icon }}</p>
         </div>
       </div>
-    </el-card>
+    </yk-card>
   </div>
 </template>
 <script lang="ts">

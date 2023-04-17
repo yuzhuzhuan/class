@@ -35,58 +35,26 @@
               <template v-if="actionCol && actionCol.listeners">
                 <YkTableButton
                   v-if="actionCol.listeners.edit"
-                  text="修改"
-                  type="primary"
-                  icon="majesticons:edit-pen-2"
-                  @click="
-                    actionCol &&
-                      actionCol.listeners &&
-                      actionCol.listeners.edit &&
-                      actionCol.listeners.edit(plainRow(scope.row), scope.$index)
-                  "
-                />
-                <YkTableButton
-                  v-if="actionCol.listeners.detail"
                   text="编辑"
                   type="primary"
                   icon="majesticons:edit-pen-2"
-                  @click="
-                    actionCol &&
-                      actionCol.listeners &&
-                      actionCol.listeners.detail &&
-                      actionCol.listeners.detail(plainRow(scope.row), scope.$index)
-                  "
+                  @click="onActionClick('edit', scope)"
+                />
+                <YkTableButton
+                  v-if="actionCol.listeners.detail"
+                  text="详情"
+                  type="default"
+                  icon="majesticons:document-line"
+                  @click="onActionClick('detail', scope)"
                 />
                 <YkTableButton
                   v-if="actionCol.listeners.remove"
+                  slot="reference"
                   text="删除"
                   type="danger"
                   icon="ep:delete-filled"
-                  @click="
-                    actionCol &&
-                      actionCol.listeners &&
-                      actionCol.listeners.remove &&
-                      actionCol.listeners.remove(plainRow(scope.row), pageInfo, dataList)
-                  "
+                  @click="onActionClick('remove', scope)"
                 />
-                <!-- <YkTablePoptip
-                  v-if="actionCol.listeners.remove"
-                  :title="
-                    actionCol.listeners.removeConfirmTip || '确定删除该条数据吗？该操作无法撤回'
-                  "
-                  @click.native.stop
-                  @confirm="
-                    actionCol &&
-                      actionCol.listeners &&
-                      actionCol.listeners.remove &&
-                      actionCol.listeners.remove(plainRow(scope.row), scope.$index, $route.path)
-                  "
-                >
-                  <el-button type="danger" size="mini" plain
-                    ><yk-icon icon="ep:delete-filled" class="mr-1 align-bottom"></yk-icon
-                    >删除</el-button
-                  >
-                </YkTablePoptip> -->
               </template>
             </div>
           </template>
@@ -120,10 +88,8 @@
     <div v-show="showPagination" class="py-6 clearfix">
       <!-- 分页 -->
       <YkPagination
-        v-show="showPagination"
         class="pull-right offset-bottom"
         :page-info="pageInfo"
-        :total="pageTotalMixin"
         @change="request(params, $event)"
       />
     </div>
@@ -131,49 +97,15 @@
 </template>
 
 <script lang="ts">
-import YkPagination, { PageInfo } from './YkPagination.vue';
+import YkPagination from './YkPagination.vue';
 import YkTableButton from './YkTableButton.vue';
 import YkTablePoptip from './YkTablePoptip.vue';
 
 import { Vue, Prop, PropSync, Watch, Component, Emit, Ref } from 'vue-property-decorator';
 import { RESPONSE_CONFIG } from '@/utils/request';
 import { Table } from 'element-ui';
-
-export type ColumnItem<T extends Record<string, any>> =
-  | {
-      prop: string;
-      key?: string;
-      slot: 'action';
-      align?: 'center' | 'left' | 'right';
-      fixed?: 'left' | 'right' | boolean;
-      label?: string;
-      minWidth?: number;
-      width?: number;
-      listeners?: {
-        remove?: YkFunction<Promise<void>>;
-        edit?: YkFunction<void>;
-        detail?: YkFunction;
-      };
-      type?: 'selection' | 'index' | 'expand';
-      formatter?: (row: T, column: ColumnItem<T>, cellValue: any, index: number) => any;
-      tooltip?: boolean;
-    }
-  | {
-      prop: keyof T;
-      key?: string;
-      type?: 'selection' | 'index' | 'expand';
-      label: string;
-      slot?: string;
-      align?: 'center' | 'left' | 'right';
-      fixed?: 'left' | 'right' | boolean;
-      minWidth?: number;
-      width?: number;
-      className?: string;
-      formatter?: (row: T, column: ColumnItem<T>, cellValue: any, index: number) => any;
-      showOverflowTooltip?: boolean;
-      selectable?: YkFunction;
-      tooltip?: boolean;
-    };
+import { pick } from 'lodash-es';
+import { DEF_PAGE_INFO } from '@/assets/js/config';
 
 @Component({
   inheritAttrs: false,
@@ -181,8 +113,10 @@ export type ColumnItem<T extends Record<string, any>> =
 })
 export default class YkTable extends Vue {
   // 请求接口
-  @Prop({ type: [Function, Array], required: true })
-  list!: YkFunction<Promise<any>> | Array<Record<string, any>>;
+  @Prop({ type: Array, required: false, default: () => [] })
+  data!: Array<Record<string, any>>;
+  @Prop({ type: Function, required: false })
+  dataRequest?: YkFunction<Promise<any>>;
 
   @Prop({ type: [Array], required: true })
   columns!: Array<ColumnItem<any>>;
@@ -194,6 +128,7 @@ export default class YkTable extends Vue {
   loading!: boolean;
 
   // 每页显示几条数据
+  // 当值为 0 时，不分页
   @Prop({ type: Number, required: false })
   pageSize?: number;
 
@@ -240,26 +175,20 @@ export default class YkTable extends Vue {
   dataList = [] as Array<Record<string, any>>;
   params: Record<string, any> = {};
 
-  @Watch('list')
+  @Watch('data')
   onListChange() {
-    if (Array.isArray(this.list)) this.request();
+    this.request();
   }
 
   @Prop({ type: Boolean, required: false })
   disableCheck?: boolean;
 
-  get actionCol():
-    | (ColumnItem<any> & {
-        listeners?: {
-          remove?: YkFunction<Promise<void>>;
-          edit?: YkFunction<void>;
-          detail?: YkFunction;
-          removeConfirmTip?: string;
-        };
-      })
-    | null {
+  get actionCol(): ColumnItemAction<any> | null {
     const { slot, ...action } = this.cols.find((item) => item.slot === 'action') ?? ({} as any);
     return slot ? action : null;
+  }
+  onActionClick(type: keyof Required<ColumnItemAction<any>>['listeners'], scope: any) {
+    this.actionCol?.listeners?.[type]?.(this.plainRow(scope.row), scope.index);
   }
 
   private omitSlot(col: Record<string, any>) {
@@ -302,7 +231,6 @@ export default class YkTable extends Vue {
       const data: ColumnItem<any> = {
         width: 38,
         type: 'selection',
-        // @ts-ignore: 不明所以
         prop: '_selection',
         label: '_selection',
         selectable: this.selectableFn,
@@ -335,8 +263,8 @@ export default class YkTable extends Vue {
     return columns;
   }
 
-  get showPagination() {
-    return (this.pageSize ?? 0) < Number.MAX_SAFE_INTEGER && !Array.isArray(this.list);
+  private get showPagination() {
+    return this.pageSize === 0 || this.dataRequest;
   }
 
   private plainRow(item: object) {
@@ -357,60 +285,45 @@ export default class YkTable extends Vue {
   }
 
   private getList(params: YkFunction<Promise<any>> | Record<string, any>) {
-    if (typeof this.list === 'function') {
-      return this.list(params);
+    if (this.dataRequest) {
+      return this.dataRequest(params);
     } else {
-      return Promise.resolve({ data: this.list });
+      return Promise.resolve({ data: this.data });
     }
   }
 
-  mergePageInfo(pageInfo: PageInfo) {
-    // 详情跳回列表时，定位 pageIndex
-    const curRoute = this.$route.matched[this.$route.matched.length - 1];
-    const curRoutePageIndex = window.sessionStorage.getItem(`${curRoute.path}-pageIndex`) || 0;
-    const curRoutePageSize = window.sessionStorage.getItem(`${curRoute.path}-pageSize`);
-    if (!Reflect.has(pageInfo, 'pageIndex')) pageInfo.pageIndex = +curRoutePageIndex || 1;
-    if (!Reflect.has(pageInfo, 'pageSize') && curRoutePageSize)
-      pageInfo.pageSize = +curRoutePageSize;
-    window.sessionStorage.removeItem(`${curRoute.path}-pageIndex`);
-    window.sessionStorage.removeItem(`${curRoute.path}-pageSize`);
-
-    const { pageSize, pageIndex } = this.pageInfo;
-    return Object.assign({ pageSize, pageIndex }, pageInfo);
-  }
-
   @Emit('on-success')
-  async request(params: Record<string, any> = {}, pageInfo = {}) {
-    // 翻页时带上次查询的条件
-    Object.keys(params).forEach((key) => {
-      let value = params[key];
-      if (value === '') Reflect.deleteProperty(params, key);
-      else if (Array.isArray(value)) {
-        value.length || Reflect.deleteProperty(params, key);
-      } else if (value?.constructor === Object) {
-        value = Object.assign({}, value);
-        params[key] = value;
-        Object.keys(value).forEach(
-          (subkey) => value[subkey] === '' && Reflect.deleteProperty(value, subkey),
-        );
-        Object.keys(value).length || Reflect.deleteProperty(params, key);
-      }
-    });
+  async request(params?: Record<string, any>, pageInfo?: { pageSize: number; pageIndex: number }) {
+    // 当参数属性为 '' 或者 [] 时删除这个属性
+    if (params) {
+      Object.keys(params).forEach((key, index, ins: Record<string, any>) => {
+        let value = ins[key];
+        if (value === '') Reflect.deleteProperty(ins, key);
+        else if (Array.isArray(value)) {
+          value.length || Reflect.deleteProperty(ins, key);
+        } else if (value?.constructor === Object) {
+          value = Object.assign({}, value);
+          ins[key] = value;
+          Object.keys(value).forEach(
+            (subkey) => value[subkey] === '' && Reflect.deleteProperty(value, subkey),
+          );
+          Object.keys(value).length || Reflect.deleteProperty(ins, key);
+        }
+      });
+    }
+
     this.params = params ?? this.params;
-    params = Object.assign(
-      {},
-      this.params,
-      this.pageSize === Number.MAX_SAFE_INTEGER ? {} : this.mergePageInfo(pageInfo),
-    );
+    params = Object.assign({}, this.params, !this.showPagination ? {} : pageInfo ?? this.pageInfo);
     params.pageNum = params.pageIndex;
     Reflect.deleteProperty(params, 'pageIndex');
+    Reflect.deleteProperty(params, 'total');
 
     this.dataLoading = true;
     return this.getList(params)
       .then((res: any) => {
         const { page = params?.page, data = [] } = res;
-        if ((this.pageSize ?? 0) < Number.MAX_SAFE_INTEGER) {
-          this.pageTotalMixin = res[RESPONSE_CONFIG.TOTAL] ?? 0;
+        if (this.showPagination) {
+          this.pageInfo.total = res[RESPONSE_CONFIG.TOTAL] ?? 0;
           this.pageInfo.pageIndex = params?.pageNum || 0;
           this.pageInfo.pageSize = params?.pageSize || 0;
         }
@@ -474,17 +387,18 @@ export default class YkTable extends Vue {
 
   @Ref('table') refTable?: Table;
 
-  pageInfo = {} as any;
-  pageInfoMixin = {
-    pageIndex: 1,
-    pageSize: 10,
-  };
-
-  pageTotalMixin = 0;
+  pageInfo: {
+    pageIndex: number;
+    pageSize: number;
+    total: number;
+  } = Object.assign({ total: 0 }, pick(DEF_PAGE_INFO, ['pageSize', 'pageIndex']));
 
   private created() {
-    this.pageInfo = Object.assign({}, this.pageInfoMixin, this.pageOptions);
-    this.pageSize && (this.pageInfo.pageSize = this.pageSize);
+    Object.assign(
+      this.pageInfo,
+      { pageSize: this.pageSize ?? this.pageInfo.pageSize },
+      this.pageOptions,
+    );
     this.autoRequest && this.request();
   }
 }
