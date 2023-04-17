@@ -1,5 +1,5 @@
 {
-  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "typescript.tsdk": "node_modules/typescript/lib",
   "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact", "vue"],
   "stylelint.validate": ["css", "postcss", "scss", "less", "acss", "html", "vue"],
   "stylelint.snippet": ["css", "postcss", "scss", "less", "acss", "html", "vue"],
