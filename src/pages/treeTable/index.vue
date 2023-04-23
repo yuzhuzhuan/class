@@ -1,29 +1,25 @@
 <template>
   <div class="app-container">
-    <yk-card flex header="树形数据">
+    <yk-card flex :header="$t('treeTable.title')">
       <div class="yk-flex-col">
         <el-form ref="queryFormM" inline :model="queryFormM">
           <el-form-item>
-            <el-button type="primary" @click="dialogEditM.show()">新增</el-button>
+            <el-button type="primary" @click="dialogEditM.show()">{{
+              $t('table.create')
+            }}</el-button>
           </el-form-item>
           <yk-form-item prop="name">
             <yk-form-input v-model.trim="queryFormM.department" placeholder="请输入部门名称" />
           </yk-form-item>
           <el-form-item>
-            <el-button type="primary" @click="onQueryM()">查询</el-button>
+            <el-button type="primary" @click="onQueryM()">{{ $t('table.query') }}</el-button>
           </el-form-item>
           <el-form-item>
-            <el-button @click="onResetM()">重置</el-button>
+            <el-button @click="onResetM()">{{ $t('table.reset') }}</el-button>
           </el-form-item>
         </el-form>
         <div class="yk-flex-col-grow">
-          <YkTable ref="table" :columns="tableColumns" :list="list" height="100%" class="h-full">
-            <!-- <template #actions="scope">
-            <div class="actions">
-              <YkTableButton text="修改" @click="dialogEditM.show(scope.row)" />
-              <YkTableButton text="删除" @click="remove(scope.row)" />
-            </div>
-          </template> -->
+          <YkTable ref="table" :columns="tableColumns" :data="list" height="100%" class="h-full">
           </YkTable>
         </div>
         <DialogUserEdit
@@ -55,11 +51,11 @@ export default class TreeTable extends Mixins(MixinDialog, MixinTable) {
   removeRequest = service.remove;
   get tableColumns() {
     const data: Array<ColumnItem<TreeItem>> = [
-      { label: '部门名称', prop: 'departmentName', minWidth: 100 },
-      { label: '主管名称', prop: 'manager' },
-      { label: '部门介绍', prop: 'introduce', tooltip: true },
-      { label: '部门邮箱', prop: 'email' },
-      { label: '成立时间', prop: 'createTime', width: 160 },
+      { label: this.$t('treeTable.departmentName'), prop: 'departmentName', minWidth: 100 },
+      { label: this.$t('treeTable.manager'), prop: 'manager' },
+      { label: this.$t('treeTable.introduce'), prop: 'introduce', tooltip: true },
+      { label: this.$t('treeTable.email'), prop: 'email' },
+      { label: this.$t('treeTable.createTime'), prop: 'createTime', width: 160 },
       {
         slot: 'action',
         prop: 'action',

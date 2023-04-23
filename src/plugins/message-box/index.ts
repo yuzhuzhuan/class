@@ -76,7 +76,7 @@ const confirm = function (this: any, message, title, options) {
     title = '';
   }
   const msg = options?.message || message;
-  title = options?.title || title || '操作确认';
+  title = options?.title || title || this.$t('YkMessageBox.title');
   return MessageBox.confirm(
     message,
     title,

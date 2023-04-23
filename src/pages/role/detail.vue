@@ -2,12 +2,15 @@
   <div class="app-container">
     <div class="bg-[#fff] rounded-lg h-full overflow-auto">
       <div class="flex detail-header justify-between">
-        <p class="font-600">编辑角色</p>
-        <p><span class="text-[#FF0000]">*</span><span class="text-[#999999]">为必填项</span></p>
+        <p class="font-600">{{ $t('role.editRole') }}</p>
+        <p>
+          <span class="text-[#FF0000]">*</span>
+          <span class="text-[#999999]">{{ $t('role.required') }}</span>
+        </p>
       </div>
       <div class="detail-container">
         <el-form ref="submitForm" :model="submitForm" label-width="80px" :show-message="false">
-          <yk-form-item label="角色名称" prop="name" required>
+          <yk-form-item :label="$t('role.roleName')" prop="name" required>
             <div class="flex">
               <yk-form-input
                 v-model.trim="submitForm.name"
@@ -23,7 +26,7 @@
               </YkMessage>
             </div>
           </yk-form-item>
-          <el-form-item label="角色菜单" prop="menus" required>
+          <el-form-item :label="$t('role.roleMenus')" prop="menus" required>
             <el-table :data="initMenus" border align="center" style="width: 100%">
               <el-table-column
                 :resizable="false"
@@ -75,8 +78,8 @@
         </el-form>
       </div>
       <div class="detail-footer">
-        <el-button @click="$router.push('/role/index')">取消</el-button>
-        <el-button type="primary" @click="save()">保存</el-button>
+        <el-button @click="$router.go(-1)">{{ $t('global.cancel') }}</el-button>
+        <el-button type="primary" @click="save()">{{ $t('global.save') }}</el-button>
       </div>
     </div>
   </div>

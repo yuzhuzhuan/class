@@ -8,7 +8,7 @@
           :class="['tab-li', item.path === currentTab ? 'is-active' : '']"
           @click.prevent="goToPage(item)"
         >
-          {{ item.title }}
+          {{ menusTitle(item.title) }}
           <i
             v-if="item.path !== '/index'"
             class="el-icon-close"
@@ -17,16 +17,22 @@
         </li>
       </scroller>
     </ul>
-    <!-- 更多炒作 -->
+    <!-- 更多操作 -->
     <el-dropdown @command="handleCommand">
       <el-button type="primary">
-        更多操作
+        {{ $t('navbar.actions') }}
         <i class="el-icon-arrow-down el-icon--right" />
       </el-button>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item :command="ECloseTab.closeCurrent">关闭当前</el-dropdown-item>
-        <el-dropdown-item :command="ECloseTab.closeOther">关闭其他</el-dropdown-item>
-        <el-dropdown-item :command="ECloseTab.closeAll">关闭全部</el-dropdown-item>
+        <el-dropdown-item :command="ECloseTab.closeCurrent">
+          {{ $t('navbar.closeCurrent') }}</el-dropdown-item
+        >
+        <el-dropdown-item :command="ECloseTab.closeOther">
+          {{ $t('navbar.closeOther') }}</el-dropdown-item
+        >
+        <el-dropdown-item :command="ECloseTab.closeAll">
+          {{ $t('navbar.closeAll') }}</el-dropdown-item
+        >
       </el-dropdown-menu>
     </el-dropdown>
   </div>
@@ -52,6 +58,12 @@ export default class Tab extends Vue {
   // 获取TabList
   get TabList() {
     return AppModule.TabList;
+  }
+  menusTitle(item: any) {
+    if (this.$t(`route.${item}`)) {
+      return this.$t(`route.${item}`);
+    }
+    return item;
   }
 
   /**
@@ -135,7 +147,7 @@ export default class Tab extends Vue {
   .tabs-ul {
     display: flex;
     box-sizing: border-box;
-    width: calc(100% - 114px);
+    width: calc(100% - 134px);
     height: 100%;
     padding-right: 5px;
     overflow: hidden;

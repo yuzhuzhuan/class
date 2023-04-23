@@ -1,13 +1,13 @@
 <template>
   <div class="app-container">
-    <yk-card flex header="列表排序">
+    <yk-card flex :header="$t('dragTable.title')">
       <div class="yk-flex-col">
         <el-form ref="queryFormM" inline :model="queryFormM">
           <yk-form-item prop="name">
             <yk-form-input v-model="queryFormM.name" placeholder="请输入用户名称" />
           </yk-form-item>
           <el-form-item>
-            <el-button type="primary" @click="onQuery()">查询</el-button>
+            <el-button type="primary" @click="onQuery()">{{ $t('table.query') }}</el-button>
           </el-form-item>
         </el-form>
         <div class="yk-flex-col-grow">
@@ -73,15 +73,15 @@ export default class TreeTable extends Mixins(MixinTable) {
   tableRequest = service.query;
   get tableColumns() {
     const data: Array<ColumnItem<SortItem>> = [
-      { label: '序号', type: 'index', prop: 'index' },
-      { label: '用户姓名', prop: 'name' },
-      { label: '手机号', prop: 'phone', minWidth: 120 },
-      { label: '用户邮箱', prop: 'email', minWidth: 200 },
-      { label: '用户地址', prop: 'address', minWidth: 120, tooltip: true },
+      { label: this.$t('dragTable.index'), type: 'index', prop: 'index', width: 70 },
+      { label: this.$t('dragTable.name'), prop: 'name' },
+      { label: this.$t('dragTable.phone'), prop: 'phone', minWidth: 120 },
+      { label: this.$t('dragTable.email'), prop: 'email', minWidth: 200 },
+      { label: this.$t('dragTable.address'), prop: 'address', minWidth: 120, tooltip: true },
       {
         slot: 'actions',
         prop: 'actions',
-        label: '操作',
+        label: this.$t('table.actions'),
       },
     ];
     return data;
@@ -152,6 +152,11 @@ export default class TreeTable extends Mixins(MixinTable) {
 
   mounted() {
     this.initSortable();
+    // 解决火狐浏览器拖拽打开新页面问题
+    document.body.ondrop = function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    };
   }
 
   activated() {

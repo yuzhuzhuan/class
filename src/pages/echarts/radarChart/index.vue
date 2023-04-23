@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-card class="h-full overflow-auto" header="雷达图">
+    <el-card class="h-full overflow-auto" :header="$t('charts.radarChart')">
       <YKEcharts v-if="flag" :options="options" class-name="h-120"></YKEcharts>
     </el-card>
   </div>

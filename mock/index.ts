@@ -5,6 +5,7 @@ const login = require('./login.ts');
 const echarts = require('./echarts.ts');
 const table = require('./table.ts');
 const department = require('./department.ts');
+const upload = require('./upload.ts');
 
 function param2Obj(url) {
   const search = url.split('?')[1];
@@ -58,7 +59,7 @@ function mockXHR() {
   }
 }
 
-const mocks = [...login, ...user, ...role, ...echarts, ...table, ...department];
+const mocks = [...login, ...user, ...role, ...echarts, ...table, ...department, ...upload];
 module.exports = {
   mocks,
   mockXHR,

@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-card class="h-full overflow-y-auto" header="个人中心">
+    <el-card class="h-full overflow-y-auto" :header="$t('personal.title')">
       <el-form
         ref="submitForm"
         label-position="right"
@@ -11,19 +11,19 @@
         label-width="80px"
         hide-required-asterisk
       >
-        <el-form-item prop="phone" label="手机号">
+        <el-form-item prop="phone" :label="$t('personal.phone')">
           <el-input v-model.trim="submitForm.phone" placeholder="请输入手机号" clearable disabled />
         </el-form-item>
-        <el-form-item prop="nickName" label="昵称">
+        <el-form-item prop="nickName" :label="$t('personal.nickname')">
           <el-input v-model.trim="submitForm.nickName" placeholder="请输入昵称"> </el-input>
         </el-form-item>
-        <el-form-item prop="gender" label="性别">
+        <el-form-item prop="gender" :label="$t('personal.gender')">
           <el-radio-group v-model="submitForm.gender">
             <el-radio :label="0">女</el-radio>
             <el-radio :label="1">男</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item prop="sysRoleId" label="角色">
+        <el-form-item prop="sysRoleId" :label="$t('personal.role')">
           <el-select
             v-model="submitForm.sysRoleId"
             disabled
@@ -40,8 +40,8 @@
         </el-form-item>
       </el-form>
       <div class="footer">
-        <el-button @click="cancel()">取消</el-button>
-        <el-button type="primary" @click="save()">保存</el-button>
+        <el-button @click="cancel()">{{ $t('global.cancel') }}</el-button>
+        <el-button type="primary" @click="save()">{{ $t('global.save') }}</el-button>
       </div>
     </el-card>
   </div>

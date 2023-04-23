@@ -10,6 +10,7 @@
       <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
     </div>
     <div class="right-menu">
+      <lang-select class="text-[#707070]"></lang-select>
       <el-dropdown
         id="personal-center"
         class="right-menu-item text-center w-40 avatar-container hover-effect"
@@ -26,10 +27,10 @@
           style="width: 160px; margin-top: 0; overflow: hidden"
         >
           <router-link to="/personal">
-            <el-dropdown-item> 个人中心 </el-dropdown-item>
+            <el-dropdown-item> {{ $t('navbar.personal') }} </el-dropdown-item>
           </router-link>
           <el-dropdown-item divided>
-            <span style="display: block" @click="logout">退出系统</span>
+            <span style="display: block" @click="logout"> {{ $t('navbar.logOut') }}</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -41,15 +42,17 @@
 import { Component, Vue } from 'vue-property-decorator';
 import Breadcrumb from '@/layout/components/Breadcrumb/index.vue';
 import Hamburger from '@/layout/components/Hamburger/index.vue';
+import LangSelect from '@c/YkLangSelect/index.vue';
 import { AppModule } from '@/store/modules/app';
 import { UserModule } from '@/store/modules/user';
 import { GetUserApi } from '@/api/login';
 import watermark from '@/utils/watermark';
-// 导入接口
+
 @Component({
   components: {
     Breadcrumb,
     Hamburger,
+    LangSelect,
   },
 })
 export default class Navbar extends Vue {
@@ -77,7 +80,7 @@ export default class Navbar extends Vue {
   }
 
   async logout() {
-    await this.$ykMsgbox.confirm('确定要退出当前账号？');
+    await this.$ykMsgbox.confirm(this.$t('YkMessageBox.content').toString());
     watermark.remove();
     UserModule.deltoken();
     this.$router.push(`/login?redirect=${this.$route.fullPath}`);

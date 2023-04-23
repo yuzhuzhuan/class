@@ -3,7 +3,7 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
-
+import i18n from './lang';
 import './utils/mixins';
 // 组件
 import './components';
@@ -45,5 +45,6 @@ Component.registerHooks(['beforeRouteEnter', 'beforeRouteLeave', 'beforeRouteUpd
 new Vue({
   router,
   store,
+  i18n,
   render: (h) => h(App),
 }).$mount('#app');

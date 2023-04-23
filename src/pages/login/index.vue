@@ -6,11 +6,12 @@
       <div class="flex flex-col text-center justify-center items-center">
         <div class="flex items-center">
           <img src="../../assets/logo.png" alt="" class="mr-5 w-35" />
-          <h1 class="my-8 text-[#fff] text-3xl">管理中台</h1>
+          <h1 class="my-8 text-[#fff] text-3xl">{{ $t('login.title') }}</h1>
+          <lang-select class="text-[#fff] ml-3"></lang-select>
         </div>
 
         <div
-          class="bg-white flex flex-col rounded-2xl min-w-96 min-h-120 px-15 pt-13 pb-5 relative justify-center"
+          class="bg-white flex flex-col rounded-2xl min-w-96 min-h-120 pt-13 pb-5 relative justify-center"
         >
           <div class="rounded-2xl h-20 top-1 right-1 w-80 absolute overflow-hidden">
             <div class="h-0 top-0 right-0 w-0 z-index-2 absolute">
@@ -29,15 +30,17 @@
               </div>
             </div>
           </div>
-          <div v-show="seen" class="tooltip-content">{{ loginTip }}</div>
-          <div v-show="isqrcode">
-            <h2 class="font-600 text-2xl">扫码登录</h2>
-            <p class="mt-4 text-base text-[#ababab] mb-4">请使用飞书移动端扫描二维码</p>
+          <div v-show="seen" class="tooltip-content">
+            {{ loginTip.includes('扫码') ? $t('login.scanLogIn') : $t('login.passwordLogIn') }}
+          </div>
+          <div v-show="isqrcode" class="flex flex-col justify-center items-center">
+            <h2 class="font-600 text-2xl">{{ $t('login.scanLogIn') }}</h2>
+            <p class="mt-4 text-base text-[#ababab] mb-4">{{ $t('login.logInDesc') }}</p>
             <div id="login_container" class="rounded-2xl"></div>
           </div>
-          <div v-if="!isqrcode" class="divide-y">
+          <div v-if="!isqrcode" class="divide-y px-12">
             <div class="flex flex-col pb-5">
-              <h2 class="font-600 mb-11 text-2xl">密码登录</h2>
+              <h2 class="font-600 mb-11 text-2xl">{{ $t('login.passwordLogIn') }}</h2>
               <el-form
                 ref="loginFormRef"
                 :label-position="`right`"
@@ -74,19 +77,19 @@
                     type="primary"
                     size="mini"
                     @click="login"
-                    >登录</el-button
+                    >{{ $t('login.logIn') }}</el-button
                   >
                 </el-form-item>
                 <div class="flex justify-end items-center">
                   <div>
                     <el-checkbox v-model="checked" @change="change"></el-checkbox>
-                    <span class="ml-3">记住我</span>
+                    <span class="ml-3">{{ $t('login.remember') }}</span>
                   </div>
                 </div>
               </el-form>
             </div>
             <div class="flex pt-5 text-[#999] justify-between items-center">
-              <div class="text-sm">第三方登录</div>
+              <div class="text-sm">{{ $t('login.thirdparty') }}</div>
               <a class="cursor-pointer rounded-1/2 h-10 ml-2 w-10 inline-block sign" :href="fs_url">
               </a>
             </div>
@@ -99,6 +102,7 @@
 
 <script lang="ts">
 import { Component, Ref, Vue } from 'vue-property-decorator';
+import LangSelect from '@c/YkLangSelect/index.vue';
 import { LoginForm } from './type';
 import { FormValidator } from '@/utils/formValidator';
 import { UserModule } from '@/store/modules/user';
@@ -108,7 +112,11 @@ import watermark from '@/utils/watermark';
 import Cookies from 'js-cookie';
 
 declare const window: any;
-@Component
+@Component({
+  components: {
+    LangSelect,
+  },
+})
 export default class PageLogin extends Vue {
   // 登录表单数据
   loginFormData: LoginForm = {
@@ -183,7 +191,9 @@ export default class PageLogin extends Vue {
     Cookies.set('status', JSON.stringify(value));
   }
   created() {
-    this.userInfo = JSON.parse(Cookies.get('UserInfo')!);
+    if (Cookies.get('UserInfo')!) {
+      this.userInfo = JSON.parse(Cookies.get('UserInfo')!);
+    }
 
     if (Cookies.get('status') === 'true') {
       this.checked = true;

@@ -1,19 +1,21 @@
 <template>
   <div class="app-container">
-    <yk-card flex header="用户管理">
+    <yk-card flex :header="$t('user.title')">
       <div class="yk-flex-col">
         <el-form ref="queryFormM" inline :model="queryFormM">
           <el-form-item>
-            <el-button type="primary" @click="dialogEditM.show()">新增</el-button>
+            <el-button type="primary" @click="dialogEditM.show()">{{
+              $t('table.create')
+            }}</el-button>
           </el-form-item>
           <yk-form-item prop="name">
             <yk-form-input v-model.trim="queryFormM.name" placeholder="请输入用户名称" />
           </yk-form-item>
           <el-form-item>
-            <el-button type="primary" @click="onQueryM()">查询</el-button>
+            <el-button type="primary" @click="onQueryM()">{{ $t('table.query') }}</el-button>
           </el-form-item>
           <el-form-item>
-            <el-button @click="onResetM">重置</el-button>
+            <el-button @click="onResetM">{{ $t('table.reset') }}</el-button>
           </el-form-item>
         </el-form>
         <div class="yk-flex-col-grow">
@@ -57,10 +59,10 @@ export default class PageUser extends Mixins(MixinTable) {
   removeRequest = service.remove;
   get tableColumns() {
     const data: Array<ColumnItem<UserItem>> = [
-      { label: '用户名', prop: 'username', width: 150 },
-      { label: '用户姓名', prop: 'name' },
-      { label: '用户类型', prop: 'usertype' },
-      { label: '状态', prop: 'enable' },
+      { label: this.$t('user.userName'), prop: 'username', width: 150 },
+      { label: this.$t('user.name'), prop: 'name' },
+      { label: this.$t('user.usertype'), prop: 'usertype' },
+      { label: this.$t('user.enable'), prop: 'enable' },
       {
         slot: 'action',
         prop: 'action',
@@ -78,8 +80,8 @@ export default class PageUser extends Mixins(MixinTable) {
     return Reflect.apply(this.removeM, this, [
       ...rest,
       {
-        message: '是否确定删除用户?',
-        descriptions: '仅删除用户本系统内账号，不影响第三方账号',
+        message: this.$t('user.message'),
+        descriptions: this.$t('user.descriptions'),
       },
     ]);
   }

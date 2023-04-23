@@ -11,7 +11,7 @@ export default [
         name: 'user',
         component: () => import(/* webpackChunkName: "WillDoTaskList" */ '@/pages/user/index.vue'),
         meta: {
-          title: 'User组件',
+          title: 'user',
           icon: 'ph:user-list',
           noCache: false,
           id: '61',
@@ -23,7 +23,7 @@ export default [
         component: () =>
           import(/* webpackChunkName: "WillDoTaskList" */ '@/pages/personal/index.vue'),
         meta: {
-          title: '个人中心',
+          title: 'personal',
           hidden: true,
           noCache: false,
         },

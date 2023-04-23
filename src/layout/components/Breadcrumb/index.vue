@@ -9,9 +9,9 @@
             item.redirect === $route.path
           "
           class="no-redirect"
-          >{{ item.meta.title }}</span
+          >{{ menusTitle(item.meta.title) }}</span
         >
-        <a v-else @click.prevent="handleLink(item)">{{ item.meta.title }}</a>
+        <a v-else @click.prevent="handleLink(item)">{{ menusTitle(item.meta.title) }}</a>
       </el-breadcrumb-item>
     </transition-group>
   </el-breadcrumb>
@@ -28,6 +28,12 @@ import { RouteRecord, Route } from 'vue-router';
 export default class extends Vue {
   breadcrumbs: RouteRecord[] = [];
 
+  menusTitle(item: any) {
+    if (this.$t(`route.${item}`)) {
+      return this.$t(`route.${item}`);
+    }
+    return item;
+  }
   @Watch('$route')
   onRouteChange(route: Route) {
     // if you go to the redirect page, do not update the breadcrumbs

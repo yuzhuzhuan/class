@@ -1,6 +1,7 @@
 <template>
   <div>
     <Editor
+      :key="tinyId"
       :disabled="false"
       :init="initOpts"
       initial-value=""
@@ -14,8 +15,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Emit, Model, Vue } from 'vue-property-decorator';
+import { Component, Emit, Model, Vue, Watch } from 'vue-property-decorator';
 import Editor from '@tinymce/tinymce-vue';
+import { AppModule } from '@/store/modules/app';
 
 @Component({ components: { Editor } })
 export default class YkEditor extends Vue {
@@ -25,11 +27,12 @@ export default class YkEditor extends Vue {
   onChange(value: string) {
     return value;
   }
+  tinyId = 0;
 
   initOpts = {
     selector: '#sp-tiny', // 富文本编辑器的id
     // skin: "oxide-dark",
-    language: 'zh-Hans', // 语言包
+    language: this.language === 'en' ? 'en' : 'zh-Hans', // 语言包
     // 插件
     plugins:
       'print preview searchreplace autolink directionality visualblocks visualchars fullscreen image link media template  codesample table hr pagebreak nonbreaking anchor insertdatetime advlist lists wordcount  help  autosave autoresize formatpainter code  textpattern',
@@ -125,6 +128,18 @@ export default class YkEditor extends Vue {
     data.splice(data.length - arr.length, arr.length);
     data.unshift(...arr);
     return data;
+  }
+  get language() {
+    return AppModule.Language;
+  }
+  @Watch('language')
+  onChangeLang(newValue: string) {
+    if (newValue === 'en') {
+      this.initOpts.language = 'en';
+    } else {
+      this.initOpts.language = 'zh-Hans';
+    }
+    this.tinyId++;
   }
 }
 </script>

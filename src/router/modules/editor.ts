@@ -12,8 +12,8 @@ export default [
         component: () =>
           import(/* webpackChunkName: "WillDoTaskList" */ '@/pages/editor/index.vue'),
         meta: {
-          title: 'Editor组件',
-          icon: 'dashicons:editor-kitchensink',
+          title: 'tinymce',
+          icon: 'file-icons:tinymce',
           noCache: false,
           id: '22',
         },

@@ -20,7 +20,7 @@
             class="mr-4 mb-0.5 ml-4 text-2xl"
           />
           <span v-if="theOnlyOneChild.meta.title" slot="title">{{
-            theOnlyOneChild.meta.title
+            menusTitle(theOnlyOneChild.meta.title)
           }}</span>
         </el-menu-item>
       </sidebar-item-link>
@@ -33,7 +33,7 @@
           class="mr-4 mb-0.5 ml-4 text-2xl"
         />
         <span v-if="item.meta && item.meta.title" id="title" slot="title">{{
-          item.meta.title
+          menusTitle(item.meta.title)
         }}</span>
       </template>
       <template v-if="item.children">
@@ -122,6 +122,12 @@ export default class SidebarItem extends Vue {
       return this.basePath;
     }
     return path.resolve(this.basePath, routePath);
+  }
+  menusTitle(item: any) {
+    if (this.$t(`route.${item}`)) {
+      return this.$t(`route.${item}`);
+    }
+    return item;
   }
 }
 </script>

@@ -1,7 +1,8 @@
 <template>
   <YkDialog
     v-bind="attrsM"
-    title="用户编辑"
+    :title="$t('user.editUser')"
+    ok-text="保存"
     width="1000px"
     v-on="listenersM"
     @close="$reset('dialogForm')"
@@ -17,21 +18,21 @@
       class="max-w-full auto-rows-auto grid gap-0 grid-cols-[2fr_2fr]"
     >
       <!-- (0-9，a-z(a-z)) -->
-      <yk-form-item label="用户登录名" prop="username" required :rules="rules.username">
+      <yk-form-item :label="$t('user.userName')" prop="username" required :rules="rules.username">
         <yk-form-input v-model.trim="dialogForm.username" />
       </yk-form-item>
-      <yk-form-item label="用户姓名" prop="name" required>
+      <yk-form-item :label="$t('user.name')" prop="name" required>
         <yk-form-input v-model.trim="dialogForm.name" />
       </yk-form-item>
       <!-- (0-9，a-z(a-z)) -->
-      <yk-form-item label="登录密码" prop="password" required :rules="rules.password">
+      <yk-form-item :label="$t('user.password')" prop="password" required :rules="rules.password">
         <yk-form-input v-model.trim="dialogForm.password" type="password" />
       </yk-form-item>
-      <yk-form-item label="用户类别" prop="usertype" required rule-type="number">
+      <yk-form-item :label="$t('user.usertype')" prop="usertype" required rule-type="number">
         <yk-form-select v-model.trim="dialogForm.usertype" :options="spOpts.roletypeOpts" />
       </yk-form-item>
       <!-- (0-停用/1-启用) -->
-      <yk-form-item label="激活状态" prop="enable" required rule-type="number">
+      <yk-form-item :label="$t('user.enable')" prop="enable" required rule-type="number">
         <yk-form-select v-model.trim="dialogForm.enable" :options="spOpts.enableOpts" />
       </yk-form-item>
     </el-form>
