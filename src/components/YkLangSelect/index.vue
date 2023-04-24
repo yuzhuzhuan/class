@@ -26,7 +26,7 @@ import { AppModule } from '@/store/modules/app';
 @Component({
   name: 'echarts',
 })
-export default class YkEcharts extends Vue {
+export default class YkLangSelect extends Vue {
   get language() {
     return AppModule.Language;
   }
