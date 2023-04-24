@@ -9,7 +9,7 @@
             }}</el-button>
           </el-form-item>
           <yk-form-item prop="name">
-            <yk-form-input v-model.trim="queryFormM.department" placeholder="请输入部门名称" />
+            <yk-input v-model.trim="queryFormM.department" placeholder="请输入部门名称" />
           </yk-form-item>
           <el-form-item>
             <el-button type="primary" @click="onQueryM()">{{ $t('table.query') }}</el-button>

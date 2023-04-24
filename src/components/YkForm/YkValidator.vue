@@ -5,7 +5,7 @@ import { CreateElement } from 'vue';
 import { Form } from 'element-ui';
 
 @Component
-export default class YkValidateTigger extends Vue {
+export default class YkValidator extends Vue {
   // NOTE 还不是很方便，感觉要用高阶组件才行
   @Model('input', { required: true })
   private value!: Record<string, any>;

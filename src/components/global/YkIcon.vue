@@ -7,13 +7,16 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
+/**
+ * 简单的 iconify 封装
+ */
 @Component
 export default class YkIcon extends Vue {
   @Prop({ type: String, required: true })
   icon!: string;
 
   @Prop({ type: [String, Array, Object], required: false })
-  className?: string | Array<string | Record<string, boolean>> | Record<string, boolean>;
+  className?: string | Record<string, boolean> | string[] | Array<Record<string, boolean>>;
 }
 </script>
 

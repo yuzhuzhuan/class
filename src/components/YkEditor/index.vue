@@ -30,7 +30,7 @@ export default class YkEditor extends Vue {
   tinyId = 0;
 
   initOpts = {
-    selector: '#sp-tiny', // 富文本编辑器的id
+    selector: '#yk-tiny', // 富文本编辑器的id
     // skin: "oxide-dark",
     language: this.language === 'en' ? 'en' : 'zh-Hans', // 语言包
     // 插件

@@ -1,5 +1,6 @@
 <template>
   <ElButton v-bind="$attrs" :loading="pending" @click="onClick">
+    <!-- @slot button text -->
     <slot></slot>
   </ElButton>
 </template>
@@ -7,7 +8,7 @@
 import { Component, Vue, Prop } from 'vue-property-decorator';
 
 /**
- * 包装 ElButton, 自动管理 loading 状态
+ * 封装 ElButton, 自动管理 loading 状态
  * @see https://element.eleme.cn/#/zh-CN/component/button
  */
 @Component({ inheritAttrs: false })

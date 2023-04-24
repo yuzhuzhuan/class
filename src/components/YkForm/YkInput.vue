@@ -8,6 +8,7 @@
   />
   <ElInput v-else :placeholder="ph" v-bind="$attrs" :type="type" v-on="$listeners">
     <template slot="append">
+      <!-- @slot refer ElInput#append -->
       <slot name="append"></slot>
     </template>
   </ElInput>
@@ -16,11 +17,17 @@
 import { Component, Inject, Prop, Vue } from 'vue-property-decorator';
 import { Form } from 'element-ui';
 
+/**
+ * 封装 ElInput 和 ElInputNumber
+ */
 @Component({ components: {}, inheritAttrs: false })
-export default class YkFormInput extends Vue {
+export default class YkInput extends Vue {
   @Inject({ from: 'placeholder', default: '' })
   placeholderInject?: string;
 
+  /**
+   * 指定 placeholder, 覆盖继承自 YkFormItem 的 placeholder
+   */
   @Prop({ type: String, required: false })
   placeholder?: string;
 
@@ -33,12 +40,18 @@ export default class YkFormInput extends Vue {
   @Inject({ from: 'elForm' })
   FormInstance!: Form;
 
+  /**
+   * refer ElInput.type
+   */
   @Prop({ type: String, required: false })
   type?: string;
 
   @Prop({ type: String, required: false })
   className?: string;
 
+  /**
+   * 是否渲染 ElInputNumber, 默认 ElInput
+   */
   @Prop({ type: Boolean, required: false, default: false })
   number!: boolean;
 }

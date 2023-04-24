@@ -12,11 +12,7 @@
         <el-form ref="submitForm" :model="submitForm" label-width="80px" :show-message="false">
           <yk-form-item :label="$t('role.roleName')" prop="name" required>
             <div class="flex">
-              <yk-form-input
-                v-model.trim="submitForm.name"
-                style="width: 300px"
-                @blur="verifyName"
-              />
+              <yk-input v-model.trim="submitForm.name" style="width: 300px" @blur="verifyName" />
               <YkMessage
                 :text="warnNameText"
                 type="warning"

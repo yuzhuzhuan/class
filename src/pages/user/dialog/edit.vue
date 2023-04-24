@@ -19,21 +19,21 @@
     >
       <!-- (0-9，a-z(a-z)) -->
       <yk-form-item :label="$t('user.userName')" prop="username" required :rules="rules.username">
-        <yk-form-input v-model.trim="dialogForm.username" />
+        <yk-input v-model.trim="dialogForm.username" />
       </yk-form-item>
       <yk-form-item :label="$t('user.name')" prop="name" required>
-        <yk-form-input v-model.trim="dialogForm.name" />
+        <yk-input v-model.trim="dialogForm.name" />
       </yk-form-item>
       <!-- (0-9，a-z(a-z)) -->
       <yk-form-item :label="$t('user.password')" prop="password" required :rules="rules.password">
-        <yk-form-input v-model.trim="dialogForm.password" type="password" />
+        <yk-input v-model.trim="dialogForm.password" type="password" />
       </yk-form-item>
       <yk-form-item :label="$t('user.usertype')" prop="usertype" required rule-type="number">
-        <yk-form-select v-model.trim="dialogForm.usertype" :options="spOpts.roletypeOpts" />
+        <yk-select v-model.trim="dialogForm.usertype" :options="spOpts.roletypeOpts" />
       </yk-form-item>
       <!-- (0-停用/1-启用) -->
       <yk-form-item :label="$t('user.enable')" prop="enable" required rule-type="number">
-        <yk-form-select v-model.trim="dialogForm.enable" :options="spOpts.enableOpts" />
+        <yk-select v-model.trim="dialogForm.enable" :options="spOpts.enableOpts" />
       </yk-form-item>
     </el-form>
   </YkDialog>

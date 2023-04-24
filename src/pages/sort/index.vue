@@ -4,7 +4,7 @@
       <div class="yk-flex-col">
         <el-form ref="queryFormM" inline :model="queryFormM">
           <yk-form-item prop="name">
-            <yk-form-input v-model="queryFormM.name" placeholder="请输入用户名称" />
+            <yk-input v-model="queryFormM.name" placeholder="请输入用户名称" />
           </yk-form-item>
           <el-form-item>
             <el-button type="primary" @click="onQuery()">{{ $t('table.query') }}</el-button>

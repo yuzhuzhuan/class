@@ -1,4 +1,4 @@
-# YkTable组件
+# YkTable 组件
 
 #### Props
 
@@ -11,7 +11,7 @@
 | autoRequest | 自动请求   | boolean                          | false    |
 | loading     | 加载中     | boolean                          | false    |
 
-> pageOptions可不传，默认数据可使用YkTable组件的pageInfoMixin
+> pageOptions 可不传，默认数据可使用 YkTable 组件的 pageInfoMixin
 >
 > 其他`el-table` 的属性都支持，详情属性见[`el-table`](https://element.eleme.cn/#/zh-CN/component/table)文档。
 
@@ -28,9 +28,9 @@
 | width     | number                         | 对应列的宽度                                  | false    |
 | slot      | string \|‘                     | 自定义列内容                                  | false    |
 | tooltip   | boolean                        | 当内容过长被隐藏时显示 tooltip                | false    |
-| className | string                         | 列的className                                 | false    |
+| className | string                         | 列的 className                                | false    |
 
-> 如需添加`el-table` 其他属性，需要在YKTable组件ColumnItem类型中对应添加属性名及类型。
+> 如需添加`el-table` 其他属性，需要在 YKTable 组件 ColumnItem 类型中对应添加属性名及类型。
 
 #### 代码示例
 
@@ -42,17 +42,17 @@
 ></YKtable>
 ```
 
-# YkEditor组件
+# YkEditor 组件
 
-目前是编辑器版本是6.2.0
+目前是编辑器版本是 6.2.0
 
 如果需要加上百度地图插件
 
-1.降级到5.6.0版本，
+1.降级到 5.6.0 版本，
 
-2.下载bdmap插件放入public\static\tinymce\plugins文件夹中
+2.下载 bdmap 插件放入 public\static\tinymce\plugins 文件夹中
 
-3.在项目中src\components\YKeditor\index.vue文件中给plugins和toolbar属性都添加bdmap
+3.在项目中 src\components\YKeditor\index.vue 文件中给 plugins 和 toolbar 属性都添加 bdmap
 
 #### 代码示例
 
@@ -117,7 +117,7 @@ initSortable(docSelect: any, index: any) {
     const tbody = document.querySelector(docSelect);
     // 创建拖拽实例
      ...同上,
-    
+
        onEnd: (event: any) => {
         // 修改排序后的数据
         const targetRow = this.list[index].splice(event.oldIndex, 1)[0]; // 拖拽后的行
@@ -133,12 +133,12 @@ initSortable(docSelect: any, index: any) {
         if (data === '操作成功') {
           this.getList();
         }
-       
+
       }
   }
 ```
 
-# YkDialog组件
+# YkDialog 组件
 
 ### props
 
@@ -153,11 +153,9 @@ initSortable(docSelect: any, index: any) {
 
 > 其他`el-dialog` 的属性都支持，详情属性见[`el-dialog`](https://element.eleme.cn/#/zh-CN/component/dialog)文档。
 >
-> okText默认保存，如果当前组件修改了，i18n中文需要对应配置 src/lang/zh
+> okText 默认保存，如果当前组件修改了，i18n 中文需要对应配置 src/lang/zh
 
-
-
-# yk-form-item组件
+# yk-form-item 组件
 
 ### props
 
@@ -170,7 +168,7 @@ initSortable(docSelect: any, index: any) {
 
 > 其他`el-form` 的属性都支持，详情属性见[`el-form`](https://element.eleme.cn/#/zh-CN/component/form)文档。
 
-# yk-form-input组件
+# yk-input 组件
 
 ### props
 
@@ -183,7 +181,7 @@ initSortable(docSelect: any, index: any) {
 
 > 其他`el-input` 的属性方法都支持，详情属性见[`el-input`](https://element.eleme.cn/#/zh-CN/component/input)文档。
 
-# yk-form-select组件
+# yk-select 组件
 
 ### props
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col sp-table relative">
+  <div class="flex flex-col yk-table relative">
     <el-table
       v-bind="$attrs"
       ref="table"
@@ -239,7 +239,7 @@ export default class YkTable extends Vue {
         selectable: this.selectableFn,
         align: 'center',
         fixed: 'left',
-        className: this.checkMode === 'single' ? 'sp-table-check-single' : '',
+        className: this.checkMode === 'single' ? 'yk-table-check-single' : '',
         ...(selection ?? {}),
       };
       columns.unshift(data);
@@ -410,10 +410,10 @@ export default class YkTable extends Vue {
 <style lang="scss">
 .ivu-tooltip,
 .icon-svg,
-.sp-table-poptip,
+.yk-table-poptip,
 .ivu-poptip {
   & + & {
-    .sp-table .action-bar & {
+    .yk-table .action-bar & {
       margin-left: 8px;
     }
   }
@@ -439,7 +439,7 @@ export default class YkTable extends Vue {
     width: 100%;
   }
 }
-.sp-table {
+.yk-table {
   .no-data {
     line-height: 3em;
 
@@ -447,7 +447,7 @@ export default class YkTable extends Vue {
   }
 
   ::v-deep {
-    th.sp-table-check-single {
+    th.yk-table-check-single {
       .ivu-table-cell-with-selection {
         display: none;
       }
