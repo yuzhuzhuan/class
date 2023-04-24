@@ -4,20 +4,24 @@
   </ElButton>
 </template>
 <script lang="ts">
-// Button 自动管理 loading 状态
 import { Component, Vue, Prop } from 'vue-property-decorator';
 
+/**
+ * 包装 ElButton, 自动管理 loading 状态
+ * @see https://element.eleme.cn/#/zh-CN/component/button
+ */
 @Component({ inheritAttrs: false })
 export default class YkButton extends Vue {
+  /**
+   * 标识 click 回调是否是一个异步函数
+   */
   @Prop({ type: Boolean, required: false })
   loading?: boolean;
 
-  pending = false;
+  private pending = false;
 
   private onClick() {
-    // eslint-disable-next-line no-undef
-    const clickFn = this.$listeners.click as YkFunction;
-
+    const clickFn = this.$listeners.click as YkFunction | undefined;
     if (clickFn) {
       const promise = clickFn();
       if (this.loading) {
@@ -27,9 +31,15 @@ export default class YkButton extends Vue {
             this.pending = false;
           });
         } else {
-          console.warn('YkButton 是异步提交组件，同步组件请使用 Button 组件');
+          console.warn('当 loading 为 true 时，@click 需传入一个异步函数');
         }
       }
+    } else {
+      // NOTE: not works, just for document
+      /**
+       * 当 loading 为 true 时，需传入一个异步函数
+       */
+      this.$emit('click');
     }
   }
 }

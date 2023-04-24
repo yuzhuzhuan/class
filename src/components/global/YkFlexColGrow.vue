@@ -7,6 +7,9 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 
+/**
+ * @example [none]
+ */
 @Component
 export default class YkFlexColGrow extends Vue {
   //

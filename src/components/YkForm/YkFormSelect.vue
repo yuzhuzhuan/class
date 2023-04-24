@@ -21,7 +21,7 @@ export default class YkFormSelect extends Vue {
   @Inject({ from: 'placeholder', default: '' })
   placeholderInject?: string;
 
-  @Prop({ type: String })
+  @Prop({ type: String, required: false })
   placeholder?: string;
 
   @Prop({ type: Array, default: () => [] })

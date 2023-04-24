@@ -107,6 +107,9 @@ import { Table } from 'element-ui';
 import { pick } from 'lodash-es';
 import { DEF_PAGE_INFO } from '@/assets/js/config';
 
+/**
+ * @requires ./YkTableButton.vue
+ */
 @Component({
   inheritAttrs: false,
   components: { YkPagination, YkTablePoptip, YkTableButton },

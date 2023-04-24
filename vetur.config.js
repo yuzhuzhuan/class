@@ -20,7 +20,7 @@ module.exports = {
     {
       root: './',
       package: './package.json',
-      globalComponents: ['./src/components/global/*.vue'],
+      globalComponents: ['./src/components/global/*.vue', './src/components/YkForm/*.vue'],
     },
   ],
   // exclude: ['src/pages/user/**'],

@@ -31,7 +31,7 @@ export default class YkFormItem extends Vue {
   @Prop({ type: [Object, Array], required: false })
   rules?: RuleItem | RuleItem[];
 
-  @Prop({ type: String })
+  @Prop({ type: String, required: false })
   ruleType?: RuleItem['type'];
 
   @Provide()
