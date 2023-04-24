@@ -13,14 +13,19 @@
     </slot>
   </ElSelect>
 </template>
+
 <script lang="ts">
-import { Form } from 'element-ui';
 import { Component, Emit, Inject, Model, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Form } from 'element-ui';
 /**
  * 封装 ElSelect
+ *
+ * @example [none]
+ *
+ * @see {@link https://element.eleme.cn/#/zh-CN/component/select}
  */
-@Component
-export default class YkFormSelect extends Vue {
+@Component({ components: {}, inheritAttrs: false })
+export default class YkSelect extends Vue {
   @Inject({ from: 'placeholder', default: '' })
   placeholderInject?: string;
 
@@ -61,6 +66,8 @@ export default class YkFormSelect extends Vue {
 
   /**
    * 是否自动添加选项“全部”
+   *
+   * 当 options.length=0 时，不显示
    */
   @Prop({ type: [Boolean, String], default: false }) all!: boolean | string;
   private blankOptValue = 'yk-select-all-option-value';
@@ -76,13 +83,13 @@ export default class YkFormSelect extends Vue {
     );
   }
   /**
-   * 当 options=1 时，是否自动选择
+   * 当 options.length=1 时，是否自动选择
    */
   @Prop({ type: Boolean, default: false })
   selectOnlyOne!: boolean;
 
-  @Inject({ from: 'elForm' })
-  FormInstance!: Form;
+  @Inject({ from: 'elForm', default: null })
+  FormInstance?: Form;
 
   private keepListen = true;
   private optionsCount = 0;
@@ -96,7 +103,7 @@ export default class YkFormSelect extends Vue {
     }
 
     if (this.optionsCount === 1) {
-      if (this.options) {
+      if (this.options?.[0]) {
         this.onChange(this.options[0]?.value ?? '');
       } else {
         const onlyChild = this.$slots.default?.[0];

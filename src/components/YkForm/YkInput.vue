@@ -19,6 +19,8 @@ import { Form } from 'element-ui';
 
 /**
  * 封装 ElInput 和 ElInputNumber
+ *
+ * @see {@link https://element.eleme.cn/#/zh-CN/component/input}
  */
 @Component({ components: {}, inheritAttrs: false })
 export default class YkInput extends Vue {
@@ -37,8 +39,8 @@ export default class YkInput extends Vue {
     return this.placeholder ?? this.placeholderInject;
   }
 
-  @Inject({ from: 'elForm' })
-  FormInstance!: Form;
+  @Inject({ from: 'elForm', default: null })
+  FormInstance?: Form;
 
   /**
    * refer ElInput.type

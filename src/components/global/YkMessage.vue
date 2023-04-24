@@ -15,7 +15,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
 export default class YkMessage extends Vue {
   @Prop({ type: Boolean, required: true })
-  isShow!: true | false;
+  isShow!: boolean;
   @Prop({ type: String, required: true })
   text!: string;
   @Prop({ type: String, required: true, default: 'warning' })
