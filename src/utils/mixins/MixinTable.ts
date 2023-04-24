@@ -60,7 +60,7 @@ export default class MixinTable<T extends Record<string, any> & { id: any }> ext
     row: T,
     _index?: number,
     confirmOpts: { message: string; descriptions?: string | string[] } = {
-      message: '是否确认删除？',
+      message: this.$t('YkMessageBox.message').toString(),
       descriptions: [''],
     },
   ) {

@@ -22,9 +22,11 @@
           <div v-if="actionPosition === 'top'" class="flex-1 text-right">
             <template v-if="type === 'confirm'">
               <el-button type="primary" size="mini" :loading="mixinLoading" @click="onSave">
-                {{ okText || '保存' }}
+                {{ $t('dialog.okText') }}
               </el-button>
-              <el-button size="mini" type="primary" @click="$emit('on-cancel')"> 取消 </el-button>
+              <el-button size="mini" type="primary" @click="$emit('on-cancel')">
+                {{ $t('dialog.cancel') }}
+              </el-button>
             </template>
             <el-button
               v-else-if="type === 'alert'"
@@ -32,7 +34,7 @@
               type="primary"
               @click="$emit('on-cancel')"
             >
-              关闭
+              {{ $t('dialog.close') }}
             </el-button>
           </div>
           <div v-else-if="actionPosition === 'bottom'" class="flex-1 text-right">
@@ -56,10 +58,10 @@
             class="w-23"
             @click="onSave"
           >
-            {{ okText || '保存' }}
+            {{ $t('dialog.okText') }}
           </el-button>
           <el-button size="mini" type="info" class="w-23" @click="$emit('on-cancel')">
-            取消
+            {{ $t('dialog.cancel') }}
           </el-button>
         </template>
         <el-button
@@ -69,7 +71,7 @@
           class="w-23"
           @click="$emit('on-cancel')"
         >
-          关闭
+          {{ $t('dialog.close') }}
         </el-button>
       </div>
     </template>

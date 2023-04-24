@@ -11,8 +11,8 @@ export default [
         name: 'icon',
         component: () => import(/* webpackChunkName: "WillDoTaskList" */ '@/pages/icon/index.vue'),
         meta: {
-          title: 'Icon组件',
-          icon: 'dashicons:editor-kitchensink',
+          title: 'icons',
+          icon: 'mdi:alpha-i-box-outline',
           noCache: false,
           id: '51',
         },

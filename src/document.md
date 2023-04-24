@@ -152,6 +152,10 @@ initSortable(docSelect: any, index: any) {
 | actionPosition | 按钮操作位置 | 'top'\|'bottom'\|false     |          |
 
 > 其他`el-dialog` 的属性都支持，详情属性见[`el-dialog`](https://element.eleme.cn/#/zh-CN/component/dialog)文档。
+>
+> okText默认保存，如果当前组件修改了，i18n中文需要对应配置 src/lang/zh
+
+
 
 # yk-form-item组件
 

@@ -6,7 +6,7 @@ export default [
     path: '/table',
     component: Layout,
     meta: {
-      title: 'Table组件',
+      title: 'Table',
       icon: 'fluent:table-edit-24-regular',
     },
     children: [
@@ -15,8 +15,8 @@ export default [
         name: 'sort',
         component: () => import(/* webpackChunkName: "WillDoTaskList" */ '@/pages/sort/index.vue'),
         meta: {
-          title: 'sort',
-          icon: 'fa-solid:sort',
+          title: 'dragTable',
+          icon: 'iconoir:drag',
           noCache: false,
           id: '33',
         },
@@ -27,7 +27,7 @@ export default [
         component: () =>
           import(/* webpackChunkName: "WillDoTaskList" */ '@/pages/treeTable/index.vue'),
         meta: {
-          title: 'TreeTable',
+          title: 'treeTable',
           icon: 'clarity:tree-view-solid',
           noCache: false,
           id: '33',

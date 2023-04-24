@@ -4,6 +4,7 @@
 @import './svgicon';
 @import './mixins';
 @import './updateScrollerBar';
+@import './yk-components';
 
 /* Global scss */
 
@@ -181,7 +182,7 @@ li {
 
 .icon {
   margin-right: 5px;
-  font-size: 18px;
+  font-size: 25px;
 }
 .detail-header {
   box-sizing: border-box;

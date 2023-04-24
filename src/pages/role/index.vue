@@ -1,9 +1,11 @@
 <template>
   <div class="app-container">
-    <yk-card flex header="角色管理">
+    <yk-card flex :header="$t('role.title')">
       <div class="gap-4 yk-flex-col">
         <div>
-          <el-button type="primary" @click="$router.push('/role/create')">新增角色</el-button>
+          <el-button type="primary" @click="$router.push('/role/create')">{{
+            $t('role.addRole')
+          }}</el-button>
         </div>
         <div class="yk-flex-col-grow">
           <YkTable
@@ -32,6 +34,7 @@ interface Role {
 }
 @Component({})
 export default class PageRole extends Mixins(MixinTable) {
+  title = '角色管理';
   ConfirmFlag = false;
   roleEdit(row: any) {
     this.$router.push({
@@ -40,7 +43,12 @@ export default class PageRole extends Mixins(MixinTable) {
   }
 
   async remove(...rest: any[]) {
-    return Reflect.apply(this.removeM, this, [...rest, { message: '是否确定删除角色?' }]);
+    return Reflect.apply(this.removeM, this, [
+      ...rest,
+      {
+        message: this.$t('role.message'),
+      },
+    ]);
   }
 
   /**
@@ -57,12 +65,12 @@ export default class PageRole extends Mixins(MixinTable) {
   removeRequest = service.remove;
   get tableColumns() {
     const data: Array<ColumnItem<Role>> = [
-      { label: '角色名称', prop: 'name' },
+      { label: this.$t('role.roleName'), prop: 'name' },
       {
         slot: 'action',
         prop: 'action',
         width: 200,
-        label: '操作',
+        label: this.$t('table.actions'),
         listeners: {
           remove: this.remove,
           edit: this.roleEdit,

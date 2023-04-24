@@ -12,7 +12,7 @@ export default [
         component: () => import(/* webpackChunkName: 'dashboard' */ '@/pages/upload/index.vue'),
         name: 'upload',
         meta: {
-          title: 'Upload组件',
+          title: 'upload',
           icon: 'bxs:cloud-upload',
           id: '23',
         },

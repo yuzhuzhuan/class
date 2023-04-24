@@ -1,5 +1,12 @@
 import { VuexModule, Module, Mutation, Action, getModule } from 'vuex-module-decorators';
-import { getCurrentTab, getSidebarStatus, setCurrentTab, setSidebarStatus } from '@/utils/cookies';
+import {
+  getCurrentTab,
+  getSidebarStatus,
+  setCurrentTab,
+  setSidebarStatus,
+  setLanguage,
+} from '@/utils/cookies';
+import { GetLanguage } from '@/lang/index';
 import store from '@/store';
 import { IRouteObj } from '@/types/routeTypes';
 
@@ -15,6 +22,10 @@ export interface IAppState {
    * 路由列表
    */
   TabList: IRouteObj[];
+  /**
+   * 语言
+   */
+  language: string;
 }
 
 @Module({ dynamic: true, store, name: 'app' })
@@ -32,9 +43,11 @@ class App extends VuexModule implements IAppState {
     {
       name: 'Index',
       path: '/index',
-      title: '首页',
+      title: 'dashboard',
     },
   ];
+  // language
+  language = GetLanguage();
 
   @Mutation
   TOGGLE_SIDEBAR(withoutAnimation: boolean) {
@@ -94,7 +107,7 @@ class App extends VuexModule implements IAppState {
       {
         name: 'Index',
         path: '/index',
-        title: '首页',
+        title: 'dashboard',
       },
       currentObj,
     ];
@@ -108,13 +121,30 @@ class App extends VuexModule implements IAppState {
     const obj = {
       name: 'Index',
       path: '/index',
-      title: '首页',
+      title: 'dashboard',
     };
     this.TabList = [obj];
     this.currentTab = '/index';
     setCurrentTab(obj);
   }
-
+  /**
+   * 修改语言
+   */
+  @Mutation
+  SET_LANGUAGE(lang: string) {
+    // 存入数据
+    this.language = lang;
+    // 存入数据进入cookie
+    setLanguage(lang);
+  }
+  /**
+   * 对外暴露设置用户数据
+   * @param userData
+   */
+  @Action
+  setLANGUAGE(lang: string) {
+    this.SET_LANGUAGE(lang);
+  }
   @Action
   ToggleSideBar(withoutAnimation: boolean) {
     this.TOGGLE_SIDEBAR(withoutAnimation);
@@ -157,6 +187,9 @@ class App extends VuexModule implements IAppState {
   @Action
   closeAll() {
     this.CLOSE_ALL();
+  }
+  get Language() {
+    return this.language;
   }
 }
 

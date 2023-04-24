@@ -1,10 +1,10 @@
 <template>
   <div class="app-container">
-    <el-card class="h-full overflow-y-auto" header="富文本编辑器">
+    <el-card class="h-full overflow-y-auto" :header="$t('tinymce.title')">
       <YKeditor v-model="content"></YKeditor>
       <div class="flex mt-5 footer justify-end">
-        <el-button @click="cancel()">取 消</el-button>
-        <el-button type="primary" @click="save()">保存</el-button>
+        <el-button @click="cancel()">{{ $t('global.cancel') }}</el-button>
+        <el-button type="primary" @click="save()">{{ $t('global.save') }}</el-button>
       </div>
       <div class="mt-4">
         <p class="mb-4 text-2xl">富文本输入内容</p>

@@ -1,7 +1,7 @@
 <template>
   <YkDialog
     v-bind="attrsM"
-    title="用户编辑"
+    :title="$t('treeTable.edit')"
     width="1000px"
     v-on="listenersM"
     @close="$reset('dialogForm')"
@@ -16,23 +16,33 @@
       :label-width="5 + 2 + 'em'"
       class="max-w-full auto-rows-auto grid gap-0 grid-cols-[2fr_2fr]"
     >
-      <yk-form-item label="部门名称" prop="departmentName" required :rules="rules.departmentName">
+      <yk-form-item
+        :label="$t('treeTable.departmentName')"
+        prop="departmentName"
+        required
+        :rules="rules.departmentName"
+      >
         <yk-form-input v-model.trim="dialogForm.departmentName" />
       </yk-form-item>
-      <yk-form-item label="主管名称" prop="manager" required>
+      <yk-form-item :label="$t('treeTable.manager')" prop="manager" required>
         <yk-form-input v-model.trim="dialogForm.manager" />
       </yk-form-item>
-      <yk-form-item label="部门位置" :rules="rules.location" required class="w-50">
+      <yk-form-item :label="$t('treeTable.location')" :rules="rules.location" required class="w-50">
         <TreeSelect
           v-model="dialogForm.pid"
           :options="options"
           placeholder="请输入部门位置..."
         ></TreeSelect>
       </yk-form-item>
-      <yk-form-item label="部门介绍" prop="introduce" required :rules="rules.introduce">
+      <yk-form-item
+        :label="$t('treeTable.introduce')"
+        prop="introduce"
+        required
+        :rules="rules.introduce"
+      >
         <yk-form-input v-model.trim="dialogForm.introduce" />
       </yk-form-item>
-      <yk-form-item label="部门邮箱" prop="email" required :rules="rules.email">
+      <yk-form-item :label="$t('treeTable.email')" prop="email" required :rules="rules.email">
         <yk-form-input v-model.trim="dialogForm.email" />
       </yk-form-item>
     </el-form>

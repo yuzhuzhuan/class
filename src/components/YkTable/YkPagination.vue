@@ -19,7 +19,8 @@
 <script lang="ts">
 import { DEF_PAGE_INFO } from '@/assets/js/config';
 import { omit } from 'lodash-es';
-import { Vue, Prop, Component } from 'vue-property-decorator';
+import { Vue, Prop, Component, Watch } from 'vue-property-decorator';
+import { AppModule } from '@/store/modules/app';
 
 export type PageInfo = Partial<typeof DEF_PAGE_INFO>;
 @Component({ inheritAttrs: false })
@@ -30,6 +31,9 @@ export default class YkPagination extends Vue {
   @Prop({ type: Boolean, default: false })
   hideOnSinglePage!: boolean;
 
+  get language() {
+    return AppModule.Language;
+  }
   get tablePageInfo() {
     return Object.assign({ total: 0 }, DEF_PAGE_INFO, this.pageInfo, this.$attrs);
   }
@@ -47,6 +51,11 @@ export default class YkPagination extends Vue {
       opts.layout.replace('prev,', '');
       opts.layout.replace('next,', '');
     }
+
+    Object.keys(opts).forEach((key) => {
+      opts[key] = this.$t(`pagination.${key}`).toString();
+    });
+
     return Object.assign({}, opts, this.$attrs);
   }
 

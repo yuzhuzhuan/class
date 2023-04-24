@@ -29,3 +29,8 @@ const PageKey = 'Page';
 export const getPage = () => Cookies.get(PageKey);
 export const setPage = (data: IPage) => Cookies.set(PageKey, JSON.stringify(data));
 export const removePage = () => Cookies.remove(PageKey);
+// Language
+const LanguageKey = 'language';
+export const getLanguage = () => Cookies.get(LanguageKey);
+export const setLanguage = (data: string) => Cookies.set(LanguageKey, JSON.stringify(data));
+export const removeLanguage = () => Cookies.remove(LanguageKey);

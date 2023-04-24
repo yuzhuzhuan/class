@@ -1,12 +1,24 @@
 <template>
   <div class="app-container">
-    <el-card class="h-full overflow-y-auto" header="上传图片">
+    <el-card class="h-full overflow-y-auto" :header="$t('upload.title')">
       <div class="mt-10 w-50">
-        <YkUpload :drag="true" :clear-files="clearFiles" @uploadOk="uploadOk"></YkUpload>
+        <YkUpload
+          :drag="true"
+          :limit="3"
+          :file-size="5"
+          :clear-files="clearFiles"
+          @uploadOk="uploadOk"
+        ></YkUpload>
       </div>
       <div class="mt-10 w-50">
-        <YkUpload list-type="picture-card" :limit="5">
-          <i slot="default" class="el-icon-plus"></i>
+        <YkUpload
+          list-type="text"
+          :limit="5"
+          :file-type="['apk', 'zip']"
+          :file-size="100"
+          @uploadOk="uploadOk"
+        >
+          <el-button size="small" type="primary">点击上传</el-button>
         </YkUpload>
       </div>
     </el-card>
@@ -43,15 +55,84 @@ export default class Upload extends Vue {
   fileFormData?: FormData;
 
   // 上传成功
-  uploadOk(val: any) {
-    console.log('val', val);
+  uploadOk(file: any) {
+    console.log('val', file);
 
-    const fd = new FormData();
-    fd.append('file', val.file);
-    this.fileFormData = fd;
+    // const fd = new FormData();
+    // fd.append('file', file);
+    // this.fileFormData = fd;
     // 不加弹框 可在这个方法中调用api  并清空已上传文件列表
-    this.clearFiles = true;
+    // this.clearFiles = true;
+    const chunkSize = 2 * 1024 * 1024; // 分片大小 2M
+    const chunks = []; // 保存分片数据
+    const token = new Date();
+    const { name } = file;
+    let chunkCount = 0;
+    let sendChunkCount = 0;
+    // 拆分文件
+    if (file.size < chunkSize) {
+      chunks.push(file.slice(0));
+    } else {
+      let start = 0;
+      let end = 0;
+      let flag = true;
+      while (flag) {
+        end += chunkSize;
+        const blob = file.slice(start, end);
+        start += chunkSize;
+
+        if (!blob.size) {
+          flag = false;
+          break;
+        }
+        chunks.push(blob);
+      }
+    }
+    chunkCount = chunks.length;
+
+    for (let i = 0; i < chunks.length; i++) {
+      const fd = new FormData();
+      fd.append('token', token.toString());
+      fd.append('f1', chunks[i]);
+      fd.append('index', i.toString());
+      // eslint-disable-next-line no-loop-func
+      this.xhrSend(fd, () => {
+        sendChunkCount += 1;
+        if (sendChunkCount === chunks.length) {
+          console.log('上传完成，发送合并请求');
+          const formD = new FormData();
+          formD.append('type', 'merge');
+          formD.append('token', token.toString());
+          formD.append('chunkCount', chunkCount.toString());
+          formD.append('fileName', name);
+          this.xhrSend(formD);
+        }
+      });
+    }
   }
+
+  xhrSend(fd: any, cb?: any) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('post', 'url/upload', true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        console.log(xhr.responseText);
+        cb && cb();
+      }
+    };
+    xhr.send(fd);
+  }
+
+  // // 上传成功
+  // uploadOk(val: any) {
+  //   console.log('val', val);
+
+  //   const fd = new FormData();
+  //   fd.append('file', val.file);
+  //   this.fileFormData = fd;
+  //   // 不加弹框 可在这个方法中调用api  并清空已上传文件列表
+  //   this.clearFiles = true;
+  // }
 
   click() {
     this.dialogFlag = true;

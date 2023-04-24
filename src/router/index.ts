@@ -39,7 +39,7 @@ export const routes: RouteConfig[] = [
         name: 'home',
         component: () => import(/* webpackChunkName: "WillDoTaskList" */ '@/pages/home/index.vue'),
         meta: {
-          title: '首页',
+          title: 'dashboard',
           icon: 'fluent:building-home-20-filled',
           noCache: false,
           id: '23',

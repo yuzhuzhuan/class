@@ -24,7 +24,7 @@
           v-if="item.slot === 'action' && actionCol"
           :key="(item.prop || item.key || '').toString() + 'slot'"
           v-bind="actionCol"
-          label="操作"
+          :label="$t('table.actions')"
           :header-align="actionCol.align"
           :align="actionCol.align"
           :show-overflow-tooltip="item.tooltip"
@@ -35,14 +35,14 @@
               <template v-if="actionCol && actionCol.listeners">
                 <YkTableButton
                   v-if="actionCol.listeners.edit"
-                  text="编辑"
+                  :text="$t('table.edit').toString()"
                   type="primary"
                   icon="majesticons:edit-pen-2"
                   @click="onActionClick('edit', scope)"
                 />
                 <YkTableButton
                   v-if="actionCol.listeners.detail"
-                  text="详情"
+                  :text="$t('table.detail').toString()"
                   type="default"
                   icon="majesticons:document-line"
                   @click="onActionClick('detail', scope)"
@@ -50,7 +50,7 @@
                 <YkTableButton
                   v-if="actionCol.listeners.remove"
                   slot="reference"
-                  text="删除"
+                  :text="$t('table.delete').toString()"
                   type="danger"
                   icon="ep:delete-filled"
                   @click="onActionClick('remove', scope)"
