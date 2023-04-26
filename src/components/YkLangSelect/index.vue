@@ -23,9 +23,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { AppModule } from '@/store/modules/app';
 
-@Component({
-  name: 'echarts',
-})
+@Component({})
 export default class YkLangSelect extends Vue {
   get language() {
     return AppModule.Language;
