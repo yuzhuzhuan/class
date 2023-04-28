@@ -4,11 +4,12 @@
 <script lang="ts">
 import { Component, Vue, Ref, Prop } from 'vue-property-decorator';
 import * as echarts from 'echarts';
+import { debounce } from '@/utils';
 
-@Component({
-  name: 'echarts',
-})
+@Component({})
 export default class YkEcharts extends Vue {
+  sidebarElm = null as any;
+  resizeHandler = null as any;
   /**
    * 表单的ref
    */
@@ -33,10 +34,14 @@ export default class YkEcharts extends Vue {
     if (this.options) {
       this.useEcharts(this.myChart, this.options);
     }
+    this.initListener();
   }
 
   destroyed() {
     window.removeEventListener('resize', this.echartsResize);
+    this.resizeHandler = null;
+    this.sidebarElm &&
+      this.sidebarElm.removeEventListener('transitionend', this.sidebarResizeHandler);
   }
 
   echartsResize() {
@@ -47,7 +52,26 @@ export default class YkEcharts extends Vue {
     if (options && typeof options === 'object') {
       myChart.setOption(options);
     }
-    window.addEventListener('resize', this.echartsResize.bind(this), false);
+  }
+  activated() {
+    if (!this.resizeHandler) {
+      this.initListener();
+    }
+    this.echartsResize();
+  }
+  initListener() {
+    this.resizeHandler = debounce(() => {
+      this.echartsResize();
+    }, 100);
+    window.addEventListener('resize', this.resizeHandler);
+
+    this.sidebarElm = document.getElementsByClassName('sidebar-container')[0];
+    this.sidebarElm && this.sidebarElm.addEventListener('transitionend', this.sidebarResizeHandler);
+  }
+  sidebarResizeHandler(e: any) {
+    if (e.propertyName === 'width') {
+      this.resizeHandler();
+    }
   }
 }
 </script>
