@@ -6,9 +6,9 @@
     "davidanson.vscode-markdownlint",
     "wayou.vscode-todo-highlight",
     "fabiospampinato.vscode-todo-plus",
-    "voorjaar.windicss-intellisense",
     "octref.vetur",
-    "vue.vscode-typescript-vue-plugin"
+    "vue.vscode-typescript-vue-plugin",
+    "bradlc.vscode-tailwindcss"
   ],
   "unwantedRecommendations": ["vue.volar"]
 }

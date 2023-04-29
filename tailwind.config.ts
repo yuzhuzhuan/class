@@ -1,7 +1,4 @@
-import plugin from 'windicss/plugin';
-import { defineConfig } from 'windicss/helpers';
-import { DeepNestObject } from 'windicss/types/interfaces';
-
+import type { Config } from 'tailwindcss';
 /**
  * Used for animation when the element is displayed
  * @param maxOutput The larger the maxOutput output, the larger the generated css volume
@@ -51,25 +48,13 @@ function createEnterPlugin(maxOutput = 7) {
   };
   return { handler };
 }
-export default defineConfig({
+
+export default {
+  content: ['./public/**/*.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   darkMode: 'class',
-  transformCSS: true,
-  attributify: false,
-  plugins: [
-    createEnterPlugin(),
-    // plugin(({ addComponents }) => {
-    //   const flexs: DeepNestObject = {
-    //     '.yk-flex-col': {
-    //       [`${'@apply'} flex flex-col h-full`]: {},
-    //     },
-    //     '.yk-flex-col-grow': {
-    //       [`${'@apply'} flex-1 min-h-0`]: {},
-    //     },
-    //   };
-    //   addComponents(flexs);
-    // }),
-  ],
-  // important: '.MuiModal-root',
+  corePlugins: {
+    preflight: false,
+  },
   theme: {
     extend: {
       zIndex: {
@@ -104,4 +89,5 @@ export default defineConfig({
       },
     },
   },
-});
+  plugins: [createEnterPlugin()],
+} satisfies Config;

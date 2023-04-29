@@ -3,20 +3,16 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import i18n from './lang';
-import './utils/mixins';
-// 组件
-import './components';
 // 样式重置
-// import 'normalize.css'
+import 'normalize.css';
 // 导入样式库
 import ElementUI from 'element-ui';
-// 重置element 样式
 import '@/assets/styles/element-variables.scss';
-// 导入样式
 import '@/assets/styles/index.scss';
-import 'windi.css';
+import '@/assets/styles/tailwind.css';
 import '@purge-icons/generated';
-
+import './utils/mixins';
+import './components';
 import Component from 'vue-class-component';
 
 import '@/plugins/message-box';
