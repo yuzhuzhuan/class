@@ -38,7 +38,7 @@
             </el-button>
           </div>
           <div v-else-if="actionPosition === 'bottom'" class="flex-1 text-right">
-            <el-button size="mini" class="w-22" plain round @click="$emit('on-cancel')">
+            <el-button size="mini" class="w-24" plain round @click="$emit('on-cancel')">
               <YkIcon icon="icon-park-outline:return" label="返回" :size="1" />
             </el-button>
           </div>
@@ -55,12 +55,12 @@
             type="primary"
             size="mini"
             :loading="mixinLoading"
-            class="w-23"
+            class="w-24"
             @click="onSave"
           >
             {{ $t('dialog.okText') }}
           </el-button>
-          <el-button size="mini" type="info" class="w-23" @click="$emit('on-cancel')">
+          <el-button size="mini" type="info" class="w-24" @click="$emit('on-cancel')">
             {{ $t('dialog.cancel') }}
           </el-button>
         </template>
@@ -68,7 +68,7 @@
           v-else-if="type === 'alert'"
           size="mini"
           type="primary"
-          class="w-23"
+          class="w-24"
           @click="$emit('on-cancel')"
         >
           {{ $t('dialog.close') }}

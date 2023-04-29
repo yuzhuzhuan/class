@@ -5,7 +5,7 @@
         <img
           :src="collapse ? logoCollapse : logo"
           class="sidebar-logo inline-block"
-          :class="{ '!w-25': !collapse }"
+          :class="{ '!w-[6.25rem]': !collapse }"
         />
       </router-link>
     </transition>

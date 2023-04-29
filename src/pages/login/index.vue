@@ -5,13 +5,13 @@
     >
       <div class="flex flex-col text-center justify-center items-center">
         <div class="flex items-center">
-          <img src="../../assets/logo.png" alt="" class="mr-5 w-35" />
+          <img src="../../assets/logo.png" alt="" class="mr-5 w-36" />
           <h1 class="my-8 text-[#fff] text-3xl">{{ $t('login.title') }}</h1>
           <lang-select class="text-[#fff] ml-3"></lang-select>
         </div>
 
         <div
-          class="bg-white flex flex-col rounded-2xl min-w-96 min-h-120 pt-13 pb-5 relative justify-center"
+          class="bg-white flex flex-col rounded-2xl min-w-96 min-h-[30rem] pt-13 pb-5 relative justify-center"
         >
           <div class="rounded-2xl h-20 top-1 right-1 w-80 absolute overflow-hidden">
             <div class="h-0 top-0 right-0 w-0 z-index-2 absolute">
@@ -34,13 +34,13 @@
             {{ loginTip.includes('扫码') ? $t('login.scanLogIn') : $t('login.passwordLogIn') }}
           </div>
           <div v-show="isqrcode" class="flex flex-col justify-center items-center">
-            <h2 class="font-600 text-2xl">{{ $t('login.scanLogIn') }}</h2>
+            <h2 class="font-blod text-2xl">{{ $t('login.scanLogIn') }}</h2>
             <p class="mt-4 text-base text-[#ababab] mb-4">{{ $t('login.logInDesc') }}</p>
             <div id="login_container" class="rounded-2xl"></div>
           </div>
           <div v-if="!isqrcode" class="divide-y px-12">
             <div class="flex flex-col pb-5">
-              <h2 class="font-600 mb-11 text-2xl">{{ $t('login.passwordLogIn') }}</h2>
+              <h2 class="font-blod mb-10 text-2xl">{{ $t('login.passwordLogIn') }}</h2>
               <el-form
                 ref="loginFormRef"
                 :label-position="`right`"
@@ -258,61 +258,61 @@ export default class PageLogin extends Vue {
 
 <style lang="scss" scoped>
 .login-body {
-  background: url('./../../assets/login/bj.png');
   width: 100%;
+  background: url('./../../assets/login/bj.png');
   background-size: cover;
 }
 .switch-login-mode-box {
-  width: 100px;
-  height: 100px;
   position: absolute;
   right: 0;
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
   -webkit-transform: translate(50px, -50px) rotate(45deg);
   transform: translate(50px, -50px) rotate(45deg);
   cursor: pointer;
   -webkit-transition: background-color 0.3s;
   transition: background-color 0.3s;
-  overflow: hidden;
 }
 .switch-icon {
+  font-size: 42px;
   -webkit-transform: rotate(-45deg);
   transform: rotate(-45deg);
-  font-size: 42px;
 }
 .tooltip-content {
-  display: block;
   position: absolute;
-  padding: 0 12px;
   top: 35px;
   right: 80px;
+  display: block;
   height: 30px;
+  padding: 0 12px;
+  color: #fff;
+  font-size: 14px;
   line-height: 30px;
   white-space: nowrap;
-  border-radius: 3px;
   background: #888fe7;
-  color: #fff;
-  opacity: 1;
-  font-size: 14px;
-  -webkit-transform: translateY(-60%);
-  transform: translateY(-60%);
+  border-radius: 3px;
   -webkit-box-shadow: 0 4px 10px 0 var(--shadow-pri-md);
   box-shadow: 0 4px 10px 0 var(--shadow-pri-md);
+  -webkit-transform: translateY(-60%);
+  transform: translateY(-60%);
+  opacity: 1;
 }
 .tooltip-content::after {
-  content: '';
+  position: absolute;
+  top: 10px;
+  right: -5px;
   display: block;
   width: 0;
   height: 0;
-  right: -5px;
-  top: 10px;
   background: #888fe7;
-  border-right: 5px solid #888fe7;
   border-top: 5px solid #888fe7;
-  position: absolute;
-  border-left: 5px solid transparent;
+  border-right: 5px solid #888fe7;
   border-bottom: 5px solid transparent;
+  border-left: 5px solid transparent;
   -webkit-transform: rotate(45deg) translate(0);
   transform: rotate(45deg) translate(0);
+  content: '';
 }
 .sign {
   background: no-repeat url('./../../assets/login/sign-feishu.png') center;

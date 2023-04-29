@@ -77,7 +77,7 @@ export default class YkPagination extends Vue {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 ::v-deep {
   .el-pagination__total {
     @apply mr-0 text-xs;

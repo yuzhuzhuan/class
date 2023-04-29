@@ -41,7 +41,7 @@ const getMessageNode = function (
           this.$createElement(
             'p',
             {
-              staticClass: 'font-600 text-base text-[#676666]',
+              staticClass: 'font-bold text-base text-[#676666]',
             },
             [message],
           ),

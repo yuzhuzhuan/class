@@ -17,7 +17,9 @@ export default class YkFlexCol extends Vue {
 }
 </script>
 
-<style scoped>
+<style>
+/* stylelint-disable-next-line scss/at-rule-no-unknown,csstree/validator */
+@tailwind components;
 @layer components {
   .yk-flex-col {
     @apply flex flex-col h-full;

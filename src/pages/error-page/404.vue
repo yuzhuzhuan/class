@@ -8,7 +8,7 @@
         <img class="right pic-404__child" src="@/assets/404-images/404-cloud.png" alt="404" />
       </div>
       <div class="text-404">
-        <p class="font-600 text-8xl text-[#666666]">404</p>
+        <p class="font-bold text-8xl text-[#666666]">404</p>
         <p class="my-5 text-xl text-[#a6adba]">非常抱歉，您访问的页面不存在</p>
         <yk-button type="primary" @click="$router.push('/')">返回首页</yk-button>
       </div>

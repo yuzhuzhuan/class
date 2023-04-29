@@ -16,7 +16,9 @@ export default class YkFlexColGrow extends Vue {
 }
 </script>
 
-<style scoped>
+<style>
+/* stylelint-disable-next-line scss/at-rule-no-unknown,csstree/validator */
+@tailwind components;
 @layer components {
   .yk-flex-col-grow {
     @apply flex-1 min-h-0;

@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-card class="h-full overflow-y-auto" :header="$t('upload.title')">
-      <div class="mt-10 w-50">
+      <div class="mt-10 w-48">
         <YkUpload
           :drag="true"
           :limit="3"
@@ -10,7 +10,7 @@
           @uploadOk="uploadOk"
         ></YkUpload>
       </div>
-      <div class="mt-10 w-50">
+      <div class="mt-10 w-48">
         <YkUpload
           list-type="text"
           :limit="5"

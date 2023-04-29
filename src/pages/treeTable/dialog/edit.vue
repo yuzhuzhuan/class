@@ -27,7 +27,7 @@
       <yk-form-item :label="$t('treeTable.manager')" prop="manager" required>
         <yk-input v-model.trim="dialogForm.manager" />
       </yk-form-item>
-      <yk-form-item :label="$t('treeTable.location')" :rules="rules.location" required class="w-50">
+      <yk-form-item :label="$t('treeTable.location')" :rules="rules.location" required class="w-48">
         <TreeSelect
           v-model="dialogForm.pid"
           :options="options"

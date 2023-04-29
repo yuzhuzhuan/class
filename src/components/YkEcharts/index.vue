@@ -22,7 +22,7 @@ export default class YkEcharts extends Vue {
   options!: {};
 
   /**
-   * 设置高度 windicss
+   * 设置高度 className
    */
   @Prop({ required: false, default: 'h-120' })
   className!: string;

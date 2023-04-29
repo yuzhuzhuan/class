@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="bg-[#fff] rounded-lg h-full overflow-auto">
       <div class="flex detail-header justify-between">
-        <p class="font-600">{{ $t('role.editRole') }}</p>
+        <p class="font-bold">{{ $t('role.editRole') }}</p>
         <p>
           <span class="text-[#FF0000]">*</span>
           <span class="text-[#999999]">{{ $t('role.required') }}</span>
