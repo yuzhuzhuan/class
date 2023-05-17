@@ -18,22 +18,45 @@
       class="max-w-full auto-rows-auto grid gap-0 grid-cols-[2fr_2fr]"
     >
       <!-- (0-9，a-z(a-z)) -->
-      <yk-form-item :label="$t('user.userName')" prop="username" required :rules="rules.username">
+      <yk-form-item
+        :label="$t('user.userName').toString()"
+        prop="username"
+        required
+        :rules="rules.username"
+      >
         <yk-input v-model.trim="dialogForm.username" />
       </yk-form-item>
-      <yk-form-item :label="$t('user.name')" prop="name" required>
+      <yk-form-item :label="$t('user.name').toString()" prop="name" required>
         <yk-input v-model.trim="dialogForm.name" />
       </yk-form-item>
       <!-- (0-9，a-z(a-z)) -->
-      <yk-form-item :label="$t('user.password')" prop="password" required :rules="rules.password">
+      <yk-form-item
+        :label="$t('user.password').toString()"
+        prop="password"
+        required
+        :rules="rules.password"
+      >
         <yk-input v-model.trim="dialogForm.password" type="password" />
       </yk-form-item>
-      <yk-form-item :label="$t('user.usertype')" prop="usertype" required rule-type="number">
-        <yk-select v-model.trim="dialogForm.usertype" :options="spOpts.roletypeOpts" />
+      <yk-form-item
+        :label="$t('user.usertype').toString()"
+        prop="usertype"
+        required
+        rule-type="number"
+      >
+        <yk-select
+          v-model.trim="dialogForm.usertype"
+          :options="spOpts.roletypeOpts"
+          style="display: block"
+        />
       </yk-form-item>
       <!-- (0-停用/1-启用) -->
-      <yk-form-item :label="$t('user.enable')" prop="enable" required rule-type="number">
-        <yk-select v-model.trim="dialogForm.enable" :options="spOpts.enableOpts" />
+      <yk-form-item :label="$t('user.enable').toString()" prop="enable" required rule-type="number">
+        <yk-select
+          v-model.trim="dialogForm.enable"
+          :options="spOpts.enableOpts"
+          style="display: block"
+        />
       </yk-form-item>
     </el-form>
   </YkDialog>

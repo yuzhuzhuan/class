@@ -211,38 +211,32 @@ const roleData = MOCKR.mock({
   'data|20': [
     {
       name: /[a-z]+/,
-      menus: menuList,
+      menus: menuList.map((item) => item.id.toString()),
       'id|+1': 1,
     },
   ],
 });
-const rolelist = roleData.list.concat();
+let rolelist = roleData.list.concat();
 let roledata = roleData.data.concat();
-let rolenewlist = roleData.data.concat();
+let rolenewlist = roleData.list.concat();
 let roletotal = 0;
-// for (let i = 0; i < rolelist.length; i++) {
-//   rolelist[i].id = i + 1;
-// }
-// for (let i = 0; i < roledata.length; i++) {
-//   roledata[i].id = i + 1;
-// }
 const roleDetail = [
   {
     url: '/url/role/list',
     method: 'get',
     response: (config) => {
-      roletotal = roledata.length;
+      roletotal = rolelist.length;
       for (let i = 0; i < config.query.pageSize; i++) {
-        rolenewlist[i] = roledata[i];
+        rolenewlist[i] = rolelist[i];
       }
       if (config.query.pageNum !== 1) {
-        rolenewlist = roledata.slice(
+        rolenewlist = rolelist.slice(
           config.query.pageSize * config.query.pageNum - config.query.pageSize,
         );
       }
       // 根据name查询数据返回
       if (config.query.name) {
-        rolenewlist = roledata.filter((item) => item.name === config.query.name);
+        rolenewlist = rolelist.filter((item) => item.name === config.query.name);
         roletotal = rolenewlist.length;
       }
       if (config.query.name && config.query.pageNum !== 1) {
@@ -255,7 +249,7 @@ const roleDetail = [
       }
 
       rolenewlist = rolenewlist.filter(Boolean);
-      roledata = roledata.filter(Boolean);
+      rolelist = rolelist.filter(Boolean);
       return {
         data: rolenewlist,
         total: roletotal,

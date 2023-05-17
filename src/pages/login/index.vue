@@ -11,10 +11,10 @@
         </div>
 
         <div
-          class="bg-white flex flex-col rounded-2xl min-w-96 min-h-[30rem] pt-13 pb-5 relative justify-center"
+          class="bg-white flex flex-col rounded-2xl min-w-[24rem] min-h-[30rem] pt-13 pb-5 relative justify-center"
         >
-          <div class="rounded-2xl h-20 top-1 right-1 w-80 absolute overflow-hidden">
-            <div class="h-0 top-0 right-0 w-0 z-index-2 absolute">
+          <div class="rounded-2xl h-[5rem] top-1 right-1 w-[20rem] absolute overflow-hidden">
+            <div class="h-[0px] top-0 right-0 w-[0px] z-index-2 absolute">
               <div class="h-full switch-login-mode relative">
                 <div
                   class="bg-[#888fe7] switch-login-mode-box"
@@ -23,6 +23,7 @@
                   @mouseleave="seen = false"
                 >
                   <YkIcon
+                    :key="isqrcode"
                     :icon="icon"
                     class="text-[#fff] -bottom-3 left-8 switch-icon absolute"
                   ></YkIcon>
@@ -73,7 +74,7 @@
                 <el-form-item>
                   <el-button
                     :loading="loading"
-                    class="h-11.5 text-xl w-full pb-9"
+                    class="h-[2.875rem] text-xl w-full pb-9"
                     type="primary"
                     size="mini"
                     @click="login"
@@ -90,7 +91,10 @@
             </div>
             <div class="flex pt-5 text-[#999] justify-between items-center">
               <div class="text-sm">{{ $t('login.thirdparty') }}</div>
-              <a class="cursor-pointer rounded-1/2 h-10 ml-2 w-10 inline-block sign" :href="fs_url">
+              <a
+                class="cursor-pointer rounded-full h-[2.5rem] ml-2 w-[2.5rem] inline-block sign"
+                :href="fs_url"
+              >
               </a>
             </div>
           </div>

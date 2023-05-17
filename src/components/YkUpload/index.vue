@@ -17,6 +17,8 @@
       element-loading-text="拼命上传中"
       element-loading-spinner="el-icon-loading"
       multiple
+      v-bind="$attrs"
+      v-on="$listeners"
     >
       <slot>
         <i class="el-icon-upload"></i>

@@ -35,7 +35,7 @@ export async function matchRouteMenu(to: Route, from: Route, next: NavigationGua
     }
   } else if (whiteList.includes(to.path.toLowerCase())) {
     next();
-  } else if (to.fullPath === '/index' && !UserModule.token) {
+  } else if (to.fullPath === '/index' && !UserModule.token && Cookies.get('UserInfo')) {
     const { data } = await LoginApi(JSON.parse(Cookies.get('UserInfo')!));
     UserModule.setToken(data.accessToken);
     const res = await GetUserApi();

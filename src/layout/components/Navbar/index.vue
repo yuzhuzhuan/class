@@ -17,8 +17,7 @@
         size="medium"
       >
         <div class="avatar-wrapper">
-          nickName
-          <!-- <span>nickName</span> -->
+          {{ userInfo.name }}
           <i class="ml-2 el-icon-arrow-down" />
         </div>
         <el-dropdown-menu
@@ -61,7 +60,7 @@ export default class Navbar extends Vue {
   }
 
   get userInfo() {
-    return UserModule.useData ?? {};
+    return UserModule.useData ?? ({} as any);
   }
 
   get avatar() {

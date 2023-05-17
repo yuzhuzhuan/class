@@ -43,7 +43,7 @@ export default {
   role: {
     title: '角色管理',
     addRole: '新增角色',
-    editRole: '编辑',
+    editRole: '角色详情',
     required: '为必填项',
     roleName: '角色名称',
     roleMenus: '角色菜单',
@@ -107,7 +107,7 @@ export default {
   treeTable: {
     title: '树形数据',
     departmentName: '部门名称',
-    manager: '部门名称',
+    manager: '部门主管',
     introduce: '部门介绍',
     email: '部门邮箱',
     createTime: '成立时间',
