@@ -148,16 +148,21 @@ export default class YkTable extends Vue {
   })
   checkMode!: 'single' | 'multi';
 
-  // 无数据文案
+  /**
+   * 无数据文案
+   */
   @Prop({ type: String, default: '暂无数据', required: false })
   emptyText?: string;
 
   @Prop({ type: Function, required: false })
   columnStyle!: () => {};
 
-  // clone row data
-  @PropSync('selection', { type: Array, required: false })
-  private _selection?: Array<Record<string, any>>;
+  /**
+   * 选中的数据
+   * @sync selection
+   */
+  @Prop({ type: Array, required: false })
+  selection?: Array<Record<string, any>>;
 
   @Prop({ type: [Boolean, Function], default: true })
   selectable!: boolean | ((row: any, rowIndex: number) => boolean);
@@ -228,7 +233,7 @@ export default class YkTable extends Vue {
         : Reflect.deleteProperty(action, 'fixed');
     }
     // 可选列
-    if (this.selectable && this._selection) {
+    if (this.selectable && this.selection) {
       const selection = columns.find((item) => item.type === 'selection');
       selection && columns.splice(columns.indexOf(selection), 1);
       const data: ColumnItem<any> = {
@@ -282,9 +287,10 @@ export default class YkTable extends Vue {
   @Prop({ type: Boolean, default: false })
   reserveSelection!: boolean;
 
+  @Emit('update:selection')
   onSelectionChange(selection: Array<Record<string, any>>) {
     selection = selection.map(this.plainRow);
-    this._selection = this.onSelectionCascade(selection, this._selection);
+    return this.onSelectionCascade(selection, this.selection);
   }
 
   private getList(params: YkFunction<Promise<any>> | Record<string, any>) {

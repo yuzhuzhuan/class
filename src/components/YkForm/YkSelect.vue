@@ -9,7 +9,12 @@
     <ElOption v-if="labelAll" key="yk-select-all-option" :value="blankOptValue" :label="labelAll" />
     <!-- @slot refer ElSelect#default -->
     <slot>
-      <ElOption v-for="item in options" :key="item.value" :value="item.value" :label="item.label" />
+      <ElOption
+        v-for="item in options || []"
+        :key="item.value"
+        :value="item.value"
+        :label="item.label"
+      />
     </slot>
   </ElSelect>
 </template>
@@ -20,9 +25,7 @@ import { Form } from 'element-ui';
 /**
  * 封装 ElSelect
  *
- * @example [none]
- *
- * @see {@link https://element.eleme.cn/#/zh-CN/component/select}
+ * @see { @link https://element.eleme.cn/#/zh-CN/component/select }
  */
 @Component({ components: {}, inheritAttrs: false })
 export default class YkSelect extends Vue {
@@ -35,8 +38,11 @@ export default class YkSelect extends Vue {
   @Prop({ type: String, required: false })
   placeholder?: string;
 
-  @Prop({ type: Array, default: () => [] })
-  options!: Array<{ value: string | number; label: string }>;
+  /**
+   * 选项，也可以直接使用 slot:ElOption
+   */
+  @Prop({ type: Array, required: false })
+  options?: Array<{ value: string | number; label: string }>;
 
   get ph() {
     if (this.disabled) return '';
@@ -69,7 +75,9 @@ export default class YkSelect extends Vue {
    *
    * 当 options.length=0 时，不显示
    */
-  @Prop({ type: [Boolean, String], default: false }) all!: boolean | string;
+  @Prop({ type: [Boolean, String], default: false }) //
+  all!: boolean | string;
+
   private blankOptValue = 'yk-select-all-option-value';
 
   @Inject({ from: 'label', default: '' })
@@ -78,7 +86,7 @@ export default class YkSelect extends Vue {
   get labelAll() {
     return (
       this.all !== false &&
-      (this.optionsCount > 0 || this.options?.length) &&
+      this.optionsCount > 0 &&
       `全部${typeof this.all !== 'boolean' ? this.all : ''}`
     );
   }
@@ -91,18 +99,12 @@ export default class YkSelect extends Vue {
   @Inject({ from: 'elForm', default: null })
   FormInstance?: Form;
 
-  private keepListen = true;
-  private optionsCount = 0;
-  @Watch('options', { immediate: true })
-  onOptionsChange() {
-    if (!this.keepListen) return this.keepListen;
-
-    if (!this.selectOnlyOne || (this.$attrs.value ?? '') !== '' || this.optionsCount > 1) {
-      this.keepListen = false;
-      return this.keepListen;
-    }
-
-    if (this.optionsCount === 1) {
+  private get optionsCount() {
+    return this.options?.length ?? this.$slots.default?.length ?? 0;
+  }
+  @Watch('optionsCount', { immediate: true })
+  onOptionsChange(newValue: number) {
+    if (this.selectOnlyOne && newValue === 1 && (this.$attrs.value ?? '') === '') {
       if (this.options?.[0]) {
         this.onChange(this.options[0]?.value ?? '');
       } else {
@@ -110,20 +112,7 @@ export default class YkSelect extends Vue {
         const propsData = onlyChild?.componentOptions?.propsData as any;
         this.onChange(propsData?.value ?? '');
       }
-
-      this.keepListen = false;
-      return this.keepListen;
     }
-  }
-
-  mounted() {
-    this.optionsCount = this.options?.length ?? this.$slots.default?.length ?? 0;
-    this.keepListen && this.onOptionsChange();
-  }
-
-  updated() {
-    this.optionsCount = this.options?.length ?? this.$slots.default?.length ?? 0;
-    this.keepListen && this.onOptionsChange();
   }
 }
 </script>

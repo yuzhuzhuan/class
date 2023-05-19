@@ -1,7 +1,7 @@
 <template>
   <ElInputNumber
     v-if="number"
-    :class="[className, 'w-auto']"
+    :class="[customClass, 'w-auto']"
     :placeholder="ph"
     v-bind="$attrs"
     v-on="$listeners"
@@ -20,7 +20,7 @@ import { Form } from 'element-ui';
 /**
  * 封装 ElInput 和 ElInputNumber
  *
- * @see {@link https://element.eleme.cn/#/zh-CN/component/input}
+ * @see { @link https://element.eleme.cn/#/zh-CN/component/input }
  */
 @Component({ components: {}, inheritAttrs: false })
 export default class YkInput extends Vue {
@@ -48,8 +48,11 @@ export default class YkInput extends Vue {
   @Prop({ type: String, required: false })
   type?: string;
 
+  /**
+   * 传给 ElInputNumber 的 class, 默认覆盖掉 number 组件的定宽
+   */
   @Prop({ type: String, required: false })
-  className?: string;
+  customClass?: string;
 
   /**
    * 是否渲染 ElInputNumber, 默认 ElInput

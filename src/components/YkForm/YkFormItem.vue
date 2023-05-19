@@ -33,21 +33,21 @@ const actionMap = {
  *
  * 将 placeholder、validator 属性化
  *
- * @see {@link https://element.eleme.cn/#/zh-CN/component/form#form-item-attributes}
+ * @see { @link https://element.eleme.cn/#/zh-CN/component/form#form-item-attributes }
  *
  */
 @Component
 export default class YkFormItem extends Vue {
   /**
    * 数据验证规则
-   * @see {@link https://github.com/yiminghe/async-validator}
+   * @see { @link https://github.com/yiminghe/async-validator }
    */
   @Prop({ type: [Object, Array], required: false })
   rules?: RuleItem | RuleItem[];
 
   /**
    * 数据验证类型
-   * @see {@link https://github.com/yiminghe/async-validator}
+   * @see { @link https://github.com/yiminghe/async-validator }
    */
   @Prop({ type: String, required: false })
   ruleType?: RuleItem['type'];

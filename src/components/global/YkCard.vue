@@ -43,7 +43,7 @@ export default class YkCard extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="postcss">
 .yk-flex-col {
   ::v-deep {
     .el-card__body {
