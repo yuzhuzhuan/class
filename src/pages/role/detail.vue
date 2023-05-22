@@ -1,119 +1,123 @@
 <template>
-  <div class="app-container">
-    <div class="bg-[#fff] rounded-lg h-full overflow-auto">
-      <div class="flex detail-header justify-between">
-        <p class="font-bold">{{ $t('role.editRole') }}</p>
-        <p>
-          <span class="text-[#FF0000]">*</span>
-          <span class="text-[#999999]">{{ $t('role.required') }}</span>
-        </p>
-      </div>
-      <div class="detail-container">
-        <el-form ref="submitForm" :model="submitForm" label-width="80px" :show-message="false">
-          <yk-form-item :label="$t('role.roleName')" prop="name" required>
-            <div class="flex">
-              <yk-input v-model.trim="submitForm.name" style="width: 300px" @blur="verifyName" />
-              <YkMessage
-                :text="warnNameText"
-                type="warning"
-                :is-show="!!warnNameText"
-                class="mx-3 w-60"
-              >
-              </YkMessage>
-            </div>
-          </yk-form-item>
-          <el-form-item :label="$t('role.roleMenus')" prop="menus" required>
-            <el-table :data="initMenus" border align="center" style="width: 100%">
-              <el-table-column
-                :resizable="false"
-                width="55"
-                :render-header="renderHeader"
-                align="center"
-              >
-                <template slot-scope="scope">
-                  <el-checkbox
-                    v-model="scope.row.itemCheck"
-                    :indeterminate="scope.row.status"
-                    @change="toggleCheck(scope.row)"
-                  ></el-checkbox>
-                </template>
-              </el-table-column>
-
-              <el-table-column
-                prop="name"
-                label="模块标题"
-                width="200"
-                :resizable="false"
-                align="left"
-              >
-              </el-table-column>
-              <el-table-column label="操作" align="left" :resizable="false">
-                <template #default="{ row: { childList } }">
-                  <el-checkbox-group v-model="list">
-                    <template v-for="item in convertList(childList)">
-                      <el-checkbox
-                        :key="item.id"
-                        :label="item.name"
-                        :checked="item.checked"
-                        @change="(val) => select(val, item)"
-                      >
-                      </el-checkbox>
-                    </template>
-                  </el-checkbox-group>
-                </template>
-              </el-table-column>
-            </el-table>
+  <div class="h-full overflow-auto">
+    <div class="flex justify-between">
+      <div class="title">{{ title }}</div>
+    </div>
+    <div class="detail-container">
+      <el-form ref="submitForm" :model="submitForm" label-width="100px" :show-message="false">
+        <yk-form-item :label="$t('role.roleName').toString() + ':'" prop="name" required>
+          <div class="flex">
+            <yk-input v-model.trim="submitForm.name" style="width: 300px" @blur="verifyName" />
+            <YkMessage
+              :text="warnNameText"
+              type="warning"
+              :is-show="!!warnNameText"
+              class="ml-2 w-60"
+            >
+            </YkMessage>
+          </div>
+        </yk-form-item>
+        <yk-form-item :label="$t('role.roleMenus').toString() + ':'" prop="menus" required>
+          <div class="flex">
+            <yk-input
+              v-model.trim="submitForm.menus"
+              prefix-icon="el-icon-search"
+              placeholder="输入菜单名称搜索"
+              style="width: 300px"
+              @blur="verifyMenu"
+            >
+            </yk-input>
             <YkMessage
               :text="warnMenuText"
               type="warning"
               :is-show="!!warnMenuText"
-              class="my-3 w-60"
+              class="w-60 ml-2"
             >
             </YkMessage>
-          </el-form-item>
-        </el-form>
+          </div>
+        </yk-form-item>
+      </el-form>
+      <div
+        class="border border-solid border-gray-300 h-[25rem] mb-5 ml-[6.25rem] p-4 w-[18.75rem] overflow-auto"
+      >
+        <el-tree
+          ref="tree"
+          :data="initMenus"
+          show-checkbox
+          node-key="id"
+          :default-expanded-keys="defaultShowNodes"
+          :props="defaultProps"
+          :filter-node-method="filterNode"
+          @check-change="handleCheckChange"
+        >
+        </el-tree>
       </div>
-      <div class="detail-footer">
-        <el-button @click="$router.go(-1)">{{ $t('global.cancel') }}</el-button>
-        <el-button type="primary" @click="save()">{{ $t('global.save') }}</el-button>
-      </div>
+    </div>
+    <div class="flex justify-center items-center">
+      <el-button @click="$emit('done')">{{ $t('global.cancel') }}</el-button>
+      <el-button type="primary" @click="save()">{{ $t('global.save') }}</el-button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Ref, Vue } from 'vue-property-decorator';
+import { Component, Ref, Vue, Prop, Watch } from 'vue-property-decorator';
 import service from '@/api/role';
 import { Form } from 'element-ui';
 
 @Component({ components: {} })
 export default class RoleDetail extends Vue {
   @Ref('submitForm') readonly $submitForm!: Form;
+  @Ref('tree') readonly $refTree!: any;
+  @Prop({ type: Number, required: true })
+  roleId!: number;
+  title = '新增角色';
   submitForm = {
     id: '',
     name: '',
-  };
-  queryForm = {
-    name: '', // 角色名称
-    type: 2, // 类型 1系统 2人工
-    description: '', // 说明
-  };
-
+    menus: '',
+  } as any;
   warnMenuText = '';
   warnNameText = '';
-
   initMenus = [] as any; // 所有权限数据
-  list = [] as any; // 功能权限列 勾选后显示的内容
   initRoles = [] as any;
+  menus = [] as any;
   name = ''; // 角色名称，用来检测是否和其他角色名重复
-  isCheck = false; // 控制全选按钮的全选样式
-  indeterminate = false; // 控制全选按钮的半选样式
+
+  // 默认展开的id组
+  defaultShowNodes = [] as any;
+  defaultProps = {
+    children: 'children',
+    label: 'label',
+  };
   get isEdit() {
-    return 'roleId' in this.$route.params;
+    return this.roleId;
   }
 
-  convertList(list: any): any[] {
-    return list;
+  @Watch('roleId')
+  async onroleIdChange(val: any) {
+    if (val) {
+      this.getDetail(this.isEdit);
+      this.title = '编辑角色';
+    } else {
+      this.submitForm.name = '';
+      this.$refTree.setCheckedKeys([]);
+      this.title = '新增角色';
+    }
+  }
+  filterNode(value: any, data: any) {
+    if (!value) return true;
+    return data.label.indexOf(value) !== -1;
+  }
+
+  handleCheckChange() {
+    // 获取所有选中的子节点 start
+    const childNode = this.$refTree.getCheckedKeys();
+    // // 获取半选的节点
+    const halfSelected = this.$refTree.getHalfCheckedKeys();
+    this.menus = [...childNode, ...halfSelected];
+
+    this.verifyMenu();
   }
 
   // 获取角色名称列表
@@ -128,172 +132,47 @@ export default class RoleDetail extends Vue {
     this.initMenus = this.changeData(data);
   }
 
-  // 处理成二维数组
+  // // 处理成二维数组
   changeData(data: any, parentId = 0) {
     const arr = JSON.parse(JSON.stringify(data));
     return arr.filter((item: any) => {
       if (item.parentId === parentId) {
-        item.status = false;
-        item.childList = this.changeData(data, item.id);
+        item.label = item.name;
+        item.children = this.changeData(data, item.id);
         return true;
       }
       return false;
     });
   }
 
-  // 获取角色信息
-  async getDetail(id: string) {
+  // // 获取角色信息
+  async getDetail(id: number) {
     const { data } = await service.detail({ id });
     this.submitForm.name = data.name;
     this.name = data.name;
-    data.menus.forEach((item: any) => {
-      if (item.childList) {
-        item.childList.forEach((child: any) => {
-          this.list.push(child.name);
-          this.menus.push(child.id);
-        });
-      }
-      this.list.push(item.name);
-      this.menus.push(item.id);
-    });
-    this.initMenus.forEach((item: any) => {
-      item.childList.forEach((item2: any) => {
-        this.list.forEach((name: any) => {
-          if (item2.name === name) {
-            item2.itemCheck = true;
-          }
-        });
-      });
-    });
 
-    this.changeStatus();
+    this.$refTree.setCheckedKeys(data.menus);
   }
 
-  // 生成表格自定义列的复选框
-  renderHeader(h: any, data: any) {
-    return h('span', [
-      h('el-checkbox', {
-        on: {
-          change: this.selectBox,
-        },
-        props: {
-          value: this.isCheck,
-          indeterminate: this.indeterminate,
-        },
-      }),
-    ]);
+  async created() {
+    await this.getMenu();
+    await this.getRole();
+    // 第1个是默认展开几级 第2个是源数据
+    this.getDefaultShowNodes(1, this.initMenus);
   }
-
-  // 表头复选框全选事件
-  selectBox() {
-    this.isCheck = !this.isCheck;
-    const list = [...this.initMenus];
-    for (const val of list) {
-      val.itemCheck = this.isCheck;
-    }
-    this.initMenus = list;
-    this.initMenus.forEach((item: any) => {
-      if (this.isCheck) {
-        item.itemCheck = true;
-        item.status = false;
-        item.childList.forEach((item2: any) => {
-          item2.itemCheck = true;
-          this.list.push(item2.name);
-          this.menus.push(item2);
-        });
-      } else {
-        item.itemCheck = false;
-        item.childList.forEach((item2: any) => {
-          item2.itemCheck = false;
-          item2.stauts = false;
-        });
-      }
-    });
-    if (this.isCheck) {
-      this.indeterminate = false;
-    } else {
-      this.list = [];
-      this.menus = [];
-    }
-  }
-
-  // 每行复选框事件
-  toggleCheck(row: any) {
-    // 获取已勾选
-    const list = this.initMenus.filter((item: any) => item.itemCheck);
-    this.isCheck = list.length === this.initMenus.length;
-    this.indeterminate = list.length > 0 && list.length < this.initMenus.length;
-    row.childList.forEach((children: any) => {
-      if (row.itemCheck) {
-        children.itemCheck = true;
-        this.list.push(children.name);
-        this.menus.push(row, children);
-      } else {
-        children.itemCheck = false;
-        this.list.forEach((name: any, index: any) => {
-          if (name === children.name) {
-            this.list.splice(index, 1);
-          }
-        });
-        this.menus.forEach((id: any, index: any) => {
-          if (id === children.id) {
-            this.menus.splice(index, 1);
-          }
-        });
-      }
-    });
-  }
-
-  // 改变左侧复选框状态
-  changeStatus() {
-    this.initMenus.forEach((item2: any) => {
-      item2.status = item2.childList.some((item3: any) => item3.itemCheck);
-    });
-
-    this.initMenus.forEach((item2: any) => {
-      item2.itemCheck = item2.childList.every((item3: any) => item3.itemCheck);
-      if (item2.itemCheck) {
-        item2.status = false;
-      }
-    });
-    const headBol = this.initMenus.every((item: any) => item.itemCheck);
-    if (headBol) {
-      this.isCheck = true;
-      this.indeterminate = false;
-    } else {
-      this.indeterminate = true;
-      this.isCheck = false;
-    }
-  }
-
-  created() {
-    this.getMenu();
-    this.getRole();
-  }
-
-  menus = [] as any;
-  select(val: any, item: any) {
-    this.initMenus.forEach((item2: any) => {
-      item2.childList.forEach((item3: any) => {
-        if (item.name === item3.name) {
-          if (val) {
-            item3.itemCheck = true;
-            this.menus.push(item);
-          } else {
-            item3.itemCheck = false;
-            this.menus.forEach((i: any, index: any) => {
-              if (i === item.id) {
-                this.menus.splice(index, 1);
-              }
-            });
-          }
+  getDefaultShowNodes(num: any, children: any) {
+    --num;
+    if (num >= 0) {
+      for (let i = 0; i < children.length; i++) {
+        this.defaultShowNodes.push(children[i].id);
+        if (children[i].children) {
+          this.getDefaultShowNodes(num, children[i].children);
         }
-      });
-    });
-    this.changeStatus();
+      }
+    }
   }
 
-  validatePass() {
+  validatePassName() {
     const resultArr = this.initRoles.filter((item: any) => {
       if (this.isEdit) {
         return item.name !== this.name;
@@ -305,24 +184,26 @@ export default class RoleDetail extends Vue {
     return bol;
   }
 
-  verifyMenu() {
-    if (!this.menus.length) {
-      this.warnMenuText = '请选择菜单';
-    } else {
-      this.warnMenuText = '';
-    }
-  }
   verifyName() {
-    if (this.validatePass()) {
+    if (this.validatePassName()) {
       this.warnNameText = '角色名称重复,请重新输入!';
+      return;
     } else if (!this.submitForm.name) {
       this.warnNameText = '请填写必填项!';
-    } else {
-      this.warnNameText = '';
+      return;
     }
+    this.warnNameText = '';
+  }
+  verifyMenu() {
+    if (!this.menus.length) {
+      this.warnMenuText = '请选择菜单!';
+      return;
+    }
+    this.warnMenuText = '';
   }
   async save() {
     this.verifyMenu();
+    this.verifyName();
     if (!!this.warnNameText || !!this.warnMenuText) return;
     if (this.isEdit) {
       await service.update({
@@ -335,13 +216,8 @@ export default class RoleDetail extends Vue {
       await service.create({ name: this.submitForm.name, menus: this.menus });
       this.$message.success('新增角色成功');
     }
-    this.$router.go(-1);
-  }
-
-  async mounted() {
-    if (this.$route.params.roleId) {
-      await this.getDetail(this.$route.params.roleId);
-    }
+    this.$emit('done');
+    this.submitForm.name = '';
   }
 }
 </script>

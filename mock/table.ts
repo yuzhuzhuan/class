@@ -24,9 +24,16 @@ module.exports = [
     type: 'get',
     response: (res) => {
       // 根据name查询数据返回
-      let name;
-      if (res.query.name) {
-        newtablelist = tablelist.filter((item) => item.name === res.query.name);
+      if (res.query.name || res.query.address) {
+        if (res.query.name && !res.query.address) {
+          newtablelist = tablelist.filter((item) => item.name === res.query.name);
+        } else if (!res.query.name && res.query.address) {
+          newtablelist = tablelist.filter((item) => item.address.includes(res.query.address));
+        } else {
+          newtablelist = tablelist.filter(
+            (item) => item.address.includes(res.query.address) && item.name === res.query.name,
+          );
+        }
       } else {
         newtablelist = tablelist;
       }

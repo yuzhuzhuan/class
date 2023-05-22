@@ -17,27 +17,6 @@ export default [
           id: '53',
         },
       },
-      {
-        name: 'create',
-        path: 'create',
-        component: () => import(/* webpackChunkName: "dashboard" */ '@/pages/role/detail.vue'),
-        meta: {
-          title: 'createRole',
-          hidden: true,
-          id: '51',
-        },
-      },
-
-      {
-        name: 'detail',
-        path: '/role/detail/:roleId',
-        component: () => import(/* webpackChunkName: "dashboard" */ '@/pages/role/detail.vue'),
-        meta: {
-          title: 'editRole',
-          hidden: true,
-          id: '52',
-        },
-      },
     ],
   },
 ] as RouteConfig[];

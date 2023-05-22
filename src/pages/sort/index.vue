@@ -7,6 +7,15 @@
             <yk-input v-model="queryFormM.name" placeholder="请输入用户名称" />
           </yk-form-item>
           <el-form-item>
+            <yk-cascader
+              :get-area-info="areaInfo"
+              :level="2"
+              placeholder="请选择省市"
+              clearable
+              @change="cascaderChange"
+            ></yk-cascader>
+          </el-form-item>
+          <el-form-item>
             <el-button type="primary" @click="onQuery()">{{ $t('table.query') }}</el-button>
           </el-form-item>
         </el-form>
@@ -37,17 +46,60 @@ import { Component, Mixins } from 'vue-property-decorator';
 import { MixinTable } from '@/utils/mixins';
 import service from '@/api/sort';
 import Sortable from 'sortablejs';
+import api from '@/api/area';
+import YkCascader from '@/components/YkCascader/index.vue';
 
-@Component({ components: {} })
+@Component({ components: { YkCascader } })
 export default class TreeTable extends Mixins(MixinTable) {
   queryFormM = {
     name: '',
+    address: '',
   };
   params = {
     pageIndex: 1,
     pageSize: 10,
   };
+  /**
+   * 部门名称
+   */
+  dialogData = [] as IDialogData[];
+
+  /**
+   * 表格数据
+   */
+  list = [] as IList[];
+  sortList = {
+    id: '',
+    sort: '',
+  } as any;
+
+  loading = false;
+  areaInfo = api.query;
   currentData = [] as any;
+  cascaderChange(value: any) {
+    console.log('value', value[1]);
+    this.queryFormM.address = value[1];
+  }
+
+  // 处理树形
+  changTree(data: any) {
+    data.map((item: any) => {
+      if (item.children == null) {
+        delete item.children;
+        item.label = item.name;
+        // NOTE 使用mock时的value用name，实际接口需替换成接口所需的属性
+        item.value = item.name;
+      }
+      if (item.children) {
+        this.changTree(item.children);
+        item.label = item.name;
+        // NOTE 使用mock时的value用name，实际接口需替换成接口所需的属性
+        item.value = item.name;
+      }
+      return item;
+    });
+    return data;
+  }
   columnStyle(event: any) {
     if (this.currentData.length === 1 && event.row.id === this.currentData[0].id) {
       let bdWidth = '';
@@ -87,22 +139,6 @@ export default class TreeTable extends Mixins(MixinTable) {
     return data;
   }
 
-  /**
-   * 部门名称
-   */
-  dialogData = [] as IDialogData[];
-
-  /**
-   * 表格数据
-   */
-  list = [] as IList[];
-  sortList = {
-    id: '',
-    sort: '',
-  } as any;
-
-  loading = false;
-
   async getList() {
     this.loading = true;
     const { data } = await service.query(this.queryFormM);
@@ -128,9 +164,9 @@ export default class TreeTable extends Mixins(MixinTable) {
       dragClass: 'dragClass', // 设置拖拽样式类名
       ghostClass: 'ghostClass', // 设置拖拽停靠样式类名
       chosenClass: 'chosenClass', // 设置选中样式类名
-      // 开始拖动事件
-      onStart: () => {
-        // console.log('开始拖动');
+      setData(dataTransfer) {
+        // to avoid Firefox bug 拖拽打开新页面
+        dataTransfer.setData('Text', '');
       },
       onEnd: async (event: any) => {
         const targetRow = this.list.splice(event.oldIndex, 1)[0]; // 拖拽后的行
@@ -152,11 +188,6 @@ export default class TreeTable extends Mixins(MixinTable) {
 
   mounted() {
     this.initSortable();
-    // 解决火狐浏览器拖拽打开新页面问题
-    document.body.ondrop = function (event) {
-      event.preventDefault();
-      event.stopPropagation();
-    };
   }
 
   activated() {
@@ -165,4 +196,4 @@ export default class TreeTable extends Mixins(MixinTable) {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss"></style>

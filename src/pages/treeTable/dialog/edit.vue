@@ -17,17 +17,17 @@
       class="max-w-full auto-rows-auto grid gap-0 grid-cols-[2fr_2fr]"
     >
       <yk-form-item
-        :label="$t('treeTable.departmentName')"
+        :label="$t('treeTable.departmentName').toString()"
         prop="departmentName"
         required
         :rules="rules.departmentName"
       >
         <yk-input v-model.trim="dialogForm.departmentName" />
       </yk-form-item>
-      <yk-form-item :label="$t('treeTable.manager')" prop="manager" required>
+      <yk-form-item :label="$t('treeTable.manager').toString()" prop="manager" required>
         <yk-input v-model.trim="dialogForm.manager" />
       </yk-form-item>
-      <yk-form-item :label="$t('treeTable.location')" :rules="rules.location" required class="w-48">
+      <yk-form-item :label="$t('treeTable.location').toString()" :rules="rules.location" required>
         <TreeSelect
           v-model="dialogForm.pid"
           :options="options"
@@ -35,14 +35,19 @@
         ></TreeSelect>
       </yk-form-item>
       <yk-form-item
-        :label="$t('treeTable.introduce')"
+        :label="$t('treeTable.introduce').toString()"
         prop="introduce"
         required
         :rules="rules.introduce"
       >
         <yk-input v-model.trim="dialogForm.introduce" />
       </yk-form-item>
-      <yk-form-item :label="$t('treeTable.email')" prop="email" required :rules="rules.email">
+      <yk-form-item
+        :label="$t('treeTable.email').toString()"
+        prop="email"
+        required
+        :rules="rules.email"
+      >
         <yk-input v-model.trim="dialogForm.email" />
       </yk-form-item>
     </el-form>

@@ -43,7 +43,7 @@ export default {
   role: {
     title: 'Role management',
     addRole: 'New Role',
-    editRole: 'Edit',
+    editRole: 'Role Detail',
     required: 'Required',
     roleName: 'Name',
     roleMenus: 'Menu',

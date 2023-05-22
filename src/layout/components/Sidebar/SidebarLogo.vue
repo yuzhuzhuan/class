@@ -1,5 +1,5 @@
 <template>
-  <div class="text-center sidebar-logo-container" :class="{ collapse: collapse }">
+  <div class="text-center sidebar-logo-container">
     <transition name="sidebarLogoFade">
       <router-link class="sidebar-logo-link" to="/">
         <img
