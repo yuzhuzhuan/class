@@ -1,10 +1,10 @@
 <template>
   <div class="app-container">
-    <el-card class="h-full overflow-y-auto" :header="$t('tinymce.title')">
+    <el-card class="h-full overflow-y-auto" :header="$ts('tinymce.title')">
       <YKeditor v-model="content"></YKeditor>
       <div class="flex mt-5 footer justify-end">
-        <el-button @click="cancel()">{{ $t('global.cancel') }}</el-button>
-        <el-button type="primary" @click="save()">{{ $t('global.save') }}</el-button>
+        <el-button @click="cancel()">{{ $ts('global.cancel') }}</el-button>
+        <el-button type="primary" @click="save()">{{ $ts('global.save') }}</el-button>
       </div>
       <div class="mt-4">
         <p class="mb-4 text-2xl">富文本输入内容</p>

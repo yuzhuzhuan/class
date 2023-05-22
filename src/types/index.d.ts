@@ -12,7 +12,7 @@ interface ColumnItemProp<T extends Record<string, any>> {
   prop: keyof T;
   key?: string;
   type?: 'selection' | 'index' | 'expand';
-  label: string | LocaleMessages;
+  label: string;
   slot?: string;
   align?: 'center' | 'left' | 'right';
   fixed?: 'left' | 'right' | boolean;

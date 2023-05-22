@@ -1,21 +1,21 @@
 <template>
   <div class="app-container">
-    <yk-card flex :header="$t('user.title')">
+    <yk-card flex :header="$ts('user.title')">
       <div class="yk-flex-col">
         <el-form ref="queryFormM" inline :model="queryFormM">
           <el-form-item>
             <el-button type="primary" @click="dialogEditM.show()">{{
-              $t('table.create')
+              $ts('table.create')
             }}</el-button>
           </el-form-item>
           <yk-form-item prop="name">
             <yk-input v-model.trim="queryFormM.name" placeholder="请输入用户名称" />
           </yk-form-item>
           <el-form-item>
-            <el-button type="primary" @click="onQueryM()">{{ $t('table.query') }}</el-button>
+            <el-button type="primary" @click="onQueryM()">{{ $ts('table.query') }}</el-button>
           </el-form-item>
           <el-form-item>
-            <el-button @click="onResetM">{{ $t('table.reset') }}</el-button>
+            <el-button @click="onResetM">{{ $ts('table.reset') }}</el-button>
           </el-form-item>
         </el-form>
         <div class="yk-flex-col-grow">
@@ -61,10 +61,10 @@ export default class PageUser extends Mixins(MixinTable) {
   removeRequestM = service.remove;
   get tableColumns() {
     const data: Array<ColumnItem<UserItem>> = [
-      { label: this.$t('user.userName'), prop: 'username', width: 150 },
-      { label: this.$t('user.name'), prop: 'name' },
-      { label: this.$t('user.usertype'), prop: 'usertype' },
-      { label: this.$t('user.enable'), prop: 'enable' },
+      { label: this.$ts('user.userName'), prop: 'username', width: 150 },
+      { label: this.$ts('user.name'), prop: 'name' },
+      { label: this.$ts('user.usertype'), prop: 'usertype' },
+      { label: this.$ts('user.enable'), prop: 'enable' },
       {
         slot: 'action',
         prop: 'action',
@@ -82,8 +82,8 @@ export default class PageUser extends Mixins(MixinTable) {
     return Reflect.apply(this.removeM, this, [
       ...rest,
       {
-        message: this.$t('user.message'),
-        descriptions: this.$t('user.descriptions'),
+        message: this.$ts('user.message'),
+        descriptions: this.$ts('user.descriptions'),
       },
     ]);
   }

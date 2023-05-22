@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="flex h-full">
-      <yk-card flex class="mr-3 w-110" :header="$t('role.title')">
+      <yk-card flex class="mr-3 w-110" :header="$ts('role.title')">
         <div class="gap-4 yk-flex-col">
           <div>
             <el-button
@@ -12,7 +12,7 @@
                   roleId = 0;
                 }
               "
-              >{{ $t('role.addRole') }}</el-button
+              >{{ $ts('role.addRole') }}</el-button
             >
           </div>
           <div class="yk-flex-col-grow">
@@ -29,10 +29,10 @@
       </yk-card>
       <yk-card flex class="flex-1">
         <div slot="header" class="flex justify-between">
-          <span class="inline-block">{{ $t('role.editRole') }}</span>
+          <span class="inline-block">{{ $ts('role.editRole') }}</span>
           <span v-if="roleFlag">
             <span class="text-[#FF0000]">*</span>
-            <span class="text-[#999999]">{{ $t('role.required') }}</span>
+            <span class="text-[#999999]">{{ $ts('role.required') }}</span>
           </span>
         </div>
 
@@ -82,7 +82,7 @@ export default class PageRole extends Mixins(MixinTable) {
     return Reflect.apply(this.removeM, this, [
       ...rest,
       {
-        message: this.$t('role.message'),
+        message: this.$ts('role.message'),
       },
     ]);
   }
@@ -101,12 +101,12 @@ export default class PageRole extends Mixins(MixinTable) {
   removeRequestM = service.remove;
   get tableColumns() {
     const data: Array<ColumnItem<Role>> = [
-      { label: this.$t('role.roleName'), prop: 'name' },
+      { label: this.$ts('role.roleName'), prop: 'name' },
       {
         slot: 'action',
         prop: 'action',
         width: 200,
-        label: this.$t('table.actions'),
+        label: this.$ts('table.actions'),
         listeners: {
           remove: this.remove,
           edit: this.roleEdit,

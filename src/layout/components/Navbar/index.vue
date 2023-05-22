@@ -26,10 +26,10 @@
           style="width: 160px; margin-top: 0; overflow: hidden"
         >
           <router-link to="/personal">
-            <el-dropdown-item> {{ $t('navbar.personal') }} </el-dropdown-item>
+            <el-dropdown-item> {{ $ts('navbar.personal') }} </el-dropdown-item>
           </router-link>
           <el-dropdown-item divided>
-            <span style="display: block" @click="logout"> {{ $t('navbar.logOut') }}</span>
+            <span style="display: block" @click="logout"> {{ $ts('navbar.logOut') }}</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -79,7 +79,7 @@ export default class Navbar extends Vue {
   }
 
   async logout() {
-    await this.$ykMsgbox.confirm(this.$t('YkMessageBox.content').toString());
+    await this.$ykMsgbox.confirm(this.$ts('YkMessageBox.content'));
     watermark.remove();
     UserModule.deltoken();
     this.$router.push(`/login?redirect=${this.$route.fullPath}`);

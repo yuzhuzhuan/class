@@ -10,6 +10,7 @@ import './components';
 import '@/plugins/mixins';
 import '@/plugins/element-ui';
 import '@/plugins/message-box';
+import '@/plugins/i18n-plus';
 
 // 样式
 import 'normalize.css';

@@ -29,8 +29,8 @@ export default class extends Vue {
   breadcrumbs: RouteRecord[] = [];
 
   menusTitle(item: any) {
-    if (this.$t(`route.${item}`)) {
-      return this.$t(`route.${item}`);
+    if (this.$ts(`route.${item}`)) {
+      return this.$ts(`route.${item}`);
     }
     return item;
   }

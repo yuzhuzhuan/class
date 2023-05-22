@@ -1,7 +1,7 @@
 <template>
   <YkDialog
     v-bind="attrsM"
-    :title="$t('user.editUser')"
+    :title="$ts('user.editUser')"
     ok-text="保存"
     width="1000px"
     v-on="listenersM"
@@ -17,36 +17,21 @@
       class="max-w-full auto-rows-auto grid gap-0 grid-cols-[2fr_2fr]"
     >
       <!-- (0-9，a-z(a-z)) -->
-      <yk-form-item
-        :label="$t('user.userName').toString()"
-        prop="username"
-        required
-        :rules="rules.username"
-      >
+      <yk-form-item :label="$ts('user.userName')" prop="username" required :rules="rules.username">
         <yk-input v-model.trim="dialogFormM.username" />
       </yk-form-item>
-      <yk-form-item :label="$t('user.name').toString()" prop="name" required>
+      <yk-form-item :label="$ts('user.name')" prop="name" required>
         <yk-input v-model.trim="dialogFormM.name" />
       </yk-form-item>
       <!-- (0-9，a-z(a-z)) -->
-      <yk-form-item
-        :label="$t('user.password').toString()"
-        prop="password"
-        required
-        :rules="rules.password"
-      >
+      <yk-form-item :label="$ts('user.password')" prop="password" required :rules="rules.password">
         <yk-input v-model.trim="dialogFormM.password" type="password" />
       </yk-form-item>
-      <yk-form-item
-        :label="$t('user.usertype').toString()"
-        prop="usertype"
-        required
-        rule-type="number"
-      >
+      <yk-form-item :label="$ts('user.usertype')" prop="usertype" required rule-type="number">
         <yk-select v-model.trim="dialogFormM.usertype" :options="ykOpts.roletypeOpts" />
       </yk-form-item>
       <!-- (0-停用/1-启用) -->
-      <yk-form-item :label="$t('user.enable').toString()" prop="enable" required rule-type="number">
+      <yk-form-item :label="$ts('user.enable')" prop="enable" required rule-type="number">
         <yk-select v-model.trim="dialogFormM.enable" :options="ykOpts.enableOpts" />
       </yk-form-item>
     </el-form>

@@ -22,7 +22,7 @@
           v-if="item.slot === 'action' && actionCol"
           :key="(item.prop || item.key || '').toString() + 'slot'"
           v-bind="actionCol"
-          :label="$t('table.actions')"
+          :label="$ts('table.actions')"
           :header-align="actionCol.align"
           :align="actionCol.align"
         >
@@ -37,14 +37,14 @@
               <template v-if="actionCol && actionCol.listeners">
                 <YkTableButton
                   v-if="actionCol.listeners.edit"
-                  :text="$t('table.edit').toString()"
+                  :text="$ts('table.edit')"
                   type="primary"
                   icon="majesticons:edit-pen-2"
                   @click="onActionClick('edit', scope)"
                 />
                 <YkTableButton
                   v-if="actionCol.listeners.detail"
-                  :text="$t('table.detail').toString()"
+                  :text="$ts('table.detail')"
                   type="default"
                   icon="majesticons:document-line"
                   @click="onActionClick('detail', scope)"
@@ -52,7 +52,7 @@
                 <YkTableButton
                   v-if="actionCol.listeners.remove"
                   slot="reference"
-                  :text="$t('table.delete').toString()"
+                  :text="$ts('table.delete')"
                   type="danger"
                   icon="ep:delete-filled"
                   @click="onActionClick('remove', scope)"

@@ -20,18 +20,18 @@
     <!-- 更多操作 -->
     <el-dropdown @command="handleCommand">
       <el-button type="primary">
-        {{ $t('navbar.actions') }}
+        {{ $ts('navbar.actions') }}
         <i class="el-icon-arrow-down el-icon--right" />
       </el-button>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item :command="ECloseTab.closeCurrent">
-          {{ $t('navbar.closeCurrent') }}</el-dropdown-item
+          {{ $ts('navbar.closeCurrent') }}</el-dropdown-item
         >
         <el-dropdown-item :command="ECloseTab.closeOther">
-          {{ $t('navbar.closeOther') }}</el-dropdown-item
+          {{ $ts('navbar.closeOther') }}</el-dropdown-item
         >
         <el-dropdown-item :command="ECloseTab.closeAll">
-          {{ $t('navbar.closeAll') }}</el-dropdown-item
+          {{ $ts('navbar.closeAll') }}</el-dropdown-item
         >
       </el-dropdown-menu>
     </el-dropdown>
@@ -60,8 +60,8 @@ export default class Tab extends Vue {
     return AppModule.TabList;
   }
   menusTitle(item: any) {
-    if (this.$t(`route.${item}`)) {
-      return this.$t(`route.${item}`);
+    if (this.$ts(`route.${item}`)) {
+      return this.$ts(`route.${item}`);
     }
     return item;
   }

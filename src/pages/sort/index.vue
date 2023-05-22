@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <yk-card flex :header="$t('dragTable.title')">
+    <yk-card flex :header="$ts('dragTable.title')">
       <div class="yk-flex-col">
         <el-form ref="queryFormM" inline :model="queryFormM">
           <yk-form-item prop="name">
@@ -16,7 +16,7 @@
             ></yk-cascader>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="onQuery()">{{ $t('table.query') }}</el-button>
+            <el-button type="primary" @click="onQuery()">{{ $ts('table.query') }}</el-button>
           </el-form-item>
         </el-form>
         <div class="yk-flex-col-grow">
@@ -125,12 +125,12 @@ export default class TreeTable extends Mixins(MixinTable) {
   tableRequest = service.query;
   get tableColumns() {
     const data: Array<ColumnItem<SortItem>> = [
-      { label: this.$t('dragTable.index'), type: 'index', prop: 'index', width: 70 },
-      { label: this.$t('dragTable.name'), prop: 'name' },
-      { label: this.$t('dragTable.phone'), prop: 'phone', minWidth: 120 },
-      { label: this.$t('dragTable.email'), prop: 'email', minWidth: 200 },
+      { label: this.$ts('dragTable.index'), type: 'index', prop: 'index', width: 70 },
+      { label: this.$ts('dragTable.name'), prop: 'name' },
+      { label: this.$ts('dragTable.phone'), prop: 'phone', minWidth: 120 },
+      { label: this.$ts('dragTable.email'), prop: 'email', minWidth: 200 },
       {
-        label: this.$t('dragTable.address'),
+        label: this.$ts('dragTable.address'),
         prop: 'address',
         minWidth: 120,
         showOverflowTooltip: true,
@@ -138,7 +138,7 @@ export default class TreeTable extends Mixins(MixinTable) {
       {
         slot: 'actions',
         prop: 'actions',
-        label: this.$t('table.actions'),
+        label: this.$ts('table.actions'),
       },
     ];
     return data;

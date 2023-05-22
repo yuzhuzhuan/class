@@ -5,7 +5,7 @@
     </div>
     <div class="detail-container">
       <el-form ref="submitForm" :model="submitForm" label-width="100px" :show-message="false">
-        <yk-form-item :label="$t('role.roleName').toString() + ':'" prop="name" required>
+        <yk-form-item :label="$ts('role.roleName') + ':'" prop="name" required>
           <div class="flex">
             <yk-input v-model.trim="submitForm.name" style="width: 300px" @blur="verifyName" />
             <YkMessage
@@ -17,7 +17,7 @@
             </YkMessage>
           </div>
         </yk-form-item>
-        <yk-form-item :label="$t('role.roleMenus').toString() + ':'" prop="menus" required>
+        <yk-form-item :label="$ts('role.roleMenus') + ':'" prop="menus" required>
           <div class="flex">
             <yk-input
               v-model.trim="submitForm.menus"
@@ -54,8 +54,8 @@
       </div>
     </div>
     <div class="flex justify-center items-center">
-      <el-button @click="$emit('done')">{{ $t('global.cancel') }}</el-button>
-      <el-button type="primary" @click="save()">{{ $t('global.save') }}</el-button>
+      <el-button @click="$emit('done')">{{ $ts('global.cancel') }}</el-button>
+      <el-button type="primary" @click="save()">{{ $ts('global.save') }}</el-button>
     </div>
   </div>
 </template>

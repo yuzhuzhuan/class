@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-card class="h-full overflow-y-auto" :header="$t('upload.title')">
+    <el-card class="h-full overflow-y-auto" :header="$ts('upload.title')">
       <div class="mt-10 w-48">
         <YkUpload
           :drag="true"

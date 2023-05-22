@@ -69,7 +69,7 @@ export default class MixinTable<T extends Record<string, any> & { id: any }> ext
    * @param {T} row 行数据
    * @param {?number} [_index] 行号
    * @param {({ message: string; descriptions?: string | string[] })} [confirmOpts={
-        message: this.$t('YkMessageBox.message').toString(),
+        message: this.$ts('YkMessageBox.message'),
         descriptions: [''],
       }] 删除前的确认弹窗配置
    * @returns void
@@ -79,7 +79,7 @@ export default class MixinTable<T extends Record<string, any> & { id: any }> ext
     row: T,
     _index?: number,
     confirmOpts: { message: string; descriptions?: string | string[] } = {
-      message: this.$t('YkMessageBox.message').toString(),
+      message: this.$ts('YkMessageBox.message'),
       descriptions: [''],
     },
   ) {

@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <yk-card flex scroll shadow="never" :header="$t('icon.title')">
+    <yk-card flex scroll shadow="never" :header="$ts('icon.title')">
       <div class="mt-5 text-center min-w-[75rem] grid gap-6 grid-cols-8">
         <div
           v-for="(item, index) in iconList"

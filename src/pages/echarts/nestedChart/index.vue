@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-card class="h-full overflow-auto" :header="$t('charts.nestedChart')">
+    <el-card class="h-full overflow-auto" :header="$ts('charts.nestedChart')">
       <YKEcharts v-if="flag" :options="options" class-name="h-[30rem]"></YKEcharts>
     </el-card>
   </div>

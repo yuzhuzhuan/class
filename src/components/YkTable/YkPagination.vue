@@ -8,7 +8,7 @@
       :total="tablePageInfo.total"
       v-bind="attrs"
       background
-      small
+      :disabled="isOnlyOnePage"
       class="!space-x-1"
       @size-change="tablePageSizeChange"
       @current-change="tablePageChange"
@@ -38,10 +38,14 @@ export default class YkPagination extends Vue {
     return Object.assign({ total: 0 }, DEF_PAGE_INFO, this.pageInfo, this.$attrs);
   }
 
+  get isOnlyOnePage() {
+    return this.tablePageInfo.total <= this.tablePageInfo.pageSize;
+  }
+
   get allowShow() {
     return (
       (this.pageInfo.pageSize ?? 0) < Number.MAX_SAFE_INTEGER &&
-      (!this.hideOnSinglePage || this.tablePageInfo.total > this.tablePageInfo.pageSize)
+      (!this.hideOnSinglePage || !this.isOnlyOnePage)
     );
   }
 
@@ -53,7 +57,7 @@ export default class YkPagination extends Vue {
     }
 
     Object.keys(opts).forEach((key) => {
-      opts[key] = this.$t(`pagination.${key}`).toString();
+      opts[key] = this.$ts(`pagination.${key}`);
     });
 
     return Object.assign({}, opts, this.$attrs);
@@ -79,6 +83,16 @@ export default class YkPagination extends Vue {
 
 <style lang="scss" scoped>
 ::v-deep {
+  .el-pagination.is-background {
+    .btn-prev {
+      padding-right: 6px;
+      padding-left: 6px;
+    }
+    .btn-next {
+      padding-right: 6px;
+      padding-left: 6px;
+    }
+  }
   .el-pagination__total {
     @apply mr-0 text-xs;
   }

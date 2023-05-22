@@ -1,5 +1,5 @@
 <template>
-  <YkDialog v-bind="attrsM" :title="$t('treeTable.edit')" width="1000px" v-on="listenersM">
+  <YkDialog v-bind="attrsM" :title="$ts('treeTable.edit')" width="1000px" v-on="listenersM">
     <template #icon>
       <i class="text-2xl dw-title-ic iconfont icon-bianji"></i>
     </template>
@@ -11,17 +11,17 @@
       class="max-w-full auto-rows-auto grid gap-0 grid-cols-[2fr_2fr]"
     >
       <yk-form-item
-        :label="$t('treeTable.departmentName').toString()"
+        :label="$ts('treeTable.departmentName')"
         prop="departmentName"
         required
         :rules="rules.departmentName"
       >
         <yk-input v-model.trim="dialogFormM.departmentName" />
       </yk-form-item>
-      <yk-form-item :label="$t('treeTable.manager').toString()" prop="manager" required>
+      <yk-form-item :label="$ts('treeTable.manager')" prop="manager" required>
         <yk-input v-model.trim="dialogFormM.manager" />
       </yk-form-item>
-      <yk-form-item :label="$t('treeTable.location').toString()" :rules="rules.location" required>
+      <yk-form-item :label="$ts('treeTable.location')" :rules="rules.location" required>
         <TreeSelect
           v-model="dialogFormM.pid"
           :options="options"
@@ -29,19 +29,14 @@
         ></TreeSelect>
       </yk-form-item>
       <yk-form-item
-        :label="$t('treeTable.introduce').toString()"
+        :label="$ts('treeTable.introduce')"
         prop="introduce"
         required
         :rules="rules.introduce"
       >
         <yk-input v-model.trim="dialogFormM.introduce" />
       </yk-form-item>
-      <yk-form-item
-        :label="$t('treeTable.email').toString()"
-        prop="email"
-        required
-        :rules="rules.email"
-      >
+      <yk-form-item :label="$ts('treeTable.email')" prop="email" required :rules="rules.email">
         <yk-input v-model.trim="dialogFormM.email" />
       </yk-form-item>
     </el-form>

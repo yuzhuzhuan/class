@@ -1,21 +1,21 @@
 <template>
   <div class="app-container">
-    <yk-card flex :header="$t('treeTable.title')">
+    <yk-card flex :header="$ts('treeTable.title')">
       <div class="yk-flex-col">
         <el-form ref="queryFormM" inline :model="queryFormM">
           <el-form-item>
             <el-button type="primary" @click="dialogEditM.show()">{{
-              $t('table.create')
+              $ts('table.create')
             }}</el-button>
           </el-form-item>
           <yk-form-item prop="name">
             <yk-input v-model.trim="queryFormM.department" placeholder="请输入部门名称" />
           </yk-form-item>
           <el-form-item>
-            <el-button type="primary" @click="onQueryM()">{{ $t('table.query') }}</el-button>
+            <el-button type="primary" @click="onQueryM()">{{ $ts('table.query') }}</el-button>
           </el-form-item>
           <el-form-item>
-            <el-button @click="onResetM()">{{ $t('table.reset') }}</el-button>
+            <el-button @click="onResetM()">{{ $ts('table.reset') }}</el-button>
           </el-form-item>
         </el-form>
         <div class="yk-flex-col-grow">
@@ -53,11 +53,11 @@ export default class TreeTable extends Mixins(MixinDialog, MixinTable) {
   removeRequestM = service.remove;
   get tableColumns() {
     const data: Array<ColumnItem<TreeItem>> = [
-      { label: this.$t('treeTable.departmentName'), prop: 'departmentName', minWidth: 100 },
-      { label: this.$t('treeTable.manager'), prop: 'manager' },
-      { label: this.$t('treeTable.introduce'), prop: 'introduce', showOverflowTooltip: true },
-      { label: this.$t('treeTable.email'), prop: 'email' },
-      { label: this.$t('treeTable.createTime'), prop: 'createTime', width: 160 },
+      { label: this.$ts('treeTable.departmentName'), prop: 'departmentName', minWidth: 100 },
+      { label: this.$ts('treeTable.manager'), prop: 'manager' },
+      { label: this.$ts('treeTable.introduce'), prop: 'introduce', showOverflowTooltip: true },
+      { label: this.$ts('treeTable.email'), prop: 'email' },
+      { label: this.$ts('treeTable.createTime'), prop: 'createTime', width: 160 },
       {
         slot: 'action',
         prop: 'action',

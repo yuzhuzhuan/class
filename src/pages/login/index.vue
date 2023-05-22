@@ -6,7 +6,7 @@
       <div class="flex flex-col text-center justify-center items-center">
         <div class="flex items-center">
           <img src="../../assets/images/logo.png" alt="" class="mr-5 w-36" />
-          <h1 class="my-8 text-[#fff] text-3xl">{{ $t('login.title') }}</h1>
+          <h1 class="my-8 text-[#fff] text-3xl">{{ $ts('login.title') }}</h1>
           <lang-select class="text-[#fff] ml-3"></lang-select>
         </div>
 
@@ -32,16 +32,16 @@
             </div>
           </div>
           <div v-show="seen" class="tooltip-content">
-            {{ loginTip.includes('扫码') ? $t('login.scanLogIn') : $t('login.passwordLogIn') }}
+            {{ loginTip.includes('扫码') ? $ts('login.scanLogIn') : $ts('login.passwordLogIn') }}
           </div>
           <div v-show="isqrcode" class="flex flex-col justify-center items-center">
-            <h2 class="font-blod text-2xl">{{ $t('login.scanLogIn') }}</h2>
-            <p class="mt-4 text-base text-[#ababab] mb-4">{{ $t('login.logInDesc') }}</p>
+            <h2 class="font-blod text-2xl">{{ $ts('login.scanLogIn') }}</h2>
+            <p class="mt-4 text-base text-[#ababab] mb-4">{{ $ts('login.logInDesc') }}</p>
             <div id="login_container" class="rounded-2xl"></div>
           </div>
           <div v-if="!isqrcode" class="divide-y px-12">
             <div class="flex flex-col pb-5">
-              <h2 class="font-blod mb-10 text-2xl">{{ $t('login.passwordLogIn') }}</h2>
+              <h2 class="font-blod mb-10 text-2xl">{{ $ts('login.passwordLogIn') }}</h2>
               <el-form
                 ref="loginFormRef"
                 :label-position="`right`"
@@ -78,19 +78,19 @@
                     type="primary"
                     size="mini"
                     @click="login"
-                    >{{ $t('login.logIn') }}</el-button
+                    >{{ $ts('login.logIn') }}</el-button
                   >
                 </el-form-item>
                 <div class="flex justify-end items-center">
                   <div>
                     <el-checkbox v-model="checked" @change="change"></el-checkbox>
-                    <span class="ml-3">{{ $t('login.remember') }}</span>
+                    <span class="ml-3">{{ $ts('login.remember') }}</span>
                   </div>
                 </div>
               </el-form>
             </div>
             <div class="flex pt-5 text-[#999] justify-between items-center">
-              <div class="text-sm">{{ $t('login.thirdparty') }}</div>
+              <div class="text-sm">{{ $ts('login.thirdparty') }}</div>
               <a
                 class="cursor-pointer rounded-full h-[2.5rem] ml-2 w-[2.5rem] inline-block sign"
                 :href="fs_url"
