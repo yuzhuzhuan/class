@@ -101,7 +101,7 @@ import YkPagination from './YkPagination.vue';
 import YkTableButton from './YkTableButton.vue';
 import YkTablePoptip from './YkTablePoptip.vue';
 
-import { Vue, Prop, PropSync, Watch, Component, Emit, Ref } from 'vue-property-decorator';
+import { Vue, Prop, Watch, Component, Emit, Ref } from 'vue-property-decorator';
 import { RESPONSE_CONFIG } from '@/utils/request';
 import { Table } from 'element-ui';
 import { pick } from 'lodash-es';

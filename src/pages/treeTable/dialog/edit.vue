@@ -1,18 +1,12 @@
 <template>
-  <YkDialog
-    v-bind="attrsM"
-    :title="$t('treeTable.edit')"
-    width="1000px"
-    v-on="listenersM"
-    @close="$reset('dialogForm')"
-  >
+  <YkDialog v-bind="attrsM" :title="$t('treeTable.edit')" width="1000px" v-on="listenersM">
     <template #icon>
       <i class="text-2xl dw-title-ic iconfont icon-bianji"></i>
     </template>
     <el-form
-      ref="dialogForm"
+      ref="dialogFormM"
       inline
-      :model="dialogForm"
+      :model="dialogFormM"
       :label-width="5 + 2 + 'em'"
       class="max-w-full auto-rows-auto grid gap-0 grid-cols-[2fr_2fr]"
     >
@@ -22,14 +16,14 @@
         required
         :rules="rules.departmentName"
       >
-        <yk-input v-model.trim="dialogForm.departmentName" />
+        <yk-input v-model.trim="dialogFormM.departmentName" />
       </yk-form-item>
       <yk-form-item :label="$t('treeTable.manager')" prop="manager" required>
-        <yk-input v-model.trim="dialogForm.manager" />
+        <yk-input v-model.trim="dialogFormM.manager" />
       </yk-form-item>
       <yk-form-item :label="$t('treeTable.location')" :rules="rules.location" required class="w-48">
         <TreeSelect
-          v-model="dialogForm.pid"
+          v-model="dialogFormM.pid"
           :options="options"
           placeholder="请输入部门位置..."
         ></TreeSelect>
@@ -40,10 +34,10 @@
         required
         :rules="rules.introduce"
       >
-        <yk-input v-model.trim="dialogForm.introduce" />
+        <yk-input v-model.trim="dialogFormM.introduce" />
       </yk-form-item>
       <yk-form-item :label="$t('treeTable.email')" prop="email" required :rules="rules.email">
-        <yk-input v-model.trim="dialogForm.email" />
+        <yk-input v-model.trim="dialogFormM.email" />
       </yk-form-item>
     </el-form>
   </YkDialog>
@@ -51,7 +45,7 @@
 
 <script lang="ts">
 import { Component, Mixins, Prop } from 'vue-property-decorator';
-import { MixinDialog } from '@/utils/mixins';
+import { MixinDialog } from '@/plugins/mixins';
 import TreeSelect from '@riophae/vue-treeselect';
 import service from '@/api/department';
 import '@riophae/vue-treeselect/dist/vue-treeselect.css';
@@ -72,7 +66,7 @@ export default class DialogUserEdit extends Mixins<MixinDialog<TreeItem>>(MixinD
     ],
   };
 
-  dialogForm = {
+  dialogFormM = {
     manager: '',
     departmentName: '',
     introduce: '',
@@ -84,27 +78,26 @@ export default class DialogUserEdit extends Mixins<MixinDialog<TreeItem>>(MixinD
 
   @Prop({}) options!: []; // 部门位置数据
 
-  spOpts = {};
   detailRequestM = service.detail;
 
-  async open() {
-    if (this.data?.id) {
-      const data = await this.getDetailM(+this.data.id);
-      Object.assign(this.dialogForm, data);
+  async openM() {
+    if (this.dataM?.id) {
+      const data = await this.getDetailM(+this.dataM.id);
+      Object.assign(this.dialogFormM, data);
     }
   }
 
-  async save() {
-    const formData = await this.getFormDataM<DialogUserEdit['dialogForm']>();
-    let data = '' as any;
-    if (this.data?.id) {
-      data = await service.update(formData);
+  async saveM() {
+    const formData = await this.getFormDataM<DialogUserEdit['dialogFormM']>();
+    let res = null;
+    if (this.dataM?.id) {
+      res = await service.update(formData);
     } else {
       formData.id = Mock.mock('@id');
       formData.createTime = moment().format('YYYY-MM-DD');
-      data = await service.create(formData);
+      res = await service.create(formData);
     }
-    return data;
+    return res.data;
   }
 }
 </script>

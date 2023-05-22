@@ -1,10 +1,13 @@
 // 替代直接使用 Function 类型
 type YkFunction<R = unknown> = (...args: any[]) => R;
 // 主要用在编辑页面中，兼容number类型的值初始化时为 ''
-type FormInit<T> = Partial<{
-  [k in keyof T]: T[k] extends number | undefined ? '' | T[k] : T[k];
-}>;
+type FormInit<T> = T extends null
+  ? null
+  : Partial<{
+      [k in keyof T]: T[k] extends number | undefined ? '' | T[k] : T[k];
+    }>;
 
+// YkTable
 interface ColumnItemProp<T extends Record<string, any>> {
   prop: keyof T;
   key?: string;
@@ -36,3 +39,9 @@ type ColumnItem<T extends Record<string, any>> =
   | ColumnItemProp<T>
   | ColumnItemSlot<T>
   | ColumnItemAction<T>;
+
+// options.ts
+interface OptItem {
+  value: number;
+  label: string;
+}

@@ -1,6 +1,6 @@
 import { Form } from 'element-ui';
 import { Vue, Component } from 'vue-property-decorator';
-// import * as spOpts from '@/constants/opts';
+import * as ykOpts from '@/constants/options';
 // import * as Permit from '@/services/api'
 
 import MixinDialog from './MixinDialog';
@@ -8,12 +8,9 @@ import MixinTable from './MixinTable';
 // import { StoreRole } from '@/store'
 export { MixinDialog, MixinTable };
 
-/** *******************************
- ************ Global *************
- ******************************** */
 // 全局注入
 @Component
-class GlobalMixin extends Vue {
+export default class MixinGlobal extends Vue {
   // get userInfo() {
   //   return StoreRole.userInfo
   // }
@@ -24,25 +21,32 @@ class GlobalMixin extends Vue {
   // }
   // permit = Permit
 
-  // spOpts = spOpts;
-
-  // 组件自定义验证
-  async validateM() {
-    // console.log('在组件中实现, 可选')
-  }
+  ykOpts = ykOpts;
 
   /**
-   * 请给 el-form 组件添加ref, 内置 submitForm,dialogForm,queryForm
-   * el-form 组件的 mode 值需要绑定与ref相同名称的变量
-   * @param  {Boolean|message} validation  是否显示校验结果
-   * @param  {String}  formRef  el-from[ref] & VNode[formRef]
+   * 请给 ElForm 组件添加 ref
+   *
+   * 内置值 submitForm,dialogForm,queryForm
+   *
+   * **ElForm 组件的 mode 值需要绑定与 ref 相同名称的变量**
+   * @param  {String|Boolean}  formRef  <br/>—String: el-from[ref=formRef][model=formRef]<br/>—Boolean: validation=fromRef,fromRef='submitForm'
+   * @param  {Boolean|String} validation  <br/>—Boolean: 是否显示校验消息<br/>—String: 显示校验消息，并指定消息内容
    * @return {Object}   formData
+   * @public
    */
   getFormDataM<T extends Record<string, any>>(
+    formRef: string | boolean = 'submitForm',
     validation: boolean | string = true,
-    formRef = 'submitForm',
   ): Promise<T> | never {
-    const formTypes = [formRef, 'submitForm', 'dialogForm', 'queryForm'];
+    if (typeof formRef === 'boolean') {
+      validation = formRef;
+    }
+    const formTypes = [
+      typeof formRef === 'string' ? formRef : 'submitForm',
+      'submitForm',
+      'dialogForm',
+      'queryForm',
+    ];
     const selectedFormName = formTypes.find((name) => this.$refs[name]) || '';
 
     if (!selectedFormName) {
@@ -55,7 +59,6 @@ class GlobalMixin extends Vue {
 
         if (valid) {
           try {
-            await this.validateM?.();
             resolve(Object.assign({}, (this as any)[selectedFormName]));
           } catch (err) {
             errMessage = (err as Error)?.message || errMessage;
@@ -74,4 +77,4 @@ class GlobalMixin extends Vue {
     });
   }
 }
-Vue.mixin(GlobalMixin);
+Vue.mixin(MixinGlobal);

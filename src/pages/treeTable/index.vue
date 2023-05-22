@@ -22,12 +22,14 @@
           <YkTable ref="table" :columns="tableColumns" :data="list" height="100%" class="h-full">
           </YkTable>
         </div>
-        <DialogUserEdit
-          v-model="dialogEditM.visible"
-          :data="dialogEditM.data"
-          :options="dialogData"
-          @done="getList"
-        ></DialogUserEdit>
+        <YkResetable>
+          <DialogUserEdit
+            v-model="dialogEditM.visible"
+            :data="dialogEditM.data"
+            :options="dialogData"
+            @done="getList"
+          ></DialogUserEdit>
+        </YkResetable>
       </div>
     </yk-card>
   </div>
@@ -36,7 +38,7 @@
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
 import { IDialogData, IList } from './type';
-import { MixinDialog, MixinTable } from '@/utils/mixins';
+import { MixinDialog, MixinTable } from '@/plugins/mixins';
 import DialogUserEdit from './dialog/edit.vue';
 
 import service from '@/api/department';

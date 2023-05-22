@@ -5,35 +5,34 @@
     ok-text="保存"
     width="1000px"
     v-on="listenersM"
-    @close="$reset('dialogForm')"
   >
     <template #icon>
       <i class="text-2xl dw-title-ic iconfont icon-bianji"></i>
     </template>
     <el-form
-      ref="dialogForm"
+      ref="dialogFormM"
       inline
-      :model="dialogForm"
+      :model="dialogFormM"
       :label-width="5 + 2 + 'em'"
       class="max-w-full auto-rows-auto grid gap-0 grid-cols-[2fr_2fr]"
     >
       <!-- (0-9，a-z(a-z)) -->
       <yk-form-item :label="$t('user.userName')" prop="username" required :rules="rules.username">
-        <yk-input v-model.trim="dialogForm.username" />
+        <yk-input v-model.trim="dialogFormM.username" />
       </yk-form-item>
       <yk-form-item :label="$t('user.name')" prop="name" required>
-        <yk-input v-model.trim="dialogForm.name" />
+        <yk-input v-model.trim="dialogFormM.name" />
       </yk-form-item>
       <!-- (0-9，a-z(a-z)) -->
       <yk-form-item :label="$t('user.password')" prop="password" required :rules="rules.password">
-        <yk-input v-model.trim="dialogForm.password" type="password" />
+        <yk-input v-model.trim="dialogFormM.password" type="password" />
       </yk-form-item>
       <yk-form-item :label="$t('user.usertype')" prop="usertype" required rule-type="number">
-        <yk-select v-model.trim="dialogForm.usertype" :options="spOpts.roletypeOpts" />
+        <yk-select v-model.trim="dialogFormM.usertype" :options="ykOpts.roletypeOpts" />
       </yk-form-item>
       <!-- (0-停用/1-启用) -->
       <yk-form-item :label="$t('user.enable')" prop="enable" required rule-type="number">
-        <yk-select v-model.trim="dialogForm.enable" :options="spOpts.enableOpts" />
+        <yk-select v-model.trim="dialogFormM.enable" :options="ykOpts.enableOpts" />
       </yk-form-item>
     </el-form>
   </YkDialog>
@@ -41,7 +40,7 @@
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
-import { MixinDialog } from '@/utils/mixins';
+import { MixinDialog } from '@/plugins/mixins';
 import service from '@/api/user';
 
 @Component({})
@@ -51,7 +50,7 @@ export default class DialogUserEdit extends Mixins<MixinDialog<UserItem>>(MixinD
     password: [{ pattern: /^[0-9a-zA-Z]+$/, message: '请输入0-9a-zA-Z的字符' }],
   };
 
-  dialogForm = {
+  dialogFormM = {
     username: '',
     name: '',
     password: '',
@@ -59,28 +58,16 @@ export default class DialogUserEdit extends Mixins<MixinDialog<UserItem>>(MixinD
     usertype: 1,
   };
 
-  spOpts = {
-    enableOpts: [],
-    roletypeOpts: [],
-  };
   detailRequestM = service.detail;
-
-  async open() {
-    if (this.data?.id) {
-      const data = await this.getDetailM(this.data.id);
-      Object.assign(this.dialogForm, data);
-    }
-  }
-
-  async save() {
-    const formData = await this.getFormDataM<DialogUserEdit['dialogForm']>();
-    let data = '' as any;
-    if (this.data?.id) {
-      data = await service.update(formData);
+  async saveM() {
+    const formData = await this.getFormDataM<DialogUserEdit['dialogFormM']>();
+    let res = null;
+    if (this.dataM?.id) {
+      res = await service.update(formData);
     } else {
-      data = await service.create(formData);
+      res = await service.create(formData);
     }
-    return data;
+    return res.data;
   }
 }
 </script>

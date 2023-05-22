@@ -1,12 +1,9 @@
 /* eslint-disable @typescript-eslint/member-ordering */
-/** *******************************
- ************ Table **************
- ******************************** */
 import { Vue, Component, Ref } from 'vue-property-decorator';
 import { Route } from 'vue-router';
 import YkTable from '@/components/YkTable/index.vue';
 import YkTableButton from '@/components/YkTable/YkTableButton.vue';
-import { SaveBack } from '../decorators';
+import { SaveBack } from '@/utils/decorators';
 import { DialogCtrl } from './MixinDialog';
 import { ElForm } from 'element-ui/types/form';
 

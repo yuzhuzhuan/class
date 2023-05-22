@@ -34,7 +34,7 @@
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
-import { MixinTable } from '@/utils/mixins';
+import { MixinTable } from '@/plugins/mixins';
 import service from '@/api/sort';
 import Sortable from 'sortablejs';
 

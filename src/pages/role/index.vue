@@ -23,7 +23,7 @@
 </template>
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
-import { MixinTable } from '@/utils/mixins';
+import { MixinTable } from '@/plugins/mixins';
 import { UserModule } from '@/store/modules/user';
 
 import service from '@/api/role';
