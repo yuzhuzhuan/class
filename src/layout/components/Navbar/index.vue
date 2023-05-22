@@ -44,7 +44,7 @@ import Hamburger from '@/layout/components/Hamburger/index.vue';
 import LangSelect from '@c/YkLangSelect/index.vue';
 import { AppModule } from '@/store/modules/app';
 import { UserModule } from '@/store/modules/user';
-import { GetUserApi } from '@/api/login';
+import { GetUserApi } from '@/services/login';
 import watermark from '@/utils/watermark';
 
 @Component({
@@ -64,7 +64,7 @@ export default class Navbar extends Vue {
   }
 
   get avatar() {
-    return require('@/assets/avatar.gif');
+    return require('@/assets/images/avatar.gif');
   }
 
   async mounted() {

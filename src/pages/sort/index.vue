@@ -44,9 +44,9 @@
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
 import { MixinTable } from '@/plugins/mixins';
-import service from '@/api/sort';
+import service from '@/services/sort';
 import Sortable from 'sortablejs';
-import api from '@/api/area';
+import api from '@/services/area';
 import YkCascader from '@/components/YkCascader/index.vue';
 
 @Component({ components: { YkCascader } })

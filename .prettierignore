@@ -16,4 +16,4 @@ docs/
 **/*.bundle.js
 
 /public/*
-/src/assets/custom-theme/*
+/src/assets/theme/*

@@ -14,8 +14,8 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import logo from '@/assets/logo.png';
-import logoCollapse from '@/assets/logo-collapse.png';
+import logo from '@/assets/images/logo.png';
+import logoCollapse from '@/assets/images/logo-collapse.png';
 
 @Component({})
 export default class SidebarLogo extends Vue {

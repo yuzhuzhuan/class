@@ -60,7 +60,7 @@ import { Component, Mixins } from 'vue-property-decorator';
 import { MixinTable } from '@/plugins/mixins';
 import { UserModule } from '@/store/modules/user';
 import detail from './detail.vue';
-import service from '@/api/role';
+import service from '@/services/role';
 
 interface Role {
   name: string;

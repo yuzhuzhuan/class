@@ -45,7 +45,7 @@
 import { Component, Mixins } from 'vue-property-decorator';
 import { MixinTable } from '@/plugins/mixins';
 import DialogUserEdit from './dialog/edit.vue';
-import service from '@/api/user';
+import service from '@/services/user';
 
 @Component({ components: { DialogUserEdit } })
 export default class PageUser extends Mixins(MixinTable) {

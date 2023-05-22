@@ -9,7 +9,7 @@ lib/
 **/*-min.css
 **/*.bundle.css
 
-src/assets/custom-theme/
+src/assets/theme/
 
 *.*
 !*.css

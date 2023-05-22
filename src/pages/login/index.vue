@@ -5,7 +5,7 @@
     >
       <div class="flex flex-col text-center justify-center items-center">
         <div class="flex items-center">
-          <img src="../../assets/logo.png" alt="" class="mr-5 w-36" />
+          <img src="../../assets/images/logo.png" alt="" class="mr-5 w-36" />
           <h1 class="my-8 text-[#fff] text-3xl">{{ $t('login.title') }}</h1>
           <lang-select class="text-[#fff] ml-3"></lang-select>
         </div>
@@ -111,7 +111,7 @@ import { LoginForm } from './type';
 import { FormValidator } from '@/utils/formValidator';
 import { UserModule } from '@/store/modules/user';
 import { Form } from 'element-ui/types';
-import { LoginApi, GetUserApi } from '@/api/login'; // 导入接口
+import { LoginApi, GetUserApi } from '@/services/login'; // 导入接口
 import watermark from '@/utils/watermark';
 import Cookies from 'js-cookie';
 
@@ -263,7 +263,7 @@ export default class PageLogin extends Vue {
 <style lang="scss" scoped>
 .login-body {
   width: 100%;
-  background: url('./../../assets/login/bj.png');
+  background: url('~@/assets/images/login/bj.png');
   background-size: cover;
 }
 .switch-login-mode-box {
@@ -319,7 +319,7 @@ export default class PageLogin extends Vue {
   content: '';
 }
 .sign {
-  background: no-repeat url('./../../assets/login/sign-feishu.png') center;
+  background: no-repeat url('~@/assets/images/login/sign-feishu.png') center;
   background-size: 40px 40px;
   border: 1px solid #f0f0f0;
 }

@@ -54,7 +54,7 @@ import api from './service';
 import { Form } from 'element-ui';
 import { FormValidator } from '@/utils/formValidator';
 import { UserModule } from '@/store/modules/user';
-import { GetUserApi, updateUser } from '@/api/login';
+import { GetUserApi, updateUser } from '@/services/login';
 import Cookies from 'js-cookie';
 
 @Component({ components: {} })

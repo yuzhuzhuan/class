@@ -17,7 +17,7 @@
   </div>
 </template>
 <script lang="ts">
-import { DEF_PAGE_INFO } from '@/assets/js/config';
+import { DEF_PAGE_INFO } from '@/constants/config';
 import { omit } from 'lodash-es';
 import { Vue, Prop, Component, Watch } from 'vue-property-decorator';
 import { AppModule } from '@/store/modules/app';

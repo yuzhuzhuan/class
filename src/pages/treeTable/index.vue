@@ -41,7 +41,7 @@ import { IDialogData, IList } from './type';
 import { MixinDialog, MixinTable } from '@/plugins/mixins';
 import DialogUserEdit from './dialog/edit.vue';
 
-import service from '@/api/department';
+import service from '@/services/department';
 
 @Component({ components: { DialogUserEdit } })
 export default class TreeTable extends Mixins(MixinDialog, MixinTable) {

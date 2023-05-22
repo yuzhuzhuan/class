@@ -1,8 +1,8 @@
-// import { IRUserData } from '@/api/login/types';
+// import { IRUserData } from '@/services/login/types';
 // import { getUserData } from '@/utils/cookies';
 import { UserModule } from '@/store/modules/user';
 import { NavigationGuardNext, Route } from 'vue-router/types/router';
-import { LoginApi, GetUserApi } from '@/api/login'; // 导入接口
+import { LoginApi, GetUserApi } from '@/services/login'; // 导入接口
 import Cookies from 'js-cookie';
 
 const whiteList = ['/login', '/403', '/404'];

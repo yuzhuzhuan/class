@@ -7,7 +7,7 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import service from '@/api/echarts';
+import service from '@/services/echarts';
 import YKEcharts from '@/components/YkEcharts/index.vue';
 import { EChartsOption } from 'echarts';
 

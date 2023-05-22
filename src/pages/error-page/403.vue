@@ -16,7 +16,7 @@ import { getUserData } from '@/utils/cookies';
 
 @Component({})
 export default class Page403 extends Vue {
-  errGif = `${require('@/assets/401-images/401.gif')}?${+new Date()}`;
+  errGif = `${require('@/assets/images/401-images/401.gif')}?${+new Date()}`;
   ewizardClap = 'https://wpimg.wallstcn.com/007ef517-bafd-4066-aae4-6883632d9646';
   dialogVisible = false;
 

@@ -52,7 +52,7 @@
 import { Component, Mixins, Prop } from 'vue-property-decorator';
 import { MixinDialog } from '@/plugins/mixins';
 import TreeSelect from '@riophae/vue-treeselect';
-import service from '@/api/department';
+import service from '@/services/department';
 import '@riophae/vue-treeselect/dist/vue-treeselect.css';
 import moment from 'moment';
 import Mock from 'mockjs';

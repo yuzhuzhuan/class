@@ -62,7 +62,7 @@
 
 <script lang="ts">
 import { Component, Ref, Vue, Prop, Watch } from 'vue-property-decorator';
-import service from '@/api/role';
+import service from '@/services/role';
 import { Form } from 'element-ui';
 
 @Component({ components: {} })

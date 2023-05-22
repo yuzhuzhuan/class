@@ -105,7 +105,7 @@ import { Vue, Prop, Watch, Component, Emit, Ref } from 'vue-property-decorator';
 import { RESPONSE_CONFIG } from '@/utils/request';
 import { Table } from 'element-ui';
 import { pick } from 'lodash-es';
-import { DEF_PAGE_INFO } from '@/assets/js/config';
+import { DEF_PAGE_INFO } from '@/constants/config';
 
 /**
  * @requires ./YkTableButton.vue

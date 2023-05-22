@@ -8,7 +8,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import YKEcharts from '@/components/YkEcharts/index.vue';
-import service from '@/api/echarts';
+import service from '@/services/echarts';
 import { EChartsOption } from 'echarts';
 // 导入接口
 @Component({
