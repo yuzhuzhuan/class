@@ -1,5 +1,5 @@
 const MOCKLOGIN = require('mockjs');
-const { menuList: menus } = require('./role.ts');
+const { menuList: menulist } = require('./role.ts');
 
 const projectList = MOCKLOGIN.mock({
   'object|8': {
@@ -8,7 +8,7 @@ const projectList = MOCKLOGIN.mock({
     id: 1,
     sysRoleId: 1,
     sysRoleName: 'admin',
-    menus,
+    menus: menulist,
     sysRoleHidden: 1,
     watermark: 'admin 2211',
   },

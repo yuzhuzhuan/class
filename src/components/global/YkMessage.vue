@@ -1,6 +1,6 @@
 <template>
   <div
-    class="rounded flex border-1 text-xs min-h-7 min-w-60 pr-8 pl-3 items-center warntext"
+    class="rounded flex border-1 text-xs min-h-[2rem] min-w-[15rem] pr-8 pl-3 items-center warntext"
     :class="{ visibility: isShow }"
     :style="style[type]"
   >

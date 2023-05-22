@@ -1,45 +1,81 @@
 <template>
   <div class="app-container">
-    <yk-card flex :header="$t('role.title')">
-      <div class="gap-4 yk-flex-col">
-        <div>
-          <el-button type="primary" @click="$router.push('/role/create')">{{
-            $t('role.addRole')
-          }}</el-button>
+    <div class="flex h-full">
+      <yk-card flex class="mr-3 w-110" :header="$t('role.title')">
+        <div class="gap-4 yk-flex-col">
+          <div>
+            <el-button
+              type="primary"
+              @click="
+                () => {
+                  roleFlag = true;
+                  roleId = 0;
+                }
+              "
+              >{{ $t('role.addRole') }}</el-button
+            >
+          </div>
+          <div class="yk-flex-col-grow">
+            <YkTable
+              ref="table"
+              :columns="tableColumns"
+              :data-request="tableRequest"
+              height="100%"
+              class="h-full"
+            >
+            </YkTable>
+          </div>
         </div>
-        <div class="yk-flex-col-grow">
-          <YkTable
-            ref="table"
-            :columns="tableColumns"
-            :data-request="tableRequest"
-            height="100%"
-            class="h-full"
-          >
-          </YkTable>
+      </yk-card>
+      <yk-card flex class="flex-1">
+        <div slot="header" class="flex justify-between">
+          <span class="inline-block">{{ $t('role.editRole') }}</span>
+          <span v-if="roleFlag">
+            <span class="text-[#FF0000]">*</span>
+            <span class="text-[#999999]">{{ $t('role.required') }}</span>
+          </span>
         </div>
-      </div>
-    </yk-card>
+
+        <detail
+          v-if="roleFlag"
+          :role-id="roleId"
+          @done="
+            () => {
+              roleFlag = false;
+              onQueryM();
+            }
+          "
+        ></detail>
+        <div v-else class="gap-2 yk-flex-col h-full items-center justify-center">
+          <yk-icon icon="ri:file-copy-2-line" class="text-8xl"></yk-icon>
+          <p class="text-[#676a6e]">还未选择角色</p>
+          <p class="text-[#aeaeaa]">请选中左侧列表，查看角色详情</p>
+        </div>
+      </yk-card>
+    </div>
   </div>
 </template>
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
 import { MixinTable } from '@/plugins/mixins';
 import { UserModule } from '@/store/modules/user';
-
+import detail from './detail.vue';
 import service from '@/api/role';
 
 interface Role {
   name: string;
   actions: string;
 }
-@Component({})
+@Component({ components: { detail } })
 export default class PageRole extends Mixins(MixinTable) {
   title = '角色管理';
   ConfirmFlag = false;
+  roleFlag = false;
+  roleId = '' as any;
   roleEdit(row: any) {
-    this.$router.push({
-      path: `/role/detail/${row.id}`,
-    });
+    this.roleId = row.id;
+    this.roleFlag = true;
+    console.log('row', this.roleId);
   }
 
   async remove(...rest: any[]) {
