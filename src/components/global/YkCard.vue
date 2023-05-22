@@ -29,17 +29,6 @@ export default class YkCard extends Vue {
    */
   @Prop({ type: Boolean, required: false })
   scroll?: boolean;
-
-  aa = {
-    flex: true,
-    click() {
-      console.log(this.flex);
-    },
-  };
-
-  onClick() {
-    console.log(this.aa.click());
-  }
 }
 </script>
 

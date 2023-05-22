@@ -12,7 +12,7 @@ interface ColumnItemProp<T extends Record<string, any>> {
   prop: keyof T;
   key?: string;
   type?: 'selection' | 'index' | 'expand';
-  label: string;
+  label: string | LocaleMessages;
   slot?: string;
   align?: 'center' | 'left' | 'right';
   fixed?: 'left' | 'right' | boolean;
@@ -21,14 +21,16 @@ interface ColumnItemProp<T extends Record<string, any>> {
   className?: string;
   formatter?: (row: T, column: ColumnItem<T>, cellValue: any, index: number) => any;
   showOverflowTooltip?: boolean;
-  selectable?: YkFunction;
-  tooltip?: boolean;
 }
-type ColumnItemSlot<T extends Record<string, any>, S extends string> = Omit<
+type ColumnItemSlot<T extends Record<string, any>, S extends string = string> = Omit<
   ColumnItemProp<T>,
-  'type'
+  'prop'
 > & { prop?: string; slot: S };
-type ColumnItemAction<T extends Record<string, any>> = ColumnItemSlot<T, 'action'> & {
+type ColumnItemAction<T extends Record<string, any>> = Omit<
+  ColumnItemSlot<T, 'action'>,
+  'label'
+> & {
+  label?: string;
   listeners?: {
     remove?: YkFunction<Promise<void>>;
     edit?: YkFunction<void>;

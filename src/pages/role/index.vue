@@ -98,7 +98,7 @@ export default class PageRole extends Mixins(MixinTable) {
     // this.onQueryM();
   }
   tableRequest = service.query;
-  removeRequest = service.remove;
+  removeRequestM = service.remove;
   get tableColumns() {
     const data: Array<ColumnItem<Role>> = [
       { label: this.$t('role.roleName'), prop: 'name' },

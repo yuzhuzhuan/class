@@ -129,7 +129,12 @@ export default class TreeTable extends Mixins(MixinTable) {
       { label: this.$t('dragTable.name'), prop: 'name' },
       { label: this.$t('dragTable.phone'), prop: 'phone', minWidth: 120 },
       { label: this.$t('dragTable.email'), prop: 'email', minWidth: 200 },
-      { label: this.$t('dragTable.address'), prop: 'address', minWidth: 120, tooltip: true },
+      {
+        label: this.$t('dragTable.address'),
+        prop: 'address',
+        minWidth: 120,
+        showOverflowTooltip: true,
+      },
       {
         slot: 'actions',
         prop: 'actions',

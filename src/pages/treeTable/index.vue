@@ -50,12 +50,12 @@ export default class TreeTable extends Mixins(MixinDialog, MixinTable) {
   };
 
   // table
-  removeRequest = service.remove;
+  removeRequestM = service.remove;
   get tableColumns() {
     const data: Array<ColumnItem<TreeItem>> = [
       { label: this.$t('treeTable.departmentName'), prop: 'departmentName', minWidth: 100 },
       { label: this.$t('treeTable.manager'), prop: 'manager' },
-      { label: this.$t('treeTable.introduce'), prop: 'introduce', tooltip: true },
+      { label: this.$t('treeTable.introduce'), prop: 'introduce', showOverflowTooltip: true },
       { label: this.$t('treeTable.email'), prop: 'email' },
       { label: this.$t('treeTable.createTime'), prop: 'createTime', width: 160 },
       {

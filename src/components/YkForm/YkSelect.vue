@@ -62,7 +62,6 @@ export default class YkSelect extends Vue {
 
   /**
    * 选中值发生变化时触发
-   *
    * @property {string | number} 目前的选中值
    */
   @Emit('change')

@@ -10,9 +10,7 @@
       :no-data-text="emptyText"
       class="flex-1"
       size="mini"
-      :reserve-selection="reserveSelection"
       row-key="id"
-      :cell-style="columnStyle"
       :tree-props="{ children: 'children' }"
       element-loading-text="数据加载中"
       element-loading-spinner="el-icon-loading"
@@ -27,10 +25,14 @@
           :label="$t('table.actions')"
           :header-align="actionCol.align"
           :align="actionCol.align"
-          :show-overflow-tooltip="item.tooltip"
         >
           <template #default="scope">
             <div class="space-x-3 inline-block">
+              <!--
+                @slot 操作列的内容<br/>可通过 columns.listeners 配置内置的操作，支持 remove,edit,detail
+                @binding {RowData} row 行数据
+                @binding {number} index 行号
+              -->
               <slot name="action" :row="plainRow(scope.row)" :index="scope.$index"></slot>
               <template v-if="actionCol && actionCol.listeners">
                 <YkTableButton
@@ -63,25 +65,24 @@
           v-else-if="item.slot"
           :key="(item.prop || item.key || '').toString() + 'slot'"
           v-bind="omitSlot(item)"
-          :show-overflow-tooltip="item.tooltip"
         >
           <template #default="scope">
+            <!--
+              @slot 自定义列的内容
+              @binding {string} name slot.name
+              @binding {RowData} row 行数据
+              @binding {number} index 行号
+            -->
             <slot :name="item.slot" :row="plainRow(scope.row)" :index="scope.$index"></slot>
           </template>
         </el-table-column>
-        <el-table-column
-          v-else
-          :key="item.prop || item.key"
-          v-bind="item"
-          :show-overflow-tooltip="item.tooltip"
-        >
-        </el-table-column>
+        <el-table-column v-else :key="item.prop || item.key" v-bind="item"> </el-table-column>
       </template>
       <template slot="empty">
         <div v-show="!(!!loading || dataLoading)" class="my-10">
           <!-- TODO 求提供无数据图片 -->
           <!-- <img class="mx-auto" src="@/assets/images/table-empty.png" /> -->
-          <div class="text-center !leading-8">暂无数据</div>
+          <div class="text-center !leading-8">{{ emptyText }}</div>
         </div>
       </template>
     </el-table>
@@ -108,37 +109,48 @@ import { pick } from 'lodash-es';
 import { DEF_PAGE_INFO } from '@/constants/config';
 
 /**
+ * 封装 ElTable<br/>
+ * 与 [TableMixin](#/Mixin/TableMixin) 配合使用
  * @requires ./YkTableButton.vue
+ * @see https://element.eleme.cn/#/zh-CN/component/table
  */
 @Component({
   inheritAttrs: false,
   components: { YkPagination, YkTablePoptip, YkTableButton },
 })
 export default class YkTable extends Vue {
-  // 请求接口
+  /** 渲染的数据, 会隐藏翻页条，如需翻页请包装成 dataRequest */
   @Prop({ type: Array, required: false, default: () => [] })
   data!: Array<Record<string, any>>;
+  /** 渲染数据的请求接口，优先级 > data */
   @Prop({ type: Function, required: false })
-  dataRequest?: YkFunction<Promise<any>>;
+  dataRequest?: YkFunction<Promise<{ data: []; total: number }>>;
 
+  /** 渲染的列配置  */
   @Prop({ type: [Array], required: true })
   columns!: Array<ColumnItem<any>>;
 
+  /** 是否自动请求，否的时候需要手动调用 request 方法  */
   @Prop({ type: Boolean, default: true })
   autoRequest!: boolean;
 
+  /** 控制 loading 状态，一般情况不需要手动控制，YkTable 会自动管理  */
   @Prop({ type: Boolean, default: false })
   loading!: boolean;
 
-  // 每页显示几条数据
-  // 当值为 0 时，不分页
+  /** 每页显示几条数据，**当值为 0 时，不分页**  */
   @Prop({ type: Number, required: false })
   pageSize?: number;
 
+  /** 翻页配置，优先级 > pageSize 的配置   */
   @Prop({ type: [Object], default: () => ({}) })
-  pageOptions!: Record<string, any>;
+  pageOptions!: {
+    pageIndex: number;
+    pageSize: number;
+    total: number;
+  };
 
-  // 单选 | 多选
+  /** 选择框是单选OR多选 */
   @Prop({
     type: String,
     default: 'multi',
@@ -148,28 +160,16 @@ export default class YkTable extends Vue {
   })
   checkMode!: 'single' | 'multi';
 
-  /**
-   * 无数据文案
-   */
+  /** 无数据文案 */
   @Prop({ type: String, default: '暂无数据', required: false })
   emptyText?: string;
 
-  @Prop({ type: Function, required: false })
-  columnStyle!: () => {};
-
-  /**
-   * 选中的数据
-   * @sync selection
-   */
+  /** 默认选中的数据，不设置就不会显示可选框，支持 `.sync` 修饰符 */
   @Prop({ type: Array, required: false })
   selection?: Array<Record<string, any>>;
-
-  @Prop({ type: [Boolean, Function], default: true })
-  selectable!: boolean | ((row: any, rowIndex: number) => boolean);
-
-  get selectableFn() {
-    return typeof this.selectable === 'function' ? this.selectable : undefined;
-  }
+  /** 仅对 type=selection 的列有效，类型为 Function，Function 的返回值用来决定这一行的 CheckBox 是否可以勾选 */
+  @Prop({ type: [Function], required: false })
+  selectable!: (row: any, rowIndex: number) => boolean;
 
   get maxHeight() {
     let value = this.$attrs['max-height'] as string | number | undefined;
@@ -188,8 +188,8 @@ export default class YkTable extends Vue {
     this.request();
   }
 
-  @Prop({ type: Boolean, required: false })
-  disableCheck?: boolean;
+  // @Prop({ type: Boolean, required: false })
+  // disableCheck?: boolean;
 
   get actionCol(): ColumnItemAction<any> | null {
     const { slot, ...action } = this.cols.find((item) => item.slot === 'action') ?? ({} as any);
@@ -207,19 +207,23 @@ export default class YkTable extends Vue {
     return col;
   }
   private get cols(): Array<ColumnItem<any>> {
+    const hasMinWidth = this.columns.some((i) => i.minWidth || i.showOverflowTooltip);
     let cols = this.columns.slice(0).map((item) => {
-      const { width, label, slot } = item;
-      let { minWidth } = item;
+      // 未显示设置宽度时，自动计算宽度
+      //   设置 showOverflowTooltip 时配置 minWidth, 否则配置 width
+      //   所有列都未设置 minWidth 或者 showOverflowTooltip 时配置 width
+      const { label, slot, showOverflowTooltip } = item;
+      let { minWidth, width } = item;
       if (!width && !minWidth && label && slot !== 'action') {
-        minWidth = label.length * 13 + 20;
+        if (showOverflowTooltip || !hasMinWidth) {
+          minWidth = label.length * 13 + 20;
+        } else {
+          width = label.length * 13 + 20;
+        }
       }
-      return { ...item, minWidth };
+      return Object.assign({ ...item }, { minWidth, width } as any);
     });
-    cols = this.colsWithFixed(cols) as Array<
-      ColumnItem<any> & {
-        minWidth: number;
-      }
-    >;
+    cols = this.colsWithFixed(cols);
     return cols;
   }
 
@@ -233,15 +237,19 @@ export default class YkTable extends Vue {
         : Reflect.deleteProperty(action, 'fixed');
     }
     // 可选列
-    if (this.selectable && this.selection) {
+    if (this.selection) {
       const selection = columns.find((item) => item.type === 'selection');
       selection && columns.splice(columns.indexOf(selection), 1);
       const data: ColumnItem<any> = {
         width: 38,
         type: 'selection',
+        // @ts-ignore: 内部配置
         prop: '_selection',
+        // @ts-ignore: 内部配置
         label: '_selection',
-        selectable: this.selectableFn,
+        // @ts-ignore: 内部配置
+        selectable: this.selectable,
+        reserveSelection: this.reserveSelection,
         align: 'center',
         fixed: 'left',
         className: this.checkMode === 'single' ? 'yk-table-check-single' : '',
@@ -262,17 +270,11 @@ export default class YkTable extends Vue {
       columns.splice(columns.indexOf(action), 1);
     }
 
-    // 可选列权限
-    const selection = columns.find((item) => item.type === 'selection');
-    if (selection && !this.selectable) {
-      columns.splice(columns.indexOf(selection), 1);
-    }
-
     return columns;
   }
 
   private get showPagination() {
-    return this.pageSize === 0 || this.dataRequest;
+    return this.pageSize !== 0 && this.dataRequest;
   }
 
   private plainRow(item: object) {
@@ -283,10 +285,14 @@ export default class YkTable extends Vue {
     return item;
   }
 
-  // 翻页时是否记忆选中的行
+  /** 翻页时是否记忆选中的行 */
   @Prop({ type: Boolean, default: false })
   reserveSelection!: boolean;
 
+  /**
+   * 支持 props.selection 的 .sync 修饰符
+   * @property {any[]} 选中的列表数据
+   */
   @Emit('update:selection')
   onSelectionChange(selection: Array<Record<string, any>>) {
     selection = selection.map(this.plainRow);
@@ -301,7 +307,12 @@ export default class YkTable extends Vue {
     }
   }
 
-  @Emit('on-success')
+  /**
+   * 手动渲染表格的方法
+   * @param {Record<string, any>} params 调用 dataRequest 的条件参数
+   * @param {{pageSize:number;pageIndex:number}} pageInfo 调用 dataRequest 的翻页参数
+   * @public
+   */
   async request(params?: Record<string, any>, pageInfo?: { pageSize: number; pageIndex: number }) {
     // 当参数属性为 '' 或者 [] 时删除这个属性
     if (params) {
@@ -330,14 +341,20 @@ export default class YkTable extends Vue {
     this.dataLoading = true;
     return this.getList(params)
       .then((res: any) => {
-        const { page = params?.page, data = [] } = res;
+        const { data = [] } = res;
         if (this.showPagination) {
           this.pageInfo.total = res[RESPONSE_CONFIG.TOTAL] ?? 0;
           this.pageInfo.pageIndex = params?.pageNum || 0;
           this.pageInfo.pageSize = params?.pageSize || 0;
         }
         this.dataList = data;
-        !this.reserveSelection && this.selectable && this.onSelectionChange([]);
+        !this.reserveSelection && this.onSelectionChange([]);
+
+        /**
+         * 返回属性 dataRequest 的请求结果
+         * @property {any[]} 列表数据
+         */
+        this.$emit('on-success', data);
         return data;
       })
       .finally(() => {

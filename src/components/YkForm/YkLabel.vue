@@ -1,17 +1,20 @@
 <template>
   <div>
-    <template v-for="(letter, index) in label">
-      <span v-if="index" :key="letter + index" :style="`padding-left: ${offset}em`"></span>
-      {{ letter }}
-    </template>
+    <template v-for="(letter, index) in label"
+      ><span v-if="index" :key="letter + index" :style="`padding-left: ${offset}em`"></span
+      >{{ letter }}</template
+    >
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
+/**
+ * label 等宽显示
+ */
 @Component
-export default class YkFormLabel extends Vue {
+export default class YkLabel extends Vue {
   @Prop({ type: Number, required: true })
   total!: number;
 
