@@ -1,13 +1,4 @@
-export const isValidUsername = (str: string) => ['admin', 'editor'].indexOf(str.trim()) >= 0;
-
 export const isExternal = (path: string) => /^(https?:|mailto:|tel:)/.test(path);
-
-export const isArray = (arg: any) => {
-  if (typeof Array.isArray === 'undefined') {
-    return Object.prototype.toString.call(arg) === '[object Array]';
-  }
-  return Array.isArray(arg);
-};
 
 export const isValidURL = (url: string) => {
   const reg =
@@ -16,7 +7,7 @@ export const isValidURL = (url: string) => {
 };
 
 export const isPhoneNumber = (str: string) => {
-  return /^1(3\d|4\d|5\d|6[02567]|7[0-8]|8\d|9[0-3,5-9])\d{8}$/.test(str);
+  return /^1\d{10}$/.test(str);
 };
 export const isEmailNumber = (str: string) => {
   return /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(str);

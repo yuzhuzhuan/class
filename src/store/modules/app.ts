@@ -1,11 +1,5 @@
 import { VuexModule, Module, Mutation, Action, getModule } from 'vuex-module-decorators';
-import {
-  getCurrentTab,
-  getSidebarStatus,
-  setCurrentTab,
-  setSidebarStatus,
-  setLanguage,
-} from '@/utils/cookies';
+import { cookieSidebarStatus, cookieTab, cookieLang } from '@/utils/cookies';
 import { GetLanguage } from '@/lang/index';
 import store from '@/store';
 import { IRouteObj } from '@/types/routeTypes';
@@ -32,7 +26,7 @@ export interface IAppState {
 class App extends VuexModule implements IAppState {
   // 左边侧边栏的状态
   sidebar = {
-    opened: getSidebarStatus() !== 'closed',
+    opened: cookieSidebarStatus.value !== 'closed',
     withoutAnimation: false,
   };
 
@@ -54,9 +48,9 @@ class App extends VuexModule implements IAppState {
     this.sidebar.opened = !this.sidebar.opened;
     this.sidebar.withoutAnimation = withoutAnimation;
     if (this.sidebar.opened) {
-      setSidebarStatus('opened');
+      cookieSidebarStatus.set('opened');
     } else {
-      setSidebarStatus('closed');
+      cookieSidebarStatus.set('closed');
     }
   }
 
@@ -64,7 +58,7 @@ class App extends VuexModule implements IAppState {
   CLOSE_SIDEBAR(withoutAnimation: boolean) {
     this.sidebar.opened = false;
     this.sidebar.withoutAnimation = withoutAnimation;
-    setSidebarStatus('closed');
+    cookieSidebarStatus.set('closed');
   }
 
   /**
@@ -76,7 +70,7 @@ class App extends VuexModule implements IAppState {
     const { path } = obj;
     // store 和 cookie 都需要存入数据
     this.currentTab = path;
-    setCurrentTab(obj);
+    cookieTab.set(obj);
     // 路由列表中不存在，加入tab列表
     if (
       !this.TabList.some(
@@ -102,15 +96,15 @@ class App extends VuexModule implements IAppState {
    */
   @Mutation
   CLOSE_OTHER() {
-    const currentObj: IRouteObj = JSON.parse(getCurrentTab() as string);
+    const currentObj = cookieTab.value;
     this.TabList = [
       {
         name: 'Index',
         path: '/index',
         title: 'dashboard',
       },
-      currentObj,
     ];
+    currentObj && this.TabList.push(currentObj);
   }
 
   /**
@@ -125,7 +119,7 @@ class App extends VuexModule implements IAppState {
     };
     this.TabList = [obj];
     this.currentTab = '/index';
-    setCurrentTab(obj);
+    cookieTab.set(obj);
   }
   /**
    * 修改语言
@@ -135,7 +129,7 @@ class App extends VuexModule implements IAppState {
     // 存入数据
     this.language = lang;
     // 存入数据进入cookie
-    setLanguage(lang);
+    cookieLang.set(lang);
   }
   /**
    * 对外暴露设置用户数据

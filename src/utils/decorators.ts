@@ -2,11 +2,15 @@ import { createDecorator } from 'vue-class-component';
 import { Message } from 'element-ui';
 import { CreateElement } from 'vue';
 
-// 保存后弹消息,然后返回
+/**
+ * 保存后弹 success 消息,然后跳转路由
+ * @param message 消息内容
+ * @param path 要跳转的路由
+ * @returns
+ */
 export const SaveBack = function (
   message: string | [string, string] = '保存成功',
-  path: string | boolean = false,
-  query?: any,
+  path?: string | { path: string; query?: any } | -1,
 ) {
   return createDecorator((componentOptions, handler) => {
     const methods = componentOptions.methods as any;
@@ -23,7 +27,9 @@ export const SaveBack = function (
           });
         });
 
-        path === true ? this.$router.go(-1) : path && this.$router.push({ path, query });
+        if (path) {
+          path === -1 ? this.$router.go(-1) : this.$router.push(path);
+        }
 
         return data;
       } catch (error) {
@@ -35,7 +41,11 @@ export const SaveBack = function (
   });
 };
 
-// 为了弹多个 getForm(false) 的错误消息
+/**
+ * 捕获 Error 并弹出错误消息
+ * @param message 消息内容
+ * @returns
+ */
 export const MessageCatchError = function (message?: string) {
   return createDecorator((componentOptions, handler) => {
     const methods = componentOptions.methods as any;
@@ -45,6 +55,7 @@ export const MessageCatchError = function (message?: string) {
         const data = await originalMethod.apply(this as any, args);
         return data;
       } catch (error) {
+        console.error(error);
         Message.error({
           message: message || (error as Error).message,
           duration: 3000,
@@ -55,7 +66,12 @@ export const MessageCatchError = function (message?: string) {
   });
 };
 
-// 执行前进行确认
+/**
+ * 执行前进行 warning 确认
+ * @param message 确认内容
+ * @param title 确认标题
+ * @returns
+ */
 export const ConfirmBefore = function (message: string, title?: string) {
   return createDecorator((componentOptions, handler) => {
     const methods = componentOptions.methods as any;
@@ -72,8 +88,12 @@ export const ConfirmBefore = function (message: string, title?: string) {
   });
 };
 
-// 全屏 loading
-export const ScreenLoading = function (loadingText?: string) {
+/**
+ * 异步方法执行的时候弹全屏 loading
+ * @param loadingText loading 的文本
+ * @returns
+ */
+export const ScreenLoading = function (loadingText = '加载中') {
   return createDecorator((componentOptions, handler) => {
     const methods = componentOptions.methods as any;
     const originalMethod = methods[handler] as YkFunction;
@@ -88,23 +108,25 @@ export const ScreenLoading = function (loadingText?: string) {
                 size: 18,
               },
             }),
-            h('div', { class: 'offset-top' }, loadingText ?? '加载中'),
+            h('div', { class: 'offset-top' }, loadingText),
           ]);
         },
       });
       try {
         const data = await originalMethod.apply(this as any, args);
-        this.$Ykin.hide();
         return data;
-      } catch (error) {
+      } finally {
         this.$Ykin.hide();
-        throw error;
       }
     };
   });
 };
 
-// request loading
+/**
+ * 异步请求的前后，设置 loading
+ * @param loadingProp loading 变量名
+ * @returns
+ */
 export const RequestLoading = function (loadingProp = 'loading') {
   return createDecorator((componentOptions, handler) => {
     const methods = componentOptions.methods as any;
@@ -132,7 +154,11 @@ export const RequestLoading = function (loadingProp = 'loading') {
     };
   });
 };
-// 循环调用
+/**
+ * 循环调用，目标函数返回 true 时继续循环，否则 stop
+ * @param timeout 时间间隔
+ * @returns
+ */
 export const LoopExcute = function (timeout = 3000) {
   let flag = true;
   return createDecorator((componentOptions, handler) => {

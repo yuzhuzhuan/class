@@ -1,6 +1,6 @@
 import { VuexModule, Module, Mutation, Action, getModule } from 'vuex-module-decorators';
 import store from '@/store';
-import { getUserData, getToken, setToken, removeToken, setUserData } from '@/utils/cookies';
+import { cookieToken, cookieUser } from '@/utils/cookies';
 import { IUserData } from '@/types/dataTypes';
 import { RouteConfig } from 'vue-router';
 
@@ -23,7 +23,7 @@ class User extends VuexModule implements IUserState {
   useData = null as null | IUserData;
   // token
   // public token = localStorage.getItem('token') || '';
-  token = getToken() || '';
+  token = cookieToken.value || '';
 
   // private permits = [] as { id: number }[]
   permits = [] as Array<{
@@ -41,7 +41,7 @@ class User extends VuexModule implements IUserState {
     // 存入数据
     this.useData = userData;
     // 存入数据进入cookie
-    setUserData(userData);
+    cookieUser.set(userData);
   }
 
   /**
@@ -51,7 +51,7 @@ class User extends VuexModule implements IUserState {
   DEL_TOKEN() {
     this.token = '';
     // localStorage.removeItem('token');
-    removeToken();
+    cookieToken.remove();
   }
 
   /**
@@ -61,7 +61,7 @@ class User extends VuexModule implements IUserState {
   @Mutation
   SET_TOKEN(token: string) {
     this.token = token;
-    setToken(token);
+    cookieToken.set(token);
   }
 
   @Mutation
@@ -92,7 +92,7 @@ class User extends VuexModule implements IUserState {
   @Action
   setToken(token: string) {
     // localStorage.setItem('token', token);
-    setToken(token);
+    cookieToken.set(token);
     this.SET_TOKEN(token);
   }
 
@@ -111,7 +111,7 @@ class User extends VuexModule implements IUserState {
    */
   @Action
   async getMenu() {
-    const userData: IUserData = JSON.parse(getUserData() as string);
+    const userData = cookieUser.value;
     // return await APIGetMenu({
     //   phone: userData.phone,
     // });

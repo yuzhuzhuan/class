@@ -1,36 +1,40 @@
 import { IUserData, IPage } from '@/types/dataTypes';
+import { IRouteObj } from '@/types/routeTypes';
 import Cookies from 'js-cookie';
 
+class YkCookies<T = string> {
+  constructor(private key: string, private isJson = false, private defaultValue?: T) {}
+  get value(): T | undefined {
+    const value = Cookies.get(this.key);
+    if (value && this.isJson) {
+      try {
+        return JSON.parse(value);
+      } catch (error) {
+        const err = new Error(`Cookies [${this.key}] JSON 解析错误`);
+        console.error(err.message, value);
+        throw err;
+      }
+    }
+    return (value as T) ?? this.defaultValue;
+  }
+  set(value: T) {
+    const sValue = this.isJson ? JSON.stringify(value) : value;
+    Cookies.set(this.key, sValue as string);
+  }
+  remove() {
+    Cookies.remove(this.key);
+  }
+}
+
 // App
-const sidebarStatusKey = 'sidebar_status';
-export const getSidebarStatus = () => Cookies.get(sidebarStatusKey);
-export const setSidebarStatus = (sidebarStatus: string) =>
-  Cookies.set(sidebarStatusKey, sidebarStatus);
-
+export const cookieSidebarStatus = new YkCookies('sidebar_status');
 // Token
-const tokenKey = 'Admin-Token';
-export const getToken = () => Cookies.get(tokenKey);
-export const setToken = (token: string) => Cookies.set(tokenKey, token);
-export const removeToken = () => Cookies.remove(tokenKey);
-
+export const cookieToken = new YkCookies('Admin-Token');
 // User
-const UserKey = 'User-Data';
-export const getUserData = () => Cookies.get(UserKey);
-export const setUserData = (data: IUserData) => Cookies.set(UserKey, JSON.stringify(data));
-export const removeUserData = () => Cookies.remove(UserKey);
-
+export const cookieUser = new YkCookies<IUserData>('User-Data', true);
 // Tab
-const tabKey = 'current-tab';
-export const getCurrentTab = () => Cookies.get(tabKey);
-export const setCurrentTab = (tab: object) => Cookies.set(tabKey, JSON.stringify(tab));
-
+export const cookieTab = new YkCookies<IRouteObj>('current-tab', true);
 // Page
-const PageKey = 'Page';
-export const getPage = () => Cookies.get(PageKey);
-export const setPage = (data: IPage) => Cookies.set(PageKey, JSON.stringify(data));
-export const removePage = () => Cookies.remove(PageKey);
+export const cookiePage = new YkCookies<IPage>('Page', true);
 // Language
-const LanguageKey = 'language';
-export const getLanguage = () => Cookies.get(LanguageKey);
-export const setLanguage = (data: string) => Cookies.set(LanguageKey, JSON.stringify(data));
-export const removeLanguage = () => Cookies.remove(LanguageKey);
+export const cookieLang = new YkCookies('language');

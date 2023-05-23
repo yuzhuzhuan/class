@@ -31,6 +31,7 @@ export interface IUserData {
   username: string;
   menus: any;
   id: number;
+  watermark?: string;
 }
 /**
  * 部门类型

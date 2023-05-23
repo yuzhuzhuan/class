@@ -4,7 +4,7 @@
 <script lang="ts">
 import { Component, Vue, Ref, Prop } from 'vue-property-decorator';
 import * as echarts from 'echarts';
-import { debounce } from '@/utils';
+import { debounce } from 'lodash-es';
 
 @Component({})
 export default class YkEcharts extends Vue {

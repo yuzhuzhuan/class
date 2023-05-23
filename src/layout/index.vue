@@ -15,7 +15,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import { AppMain, Navbar, Sidebar, Tab } from './components';
 import { UserModule } from '@/store/modules/user';
 import watermark from '@/plugins/watermark';
-import { getUserData } from '@/utils/cookies';
+import { cookieUser } from '@/utils/cookies';
 
 @Component({
   components: {
@@ -47,10 +47,8 @@ export default class Layout extends Vue {
     return UserModule.useData ?? {};
   }
   mounted() {
-    if (getUserData()) {
-      const userInfo = JSON.parse(getUserData()!);
-      watermark.set(userInfo.watermark);
-    }
+    const { watermark: mark } = cookieUser.value ?? {};
+    mark && watermark.set(mark);
   }
 }
 </script>

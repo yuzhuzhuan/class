@@ -1,6 +1,6 @@
 import VueI18n from 'vue-i18n';
 import Vue from 'vue';
-import { getLanguage } from '@/utils/cookies';
+import { cookieLang } from '@/utils/cookies';
 import enLocale from './en';
 import zhLocale from './zh';
 import ElementLocale from 'element-ui/lib/locale';
@@ -16,9 +16,8 @@ const messages = {
   },
 };
 export function GetLanguage() {
-  if (getLanguage()) {
-    const chooseLanguage = JSON.parse(getLanguage()!);
-    if (chooseLanguage) return chooseLanguage;
+  if (cookieLang.value) {
+    return cookieLang.value;
   }
   // if has not choose language
   const language = navigator.language.toLowerCase();

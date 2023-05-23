@@ -3,18 +3,16 @@
     <router-view></router-view>
   </div>
 </template>
-<script>
+<script lang="ts">
 import Vue from 'vue';
 import watermark from '@/plugins/watermark';
-import { getUserData } from '@/utils/cookies';
+import { cookieUser } from '@/utils/cookies';
 
 export default Vue.extend({
   name: 'LayoutBlank',
-  async mounted() {
-    if (getUserData()) {
-      const userInfo = JSON.parse(getUserData());
-      watermark.set(userInfo.watermark);
-    }
+  mounted() {
+    const { watermark: mark } = cookieUser.value ?? {};
+    mark && watermark.set(mark);
   },
 });
 </script>
