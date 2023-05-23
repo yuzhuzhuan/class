@@ -1,4 +1,4 @@
-import request from '@/utils/request';
+import request from '@/plugins/axios';
 import { IRUserData } from './types';
 
 // 登录接口

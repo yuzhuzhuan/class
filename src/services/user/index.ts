@@ -1,4 +1,4 @@
-import request from '@/utils/request';
+import request from '@/plugins/axios';
 
 const service = {
   query(params: any) {

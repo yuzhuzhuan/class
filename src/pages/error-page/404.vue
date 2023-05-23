@@ -22,17 +22,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import watermark from '@/utils/watermark';
-import { getUserData } from '@/utils/cookies';
 
 @Component({})
 export default class Page404 extends Vue {
-  mounted() {
-    if (getUserData()) {
-      const userInfo = JSON.parse(getUserData()!);
-      watermark.set(userInfo.watermark);
-    }
-  }
+  //
 }
 </script>
 

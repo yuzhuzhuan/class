@@ -47,25 +47,17 @@ export enum RESPONSE_CONFIG {
   MESSAGE = 'msg',
   CODE = 'code',
   DATA = 'data',
-  TOKEN = 'Authorization',
-  LANG = 'Accept-Language',
+  TOTAL = 'total',
+  HEADER_TOKEN = 'Authorization',
+  HEADER_LANG = 'Accept-Language',
 }
 
 // 联调接口代理前缀
 export const API_PROXY = [
   {
     prefix: '/gzq',
-    // prefix: '/ybTest',
     apis: [
       /^\/device/, //
-      /^\/scene/,
-      /^\/area/,
-      /^\/system/,
-      /^\/config/,
-      /^\/interface/,
-      /^\$EDC/,
-      /^yeker/,
-      /^\/panel/,
     ] as RegExp[],
   },
 ];

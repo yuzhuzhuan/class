@@ -103,10 +103,9 @@ import YkTableButton from './YkTableButton.vue';
 import YkTablePoptip from './YkTablePoptip.vue';
 
 import { Vue, Prop, Watch, Component, Emit, Ref } from 'vue-property-decorator';
-import { RESPONSE_CONFIG } from '@/utils/request';
+import { RESPONSE_CONFIG, DEF_PAGE_INFO } from '@/constants/config';
 import { Table } from 'element-ui';
 import { pick } from 'lodash-es';
-import { DEF_PAGE_INFO } from '@/constants/config';
 
 /**
  * 封装 ElTable<br/>

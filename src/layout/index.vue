@@ -14,7 +14,7 @@ import { AppModule } from '@/store/modules/app';
 import { Component, Vue } from 'vue-property-decorator';
 import { AppMain, Navbar, Sidebar, Tab } from './components';
 import { UserModule } from '@/store/modules/user';
-import watermark from '@/utils/watermark';
+import watermark from '@/plugins/watermark';
 import { getUserData } from '@/utils/cookies';
 
 @Component({

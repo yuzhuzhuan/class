@@ -45,7 +45,7 @@ import LangSelect from '@c/YkLangSelect/index.vue';
 import { AppModule } from '@/store/modules/app';
 import { UserModule } from '@/store/modules/user';
 import { GetUserApi } from '@/services/login';
-import watermark from '@/utils/watermark';
+import watermark from '@/plugins/watermark';
 
 @Component({
   components: {

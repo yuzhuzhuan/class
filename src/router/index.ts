@@ -3,6 +3,7 @@ import VueRouter, { NavigationGuardNext, Route, RouteConfig } from 'vue-router';
 import { matchRouteMenu } from './matchRouteMenu';
 /* Layout */
 import Layout from '@/layout/index.vue';
+import LayoutBlank from '@/layout/blank.vue';
 
 Vue.use(VueRouter);
 export let serviceRoutes: RouteConfig[] = [];
@@ -50,18 +51,28 @@ export const routes: RouteConfig[] = [
   {
     path: '/403',
     name: '403',
-    component: () => import(/* webpackChunkName: 'Login' */ '@/pages/error-page/403.vue'),
-    meta: {
-      hidden: true,
-    },
+    component: LayoutBlank,
+    meta: { hidden: true },
+    children: [
+      {
+        path: '',
+        name: '403-page',
+        component: () => import(/* webpackChunkName: 'Login' */ '@/pages/error-page/403.vue'),
+      },
+    ],
   },
   {
     path: '/404',
     name: '404',
-    component: () => import(/* webpackChunkName: 'Login' */ '@/pages/error-page/404.vue'),
-    meta: {
-      hidden: true,
-    },
+    component: LayoutBlank,
+    meta: { hidden: true },
+    children: [
+      {
+        path: '',
+        name: '404-page',
+        component: () => import(/* webpackChunkName: 'Login' */ '@/pages/error-page/404.vue'),
+      },
+    ],
   },
   ...serviceRoutes,
 ];

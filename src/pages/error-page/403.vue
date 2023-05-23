@@ -11,8 +11,6 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import watermark from '@/utils/watermark';
-import { getUserData } from '@/utils/cookies';
 
 @Component({})
 export default class Page403 extends Vue {
@@ -25,12 +23,6 @@ export default class Page403 extends Vue {
       this.$router.push({ path: '/dashboard' });
     } else {
       this.$router.go(-1);
-    }
-  }
-  mounted() {
-    if (getUserData()) {
-      const userInfo = JSON.parse(getUserData()!);
-      watermark.set(userInfo.watermark);
     }
   }
 }

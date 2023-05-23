@@ -112,7 +112,7 @@ import { FormValidator } from '@/utils/formValidator';
 import { UserModule } from '@/store/modules/user';
 import { Form } from 'element-ui/types';
 import { LoginApi, GetUserApi } from '@/services/login'; // 导入接口
-import watermark from '@/utils/watermark';
+import watermark from '@/plugins/watermark';
 import Cookies from 'js-cookie';
 
 declare const window: any;
