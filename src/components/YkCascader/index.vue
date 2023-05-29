@@ -2,12 +2,16 @@
   <el-cascader
     v-bind="$attrs"
     :placeholder="placeholder"
-    :props="props"
+    :lazy="lazy"
+    :lazy-load="lazyLoad"
     v-on="$listeners"
   ></el-cascader>
 </template>
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
+import { CascaderNode, CascaderOption } from 'element-ui/types/cascader';
+
+export type YkCascaderFormatter = YkFunction<CascaderOption, [any, CascaderNode<string, any>]>;
 
 @Component({})
 export default class YkCascader extends Vue {
@@ -15,30 +19,24 @@ export default class YkCascader extends Vue {
   placeholder!: string;
   @Prop({ type: Number, required: false, default: 2 })
   level!: number;
-
+  @Prop({ type: Boolean, required: false, default: true })
+  lazy!: boolean;
   @Prop({ type: Function, required: false })
-  getAreaInfo?: YkFunction<Promise<any>>;
-  props = {
-    lazy: true,
-    lazyLoad: this.lazyLoad,
-  };
-  lazyLoad(node: any, resolve: any) {
+  formatter?: YkCascaderFormatter;
+  @Prop({ type: Function, required: false })
+  load?: YkFunction<Promise<{ data: any[] }>>;
+
+  lazyLoad(node: CascaderNode<any, any>, resolve: any) {
     const { level } = node;
     let id = '';
     if (level) {
       id = node.data.id;
     }
 
-    if (this.getAreaInfo) {
-      this.getAreaInfo({ id }).then((data: any) => {
-        if (data.data.length) {
-          const nodes = data.data.map((item: any) => {
-            item.label = item.name;
-            // NOTE mock使用的name查询，使用接口需要替换该参数
-            item.value = item.name;
-            item.leaf = level >= 2;
-            return item;
-          });
+    if (this.load) {
+      this.load({ id }).then(({ data }) => {
+        if (data.length) {
+          const nodes = this.formatter ? data.map((item) => this.formatter?.(item, node)) : data;
           resolve(nodes);
         }
       });

@@ -137,6 +137,11 @@ export default class YkUpload extends Vue {
   // 上传成功
   uploadOk(file: any) {
     this.loading = false;
+    /**
+     * beforeAvatarUpload返回true时触发
+     *
+     * @property {File} 上传成功返回的file
+     */
     this.$emit('uploadOk', file.file);
   }
 }

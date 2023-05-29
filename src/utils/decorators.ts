@@ -10,7 +10,7 @@ import { CreateElement } from 'vue';
  */
 export const SaveBack = function (
   message: string | [string, string] = '保存成功',
-  path?: string | { path: string; query?: any } | -1,
+  path?: string | { path: string; query?: object } | -1,
 ) {
   return createDecorator((componentOptions, handler) => {
     const methods = componentOptions.methods as any;

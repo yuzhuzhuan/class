@@ -1,5 +1,5 @@
 // 替代直接使用 Function 类型
-type YkFunction<R = unknown> = (...args: any[]) => R;
+type YkFunction<R = unknown, P = any[]> = (...args: P) => R;
 // 主要用在编辑页面中，兼容number类型的值初始化时为 ''
 type FormInit<T> = T extends null
   ? null
@@ -16,10 +16,13 @@ interface ColumnItemProp<T extends Record<string, any>> {
   slot?: string;
   align?: 'center' | 'left' | 'right';
   fixed?: 'left' | 'right' | boolean;
+  /** 最小宽度，默认根据 label 计算 */
   minWidth?: number;
+  /** 宽度，默认根据 label 计算 */
   width?: number;
   className?: string;
   formatter?: (row: T, column: ColumnItem<T>, cellValue: any, index: number) => any;
+  /** 是否开启 tooltip 展示，开启后会将 width 自动设置为 minWidth */
   showOverflowTooltip?: boolean;
 }
 type ColumnItemSlot<T extends Record<string, any>, S extends string = string> = Omit<

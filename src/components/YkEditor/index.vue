@@ -22,7 +22,11 @@ import { AppModule } from '@/store/modules/app';
 @Component({ components: { Editor } })
 export default class YkEditor extends Vue {
   @Model('change', { type: String }) readonly value!: string;
-
+  /**
+   * 内容变化时触发
+   *
+   * @property {string} 输入的内容
+   */
   @Emit('change')
   onChange(value: string) {
     return value;
