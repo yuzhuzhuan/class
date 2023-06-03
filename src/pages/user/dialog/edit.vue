@@ -28,11 +28,19 @@
         <yk-input v-model.trim="dialogFormM.password" type="password" />
       </yk-form-item>
       <yk-form-item :label="$ts('user.usertype')" prop="usertype" required rule-type="number">
-        <yk-select v-model.trim="dialogFormM.usertype" :options="ykOpts.roletypeOpts" />
+        <yk-select
+          v-model.trim="dialogFormM.usertype"
+          :options="ykOpts.roletypeOpts"
+          class="w-[11.25rem]"
+        />
       </yk-form-item>
       <!-- (0-停用/1-启用) -->
       <yk-form-item :label="$ts('user.enable')" prop="enable" required rule-type="number">
-        <yk-select v-model.trim="dialogFormM.enable" :options="ykOpts.enableOpts" />
+        <yk-select
+          v-model.trim="dialogFormM.enable"
+          :options="ykOpts.enableOpts"
+          class="w-[11.25rem]"
+        />
       </yk-form-item>
     </el-form>
   </YkDialog>

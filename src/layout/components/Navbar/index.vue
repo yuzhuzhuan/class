@@ -45,7 +45,6 @@ import LangSelect from '@c/YkLangSelect/index.vue';
 import { AppModule } from '@/store/modules/app';
 import { UserModule } from '@/store/modules/user';
 import { GetUserApi } from '@/services/login';
-import watermark from '@/plugins/watermark';
 
 @Component({
   components: {
@@ -80,7 +79,6 @@ export default class Navbar extends Vue {
 
   async logout() {
     await this.$ykMsgbox.confirm(this.$ts('YkMessageBox.content'));
-    watermark.remove();
     UserModule.deltoken();
     this.$router.push(`/login?redirect=${this.$route.fullPath}`);
   }

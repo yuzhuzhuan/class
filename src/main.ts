@@ -4,6 +4,7 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import i18n from './lang';
+import moment from 'moment';
 import './components';
 
 // plugins
@@ -21,12 +22,15 @@ import '@/assets/styles/tailwind.css';
 import '@purge-icons/generated';
 
 Vue.config.productionTip = false;
+Vue.prototype.$moment = moment;
 // 注册路由钩子函数
 Component.registerHooks(['beforeRouteEnter', 'beforeRouteLeave', 'beforeRouteUpdate']);
 
-new Vue({
+const vue = new Vue({
   router,
   store,
   i18n,
   render: (h) => h(App),
 }).$mount('#app');
+
+export default vue;

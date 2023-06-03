@@ -17,7 +17,7 @@
           <YkIcon
             v-if="theOnlyOneChild.meta.icon"
             :icon="theOnlyOneChild.meta.icon"
-            class="mr-4 mb-0.5 ml-4 text-2xl"
+            class="mr-4 mb-1.5 ml-4 text-2xl"
           />
           <span v-if="theOnlyOneChild.meta.title" slot="title">{{
             menusTitle(theOnlyOneChild.meta.title)
@@ -30,7 +30,7 @@
         <YkIcon
           v-if="item.meta && item.meta.icon"
           :icon="item.meta.icon"
-          class="mr-4 mb-0.5 ml-4 text-2xl"
+          class="mr-4 mb-1.5 ml-4 text-2xl"
         />
         <span v-if="item.meta && item.meta.title" id="title" slot="title">{{
           menusTitle(item.meta.title)

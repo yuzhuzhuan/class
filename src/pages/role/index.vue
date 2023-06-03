@@ -1,20 +1,42 @@
 <template>
   <div class="app-container">
     <div class="flex h-full">
-      <yk-card flex class="mr-3 w-110" :header="$ts('role.title')">
+      <yk-card flex class="mr-3 w-130" :header="$ts('role.title')">
         <div class="gap-4 yk-flex-col">
-          <div>
-            <el-button
-              type="primary"
-              @click="
-                () => {
-                  roleFlag = true;
-                  roleId = 0;
-                }
-              "
-              >{{ $ts('role.addRole') }}</el-button
-            >
-          </div>
+          <el-form ref="queryFormM" inline :model="queryFormM">
+            <yk-form-item prop="name">
+              <yk-input v-model.trim="queryFormM.name" placeholder="请输入要搜索的角色名称">
+                <i slot="prefix" class="el-input__icon el-icon-search"></i>
+              </yk-input>
+            </yk-form-item>
+            <yk-form-item>
+              <el-button type="primary" @click="onQueryM()">
+                <yk-icon icon="ep:search" class="mr-1 align-bottom"></yk-icon>
+                {{ $ts('table.query') }}
+              </el-button>
+            </yk-form-item>
+            <yk-form-item>
+              <el-button @click="onResetM">
+                <yk-icon icon="ep:refresh-left" class="mr-1 align-bottom"></yk-icon>
+                {{ $ts('table.reset') }}
+              </el-button>
+            </yk-form-item>
+            <yk-form-item>
+              <el-button
+                type="primary"
+                @click="
+                  () => {
+                    roleFlag = true;
+                    roleId = 0;
+                  }
+                "
+              >
+                <yk-icon icon="ic:baseline-plus" class="mr-1 addIcon"></yk-icon>
+                {{ $ts('role.addRole') }}
+              </el-button>
+            </yk-form-item>
+          </el-form>
+
           <div class="yk-flex-col-grow">
             <YkTable
               ref="table"
@@ -68,7 +90,9 @@ interface Role {
 }
 @Component({ components: { detail } })
 export default class PageRole extends Mixins(MixinTable) {
-  title = '角色管理';
+  queryFormM = {
+    name: '',
+  };
   ConfirmFlag = false;
   roleFlag = false;
   roleId = '' as any;
@@ -118,4 +142,8 @@ export default class PageRole extends Mixins(MixinTable) {
 }
 </script>
 
-<style lang="scss"></style>
+<style lang="scss" scoped>
+.el-form-item--small.el-form-item {
+  margin-bottom: 5px;
+}
+</style>

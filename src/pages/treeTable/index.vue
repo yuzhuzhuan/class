@@ -23,12 +23,12 @@
           </YkTable>
         </div>
         <YkResetable>
-          <DialogUserEdit
+          <DialogTreeEdit
             v-model="dialogEditM.visible"
             :data="dialogEditM.data"
             :options="dialogData"
             @done="getList"
-          ></DialogUserEdit>
+          ></DialogTreeEdit>
         </YkResetable>
       </div>
     </yk-card>
@@ -38,13 +38,13 @@
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
 import { IDialogData, IList } from './type';
-import { MixinDialog, MixinTable } from '@/plugins/mixins';
-import DialogUserEdit from './dialog/edit.vue';
+import { MixinTable } from '@/plugins/mixins';
+import DialogTreeEdit from './dialog/edit.vue';
 
 import service from '@/services/department';
 
-@Component({ components: { DialogUserEdit } })
-export default class TreeTable extends Mixins(MixinDialog, MixinTable) {
+@Component({ components: { DialogTreeEdit } })
+export default class TreeTable extends Mixins(MixinTable) {
   queryFormM = {
     department: '',
   };

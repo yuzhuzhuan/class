@@ -11,12 +11,18 @@
           <yk-form-item prop="name">
             <yk-input v-model.trim="queryFormM.name" placeholder="请输入用户名称" />
           </yk-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="onQueryM()">{{ $ts('table.query') }}</el-button>
-          </el-form-item>
-          <el-form-item>
-            <el-button @click="onResetM">{{ $ts('table.reset') }}</el-button>
-          </el-form-item>
+          <yk-form-item>
+            <el-button type="primary" @click="onQueryM()">
+              <yk-icon icon="ep:search" class="mr-1 align-bottom"></yk-icon>
+              {{ $ts('table.query') }}
+            </el-button>
+          </yk-form-item>
+          <yk-form-item>
+            <el-button @click="onResetM">
+              <yk-icon icon="ep:refresh-left" class="mr-1 align-bottom"></yk-icon>
+              {{ $ts('table.reset') }}
+            </el-button>
+          </yk-form-item>
         </el-form>
         <div class="yk-flex-col-grow">
           <YkTable

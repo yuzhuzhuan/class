@@ -9,6 +9,7 @@ export default [
     meta: {
       title: 'charts',
       icon: 'fluent:table-edit-24-regular',
+      id: '11',
     },
     children: [
       {

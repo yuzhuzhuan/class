@@ -63,11 +63,9 @@
 <script lang="ts">
 import { Component, Ref, Vue, Prop, Watch } from 'vue-property-decorator';
 import service from '@/services/role';
-import { Form } from 'element-ui';
 
 @Component({ components: {} })
 export default class RoleDetail extends Vue {
-  @Ref('submitForm') readonly $submitForm!: Form;
   @Ref('tree') readonly $refTree!: any;
   @Prop({ type: Number, required: true })
   roleId!: number;
@@ -90,6 +88,8 @@ export default class RoleDetail extends Vue {
     children: 'children',
     label: 'label',
   };
+  regEn = /[`~!@#$%^&*()_+<>?:"{},./;'[\]]/im;
+  regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im;
   get isEdit() {
     return this.roleId;
   }
@@ -104,6 +104,10 @@ export default class RoleDetail extends Vue {
       this.$refTree.setCheckedKeys([]);
       this.title = '新增角色';
     }
+  }
+  @Watch('submitForm.menus', { deep: true })
+  async onFormMenusChange(val: any) {
+    this.$refTree.filter(val);
   }
   filterNode(value: any, data: any) {
     if (!value) return true;
@@ -132,7 +136,7 @@ export default class RoleDetail extends Vue {
     this.initMenus = this.changeData(data);
   }
 
-  // // 处理成二维数组
+  // 处理成二维数组
   changeData(data: any, parentId = 0) {
     const arr = JSON.parse(JSON.stringify(data));
     return arr.filter((item: any) => {
@@ -145,7 +149,7 @@ export default class RoleDetail extends Vue {
     });
   }
 
-  // // 获取角色信息
+  // 获取角色信息
   async getDetail(id: number) {
     const { data } = await service.detail({ id });
     this.submitForm.name = data.name;
@@ -187,6 +191,15 @@ export default class RoleDetail extends Vue {
   verifyName() {
     if (this.validatePassName()) {
       this.warnNameText = '角色名称重复,请重新输入!';
+      return;
+    } else if (
+      this.submitForm.name.length < 2 ||
+      this.submitForm.name.length > 10 ||
+      /[0-9]/.test(`${this.submitForm.name}`) ||
+      this.regEn.test(`${this.submitForm.name}`) ||
+      this.regCn.test(`${this.submitForm.name}`)
+    ) {
+      this.warnNameText = '请使用2-10位汉字或英文';
       return;
     } else if (!this.submitForm.name) {
       this.warnNameText = '请填写必填项!';

@@ -18,7 +18,11 @@ export default {
     Table: 'Table',
     treeTable: 'Tree Table',
     dragTable: 'Drag Table',
+    excel: 'Excel',
+    exportExcel: 'Export Excel',
+    uploadExcel: 'Upload Excel',
     upload: 'Upload',
+    blank: '无权限页',
     personal: 'Personal',
   },
   navbar: {
@@ -117,6 +121,10 @@ export default {
   upload: {
     title: 'Upload',
     text: 'Click or drag the file here to upload',
+  },
+  excel: {
+    upload: 'Upload Excel',
+    export: 'Export Excel',
   },
   personal: {
     title: 'Personal',

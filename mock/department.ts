@@ -228,11 +228,11 @@ module.exports = [
   {
     url: '/url/department/create',
     type: 'post',
-    response: (res) => {
-      if (res.body.params.pid) {
-        treelist = appendNodeInTree(res.body.pid, treelist, res.body);
+    response: (config) => {
+      if (config.body.pid) {
+        treelist = appendNodeInTree(config.body.pid, treelist, config.body);
       } else {
-        treelist.push(res.body.params);
+        treelist.push(config.body);
       }
       return {
         msg: '新增成功',

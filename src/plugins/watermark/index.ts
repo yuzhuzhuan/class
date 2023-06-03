@@ -51,11 +51,9 @@ watermark.set = function () {
   const args = Array.prototype.slice.apply(arguments);
   let id = setWatermark(args);
   // 检测如果水印被去掉了，自动给加上
-  setInterval(function () {
-    if (document.getElementById(id) === null) {
-      id = setWatermark(args);
-    }
-  }, 500);
+  if (document.getElementById(id) === null) {
+    id = setWatermark(args);
+  }
   // 在窗口大小改变之后,自动触发加水印事件
   window.onresize = function () {
     setWatermark(args);

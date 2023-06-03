@@ -4,6 +4,9 @@ import { matchRouteMenu } from './matchRouteMenu';
 /* Layout */
 import Layout from '@/layout/index.vue';
 import LayoutBlank from '@/layout/blank.vue';
+import { UserModule } from '@/store/modules/user';
+import watermark from '@/plugins/watermark';
+import { cookieUser } from '@/utils/cookies';
 
 Vue.use(VueRouter);
 export let serviceRoutes: RouteConfig[] = [];
@@ -49,6 +52,20 @@ export const routes: RouteConfig[] = [
     ],
   },
   {
+    path: '/blank',
+    name: 'blank',
+    component: Layout,
+    meta: { hidden: true },
+    children: [
+      {
+        path: '',
+        name: 'blank',
+        meta: { title: 'blank' },
+        component: () => import(/* webpackChunkName: 'Login' */ '@/pages/blank/index.vue'),
+      },
+    ],
+  },
+  {
     path: '/403',
     name: '403',
     component: LayoutBlank,
@@ -83,6 +100,14 @@ const router = new VueRouter({
 // 路由守卫
 router.beforeEach((to: Route, from: Route, next: NavigationGuardNext<Vue>) => {
   matchRouteMenu(to, from, next);
+});
+router.afterEach((to: Route) => {
+  if (UserModule.token) {
+    const { watermark: mark } = cookieUser.value ?? {};
+    mark && watermark.set(mark);
+  } else {
+    watermark.remove();
+  }
 });
 
 export default router;

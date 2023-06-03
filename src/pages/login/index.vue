@@ -112,7 +112,6 @@ import { FormValidator } from '@/utils/formValidator';
 import { UserModule } from '@/store/modules/user';
 import { Form } from 'element-ui/types';
 import { LoginApi, GetUserApi } from '@/services/login'; // 导入接口
-import watermark from '@/plugins/watermark';
 import Cookies from 'js-cookie';
 
 declare const window: any;
@@ -252,10 +251,6 @@ export default class PageLogin extends Vue {
 
   click() {
     window.location.href = `https://passport.feishu.cn/suite/passport/oauth/authorize?client_id=${this.client_id}&redirect_uri=${this.redirect_uri}&response_type=code`;
-  }
-
-  activated() {
-    watermark.remove();
   }
 }
 </script>

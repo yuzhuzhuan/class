@@ -35,7 +35,7 @@ export const DEF_UPLOAD = {
 };
 
 // 免登录白名单
-export const WHITE_ROUTES = ['/login'];
+export const WHITE_ROUTES = ['/login', '/403', '/404'];
 
 // token 失效时间: 30 mins
 export const TOKEN_TIMEOUT = 30 * 60 * 1000;

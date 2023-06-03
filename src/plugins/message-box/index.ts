@@ -4,17 +4,28 @@ import Vue, { VueConstructor } from 'vue';
 import './style.postcss';
 
 // NOTE: 在线编译vue https://magiccwl.github.io/vue-compiler-online/
+const colorList = ['warn', 'error', 'success', 'info', 'question'];
 
 const getMessageNode = function (
   this: any,
   {
     message,
     descriptions,
+    icon,
   }: {
     message: string;
     descriptions?: string | string[];
+    icon: string;
   },
 ) {
+  let iconType = '';
+  if (icon) {
+    colorList.forEach((item: string) => {
+      if (icon.includes(item)) {
+        iconType = item;
+      }
+    });
+  }
   const descriptionsList = [descriptions].flat();
   const msgNode = this.$createElement('div', {}, [
     this.$createElement(
@@ -30,9 +41,9 @@ const getMessageNode = function (
           },
           [
             this.$createElement('yk-icon', {
-              staticClass: 'text-[#ff9900] icon',
+              staticClass: `${iconType} text-[#ff9900] icon`,
               attrs: {
-                icon: 'mdi:question-mark-circle-outline',
+                icon: icon || 'mdi:question-mark-circle-outline',
               },
             }),
           ],
@@ -63,6 +74,7 @@ const getMessageNode = function (
 };
 interface YkMessageBoxOptions extends ElMessageBoxOptions {
   descriptions?: string | string[];
+  iconName?: string;
 }
 interface YkMessageBoxShortcutMethod {
   (message: string, title: string, options?: YkMessageBoxOptions): Promise<MessageBoxData>;
@@ -89,6 +101,7 @@ const confirm = function (this: any, message, title, options) {
               {
                 message: msg,
                 descriptions: options?.descriptions,
+                icon: options?.iconName,
               },
             ])
           : msg,

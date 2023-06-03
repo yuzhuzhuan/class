@@ -1,16 +1,12 @@
-// import { IRUserData } from '@/services/login/types';
-// import { getUserData } from '@/utils/cookies';
 import { UserModule } from '@/store/modules/user';
 import { NavigationGuardNext, Route } from 'vue-router/types/router';
-import { LoginApi, GetUserApi } from '@/services/login'; // 导入接口
-import Cookies from 'js-cookie';
+import { GetUserApi } from '@/services/login';
+import { WHITE_ROUTES } from '@/constants/config';
 
-const whiteList = ['/login', '/403', '/404'];
 // 路由守卫
 export async function matchRouteMenu(to: Route, from: Route, next: NavigationGuardNext<Vue>) {
   // 如果有toke
   // 判断是否要去登录页
-  // console.log(UserModule.token);
   if (UserModule.token) {
     if (to.path === '/login') {
       next('/');
@@ -25,6 +21,12 @@ export async function matchRouteMenu(to: Route, from: Route, next: NavigationGua
         const id = data.menus.map((item: any) => item.id).map(String);
         if ((to.meta?.id && id.includes(to.meta?.id.toString())) || to.name === 'personal') {
           next();
+        } else if (
+          (to.meta?.id && !id.length) ||
+          (to.meta?.id && !id.every((item: any) => item.id))
+        ) {
+          // 去的页面需要id匹配 但是没有权限 进入空白无权限页
+          next('/blank');
         } else if (to.meta?.id && !id.includes(to.meta?.id.toString())) {
           next('/403');
         } else if (to.name === null) {
@@ -33,14 +35,8 @@ export async function matchRouteMenu(to: Route, from: Route, next: NavigationGua
       }
       next();
     }
-  } else if (whiteList.includes(to.path.toLowerCase())) {
+  } else if (WHITE_ROUTES.includes(to.path.toLowerCase())) {
     next();
-  } else if (to.fullPath === '/index' && !UserModule.token && Cookies.get('UserInfo')) {
-    const { data } = await LoginApi(JSON.parse(Cookies.get('UserInfo')!));
-    UserModule.setToken(data.accessToken);
-    const res = await GetUserApi();
-    UserModule.setUserData(res.data);
-    location.replace(location.href.replace(location.search, ``));
   } else {
     next(`/login?redirect=${to.fullPath}`);
   }

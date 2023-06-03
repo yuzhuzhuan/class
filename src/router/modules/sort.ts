@@ -8,6 +8,7 @@ export default [
     meta: {
       title: 'Table',
       icon: 'fluent:table-edit-24-regular',
+      id: '33',
     },
     children: [
       {

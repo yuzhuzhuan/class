@@ -26,6 +26,7 @@
           v-model="dialogFormM.pid"
           :options="options"
           placeholder="请输入部门位置..."
+          class="w-[11.25rem]"
         ></TreeSelect>
       </yk-form-item>
       <yk-form-item

@@ -1,58 +1,33 @@
 <template>
-  <div>
-    <el-upload
-      ref="UploadRef"
-      v-loading="loading"
-      :drag="drag"
-      :list-type="listType"
-      show-file-list
-      action="#"
-      :limit="limit"
-      :http-request="uploadOk"
-      :before-upload="beforeAvatarUpload"
-      :file-list="fileList"
-      :auto-upload="true"
-      :on-exceed="handleExceed"
-      :on-error="handleUploadError"
-      element-loading-text="拼命上传中"
-      element-loading-spinner="el-icon-loading"
-      multiple
-      v-bind="$attrs"
-      v-on="$listeners"
-    >
-      <slot>
-        <i class="el-icon-upload"></i>
-        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-      </slot>
-    </el-upload>
-  </div>
+  <el-upload
+    ref="UploadRef"
+    v-loading="loading"
+    action="#"
+    :http-request="uploadOk"
+    :before-upload="beforeUpload"
+    :file-list="fileList"
+    :on-exceed="handleExceed"
+    :on-error="handleUploadError"
+    element-loading-text="拼命上传中"
+    element-loading-spinner="el-icon-loading"
+    v-bind="$attrs"
+    v-on="$listeners"
+  >
+    <slot>
+      <i class="el-icon-upload"></i>
+      <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+    </slot>
+  </el-upload>
 </template>
 <script lang="ts">
 import { Component, Vue, Prop, Ref, Watch } from 'vue-property-decorator';
 import YKDialog from '@/components/YkDialog/index.vue';
+import XLSX from 'xlsx';
 
 @Component({
   components: { YKDialog },
 })
 export default class YkUpload extends Vue {
-  /**
-   * 是否启用推拽上传
-   */
-  @Prop({ type: Boolean, required: false })
-  drag!: boolean;
-
-  /**
-   * 最大允许上传个数
-   */
-  @Prop({ type: Number, required: false })
-  limit!: 1;
-
-  /**
-   * 文件列表的类型
-   */
-  @Prop({ type: String, required: false })
-  listType!: 'text' | 'picture' | 'picture-card';
-
   /**
    * 是否清空已上传的文件列表
    */
@@ -73,7 +48,16 @@ export default class YkUpload extends Vue {
     default: () => ['doc', 'zip', 'png', 'jpg', 'jpeg'],
   })
   fileType!: string[];
-
+  /**
+   * 是否把上传的Excel渲染到页面
+   */
+  @Prop({ type: Boolean, required: false, default: false })
+  isRender!: boolean;
+  /**
+   * 上传成功
+   */
+  @Prop({ type: Function, required: false })
+  onSuccess?: YkFunction;
   /**
    * 表单的ref
    */
@@ -82,7 +66,10 @@ export default class YkUpload extends Vue {
    * 上传的文件列表
    */
   fileList = [];
-
+  excelData = {
+    header: null,
+    results: null,
+  };
   loading = false;
 
   @Watch('clearFiles', { immediate: true })
@@ -93,7 +80,7 @@ export default class YkUpload extends Vue {
   }
 
   // 上传文件之前的钩子，参数为上传的文件，若返回 false 或者返回 Promise 且被 reject，则停止上传。
-  beforeAvatarUpload(file: any) {
+  beforeUpload(file: any) {
     this.loading = true;
     // 校检文件类型
     if (this.fileType) {
@@ -121,12 +108,12 @@ export default class YkUpload extends Vue {
         return false;
       }
     }
-
+    if (this.fileType.includes('xlsx') && this.isRender) this.readerData(file);
     return true;
   }
   // 超过上传数量
   handleExceed() {
-    this.$message.warning(`上传文件数量不能超过 ${this.limit} 个!`);
+    this.$message.warning(`上传文件数量不能超过 ${this.$attrs.limit} 个!`);
     this.loading = false;
   }
   // 上传失败
@@ -137,12 +124,47 @@ export default class YkUpload extends Vue {
   // 上传成功
   uploadOk(file: any) {
     this.loading = false;
-    /**
-     * beforeAvatarUpload返回true时触发
-     *
-     * @property {File} 上传成功返回的file
-     */
     this.$emit('uploadOk', file.file);
+  }
+
+  generateData(params: any) {
+    this.excelData.header = params.header;
+    this.excelData.results = params.results;
+    this.onSuccess && this.onSuccess(this.excelData);
+  }
+  readerData(rawFile: any) {
+    this.loading = true;
+    return new Promise<void>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const data = e.target!.result;
+        const workbook = XLSX.read(data, { type: 'array' });
+        const firstSheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[firstSheetName];
+        const header = this.getHeaderRow(worksheet);
+        const results = XLSX.utils.sheet_to_json(worksheet);
+        this.generateData({ header, results });
+        this.loading = false;
+        resolve();
+      };
+      reader.readAsArrayBuffer(rawFile);
+    });
+  }
+  getHeaderRow(sheet: any) {
+    const headers = [];
+    const range = XLSX.utils.decode_range(sheet['!ref']);
+    let C;
+    const R = range.s.r;
+    /* start in the first row */
+    for (C = range.s.c; C <= range.e.c; ++C) {
+      /* walk every column in the range */
+      const cell = sheet[XLSX.utils.encode_cell({ c: C, r: R })];
+      /* find the cell in the first row */
+      let hdr = `UNKNOWN ${C}`; // <-- replace with your desired default
+      if (cell && cell.t) hdr = XLSX.utils.format_cell(cell);
+      headers.push(hdr);
+    }
+    return headers;
   }
 }
 </script>

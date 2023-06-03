@@ -18,7 +18,11 @@ export default {
     Table: 'Table',
     treeTable: '树形 Table',
     dragTable: '拖拽 Table',
+    excel: 'Excel',
+    exportExcel: '导出表格',
+    uploadExcel: '导入表格',
     upload: '上传',
+    blank: '无权限页',
     personal: '个人中心',
   },
   navbar: {
@@ -42,7 +46,7 @@ export default {
   },
   role: {
     title: '角色管理',
-    addRole: '新增角色',
+    addRole: '新增',
     editRole: '角色详情',
     required: '为必填项',
     roleName: '角色名称',
@@ -117,6 +121,10 @@ export default {
   upload: {
     title: '上传图片',
     text: '将文件拖到此处，或点击上传',
+  },
+  excel: {
+    upload: '导入表格',
+    export: '导出表格',
   },
   personal: {
     title: '个人中心',

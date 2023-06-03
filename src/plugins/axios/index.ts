@@ -2,8 +2,8 @@ import axios, { AxiosResponse } from 'axios';
 import { Message } from 'element-ui';
 import { UserModule } from '@/store/modules/user';
 import router from '@/router';
-import watermark from '@/plugins/watermark';
 import { RESPONSE_CONFIG } from '@/constants/config';
+import _this from '@/main';
 
 const request = axios.create({
   baseURL: process.env.NODE_ENV === 'development' ? '/url' : '', // api的base_url
@@ -50,12 +50,34 @@ request.interceptors.response.use(
   (error) => {
     Message.error(error.response.data[RESPONSE_CONFIG.MESSAGE]);
     // ! 当前路由不在login时不弹 401 error，避免连续两个接口都 401 时弹两次
-    if (error.response.data.code === 401 && router.currentRoute.name !== 'Login') {
+    // if (error.response.data.code === 401 && router.currentRoute.name !== 'Login') {
+    //   Message.error(error.response.data[RESPONSE_CONFIG.MESSAGE]);
+    //   UserModule.deltoken();
+    //   router.push(`/login?redirect=${location.href.split('#')[1]}`);
+    //   // router.push({ path: '/login' });
+    // }
+
+    // 单点登录状态码，token失效状态码
+    const errorList = [512, 403];
+    if (errorList.includes(error.response.data.code) && router.currentRoute.name !== 'Login') {
+      _this.$ykMsgbox
+        .confirm('', {
+          title: '登出提示',
+          message: '账号状态已发生改变',
+          descriptions: '请重新登录',
+          iconName: 'material-symbols:info-outline-rounded',
+          showCancelButton: false, // 不显示取消按钮
+        })
+        .then(() => {
+          UserModule.deltoken();
+          _this.$router.push(`/login?redirect=${location.href.split('#')[1]}`);
+        })
+        .catch(() => {
+          UserModule.deltoken();
+          _this.$router.push(`/login?redirect=${location.href.split('#')[1]}`);
+        });
+    } else {
       Message.error(error.response.data[RESPONSE_CONFIG.MESSAGE]);
-      UserModule.deltoken();
-      watermark.remove();
-      router.push(`/login?redirect=${location.href.split('#')[1]}`);
-      // router.push({ path: '/login' });
     }
     return Promise.reject(error);
   },
